@@ -2,8 +2,8 @@ export const Configuration = {
     modules: [
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
-        '@nuxtjs/tailwindcss'
-    ],
+        '@nuxtjs/tailwindcss',
+        ],
 
     pinia : {
         storesDirs : ["./stores/**"]

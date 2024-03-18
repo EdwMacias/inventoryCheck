@@ -14,9 +14,11 @@
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
     "axios": "^1.6.8",
+    "daisyui": "latest",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.10.3",
     "pinia": "^2.1.7",
+    "theme-change": "^2.5.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
