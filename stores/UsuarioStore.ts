@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { UsuarioService } from '~/domain/Services/Usuario.services';
-import type { LoginEntity } from '~/domain/models/LoginEntity';
-import type { UsuarioStore as usuarioModel } from '~/domain/models/UsuarioEntity';
+import { UsuarioService } from '~/domain/services/Usuario.services';
+import type { LoginEntity } from '~/domain/models/Entities/Login';
+import type { UsuarioStore as usuarioModel } from '~/domain/models/Entities/Usuario';
 
 export const UsuarioStore = defineStore({
   id: 'UsuarioStore',

@@ -1,8 +1,8 @@
 import { POST_LOGIN } from "~/connections/helpers/AllEndpoints";
 import { jwtDecode } from "jwt-decode";
 import { http } from "~/infrastructure/http/http";
-import type { LoginEntity, ResponseLogin } from "~/domain/models/LoginEntity";
-import type { Usuario, UsuarioStore } from "~/domain/models/UsuarioEntity";
+import type { LoginEntity, ResponseLogin } from "~/domain/models/Entities/Login";
+import type { Usuario, UsuarioStore } from "~/domain/models/Entities/Usuario";
 
 export const usuarioRepository = {
 
