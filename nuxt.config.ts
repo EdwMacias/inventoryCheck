@@ -1,11 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import { Configuration } from "./config/Configuration";
+const { modules } = Configuration;
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: [
-    "@pinia/nuxt",
-    "@nuxtjs/tailwindcss",
-    "@vueuse/nuxt",
-    "@formkit/auto-animate",
-    "@pinia-plugin-persistedstate/nuxt"
-  ]
+  modules: modules,
+
 })
