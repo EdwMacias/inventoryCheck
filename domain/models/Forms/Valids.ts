@@ -1,14 +1,4 @@
-export type validString = {
-    value?: string,
-    valid: true
-}
-
-export type validNumber = {
-    value?: number,
-    valid: true
-}
-
-export type validBoolean = {
-    value?: boolean,
-    valid: true
+export type ValidValue<T> = {
+    value?: T,
+    valid: boolean
 }

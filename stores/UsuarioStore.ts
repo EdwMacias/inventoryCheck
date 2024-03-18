@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UsuarioService } from '~/domain/services/Usuario.services';
+import { UsuarioService } from '~/domain/services/usuario.services';
 import type { LoginEntity } from '~/domain/models/Entities/Login';
 import type { UsuarioStore as usuarioModel } from '~/domain/models/Entities/Usuario';
 
