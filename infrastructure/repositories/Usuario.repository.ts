@@ -1,17 +1,21 @@
-import { POST_LOGIN } from "~/connections/helpers/AllEndpoints";
+import { POST_LOGIN_USER, PUT_LOGOUT_USER } from "~/connections/helpers/AllEndpoints";
 import { jwtDecode } from "jwt-decode";
 import { http } from "~/infrastructure/http/http";
-import type { LoginEntity, ResponseLogin } from "~/domain/models/Entities/Login";
+import type { LoginEntity, ResponseData, ResponseLogin } from "~/domain/models/Entities/Login";
 import type { Usuario, UsuarioStore } from "~/domain/models/Entities/Usuario";
+import { removeFromLocalStorage, saveToLocalStorage } from "~/composables/UtilWebs";
+import { UsuarioStore as storeUsuario } from "~/stores/UsuarioStore";
 
 export const usuarioRepository = {
-
     AuthenticationUser: async (Credenciales: LoginEntity): Promise<UsuarioStore> => {
-        const response = await http.post<ResponseLogin>(POST_LOGIN, Credenciales);
+        const response = await http.post<ResponseLogin>(POST_LOGIN_USER, Credenciales);
+
         const { token } = response;
 
         const DecodificacionUsuario: Usuario = jwtDecode(token);
         const { apellido, celular, email, estado, id, nombre } = DecodificacionUsuario;
+
+        saveToLocalStorage("session_token_user", token)
 
         const UsuarioEntidad: UsuarioStore = {
             usuario: {
@@ -26,6 +30,18 @@ export const usuarioRepository = {
         };
 
         return UsuarioEntidad;
-    }
-
+    },
+    LogoutUser: async (): Promise<boolean> => {
+        const PUT_LOGOUT_USER_ID = PUT_LOGOUT_USER.replace(":id", usuarioRepository.GetIdUsuario());
+        const response = await http.put<ResponseData<boolean>>(PUT_LOGOUT_USER_ID);
+        removeFromLocalStorage("session_token_user");
+        return response.data;
+    },
+    GetIdUsuario: (): string => {
+        const usuarioStore = storeUsuario();
+        if (usuarioStore.usuario?.id != undefined) {
+            return usuarioStore.usuario.id;
+        }
+        return "";
+    },
 }

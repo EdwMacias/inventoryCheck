@@ -4,6 +4,11 @@ export type LoginEntity = {
 }
 
 export type ResponseLogin = {
-    token : string,
-    estado : boolean
+    token: string,
+    estado: boolean
+}
+
+export interface ResponseData<T> {
+    data: T
+    status?: number;
 }

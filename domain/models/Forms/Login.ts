@@ -1,6 +1,6 @@
-import type { validString } from "./Valids"
+import type { ValidValue } from "./Valids"
 
 export type FormularioLoginEntity = {
-    email: validString
-    password: validString
+    email: ValidValue<string>,
+    password: ValidValue<string>
 }
