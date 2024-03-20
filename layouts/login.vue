@@ -1,14 +1,12 @@
 <template>
-    <div>
-    <p>login</p>
-    <NuxtPage/>
-    </div>
+    <main>
+        <p>login</p>
+        <NuxtPage />
+    </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

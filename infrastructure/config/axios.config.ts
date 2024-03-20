@@ -1,5 +1,26 @@
 import axios, { type AxiosInstance } from 'axios';
-import { URL_BASE } from '@/connections/config/ConnectionBase';
+import { BASE_URL } from '~/infrastructure/connections/config/connection.config';
 
-export const connection: AxiosInstance = axios.create({ baseURL: URL_BASE });
-export const setAuthenticationAxios = (token?: string) => { connection.defaults.headers.common["Authorization"] = token };
+const connection: AxiosInstance = axios.create({
+    baseURL: BASE_URL, timeout: 5000,
+    headers: {
+        'Accept': 'application/json',
+    },
+});
+
+connection.interceptors.request.use(config => {
+    const token = getFromLocalStorage('session_token_user');
+
+    if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    if (config.data instanceof FormData) {
+        config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+        config.headers['Content-Type'] = 'application/json';
+    }
+    return config;
+});
+
+export { connection };

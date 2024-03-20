@@ -1,4 +1,4 @@
-import type { LoginEntity } from "../models/Entities/Login";
+import type { LoginEntity } from "../models/entities/login.entity";
 import { usuarioRepository } from "~/infrastructure/repositories/usuario.repository";
 
 export const UsuarioService = {

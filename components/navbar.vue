@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <NuxtLink href="/">Home</NuxtLink>
-        <themeController class=""/>
-    </div>
+    <!-- <div> -->
+    <NuxtLink href="/">Home</NuxtLink>
+    <theme-controller />
+    <!-- </div> -->
 </template>
 
-<script setup>
-import themeController from './theme-controller.vue';
+<script setup lang="ts">
+// import themeController from './theme-controller.vue';
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

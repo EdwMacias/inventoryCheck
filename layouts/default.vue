@@ -1,18 +1,13 @@
 <template>
-    <div>
-      <Navbar />
-      <NuxtPage />
-    </div>
+  <header>
+    <Navbar />
+  </header>
+  <main>
+    <!-- <NuxtPage /> -->
+  </main>
 </template>
 
-<script setup>
-
-onMounted(() => {
-      themeChange(false)
-    })
-
+<script setup lang="ts">
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

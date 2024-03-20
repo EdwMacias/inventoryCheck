@@ -4,7 +4,8 @@ export function saveToLocalStorage(key: string, value: any) {
 
 export function getFromLocalStorage(key: string) {
   const value = localStorage.getItem(key);
-  return value ? JSON.parse(value) : null;
+  const result = value ? JSON.parse(value) : null;
+  return result;
 }
 
 export function removeFromLocalStorage(key: string) {

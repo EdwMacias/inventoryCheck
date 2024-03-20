@@ -1,8 +1,8 @@
-import { POST_LOGIN_USER, PUT_LOGOUT_USER } from "~/connections/helpers/AllEndpoints";
+import { POST_LOGIN_USER, PUT_LOGOUT_USER } from "~/infrastructure/connections/helpers/helpers.endpoints";
 import { jwtDecode } from "jwt-decode";
 import { http } from "~/infrastructure/http/http";
-import type { LoginEntity, ResponseData, ResponseLogin } from "~/domain/models/Entities/Login";
-import type { Usuario, UsuarioStore } from "~/domain/models/Entities/Usuario";
+import type { LoginEntity, ResponseData, ResponseLogin } from "~/domain/models/entities/login.entity";
+import type { Usuario, UsuarioStore } from "~/domain/models/entities/usuario.entity";
 import { removeFromLocalStorage, saveToLocalStorage } from "~/composables/UtilWebs";
 import { UsuarioStore as storeUsuario } from "~/stores/UsuarioStore";
 
