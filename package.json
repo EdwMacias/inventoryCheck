@@ -10,17 +10,21 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/color-mode": "^3.3.3",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
     "axios": "^1.6.8",
     "daisyui": "latest",
+    "datatables.net-vue3": "^3.0.1",
     "jwt-decode": "^4.0.0",
-    "nuxt": "^3.10.3",
+    "nuxt": "^3.11.1",
     "pinia": "^2.1.7",
     "theme-change": "^2.5.0",
+    "usebootstrap": "^3.5.5",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-signature-pad": "^3.0.2"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",

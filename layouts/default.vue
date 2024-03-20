@@ -3,7 +3,7 @@
     <Navbar />
   </header>
   <main>
-    <!-- <NuxtPage /> -->
+    <slot />
   </main>
 </template>
 

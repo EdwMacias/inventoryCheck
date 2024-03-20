@@ -5,5 +5,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: modules,
   pinia: pinia,
-  app: app
+  app: app,
+  // pages: false
 })

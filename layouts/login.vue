@@ -1,7 +1,6 @@
 <template>
     <main>
-        <p>login</p>
-        <NuxtPage />
+        <slot />
     </main>
 </template>
 
