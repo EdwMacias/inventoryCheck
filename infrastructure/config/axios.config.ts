@@ -14,12 +14,9 @@ connection.interceptors.request.use(config => {
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
     }
+    
+    config.headers['Content-Type'] = (config.data instanceof FormData) ? 'multipart/form-data' : 'application/json';
 
-    if (config.data instanceof FormData) {
-        config.headers['Content-Type'] = 'multipart/form-data';
-    } else {
-        config.headers['Content-Type'] = 'application/json';
-    }
     return config;
 });
 
