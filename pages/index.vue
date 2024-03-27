@@ -1,7 +1,6 @@
 <template>
-  <div class="navbar">
-    <ul class="flex flex-wrap">
-      <NuxtLink class="mr-2" href="login">Iniciar sesión</NuxtLink>
-    </ul>
-  </div>
+<p>hola, esta es la pagina de inicio</p>
 </template>
+<script setup>
+const props = defineProps({})
+</script>
