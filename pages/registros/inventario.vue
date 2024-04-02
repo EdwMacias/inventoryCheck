@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h1>Entrega Pista</h1>
+        <h1 class="m-2 ">Entrega inventario</h1>
+        <FormInventory class="m-2"/>
     </div>
 </template>
 
