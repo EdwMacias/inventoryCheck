@@ -3,7 +3,25 @@ const { modules, pinia, app } = Configuration;
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: modules,
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/tailwindcss',
+    [
+      '@vee-validate/nuxt',
+      {
+        // disable or enable auto imports
+        autoImports: true,
+        // Use different names for components
+        componentNames: {
+          Form: 'VeeForm',
+          Field: 'VeeField',
+          FieldArray: 'VeeFieldArray',
+          ErrorMessage: 'VeeErrorMessage',
+        },
+      },
+    ],
+  ],
   pinia: pinia,
   app: app,
   // pages: false

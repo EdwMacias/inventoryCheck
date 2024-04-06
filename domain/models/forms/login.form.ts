@@ -1,6 +1,4 @@
-import type { ValidValue } from "./valids.form"
-
 export type FormularioLoginEntity = {
-    email: ValidValue<string>,
-    password: ValidValue<string>
+    email: string,
+    password: string
 }
