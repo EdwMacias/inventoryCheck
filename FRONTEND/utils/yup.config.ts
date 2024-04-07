@@ -3,7 +3,7 @@ import * as yup from 'yup';
 yup.setLocale({
   // use constant translation keys for messages without values
   mixed: {
-    required: ({ path }) => `${path} es requerido`,
+    required: ({ path }) => `Campo Requerido`,
   },
   // use functions to generate an error object that includes the value from the schema
   number: {

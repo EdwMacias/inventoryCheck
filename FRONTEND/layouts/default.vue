@@ -1,6 +1,5 @@
 <template>
   <header>
-    <Navbar />
   </header>
   <main>
     <slot />
@@ -8,6 +7,5 @@
 </template>
 
 <script setup lang="ts">
-</script>
 
-<style scoped></style>
+</script>

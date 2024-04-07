@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
+    'usebootstrap',
     [
       '@vee-validate/nuxt',
       {
@@ -24,5 +25,5 @@ export default defineNuxtConfig({
   ],
   pinia: pinia,
   app: app,
-  // pages: false
+  css : ['@/assets/styles/main.css'],
 })
