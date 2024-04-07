@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
+<<<<<<< HEAD:FRONTEND/stores/UsuarioStore.ts
 import { UsuarioService } from '~/domain/Services/Usuario.services';
 import type { LoginEntity } from '~/domain/models/Entities/Login';
 import type { UsuarioStore as usuarioModel } from '~/domain/models/Entities/Usuario';
+=======
+import { UsuarioService } from '~/domain/services/usuario.services';
+import type { LoginEntity } from '~/domain/models/entities/login.entity';
+import type { UsuarioStore as usuarioModel } from '~/domain/models/entities/usuario.entity';
+>>>>>>> 5fa06c1ec8c38782a1ff44952937d0310ffa14e8:stores/UsuarioStore.ts
 
 export const UsuarioStore = defineStore({
   id: 'UsuarioStore',

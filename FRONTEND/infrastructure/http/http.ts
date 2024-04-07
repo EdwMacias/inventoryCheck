@@ -1,4 +1,4 @@
-import { connection } from "~/infrastructure/config/axios.config";
+import { connection } from "../Config/axios.config";
 
 export const get = async<T>(url: string) => {
     try {
