@@ -1,9 +1,10 @@
+import type { Response } from "~/Domain/Models/Api/Response/api.response";
 import { connection } from "../Config/axios.config";
 
 export const get = async<T>(url: string) => {
     try {
         const response = await connection.get(url);
-        return response.data as T;
+        return response.data as Response<T>;
     } catch (error) {
         console.error('Error al obtener datos:', error);
         throw error;
@@ -14,7 +15,7 @@ export const get = async<T>(url: string) => {
 export const post = async<T>(url: string, data?: {} | string) => {
     try {
         const response = await connection.post(url, data);
-        return response.data as T;
+        return response.data as Response<T>;
     } catch (error) {
         console.error('Error al enviar datos:', error);
         throw error;
@@ -24,7 +25,7 @@ export const post = async<T>(url: string, data?: {} | string) => {
 export const put = async<T>(url: string, data?: {} | string) => {
     try {
         const response = await connection.put(url, data);
-        return response.data as T;
+        return response.data as Response<T>;
     } catch (error) {
         console.error('Error al actualizar datos:', error);
         throw error;
@@ -34,7 +35,7 @@ export const put = async<T>(url: string, data?: {} | string) => {
 const _delete = async<T>(url: string) => {
     try {
         const response = await connection.delete(url);
-        return response.data as T;
+        return response.data as Response<T>;
     } catch (error) {
         console.error('Error al eliminar datos:', error);
         throw error;
@@ -48,7 +49,7 @@ export const request = async<T>(method: string, url: string, data?: string | {})
             url,
             data,
         });
-        return response.data as T;
+        return response.data as Response<T>;
     } catch (error) {
         console.error('Error en la solicitud:', error);
         throw error;

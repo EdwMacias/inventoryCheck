@@ -1,15 +1,13 @@
-export type UsuarioId = string
+import type { documentEntity } from "./document.entity"
+import type { roleEntity } from "./role.entity"
+import type { statuEntity } from "./statu.entity"
 
-export type Usuario = {
-  id?: UsuarioId
-  nombre?: string
-  apellido?: string,
-  email?: string,
-  celular?: string
-  estado?: string
-}
-
-export type UsuarioStore = {
-  usuario?: Usuario,
-  conectado: boolean
+export interface UsuarioEntity {
+    "user_id": string,
+    "name": string,
+    "last_name": string,
+    "email": string,
+    "role": roleEntity,
+    "document_type": documentEntity,
+    "statu": statuEntity
 }
