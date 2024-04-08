@@ -18,5 +18,6 @@ export const UsuarioStore = defineStore({
     setConectado(conectado: boolean) {
       this.conectado = conectado
     }
-  }
+  },
+  persist: true
 })
