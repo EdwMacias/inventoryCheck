@@ -20,6 +20,7 @@
     "axios": "^1.6.8",
     "bootstrap-icons": "^1.11.3",
     "daisyui": "^4.10.1",
+    "default-passive-events": "^2.0.0",
     "i18n": "^0.15.1",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",

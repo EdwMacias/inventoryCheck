@@ -27,13 +27,14 @@ definePageMeta({
 
 const responsive: Ref<boolean> = ref(true);
 
-const checkWindowSize = () => {
+const checkWindowSize = async () => {
   responsive.value = !(window.innerWidth <= 767)
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await checkWindowSize();
   window.addEventListener('resize', checkWindowSize);
-  checkWindowSize();
+
 })
 
 
