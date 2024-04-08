@@ -1,17 +1,42 @@
 import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.model";
-import type { UsuarioInterface } from "~/Domain/Models/Entities/usuario.entity";
-import { http } from "~/Infrastructure/http/http";
+import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
+import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
 
 export const UsuarioServices = {
 
     Login: async (credenciales: LoginRequest) => {
-        const response = await http.post<UsuarioInterface>("/auth/login", credenciales);
-        return response;
+        const response = await AuthenticationRepository.getToken(credenciales);
+
+        let { data, messages, code } = response;
+        let messageSeatado!: string;
+        if (typeof messages != 'string') {
+            if (messages.length > 0) {
+                messageSeatado = messages[0];
+            }
+        } else {
+            messageSeatado = messages;
+        }
+
+        if (code > 400) {
+            return { messages: messageSeatado, session: false };
+        }
+
+
+        const { access_token, usuario } = data;
+
+        UsuarioRepository.saveToken(access_token);
+        UsuarioRepository.saveEstadoConectado(true);
+
+        if (usuario) {
+            UsuarioRepository.saveUsuario(usuario)
+        }
+
+        return { messages: messageSeatado, session: true };
     },
 
     Logout: async () => {
-        const response = await http.post<boolean>('/auth/logout');
-        return response;
+        // const response = await http.post<boolean>('/auth/logout');
+        // return response;
     },
 
     CreateUser: async () => {

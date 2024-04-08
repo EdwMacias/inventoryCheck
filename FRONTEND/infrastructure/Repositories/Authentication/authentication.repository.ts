@@ -4,17 +4,17 @@ import { http } from "~/Infrastructure/http/http";
 
 export const AuthenticationRepository = {
     getToken: async (credenciales: LoginRequest) => {
-        const response = await http.post<loginResponse>("/auth/login", credenciales);
+        const response = await http.post<loginResponse>("auth/login", credenciales);
         return response; 
     },
 
     deleteToken: async () => {
-        const response = await http.post<boolean>('/auth/logout');
+        const response = await http.post<boolean>('auth/logout');
         return response;
     },
 
     updateToken: async () => {
-        const response = await http.post<loginResponse>("/auth/refresh");
+        const response = await http.post<loginResponse>("auth/refresh");
         return response;
     }
 }

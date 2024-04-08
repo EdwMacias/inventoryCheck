@@ -13,13 +13,9 @@ export const get = async<T>(url: string) => {
 
 
 export const post = async<T>(url: string, data?: {} | string) => {
-    try {
-        const response = await connection.post(url, data);
-        return response.data as Response<T>;
-    } catch (error) {
-        console.error('Error al enviar datos:', error);
-        throw error;
-    }
+    const response = await connection.post<Response<T>>(url, data)
+        .then(response => response.data).then(data => data).catch(err => err.response.data as Response<T>);
+    return response;
 }
 
 export const put = async<T>(url: string, data?: {} | string) => {

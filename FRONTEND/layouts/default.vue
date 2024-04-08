@@ -1,4 +1,5 @@
 <template>
+  <Alertas></Alertas>
   <header>
   </header>
   <main>
