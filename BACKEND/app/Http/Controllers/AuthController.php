@@ -31,12 +31,14 @@ class AuthController extends Controller
         $token = auth()->attempt($credentials);
 
         if (!$token) {
-            $responseHandler->setMessage(["Incorrect Credentials"]);
+            $responseHandler->setMessage(["Credenciales Incorrectas"]);
             $responseHandler->setStatus(Response::HTTP_UNAUTHORIZED);
             return $responseHandler->responses();
         }
 
+        $usuario = User::find(auth()->user()->user_id);
         $data = [
+            'usuario' => $usuario->getUserWithRelatedData(),
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
@@ -68,8 +70,21 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        $responseHandler = new ResponseHandler('Token Refrescado', auth()->refresh());
+        $responseHandler = new ResponseHandler('Token Refrescado');
+        $token = auth()->refresh();
+        // $usuario = User::find(auth()->user()->user_id);
+
+        $data = [
+            // 'user' => $usuario->getUserWithRelatedData(),
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ];
+
+        $responseHandler->setData($data);
+        $responseHandler->setStatus(Response::HTTP_OK);
         return $responseHandler->responses();
+
     }
 
 
