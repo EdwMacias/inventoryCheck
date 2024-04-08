@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts" setup>
-import 'animate.css';
 
 import { yup } from '@/utils/yup.config';
 import type { LoginRequest } from '~/Domain/Models/Api/Request/login.request.model';

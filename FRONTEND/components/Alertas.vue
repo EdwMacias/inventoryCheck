@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 
-import 'animate.css';
 import { useMyAlertaStoreStore } from '~/stores/AlertaStore';
 
 interface alerta { tipo: string, cabecera: string, mensaje: string }
