@@ -2,5 +2,6 @@ import { baseURL } from "../config.connection";
 
 const URL_AUTHENTICACION = baseURL + "auth/"
 
-export const POST_LOGIN_USER = URL_AUTHENTICACION + "login";
-export const PUT_LOGOUT_USER = URL_AUTHENTICACION + "logout/:id";
+export const POST_LOGIN_USUARIO = URL_AUTHENTICACION + "login";
+export const POST_LOGOUT_USUARIO = URL_AUTHENTICACION + "logout";
+export const POST_REFRESH_USUARIO = URL_AUTHENTICACION + "refresh";

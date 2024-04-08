@@ -1,4 +1,7 @@
 import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario.entity";
+import { http } from "~/Infrastructure/http/http";
+
+const tokenKey = "access_token"
 
 export const UsuarioRepository = {
 
@@ -8,7 +11,7 @@ export const UsuarioRepository = {
     },
 
     getToken: (): string | null => {
-        return getFromLocalStorage("access_token");
+        return getFromLocalStorage(tokenKey);
     },
 
     getEstadoOfConexion: (): boolean => {
@@ -22,11 +25,32 @@ export const UsuarioRepository = {
     },
 
     saveToken: (token: string) => {
-        saveToLocalStorage('access_token', token)
+        saveToLocalStorage(tokenKey, token)
     },
 
     saveEstadoConectado: (statu: boolean) => {
         const usuarioStore = UsuarioStore();
         usuarioStore.setConectado(statu);
+    },
+
+    deleteToken: () => {
+        removeFromLocalStorage(tokenKey);
+    },
+    deleteUsuarioAndConexion: () => {
+        const usuarioStore = UsuarioStore();
+        usuarioStore.clearStore();
+    },
+
+    createUsuario: () => {
+        const response = http.post<UsuarioEntity>("crear");
+        return response;
+    },
+    deleteUsuario: () => {
+        const response = http.delete<UsuarioEntity>("eliminar");
+        return response;
+    },
+    updateUsuario: () => {
+        const response = http.post<UsuarioEntity>("actualizar");
+        return response;
     }
 }

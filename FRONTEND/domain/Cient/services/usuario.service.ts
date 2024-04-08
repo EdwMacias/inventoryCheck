@@ -26,8 +26,8 @@ export const UsuarioServices = {
 
         UsuarioRepository.saveToken(access_token);
         UsuarioRepository.saveEstadoConectado(true);
-
-        if (usuario) {
+        
+        if (usuario !== undefined) {
             UsuarioRepository.saveUsuario(usuario)
         }
 

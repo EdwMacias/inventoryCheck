@@ -10,6 +10,7 @@ export const UsuarioStore = defineStore({
   id: 'UsuarioStore',
   state: (): usuarioStore => ({
     conectado: false,
+    usuario : undefined
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {
@@ -17,6 +18,9 @@ export const UsuarioStore = defineStore({
     },
     setConectado(conectado: boolean) {
       this.conectado = conectado
+    },
+    clearStore(){
+      this.$reset();
     }
   },
   persist: true

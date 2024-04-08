@@ -24,6 +24,6 @@ export default defineNuxtConfig({
   ],
   pinia: pinia,
   app: app,
-  plugins: ['@/plugins/passive-event-listeners'],
-  css : ['@/assets/styles/main.css'],
+  plugins: ['@/plugins/passive-event-listeners','@/plugins/animate-css'],
+  css : ['/node_modules/bootstrap-icons/font/bootstrap-icons.css'],
 })
