@@ -1,4 +1,4 @@
-import { Configuration } from "./Infrastructure/Config/app.config";
+import { Configuration } from "./infrastructure/config/app.config";
 const { modules, pinia, app } = Configuration;
 
 export default defineNuxtConfig({

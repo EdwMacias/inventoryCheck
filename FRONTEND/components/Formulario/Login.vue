@@ -48,8 +48,8 @@
 <script lang="ts" setup>
 
 import { yup } from '@/utils/yup.config';
-import type { LoginRequest } from '~/Domain/Models/Api/Request/login.request.model';
-import { UsuarioServices } from '~/Domain/Cient/services/usuario.service';
+import type { LoginRequest } from '~/domain/Models/Api/Request/login.request.model';
+import { UsuarioServices } from '~/domain/client/services/usuario.service';
 
 const disableButton: Ref<boolean> = ref(false);
 const login: Ref<LoginRequest> = ref({});

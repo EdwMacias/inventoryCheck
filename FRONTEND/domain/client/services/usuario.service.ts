@@ -1,6 +1,6 @@
-import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.model";
-import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
-import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
+import type { LoginRequest } from "~/domain/models/Api/Request/login.request.model";
+import { AuthenticationRepository } from "~/infrastructure/Repositories/Authentication/authentication.repository";
+import { UsuarioRepository } from "~/infrastructure/Repositories/Usuario/usuario.repository";
 
 export const UsuarioServices = {
 
