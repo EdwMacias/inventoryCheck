@@ -3,16 +3,22 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Role;
-use App\Models\Status;
-use App\Models\TypeDocument;
-use App\Models\User;
+use App\Models\Status\Status;
+use App\Models\Users\Gender;
+use App\Models\Users\Role;
+use App\Models\Users\TypeDocument;
+use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+
+        $genders = [
+            ["name" => "HOMBRE"],
+            ["name" => "MUJER"]
+        ];
 
         $roles = [
             ['name' => 'SUPERADMINISTRADOR'],
@@ -26,8 +32,8 @@ class DatabaseSeeder extends Seeder
         ];
 
         $estados = [
-            ['name'=> 'ACTIVO'],
-            ['name'=> 'INACTIVO'],
+            ['name' => 'ACTIVO'],
+            ['name' => 'INACTIVO'],
         ];
 
         foreach ($documentos as $documento) {
@@ -42,14 +48,20 @@ class DatabaseSeeder extends Seeder
             Status::firstOrCreate($estado);
         }
 
-        User::create([
-            'name' => 'administrador',
-            'email' => 'administrador@empresa.com',
-            'last_name' => 'Usuario',
+        foreach ($genders as $gender) {
+            Gender::firstOrCreate($gender);
+        }
+
+        User::firstOrCreate([
+            'name' => 'Edwar David',
+            'last_name' => 'Macias Lopez',
+            'email' => 'edwmacias17@gmail.com',
             'password' => password_hash("123@Cuatro#", PASSWORD_DEFAULT),
-            'role_id' => 1,
+            "gender_id" => 1,
+            "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
+            "number_telephone" => "+573108026110",
             'document_type_id' => 1,
-            'statu_id'=> 1,
+            'statu_id' => 1,
         ]);
     }
 }

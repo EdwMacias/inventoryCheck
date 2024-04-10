@@ -33,12 +33,21 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+        Schema::create('genders', function (Blueprint $table) {
+            $table->increments('gender_id');
+            $table->string('name', 50);
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->increments('user_id');
 
             $table->string('name', 100);
             $table->string('last_name', 100);
             $table->string('email', 100)->unique();
+            $table->string('address', 100)->unique();
+            $table->string('number_telephone', 25)->unique();
+            $table->integer('gender_id')->unsigned();
             $table->string('password');
 
             $table->integer('document_type_id')->unsigned();
@@ -49,6 +58,7 @@ return new class extends Migration {
 
             $table->foreign('document_type_id')->references("document_type_id")->on("types_documents")->onDelete("restrict");
             $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
+            $table->foreign('gender_id')->references("gender_id")->on("genders")->onDelete("restrict");
 
         });
 
@@ -64,9 +74,9 @@ return new class extends Migration {
             $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('restrict');
         });
-        
+
         Schema::create('item_observations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('item_observation_id');
             $table->text('observation');
             $table->integer('item_id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -82,8 +92,8 @@ return new class extends Migration {
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->timestamps();
-            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('restrict');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('restrict');
         });
     }
 

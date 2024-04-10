@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Models\User;
 // use app\utils\ResponseHandler;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
+use App\Models\Users\User;
 use App\Utils\ResponseHandler;
 use Symfony\Component\HttpFoundation\Response;
 

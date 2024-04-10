@@ -2,7 +2,7 @@
 
 namespace App\Respositories\Repositories;
 
-use App\Models\User;
+use App\Models\Users\User;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 use Illuminate\Database\Eloquent\Collection;
 

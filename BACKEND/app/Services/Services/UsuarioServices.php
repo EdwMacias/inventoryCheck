@@ -2,7 +2,6 @@
 
 namespace App\Services\Services;
 
-use App\Models\User;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Utils\Encriptacion;
@@ -23,7 +22,7 @@ class UsuarioServices implements InterfaceUsuarioServices
 
     /**
      *@param $id
-     * @param User $user
+    //  * @param User $user
      */
 
     public function actualizarUsuario($id, $usuarioArray)
@@ -47,7 +46,7 @@ class UsuarioServices implements InterfaceUsuarioServices
 
     /**
      *
-     * @param User $user
+    //  * @param User $user
      */
     public function crearUsuario($usuarioModel)
     {
