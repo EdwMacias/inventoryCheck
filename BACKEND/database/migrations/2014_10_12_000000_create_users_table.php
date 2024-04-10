@@ -102,6 +102,7 @@ return new class extends Migration {
         Schema::dropIfExists('users');
         Schema::dropIfExists('types_documents');
         Schema::dropIfExists('roles');
+        Schema::dropIfExists('genders');
         Schema::dropIfExists('user_roles');
         Schema::dropIfExists('item_observations');
         Schema::dropIfExists('items');
