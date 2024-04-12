@@ -72,10 +72,9 @@ const onSubmit = async (values: any, { resetForm }: any) => {
     return navigateTo("/");
 
   } catch (error: any) {
-    console.log(error);
-
     alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
   }
+  spinnerStore.activeOrInactiveSpinner(false);
 
 }
 
