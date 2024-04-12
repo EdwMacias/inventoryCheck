@@ -1,6 +1,3 @@
-import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario";
-import { http } from "~/Infrastructure/http/http";
-
 
 const tokenKey = "access_token"
 

@@ -1,5 +1,3 @@
-import type { LoginRequest } from "@/Domain/Models/Api/Request/login.request.model";
-import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
 
 export const AuthenticationServices = {
 
