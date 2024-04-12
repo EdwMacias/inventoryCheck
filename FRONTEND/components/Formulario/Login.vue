@@ -69,9 +69,9 @@ const onSubmit = async (values: any, { resetForm }: any) => {
     const response = await UsuarioServices.Login(values);
     console.log(response);
   } catch (error: any) {
-    spinnerStore.activeOrInactiveSpinner(false);
     alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
   }
+  spinnerStore.activeOrInactiveSpinner(false);
 }
 
 
