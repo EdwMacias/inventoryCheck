@@ -1,6 +1,6 @@
-import type { documentEntity } from "./document.entity"
-import type { roleEntity } from "./role.entity"
-import type { statuEntity } from "./statu.entity"
+import type { documentEntity } from "./document";
+import type { roleEntity } from "./role";
+import type { statuEntity } from "./statu";
 
 export interface UsuarioEntity {
     "user_id": string,

@@ -1,5 +1,3 @@
-import { Configuration } from "./infrastructure/config/app.config";
-const { modules, pinia, app } = Configuration;
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -10,9 +8,7 @@ export default defineNuxtConfig({
     [
       '@vee-validate/nuxt',
       {
-        // disable or enable auto imports
         autoImports: true,
-        // Use different names for components
         componentNames: {
           Form: 'VeeForm',
           Field: 'VeeField',
@@ -22,8 +18,17 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  pinia: pinia,
-  app: app,
-  plugins: ['@/plugins/passive-event-listeners','@/plugins/animate-css'],
-  css : ['/node_modules/bootstrap-icons/font/bootstrap-icons.css'],
+  pinia: {
+    storesDirs: ["./stores/**"]
+  },
+  app: {
+    head: {
+      title: "Chequeo Inventario",
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    }
+  },
+  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css'],
+  css: ['bootstrap-icons/font/bootstrap-icons.css'],
 })

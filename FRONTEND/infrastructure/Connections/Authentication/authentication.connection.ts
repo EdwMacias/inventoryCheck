@@ -1,4 +1,4 @@
-import { baseURL } from "../config.connection";
+import { baseURL } from "@/Infrastructure/Connections/config.connection";
 
 const URL_AUTHENTICACION = baseURL + "auth/"
 

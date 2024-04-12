@@ -1,4 +1,4 @@
-import type { UsuarioEntity } from "../../Entities/usuario.entity"
+import type { UsuarioEntity } from "../../Entities/usuario"
 
 export interface loginResponse {
     access_token: string,
