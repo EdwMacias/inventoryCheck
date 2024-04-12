@@ -3,7 +3,7 @@ import { UsuarioRepository } from '@/Infrastructure/Repositories/Usuario/usuario
 import { baseURL } from '../Connections/config.connection';
 
 const connection: AxiosInstance = axios.create({
-    baseURL: baseURL, timeout: 5000,
+    baseURL: baseURL,
     headers: {
         'Accept': 'application/json',
     },

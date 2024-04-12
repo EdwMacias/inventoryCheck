@@ -1,7 +1,7 @@
 <template>
   <div class="py-24 px-10">
     <h2 class="text-2xl font-semibold mb-2 text-center">Iniciar Sesión</h2>
-    <VeeForm v-slot="{ handleSubmit, resetForm }" :validation-schema="formularioSchema" as="div">
+    <VeeForm v-slot="{ handleSubmit, resetForm }" :validation-schema="formulario" as="div">
       <form @submit="handleSubmit($event, onSubmit)">
 
         <div class="form-control w-full mt-4">
@@ -48,35 +48,29 @@
 <script lang="ts" setup>
 
 import { yup } from '@/utils/yup.config';
-import type { LoginRequest } from '~/domain/Models/Api/Request/login.request.model';
-import { UsuarioServices } from '~/domain/client/services/usuario.service';
+import type { LoginRequest } from '~/Domain/Models/Api/Request/login.request.model';
+import { UsuarioServices } from '~/Domain/client/services/usuario.service';
 
 const disableButton: Ref<boolean> = ref(false);
 const login: Ref<LoginRequest> = ref({});
 
-const formularioSchema = yup.object({
+const formulario = yup.object({
   email: yup.string().required().email(),
   password: yup.string().required()
 })
 
 const onSubmit = async (values: any, { resetForm }: any) => {
+  const spinnerStore = SpinnerStore();
+  const alertaStore = useMyAlertaStoreStore();
+  spinnerStore.activeOrInactiveSpinner(true);
 
-  disableButton.value = true;
-
-  const credenciales: LoginRequest = values;
-  const response = await UsuarioServices.Login(credenciales);
-
-  if (response.session) {
-    return navigateTo("/");
+  try {
+    const response = await UsuarioServices.Login(values);
+    console.log(response);
+  } catch (error: any) {
+    spinnerStore.activeOrInactiveSpinner(false);
+    alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
   }
-
-  let { messages } = response;
-
-  await emitNotificaciones({ mensaje: messages, tipo: 'warning', cabecera: 'Notificación' })
-
-  disableButton.value = false;
-
-  return;
 }
 
 

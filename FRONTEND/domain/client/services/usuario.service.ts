@@ -1,6 +1,6 @@
-import type { LoginRequest } from "~/domain/models/Api/Request/login.request.model";
-import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
-import { UsuarioRepository } from "~/infrastructure/Repositories/Usuario/usuario.repository";
+import type { LoginRequest } from "@/Domain/Models/Api/Request/login.request.model";
+import { AuthenticationRepository } from "@/Infrastructure/Repositories/Authentication/authentication.repository";
+import { UsuarioRepository } from "@/Infrastructure/Repositories/Usuario/usuario.repository";
 
 export const UsuarioServices = {
 
@@ -8,7 +8,9 @@ export const UsuarioServices = {
         const response = await AuthenticationRepository.getToken(credenciales);
 
         let { data, messages, code } = response;
+        
         let messageSeatado!: string;
+
         if (typeof messages != 'string') {
             if (messages.length > 0) {
                 messageSeatado = messages[0];

@@ -1,7 +1,11 @@
+<style scoped>
+
+</style>
+
 <template>
   <div class="toast toast-top toast-end" style="z-index: 10000;">
     <div v-for="(alerta, index) in alertas" :key="index" :id="'alert-' + index" role="alert" ref="botonesCerrarAlertas"
-      class="alert shadow-lg bg-white animate__animated animate__backInRight">
+      class="alert shadow-lg bg-white">
       <div class="stroke-current shrink-0 h-6 w-6">
         <i :class="alerta.tipo"></i>
       </div>
@@ -14,9 +18,10 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 
-import { useMyAlertaStoreStore } from '~/stores/AlertaStore';
+// import { useMyAlertaStoreStore } from '~/stores/AlertaStore';
 
 interface alerta { tipo: string, cabecera: string, mensaje: string }
 
@@ -30,13 +35,13 @@ const iconosAlerta: Record<string, string> = {
 const alertas: Ref<alerta[]> = ref([])
 const botonesCerrarAlertas = ref([]);
 
-const crearNotificacion = async (alerta: alerta) => {
+const crearNotificacion = (alerta: alerta) => {
   alerta.tipo = iconosAlerta[alerta.tipo];
-  await alertas.value.push(alerta);
+  alertas.value.push(alerta);
 }
 
 const cerrarNotificacion = async (alertaDocument: HTMLElement) => {
-  alertaDocument.classList.remove("animate__backInRight");
+  alertaDocument.classList.add("animate__animated");
   const animationDuration = parseFloat(window.getComputedStyle(alertaDocument).getPropertyValue('animation-duration')) * 1000;
   alertaDocument.classList.add("animate__fadeOut");
   setTimeout(() => {

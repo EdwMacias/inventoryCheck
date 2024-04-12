@@ -39,5 +39,6 @@ export const validateAndSetFormValidity = (form: any) => {
 
 export const emitNotificaciones = async (alertas: { tipo: string, cabecera: string, mensaje: string }) => {
   const alertaStore = useMyAlertaStoreStore();
- await alertaStore.emitNotificacion(alertas);
+  await alertaStore.emitNotificacion(alertas);
 }
+

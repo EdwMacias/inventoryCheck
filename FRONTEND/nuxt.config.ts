@@ -21,6 +21,9 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**"]
   },
+  piniaPersistedstate: {
+    storage: "localStorage"
+  },
   app: {
     head: {
       title: "Chequeo Inventario",
@@ -29,6 +32,7 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     }
   },
+
   plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css'],
-  css: ['bootstrap-icons/font/bootstrap-icons.css'],
+  css: ['bootstrap-icons/font/bootstrap-icons.css', '~/assets/css/main.scss'],
 })

@@ -13,9 +13,26 @@ export const get = async<T>(url: string) => {
 
 
 export const post = async<T>(url: string, data?: {} | string) => {
-    const response = await connection.post<Response<T>>(url, data)
-        .then(response => response.data).then(data => data).catch(err => err.response.data as Response<T>);
-    return response;
+
+    try {
+        const response = await connection.post<Response<T>>(url, data);
+        return response.data;
+    } catch (error: any) {
+        let mensaje: string = '';
+        if (error.response) {
+            if (error.response.data.messages.length == 0) {
+                mensaje = error.response.data.messages
+            }else{
+                mensaje = error.response.data.messages[0]
+            }
+        } else if (error.request) {
+            mensaje = 'No hay respuesta del servidor'
+        } else {
+            mensaje = 'Error al realizar la solicitud'
+        }
+        throw new Error().message = mensaje;
+    }
+
 }
 
 export const put = async<T>(url: string, data?: {} | string) => {
