@@ -9,39 +9,78 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UsuarioRepository extends User implements InterfaceUsuarioRepository
 {
+    
+    /** 
+    * @param array $usuario 
+    * @return User
+    */
     public function createUser(array $usuario)
     {
-        $usuario = new User($usuario);
-        $usuario->save();
-        return $usuario->getUserWithRelatedData();
+        return parent::create($usuario);
     }
+
+    /** 
+    * @param int $id 
+    * @param array $usuario 
+    * @return bool
+    */
     public function updateUser(int $id, array $usuario): bool
     {
-        $user = User::find($id);
-        return $user->update($usuario);
+        return parent::find($id)->update($usuario);
     }
 
-    public function deleteUser(User $usuario): bool
+    /** 
+    * @param int $userId 
+    * @return bool
+    */
+    public function deleteUser(int $userId): bool
     {
-        return $usuario->delete();
+        return parent::find($userId)->delete();
     }
 
-    public function getUsersByRoleId(int $roleId): Collection
+     /** 
+    * @param int $numberDocument 
+    * @return object|User|null
+    */
+
+    public function getUserByNumberDocument(int $numberDocument)
     {
-        return User::where("role_id", $roleId)->get();
-    }
-    public function getUsersByDocumentTypeId(int $documentTypeId): Collection
-    {
-        return User::where("document_type_id", $documentTypeId)->get();
+        return parent::where("number_document", $numberDocument)->first();
     }
 
+    /** 
+    * @param string $email 
+    * @return object|User|null
+    */
     public function getUserByEmail(string $email)
     {
-        return User::where("email", $email)->first();
+        return parent::where("email", $email)->first();
     }
 
-    public function getUserByID(int $id): ?User {
-        return User::find($id)->first();
+    /** 
+    * @param string $email 
+    * @return bool
+    */
+    public function EmailExist(string $email)
+    {
+        return parent::where("email", $email)->exists();
     }
 
+    /** 
+    * @param int $userId 
+    * @return object|User|null
+    */
+    public function getUserByID(int $userId)
+    {
+        return parent::find($userId)->first();
+    }
+
+    /**
+     *
+     * @param int $userId
+     * @return bool
+     */
+    public function userExist(int $userId) {
+        return parent::where("user_id", $userId)->exists();
+    }
 }

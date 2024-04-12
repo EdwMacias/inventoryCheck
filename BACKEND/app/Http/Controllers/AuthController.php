@@ -37,15 +37,20 @@ class AuthController extends Controller
         }
 
         $usuario = User::find(auth()->user()->user_id);
-        $data = [
-            'usuario' => $usuario->getUserWithRelatedData(),
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ];
 
-        $responseHandler->setMessage(["Inicio de sesión exitoso"]);
-        $responseHandler->setData($data);
+        if ($usuario->statu_id == 2) {
+            $data = [
+                'usuario' => $usuario->getUserWithRelatedData(),
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ];
+
+            $responseHandler->setMessage(["Inicio de sesión exitoso"]);
+            $responseHandler->setData($data);
+        } else {
+            $responseHandler->setMessage(["El usuario no se encuentra activo"]);
+        }
 
         return $responseHandler->responses();
     }
@@ -72,10 +77,8 @@ class AuthController extends Controller
     {
         $responseHandler = new ResponseHandler('Token Refrescado');
         $token = auth()->refresh();
-        // $usuario = User::find(auth()->user()->user_id);
 
         $data = [
-            // 'user' => $usuario->getUserWithRelatedData(),
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60

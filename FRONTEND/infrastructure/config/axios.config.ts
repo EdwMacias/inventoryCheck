@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance } from 'axios';
+import { UsuarioRepository } from '@/Infrastructure/Repositories/Usuario/usuario.repository';
 import { baseURL } from '../Connections/config.connection';
-import { UsuarioRepository } from '../Repositories/Usuario/usuario.repository';
+// import { UsuarioRepository } from '../Repositories/Usuario/usuario.repository';
 
 const connection: AxiosInstance = axios.create({
     baseURL: baseURL, timeout: 5000,

@@ -56,6 +56,10 @@ return new class extends Migration {
 
             $table->timestamps();
 
+            $table->index('email'); 
+            $table->index('document_type_id'); 
+            $table->index('gender_id'); 
+
             $table->foreign('document_type_id')->references("document_type_id")->on("types_documents")->onDelete("restrict");
             $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
             $table->foreign('gender_id')->references("gender_id")->on("genders")->onDelete("restrict");
@@ -71,6 +75,9 @@ return new class extends Migration {
             $table->integer('category_id')->unsigned();
             $table->integer('statu_id')->unsigned()->default(1);
             $table->timestamps();
+
+            $table->index('category_id');
+
             $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('restrict');
         });
@@ -82,6 +89,9 @@ return new class extends Migration {
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
+            $table->index('user_id');
+            $table->index('item_id');
+
             $table->foreign('item_id')->references('item_id')->on('items')->onDelete('restrict');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('restrict');
         });
@@ -92,6 +102,10 @@ return new class extends Migration {
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('role_id');
+
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('restrict');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('restrict');
         });

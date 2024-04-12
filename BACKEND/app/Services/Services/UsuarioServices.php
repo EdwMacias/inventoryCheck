@@ -2,85 +2,131 @@
 
 namespace App\Services\Services;
 
+use App\Respositories\Interfaces\InterfaceDocumentTypeRepository;
+use App\Respositories\Interfaces\InterfaceGenderRepository;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Utils\Encriptacion;
-use App\Utils\ResponseHandler;
-use App\Utils\Utilidades;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsuarioServices implements InterfaceUsuarioServices
 {
     protected InterfaceUsuarioRepository $_usuarioRepository;
+    protected InterfaceDocumentTypeRepository $_documentRepository;
+    protected InterfaceGenderRepository $_genderRepository;
 
-    public function __construct(InterfaceUsuarioRepository $_usuarioRepository)
+    public function __construct(InterfaceUsuarioRepository $_usuarioRepository, InterfaceDocumentTypeRepository $_documentRepository, InterfaceGenderRepository $_genderRepository)
     {
         $this->_usuarioRepository = $_usuarioRepository;
+        $this->_documentRepository = $_documentRepository;
+        $this->_genderRepository = $_genderRepository;
     }
-
 
     /**
      *@param $id
-    //  * @param User $user
+     * @param array $usuario
+     *@return bool    
      */
 
-    public function actualizarUsuario($id, $usuarioArray)
+    public function actualizarUsuario($id, array $usuario)
     {
-        $id = Encriptacion::getDescriptacion($id);
+        try {
+            // Decrypt the ID
+            $id = Encriptacion::getDescriptacion($id);
 
-        $usuario = $this->_usuarioRepository->getUserByID($id);
+            // Check if the user exists
+            $userExist = $this->_usuarioRepository->getUserByID($id);
+            if (!$userExist) {
+                throw new Exception("Usuario no se encuentra registrado", Response::HTTP_NOT_FOUND);
+            }
 
-        if (!$usuario) {
-            throw new Exception("Error Processing Request", 1);
+            $documentType = $usuario["document_type_id"];
+
+            if (!$this->_documentRepository->typeDocumentExist($documentType)) {
+                throw new Exception("El documento elegido no existe", Response::HTTP_CONFLICT);
+            }
+
+            $genderId = $usuario["gender_id"];
+
+            if (!$this->_genderRepository->genderExist($genderId)) {
+                throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
+            }
+
+            // Check if the email is already registered for another user
+            $existingUserWithEmail = $this->_usuarioRepository->getUserByEmail($usuario["email"]);
+            if ($existingUserWithEmail && $existingUserWithEmail->user_id != $id) {
+                throw new Exception("Email ya registrado", Response::HTTP_CONFLICT);
+            }
+
+            // Update the user
+            return $this->_usuarioRepository->updateUser($id, $usuario);
+        } catch (\Throwable $th) {
+            // Handle exceptions
+            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+            throw new Exception($th->getMessage(), $statusCode);
+        }
+    }
+
+    /**
+     *@param array $usuario
+     *@return bool
+    //  * @param User $user
+     */
+    public function crearUsuario($usuario)
+    {
+        try {
+            // Check if email already exists
+            if ($this->_usuarioRepository->EmailExist($usuario["email"])) {
+                throw new Exception("Correo ya registrado", Response::HTTP_CONFLICT);
+            }
+
+            $documentType = $usuario["document_type_id"];
+
+            if (!$this->_documentRepository->typeDocumentExist($documentType)) {
+                throw new Exception("El documento elegido no existe", Response::HTTP_CONFLICT);
+            }
+
+            $genderId = $usuario["gender_id"];
+
+            if (!$this->_genderRepository->genderExist($genderId)) {
+                throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
+            }
+
+
+            $this->_usuarioRepository->createUser($usuario);
+
+            return true;
+        } catch (\Throwable $th) {
+            // Handle exceptions
+            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+            throw new Exception($th->getMessage(), $statusCode);
         }
 
-        $email = $this->_usuarioRepository->getUserByEmail($usuarioArray["email"]);
-
-        if ($email && $email->user_id != $usuario->user_id) {
-            throw new Exception("Email ya registrado", 1);
-        }
-
-        return $this->_usuarioRepository->updateUser($id, $usuarioArray);
     }
 
     /**
      *
-    //  * @param User $user
-     */
-    public function crearUsuario($usuarioModel)
-    {
-
-        $BadRequestReponse = new ResponseHandler('', [], Response::HTTP_BAD_REQUEST);
-
-        $usuario = $this->_usuarioRepository->getUserByEmail($usuarioModel["email"]);
-
-        if ($usuario) {
-            $BadRequestReponse->setMessage('Correo ya registrado');
-            $BadRequestReponse->setData([]);
-            return $BadRequestReponse->responses();
-        }
-
-        $respuesta = $this->_usuarioRepository->createUser($usuarioModel);
-
-        if ($respuesta) {
-            $GoodRequestResponse = new ResponseHandler('Usuario creado con exito', $respuesta, Response::HTTP_OK);
-            return $GoodRequestResponse->responses();
-        }
-
-        $BadRequestReponse->setMessage('Usuario no fue creado');
-        $BadRequestReponse->setData([]);
-        return $BadRequestReponse->responses();
-
-    }
-
-    /**
-     *
-     * @param mixed $id
+     * @param string $id
+     * @return bool
      */
     public function eliminarUsuario($id)
     {
-        throw new Exception("Error Processing Request", 1);
+        try {
+
+            $usuarioExist = $this->_usuarioRepository->getUserByID($id);
+
+            if ($usuarioExist) {
+                throw new Exception("Usuario no registrado", Response::HTTP_CONFLICT);
+            }
+
+            return $this->_usuarioRepository->deleteUser($id);
+
+        } catch (Exception $th) {
+            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+            throw new Exception($th->getMessage(), $statusCode);
+        }
+
 
     }
 
