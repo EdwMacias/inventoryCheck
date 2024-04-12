@@ -7,6 +7,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
         if (conectado) {
             return;
         }
-        return navigateTo("login");
+        return navigateTo("/login");
     }
 })
