@@ -1,5 +1,5 @@
-import { LoginRequest } from "../../../domain/models/Api/Request/login.request.model";
-import { loginResponse } from "../../../domain/models/Api/Response/login.response";
+import type { LoginRequest } from "../../../domain/models/Api/Request/login.request.model";
+import type { loginResponse } from "../../../domain/models/Api/Response/login.response";
 import { POST_LOGIN_USUARIO, POST_LOGOUT_USUARIO, POST_REFRESH_USUARIO } from "../../Connections/endpoints.connection";
 import { http } from "../../http/http";
 
