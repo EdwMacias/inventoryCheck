@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         $usuario = User::find(auth()->user()->user_id);
 
-        if ($usuario->statu_id == 2) {
+        if ($usuario->statu_id == 1) {
             $data = [
                 'usuario' => $usuario->getUserWithRelatedData(),
                 'access_token' => $token,
