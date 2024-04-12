@@ -1,3 +1,5 @@
+import type { Response } from "~/domain/models/Api/Response/api";
+import { connection } from "../Config/axios";
 
 export const get = async<T>(url: string) => {
     try {

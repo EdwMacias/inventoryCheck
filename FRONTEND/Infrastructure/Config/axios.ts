@@ -1,4 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
+import { baseURL } from '../Connections/config.connection';
+import { UsuarioRepository } from '../Repositories/Usuario/usuario.repository';
 
 
 const connection: AxiosInstance = axios.create({

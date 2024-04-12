@@ -1,3 +1,4 @@
+import { baseURL } from "../config.connection";
 
 const URL_AUTHENTICACION = baseURL + "auth/"
 

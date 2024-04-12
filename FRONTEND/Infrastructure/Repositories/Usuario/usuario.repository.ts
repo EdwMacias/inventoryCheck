@@ -1,4 +1,6 @@
 
+import { http } from "~/infrastructure/http/http";
+
 const tokenKey = "access_token"
 
 export const UsuarioRepository = {
