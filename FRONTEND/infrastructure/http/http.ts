@@ -18,6 +18,7 @@ export const post = async<T>(url: string, data?: {} | string) => {
         const response = await connection.post<Response<T>>(url, data);
         return response.data;
     } catch (error: any) {
+        console.error(error);
         let mensaje: string = '';
         if (error.response) {
             if (error.response.data.messages.length == 0) {

@@ -62,16 +62,21 @@ const formulario = yup.object({
 
 const onSubmit = async (values: any, { resetForm }: any) => {
   const spinnerStore = SpinnerStore();
-  const alertaStore =  AlertaStore();
+  const alertaStore = AlertaStore();
   spinnerStore.activeOrInactiveSpinner(true);
 
   try {
-    const response = await UsuarioServices.Login(values);
-    console.log(response);
-  } catch (error: any) {
+    await UsuarioServices.Login(values);
     spinnerStore.activeOrInactiveSpinner(false);
+
+    return navigateTo("/");
+
+  } catch (error: any) {
+    console.log(error);
+
     alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
   }
+
 }
 
 

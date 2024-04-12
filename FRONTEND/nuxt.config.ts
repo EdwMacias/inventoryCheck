@@ -18,8 +18,11 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  ssr: true,
   pinia: {
     storesDirs: ["./stores/**"]
+  },
+  piniaPersistedstate: {
   },
   app: {
     head: {
