@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-base-200">
+  <div class="h-screen bg-gray-50">
     <header>
-      <Navbar v-if="usuarioStore.conectado"/>
-    </header>
-    <main>
       <Alertas></Alertas>
+      <Navbar v-if="usuarioStore.conectado"></Navbar>
+    </header>
+    <main class="justify-center space-y-12">
       <Spinner v-if="spinnerStore.status"></Spinner>
       <slot />
     </main>
@@ -16,4 +16,4 @@ const spinnerStore = SpinnerStore();
 const usuarioStore = UsuarioStore();
 </script>
 
-<style scoped></style>
+<style></style>

@@ -5,6 +5,9 @@ yup.setLocale({
   mixed: {
     required: ({ path }) => `Campo Requerido`,
   },
+  string : {
+    email : "Ingrese un Correo Valido"
+  },  
   // use functions to generate an error object that includes the value from the schema
   number: {
     min: ({ min }) => ({ key: 'field_too_short', values: { min } }),

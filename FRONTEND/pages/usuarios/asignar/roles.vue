@@ -6,9 +6,9 @@
 
 <script lang="ts" setup>
 
-definePageMeta({
-  middleware: 'auth-middleware'
-})
+// definePageMeta({
+//   middleware: 'auth-middleware'
+// })
 
 </script>
 

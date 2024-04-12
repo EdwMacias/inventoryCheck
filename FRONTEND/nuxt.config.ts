@@ -22,6 +22,12 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**"]
   },
+  routeRules: {
+    '/': { appMiddleware: ['auth-middleware'] },
+    '/usuarios/**': { appMiddleware: ['auth-middleware'] },
+    // '/login': { appMiddleware: 'login-middleware' },
+    // '/auth': { appMiddleware: 'login-middleware' }
+  },
   piniaPersistedstate: {
   },
   app: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-base-100">
+  <div class="navbar bg-white">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -26,7 +26,7 @@
           </li>
         </ul>
       </div>
-      <a class="btn btn-ghost text-xl">CDEAC</a>
+      <NuxtLink to="/" class="btn btn-ghost text-xl">CDEAC</NuxtLink>
 
       <div class="hidden lg:flex">
         <ul class="menu menu-horizontal px-4">

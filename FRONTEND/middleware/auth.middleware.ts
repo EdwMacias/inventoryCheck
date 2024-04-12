@@ -2,11 +2,11 @@ import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario
 
 export default defineNuxtRouteMiddleware((to, from) => {
 
-    if (process.server) {
-        const conectado = UsuarioRepository.getEstadoOfConexion();
-        if (conectado) {
-            return;
-        }
-        return navigateTo("/login");
+    // if (process.server) {
+    const conectado = UsuarioRepository.getEstadoOfConexion();
+    if (conectado) {
+        return;
     }
+    return navigateTo("/login");
+    // }
 })
