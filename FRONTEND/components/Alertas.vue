@@ -58,7 +58,7 @@ const eventHide = (index: number) => {
 }
 
 onMounted(() => {
-  const alertaStore = useMyAlertaStoreStore();
+  const alertaStore = AlertaStore();
   alertaStore.emitNotificacion = crearNotificacion;
 
   watch(alertas.value, (newValue, oldValue) => {

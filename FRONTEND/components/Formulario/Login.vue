@@ -50,8 +50,7 @@
 import { yup } from '@/utils/yup.config';
 import type { LoginRequest } from '~/Domain/Models/Api/Request/login.request.model';
 import { UsuarioServices } from '~/Domain/client/services/usuario.service';
-const spinnerStore = SpinnerStore();
-const alertaStore = useMyAlertaStoreStore();
+
 
 const disableButton: Ref<boolean> = ref(false);
 const login: Ref<LoginRequest> = ref({});
@@ -62,16 +61,17 @@ const formulario = yup.object({
 })
 
 const onSubmit = async (values: any, { resetForm }: any) => {
-
+  const spinnerStore = SpinnerStore();
+  const alertaStore =  AlertaStore();
   spinnerStore.activeOrInactiveSpinner(true);
 
   try {
     const response = await UsuarioServices.Login(values);
     console.log(response);
   } catch (error: any) {
+    spinnerStore.activeOrInactiveSpinner(false);
     alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
   }
-  spinnerStore.activeOrInactiveSpinner(false);
 }
 
 

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { SpinnerStore } from '~/stores/SpinnerStore';
 const spinnerStore = SpinnerStore();
-// const active: Ref<boolean> = ref(false);
 </script>
+
+<style scoped></style>

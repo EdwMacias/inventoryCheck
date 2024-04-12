@@ -21,9 +21,6 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**"]
   },
-  piniaPersistedstate: {
-    storage: "localStorage"
-  },
   app: {
     head: {
       title: "Chequeo Inventario",

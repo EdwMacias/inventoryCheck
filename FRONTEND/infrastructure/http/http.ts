@@ -30,7 +30,7 @@ export const post = async<T>(url: string, data?: {} | string) => {
         } else {
             mensaje = 'Error al realizar la solicitud'
         }
-        throw new Error().message = mensaje;
+        throw new Error(mensaje).message;
     }
 
 }

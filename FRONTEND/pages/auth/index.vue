@@ -21,23 +21,7 @@
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   path: '/login'
 })
-
-// const responsive: Ref<boolean> = ref(true);
-
-// const checkWindowSize = async () => {
-//   responsive.value = !(window.innerWidth <= 767)
-// }
-
-onMounted(async () => {
-  // await checkWindowSize();
-  // window.addEventListener('resize', checkWindowSize);
-
-})
-
-
-
 </script>

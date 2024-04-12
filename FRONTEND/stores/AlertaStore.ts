@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 
 interface alerta { tipo: string, cabecera: string, mensaje: string }
 
-export const useMyAlertaStoreStore = defineStore({
-  id: 'myAlertaStoreStore',
+export const AlertaStore = defineStore({
+  id: 'AlertaStore',
   state: () => ({
     emitNotificacion: (alerta: alerta) => {
     }
