@@ -50,6 +50,8 @@
 import { yup } from '@/utils/yup.config';
 import type { LoginRequest } from '~/Domain/Models/Api/Request/login.request.model';
 import { UsuarioServices } from '~/Domain/client/services/usuario.service';
+const spinnerStore = SpinnerStore();
+const alertaStore = useMyAlertaStoreStore();
 
 const disableButton: Ref<boolean> = ref(false);
 const login: Ref<LoginRequest> = ref({});
@@ -60,8 +62,7 @@ const formulario = yup.object({
 })
 
 const onSubmit = async (values: any, { resetForm }: any) => {
-  const spinnerStore = SpinnerStore();
-  const alertaStore = useMyAlertaStoreStore();
+
   spinnerStore.activeOrInactiveSpinner(true);
 
   try {
