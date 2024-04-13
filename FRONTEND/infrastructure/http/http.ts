@@ -20,7 +20,9 @@ export const post = async<T>(url: string, data?: {} | string) => {
     } catch (error: any) {
         let mensaje: string = '';
         if (error.response) {
-            if (error.response.data.messages.length == 0) {
+            if (error.response.data.message) {
+                mensaje = error.response.data.message
+            }else if (error.response.data.messages.length == 0) {
                 mensaje = error.response.data.messages
             }else{
                 mensaje = error.response.data.messages[0]
