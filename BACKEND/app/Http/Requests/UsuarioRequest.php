@@ -28,10 +28,11 @@ class UsuarioRequest extends FormRequest
             'name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'email' => 'required|email|max:100',
-            'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required|string|min:8',
-            'role_id' => 'required|int',
             'document_type_id' => 'required|int',
+            'number_document' => 'required|string|max:30',
+            'gender_id' => 'required|int',
+            'address' => 'required|string|max:100',
+            'number_telephone' => 'required|string|max:25'
         ];
     }
 }

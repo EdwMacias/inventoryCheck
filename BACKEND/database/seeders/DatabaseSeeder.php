@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
             "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
             "number_telephone" => "+573108026110",
             'document_type_id' => 1,
+            "number_document" => "10202020223",
             'statu_id' => 1,
         ]);
     }

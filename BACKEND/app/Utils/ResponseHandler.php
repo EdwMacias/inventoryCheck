@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Utils;
+use Throwable;
 
-class ResponseHandler
+class ResponseHandler 
 {
     protected $message = [''];
     protected $data;
     protected $status;
 
-    public function __construct($message = [''], $data = [], int $status = 200)
+    public function __construct($message = '', $data = [], int $status = 200)
     {
         $this->message = $message;
         $this->data = $data;
@@ -38,4 +39,5 @@ class ResponseHandler
             'code' => $this->status,
         ], $this->status);
     }
+   
 }

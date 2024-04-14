@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UsuarioRequest;
-use App\Models\User;
 use App\Services\Interfaces\InterfaceUsuarioServices;
-use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
@@ -13,20 +11,20 @@ class UsuarioController extends Controller
      * Store a newly created resource in storage.
      */
 
-    protected InterfaceUsuarioServices $usuarioService;
+    protected InterfaceUsuarioServices $_usuarioService;
 
-    public function __construct(InterfaceUsuarioServices $interfaceUsuarioServices) {
+    public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices)
+    {
         $this->middleware('auth:api');
-        $this->usuarioService = $interfaceUsuarioServices;
+        $this->_usuarioService = $_interfaceUsuarioServices;
     }
 
 
     public function store(UsuarioRequest $request)
     {
-        // $usuario = new User($request->all());
         $usuario = $request->all();
-        return $this->usuarioService->crearUsuario($usuario);
-        //
+        $mensaje = $this->_usuarioService->crearUsuario($usuario);
+        return $mensaje->responses();
     }
 
     /**
@@ -34,16 +32,20 @@ class UsuarioController extends Controller
      */
     public function show()
     {
-        //
+        return $this->_usuarioService->obtenerUsuarios();
     }
 
-    public function update(UsuarioRequest $request)
+    public function update($id, UsuarioRequest $request)
     {
+        $usuario = $request->all();
+        $mensaje = $this->_usuarioService->actualizarUsuario($id, $usuario);
+        return $mensaje->responses();
 
     }
 
     public function destroy(int $id)
     {
-        //
+        $mensaje = $this->_usuarioService->eliminarUsuario($id);
+        return $mensaje->responses();
     }
 }

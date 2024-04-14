@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Models\Status\Status;
-use App\Models\Users\Role;
-use App\Models\Users\TypeDocument;
-use App\Utils\Encriptacion;
 use App\Utils\Utilidades;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,24 +15,20 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'users';
     protected $primaryKey = 'user_id';
-    protected $fillable = [
-        'name',
-        'last_name',
-        'email',
-        'password',
-        'role_id',
-        'document_type_id',
-    ];
+    protected $fillable = [];
 
     protected $hidden = [
         'password',
-        'role_id',
-        'statu_id',
         'document_type_id',
+        'number_document',
         'remember_token',
         'created_at',
         'updated_at',
-        'email_verified_at'
+        'email_verified_at',
+        'gender_id',
+        'statu_id',
+        'address',
+        'number_telephone'
     ];
 
     protected $casts = [
@@ -59,7 +52,6 @@ class User extends Authenticatable implements JWTSubject
     public function toArray()
     {
         $array = parent::toArray();
-        $array["user_id"] = Encriptacion::getEncriptacion($this->id);
         return $array;
     }
     public function save(array $options = [])
@@ -72,26 +64,11 @@ class User extends Authenticatable implements JWTSubject
     public function update(array $attributes = [], array $options = []): bool
     {
         $this->password = Utilidades::EncriptarPassword($this->password);
-        return parent::update($attributes,$options);
+        return parent::update($attributes, $options);
     }
 
-    public function getUserWithRelatedData()
+    public function statu()
     {
-        $usuario = $this->with(['role', 'documentType','statu'])->find($this->user_id);
-        return $usuario->toArray();
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
-
-    public function documentType()
-    {
-        return $this->belongsTo(TypeDocument::class, 'document_type_id');
-    }
-
-    public function statu(){
-        return $this->belongsTo(Status::class,'statu_id');
+        return $this->belongsTo(Status::class, 'statu_id');
     }
 }

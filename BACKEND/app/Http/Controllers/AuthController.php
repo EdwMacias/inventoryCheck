@@ -36,20 +36,18 @@ class AuthController extends Controller
             return $responseHandler->responses();
         }
 
-        $usuario = User::find(auth()->user()->user_id);
-
-        if ($usuario->statu_id == 1) {
+        if (auth()->user()->statu_id == 1) {
             $data = [
-                'usuario' => $usuario->getUserWithRelatedData(),
+                'usuario' => auth()->user(),
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ];
 
-            $responseHandler->setMessage(["Inicio de sesión exitoso"]);
+            $responseHandler->setMessage("Inicio de sesión exitoso");
             $responseHandler->setData($data);
         } else {
-            $responseHandler->setMessage(["El usuario no se encuentra activo"]);
+            $responseHandler->setMessage("El usuario no se encuentra activo");
         }
 
         return $responseHandler->responses();

@@ -2,21 +2,21 @@
 
 namespace App\Respositories\Repositories;
 
-use App\Models\Users\User;
+use App\Models\User;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
-use Illuminate\Database\Eloquent\Collection;
 
-
-class UsuarioRepository extends User implements InterfaceUsuarioRepository
+class UsuarioRepository implements InterfaceUsuarioRepository
 {
     
     /** 
     * @param array $usuario 
-    * @return User
+    * @return bool
     */
     public function createUser(array $usuario)
     {
-        return parent::create($usuario);
+        $usuario = new User($usuario);
+        // return $usuario;
+        return $usuario->save();
     }
 
     /** 
@@ -26,7 +26,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
     */
     public function updateUser(int $id, array $usuario): bool
     {
-        return parent::find($id)->update($usuario);
+        return User::find($id)->update($usuario);
     }
 
     /** 
@@ -35,7 +35,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
     */
     public function deleteUser(int $userId): bool
     {
-        return parent::find($userId)->delete();
+        return User::find($userId)->delete();
     }
 
      /** 
@@ -45,7 +45,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
 
     public function getUserByNumberDocument(int $numberDocument)
     {
-        return parent::where("number_document", $numberDocument)->first();
+        return User::where("number_document", $numberDocument)->first();
     }
 
     /** 
@@ -54,7 +54,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
     */
     public function getUserByEmail(string $email)
     {
-        return parent::where("email", $email)->first();
+        return User::where("email", $email)->first();
     }
 
     /** 
@@ -63,7 +63,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
     */
     public function EmailExist(string $email)
     {
-        return parent::where("email", $email)->exists();
+        return User::where("email", $email)->exists();
     }
 
     /** 
@@ -72,7 +72,7 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
     */
     public function getUserByID(int $userId)
     {
-        return parent::find($userId)->first();
+        return User::find($userId)->first();
     }
 
     /**
@@ -81,6 +81,6 @@ class UsuarioRepository extends User implements InterfaceUsuarioRepository
      * @return bool
      */
     public function userExist(int $userId) {
-        return parent::where("user_id", $userId)->exists();
+        return User::where("user_id", $userId)->exists();
     }
 }

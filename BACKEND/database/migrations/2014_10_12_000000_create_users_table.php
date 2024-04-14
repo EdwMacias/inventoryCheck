@@ -45,8 +45,9 @@ return new class extends Migration {
             $table->string('name', 100);
             $table->string('last_name', 100);
             $table->string('email', 100)->unique();
-            $table->string('address', 100)->unique();
-            $table->string('number_telephone', 25)->unique();
+            $table->string('address', 100);
+            $table->string('number_telephone', 25);
+            $table->string('number_document', 25);
             $table->integer('gender_id')->unsigned();
             $table->string('password');
 
@@ -58,6 +59,7 @@ return new class extends Migration {
 
             $table->index('email'); 
             $table->index('document_type_id'); 
+            $table->index('number_document'); 
             $table->index('gender_id'); 
 
             $table->foreign('document_type_id')->references("document_type_id")->on("types_documents")->onDelete("restrict");

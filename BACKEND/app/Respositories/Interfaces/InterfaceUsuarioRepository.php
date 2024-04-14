@@ -2,7 +2,7 @@
 
 namespace App\Respositories\Interfaces;
 
-use App\Models\Users\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 
@@ -11,7 +11,7 @@ interface InterfaceUsuarioRepository
     // public function getUserById(int $id) : Collection;
     /** 
      * @param array $usuario 
-     * @return User
+     * @return bool
      */
     public function createUser(array $usuario);
     /** 

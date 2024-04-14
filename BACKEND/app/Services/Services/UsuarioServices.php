@@ -7,36 +7,40 @@ use App\Respositories\Interfaces\InterfaceGenderRepository;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Utils\Encriptacion;
+use App\Utils\ResponseHandler;
+use App\Utils\TablesServerSide;
+use App\Utils\Utilidades;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsuarioServices implements InterfaceUsuarioServices
 {
-    protected InterfaceUsuarioRepository $_usuarioRepository;
-    protected InterfaceDocumentTypeRepository $_documentRepository;
-    protected InterfaceGenderRepository $_genderRepository;
+    private InterfaceDocumentTypeRepository $_documentRepository;
+    private InterfaceGenderRepository $_genderRepository;
+    private InterfaceUsuarioRepository $_usuarioRepository;
 
-    public function __construct(InterfaceUsuarioRepository $_usuarioRepository, InterfaceDocumentTypeRepository $_documentRepository, InterfaceGenderRepository $_genderRepository)
-    {
-        $this->_usuarioRepository = $_usuarioRepository;
-        $this->_documentRepository = $_documentRepository;
-        $this->_genderRepository = $_genderRepository;
+    public function __construct(
+        InterfaceDocumentTypeRepository $documentRepository,
+        InterfaceGenderRepository $genderRepository,
+        InterfaceUsuarioRepository $usuarioRepository
+    ) {
+        $this->_documentRepository = $documentRepository;
+        $this->_genderRepository = $genderRepository;
+        $this->_usuarioRepository = $usuarioRepository;
     }
 
     /**
      *@param $id
      * @param array $usuario
-     *@return bool    
+     *@return ResponseHandler    
      */
 
-    public function actualizarUsuario($id, array $usuario)
+    public function actualizarUsuario($id, array $usuario): ResponseHandler
     {
         try {
-            // Decrypt the ID
-            $id = Encriptacion::getDescriptacion($id);
 
-            // Check if the user exists
             $userExist = $this->_usuarioRepository->getUserByID($id);
+
             if (!$userExist) {
                 throw new Exception("Usuario no se encuentra registrado", Response::HTTP_NOT_FOUND);
             }
@@ -59,28 +63,45 @@ class UsuarioServices implements InterfaceUsuarioServices
                 throw new Exception("Email ya registrado", Response::HTTP_CONFLICT);
             }
 
-            // Update the user
-            return $this->_usuarioRepository->updateUser($id, $usuario);
+            $fields = [
+                "name",
+                "email",
+                "gender_id",
+                "last_name",
+                "number_document",
+                "address",
+                "number_telephone",
+                "document_type_id"
+            ];
+
+            $UsuarioDto = [];
+
+            foreach ($fields as $field) {
+                $UsuarioDto[$field] = $usuario[$field];
+            }
+
+            $this->_usuarioRepository->updateUser($id, $UsuarioDto);
+
+            return new ResponseHandler("Usuario Actualizado Exitosamente", Response::HTTP_OK);
         } catch (\Throwable $th) {
-            // Handle exceptions
-            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
-            throw new Exception($th->getMessage(), $statusCode);
+            throw new Exception($th->getMessage(), $th->getCode());
         }
     }
 
     /**
      *@param array $usuario
-     *@return bool
-    //  * @param User $user
+     * @return ResponseHandler
      */
-    public function crearUsuario($usuario)
+    public function crearUsuario($usuario): ResponseHandler
     {
+        // return $usuario;
         try {
-            // Check if email already exists
+
             if ($this->_usuarioRepository->EmailExist($usuario["email"])) {
                 throw new Exception("Correo ya registrado", Response::HTTP_CONFLICT);
             }
 
+            // return $this->_usuarioRepository->EmailExist($usuario["email"]);
             $documentType = $usuario["document_type_id"];
 
             if (!$this->_documentRepository->typeDocumentExist($documentType)) {
@@ -93,14 +114,31 @@ class UsuarioServices implements InterfaceUsuarioServices
                 throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
             }
 
+            $fields = [
+                "name",
+                "email",
+                "gender_id",
+                "last_name",
+                "number_document",
+                "password",
+                "address",
+                "number_telephone",
+                "document_type_id"
+            ];
 
-            $this->_usuarioRepository->createUser($usuario);
+            $usuario["password"] = Utilidades::EncriptarPassword("123@Cuatro");
+            $UsuarioDto = [];
 
-            return true;
+            foreach ($fields as $field) {
+                $UsuarioDto[$field] = $usuario[$field];
+            }
+
+            $this->_usuarioRepository->createUser($UsuarioDto);
+
+            return new ResponseHandler("Usuario Creado Exitosamente", Response::HTTP_OK);
         } catch (\Throwable $th) {
-            // Handle exceptions
-            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
-            throw new Exception($th->getMessage(), $statusCode);
+            // return $th->getCode();
+            return new ResponseHandler($th->getMessage(), [], $th->getCode());
         }
 
     }
@@ -108,7 +146,7 @@ class UsuarioServices implements InterfaceUsuarioServices
     /**
      *
      * @param string $id
-     * @return bool
+     * @return ResponseHandler
      */
     public function eliminarUsuario($id)
     {
@@ -120,13 +158,14 @@ class UsuarioServices implements InterfaceUsuarioServices
                 throw new Exception("Usuario no registrado", Response::HTTP_CONFLICT);
             }
 
-            return $this->_usuarioRepository->deleteUser($id);
+            $estadoUsuario["statu_id"] = $usuarioExist->statu_id == 1 ? 2 : 1;
 
+            $this->_usuarioRepository->updateUser($id, $estadoUsuario);
+
+            return new ResponseHandler("Usuario Eliminado Correctamente");
         } catch (Exception $th) {
-            $statusCode = $th instanceof Exception ? $th->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
-            throw new Exception($th->getMessage(), $statusCode);
+            return new ResponseHandler($th->getMessage(), [], $th->getCode());
         }
-
 
     }
 
@@ -134,7 +173,23 @@ class UsuarioServices implements InterfaceUsuarioServices
      */
     public function obtenerUsuarios()
     {
-        throw new Exception("Error Processing Request", 1);
+        try {
+
+            $fields = [
+                "name",
+                "email",
+                "last_name",
+                "number_document",
+                "number_telephone",
+            ];
+
+            $table = new TablesServerSide("users", $fields);
+            $query = $table->createTable();
+            return $table->getterTable($query);
+        } catch (\Throwable $th) {
+            $response = new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $response->responses();
+        }
 
     }
 }
