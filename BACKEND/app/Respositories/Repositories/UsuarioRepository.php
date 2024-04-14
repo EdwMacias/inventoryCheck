@@ -7,11 +7,11 @@ use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 
 class UsuarioRepository implements InterfaceUsuarioRepository
 {
-    
+
     /** 
-    * @param array $usuario 
-    * @return bool
-    */
+     * @param array $usuario 
+     * @return bool
+     */
     public function createUser(array $usuario)
     {
         $usuario = new User($usuario);
@@ -20,28 +20,28 @@ class UsuarioRepository implements InterfaceUsuarioRepository
     }
 
     /** 
-    * @param int $id 
-    * @param array $usuario 
-    * @return bool
-    */
-    public function updateUser(int $id, array $usuario): bool
+     * @param int $id 
+     * @param array $usuario 
+     * @return bool
+     */
+    public function updateUser(int $user_id, array $usuario): bool
     {
-        return User::find($id)->update($usuario);
+        return User::find($user_id)->update($usuario);
     }
 
     /** 
-    * @param int $userId 
-    * @return bool
-    */
+     * @param int $userId 
+     * @return bool
+     */
     public function deleteUser(int $userId): bool
     {
         return User::find($userId)->delete();
     }
 
-     /** 
-    * @param int $numberDocument 
-    * @return object|User|null
-    */
+    /** 
+     * @param int $numberDocument 
+     * @return object|User|null
+     */
 
     public function getUserByNumberDocument(int $numberDocument)
     {
@@ -49,27 +49,27 @@ class UsuarioRepository implements InterfaceUsuarioRepository
     }
 
     /** 
-    * @param string $email 
-    * @return object|User|null
-    */
+     * @param string $email 
+     * @return object|User|null
+     */
     public function getUserByEmail(string $email)
     {
         return User::where("email", $email)->first();
     }
 
     /** 
-    * @param string $email 
-    * @return bool
-    */
+     * @param string $email 
+     * @return bool
+     */
     public function EmailExist(string $email)
     {
         return User::where("email", $email)->exists();
     }
 
     /** 
-    * @param int $userId 
-    * @return object|User|null
-    */
+     * @param int $userId 
+     * @return object|User|null
+     */
     public function getUserByID(int $userId)
     {
         return User::find($userId)->first();
@@ -80,7 +80,8 @@ class UsuarioRepository implements InterfaceUsuarioRepository
      * @param int $userId
      * @return bool
      */
-    public function userExist(int $userId) {
+    public function userExist(int $userId)
+    {
         return User::where("user_id", $userId)->exists();
     }
 }

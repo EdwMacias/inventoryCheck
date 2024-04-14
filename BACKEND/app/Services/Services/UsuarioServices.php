@@ -154,17 +154,20 @@ class UsuarioServices implements InterfaceUsuarioServices
 
             $usuarioExist = $this->_usuarioRepository->getUserByID($id);
 
-            if ($usuarioExist) {
+            if (!$usuarioExist) {
                 throw new Exception("Usuario no registrado", Response::HTTP_CONFLICT);
             }
+            $usuarioDto = [
+                "statu_id" => $usuarioExist->statu_id == 1 ? 2 : 1
+            ];
 
-            $estadoUsuario["statu_id"] = $usuarioExist->statu_id == 1 ? 2 : 1;
-
-            $this->_usuarioRepository->updateUser($id, $estadoUsuario);
-
-            return new ResponseHandler("Usuario Eliminado Correctamente");
+            
+            $this->_usuarioRepository->updateUser($id, $usuarioDto);
+            return new ResponseHandler("Usuario Eliminado Correctamente",$usuarioDto);
+            
         } catch (Exception $th) {
-            return new ResponseHandler($th->getMessage(), [], $th->getCode());
+            // return $th->getMessage();
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }

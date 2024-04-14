@@ -24,7 +24,7 @@ interface InterfaceUsuarioRepository
      * @param array $usuario 
      * @return bool
      */
-    public function updateUser(int $id, array $usuario): bool;
+    public function updateUser(int $user_id, array $usuario): bool;
     /** 
      * @param string $email 
      * @return object|User|null
