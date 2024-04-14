@@ -57,10 +57,10 @@ return new class extends Migration {
 
             $table->timestamps();
 
-            $table->index('email'); 
-            $table->index('document_type_id'); 
-            $table->index('number_document'); 
-            $table->index('gender_id'); 
+            $table->index('email');
+            $table->index('document_type_id');
+            $table->index('number_document');
+            $table->index('gender_id');
 
             $table->foreign('document_type_id')->references("document_type_id")->on("types_documents")->onDelete("restrict");
             $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
@@ -111,18 +111,31 @@ return new class extends Migration {
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('restrict');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('restrict');
         });
+
+        DB::statement('CREATE OR REPLACE VIEW users_view  AS SELECT u.user_id AS user_id, u.name AS NAME,
+            u.last_name AS last_name,
+            u.email AS email,
+            u.address AS address,
+            u.number_telephone AS number_telephone,
+            s.name AS status,
+            g.name AS gender
+            FROM
+                users u
+            JOIN laravel.genders g
+            ON
+                g.gender_id = u.gender_id
+            JOIN types_documents td ON
+                td.document_type_id = u.document_type_id
+            JOIN STATUS s ON
+                s.statu_id = u.statu_id');
+
+        DB::statement('CREATE OR REPLACE VIEW user_roles_view AS SELECT ur.user_role_id, u.name , u.last_name, r.name as role, r.role_id, u.user_id FROM user_roles ur INNER JOIN users u ON u.user_id = ur.user_id 
+        INNER JOIN roles r ON r.role_id = ur.role_id');
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('types_documents');
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('genders');
-        Schema::dropIfExists('user_roles');
-        Schema::dropIfExists('item_observations');
-        Schema::dropIfExists('items');
-        Schema::dropIfExists('status');
-        Schema::dropIfExists('categories');
+        Schema::dropAllTables();
+        Schema::dropAllViews();
     }
 };
