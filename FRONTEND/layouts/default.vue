@@ -16,4 +16,4 @@ const spinnerStore = SpinnerStore();
 const usuarioStore = UsuarioStore();
 </script>
 
-<style></style>
+<style scoped></style>

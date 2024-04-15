@@ -29,7 +29,7 @@
       <NuxtLink to="/" class="btn btn-ghost text-xl">CDEAC</NuxtLink>
 
       <div class="hidden lg:flex">
-        <ul class="menu menu-horizontal px-4">
+        <ul class="menu menu-horizontal px-4" style="z-index: 1000;">
           <li>
             <NuxtLink to="/">HOME</NuxtLink>
           </li>
