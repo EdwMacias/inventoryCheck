@@ -13,7 +13,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::post('create', [UsuarioController::class, 'store']);
-    Route::post('update', [UsuarioController::class, 'update']);
+    Route::post('update/{id}', [UsuarioController::class, 'update']);
     Route::delete('delete/{id}', [UsuarioController::class, 'destroy']);
+    Route::post('update/password/{id}', [UsuarioController::class, 'updatePassword']);
     Route::get('get', [UsuarioController::class, 'show']);
 });

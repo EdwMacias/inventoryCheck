@@ -25,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'last_name',
         'address',
+        'email',
         'number_telephone',
         'email_verified_at',
     ];
@@ -61,23 +62,23 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function toArray()
-    {
-        $array = parent::toArray();
-        return $array;
-    }
-    public function save(array $options = [])
-    {
-        $this->password = Utilidades::EncriptarPassword($this->password);
-        return parent::save($options);
-    }
+    // public function toArray()
+    // {
+    //     $array = parent::toArray();
+    //     return $array;
+    // }
+    // public function save(array $options = [])
+    // {
+    //     $this->password = Utilidades::EncriptarPassword($this->password);
+    //     return parent::save($options);
+    // }
 
 
-    public function update(array $attributes = [], array $options = []): bool
-    {
-        $this->password = Utilidades::EncriptarPassword($this->password);
-        return parent::update($attributes, $options);
-    }
+    // public function update(array $attributes = [], array $options = []): bool
+    // {
+    //     $this->password = Utilidades::EncriptarPassword($this->password);
+    //     return parent::update($attributes, $options);
+    // }
 
     public function statu()
     {

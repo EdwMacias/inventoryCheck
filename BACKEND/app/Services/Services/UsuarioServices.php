@@ -12,6 +12,7 @@ use App\Utils\TablesServerSide;
 use App\Utils\Utilidades;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class UsuarioServices implements InterfaceUsuarioServices
 {
@@ -39,80 +40,67 @@ class UsuarioServices implements InterfaceUsuarioServices
     {
         try {
 
+            $fields = [
+                "name",
+                "email",
+                "gender_id",
+                "last_name",
+                "number_document",
+                "address",
+                "number_telephone",
+                "document_type_id"
+            ];
+
+            $UsuarioDto = [];
+
+            foreach ($fields as $field) {
+                $UsuarioDto[$field] = gettype($usuario[$field]) == 'string' ? strtolower($usuario[$field]) : $usuario[$field];
+            }
+
             $userExist = $this->_usuarioRepository->getUserByID($id);
 
             if (!$userExist) {
                 throw new Exception("Usuario no se encuentra registrado", Response::HTTP_NOT_FOUND);
             }
 
-            $documentType = $usuario["document_type_id"];
+            $documentType = $UsuarioDto["document_type_id"];
 
             if (!$this->_documentRepository->typeDocumentExist($documentType)) {
                 throw new Exception("El documento elegido no existe", Response::HTTP_CONFLICT);
             }
 
-            $genderId = $usuario["gender_id"];
+            $genderId = $UsuarioDto["gender_id"];
 
             if (!$this->_genderRepository->genderExist($genderId)) {
                 throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
             }
 
             // Check if the email is already registered for another user
-            $existingUserWithEmail = $this->_usuarioRepository->getUserByEmail($usuario["email"]);
+            $existingUserWithEmail = $this->_usuarioRepository->getUserByEmail($UsuarioDto["email"]);
             if ($existingUserWithEmail && $existingUserWithEmail->user_id != $id) {
                 throw new Exception("Email ya registrado", Response::HTTP_CONFLICT);
             }
 
-            $fields = [
-                "name",
-                "email",
-                "gender_id",
-                "last_name",
-                "number_document",
-                "address",
-                "number_telephone",
-                "document_type_id"
-            ];
 
-            $UsuarioDto = [];
 
-            foreach ($fields as $field) {
-                $UsuarioDto[$field] = $usuario[$field];
-            }
 
             $this->_usuarioRepository->updateUser($id, $UsuarioDto);
 
             return new ResponseHandler("Usuario Actualizado Exitosamente", Response::HTTP_OK);
         } catch (\Throwable $th) {
-            throw new Exception($th->getMessage(), $th->getCode());
+            throw new Exception($th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      *@param array $usuario
-     * @return ResponseHandler
+     * @return mixed
      */
-    public function crearUsuario($usuario): ResponseHandler
+    public function crearUsuario($usuario)
     {
-        // return $usuario;
         try {
 
-            if ($this->_usuarioRepository->EmailExist($usuario["email"])) {
-                throw new Exception("Correo ya registrado", Response::HTTP_CONFLICT);
-            }
-
-            // return $this->_usuarioRepository->EmailExist($usuario["email"]);
-            $documentType = $usuario["document_type_id"];
-
-            if (!$this->_documentRepository->typeDocumentExist($documentType)) {
-                throw new Exception("El documento elegido no existe", Response::HTTP_CONFLICT);
-            }
-
-            $genderId = $usuario["gender_id"];
-
-            if (!$this->_genderRepository->genderExist($genderId)) {
-                throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
-            }
+            $UsuarioDto = [];
 
             $fields = [
                 "name",
@@ -120,25 +108,39 @@ class UsuarioServices implements InterfaceUsuarioServices
                 "gender_id",
                 "last_name",
                 "number_document",
-                "password",
                 "address",
                 "number_telephone",
                 "document_type_id"
             ];
 
-            $usuario["password"] = Utilidades::EncriptarPassword("123@Cuatro");
-            $UsuarioDto = [];
 
             foreach ($fields as $field) {
-                $UsuarioDto[$field] = $usuario[$field];
+                $UsuarioDto[$field] = gettype($usuario[$field]) == 'string' ? strtolower($usuario[$field]) : $usuario[$field];
             }
+
+            if ($this->_usuarioRepository->EmailExist($UsuarioDto["email"])) {
+                throw new Exception("Correo ya registrado", Response::HTTP_CONFLICT);
+            }
+
+            $documentType = $UsuarioDto["document_type_id"];
+
+            if (!$this->_documentRepository->typeDocumentExist($documentType)) {
+                throw new Exception("El documento elegido no existe", Response::HTTP_CONFLICT);
+            }
+
+            $genderId = $UsuarioDto["gender_id"];
+
+            if (!$this->_genderRepository->genderExist($genderId)) {
+                throw new Exception("El genero seleccionado no es valido", Response::HTTP_CONFLICT);
+            }
+
+            $UsuarioDto["password"] = Utilidades::EncriptarPassword(env('PASSWORD_USERS_DEFAULT'));
 
             $this->_usuarioRepository->createUser($UsuarioDto);
 
             return new ResponseHandler("Usuario Creado Exitosamente", Response::HTTP_OK);
         } catch (\Throwable $th) {
-            // return $th->getCode();
-            return new ResponseHandler($th->getMessage(), [], $th->getCode());
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -161,10 +163,10 @@ class UsuarioServices implements InterfaceUsuarioServices
                 "statu_id" => $usuarioExist->statu_id == 1 ? 2 : 1
             ];
 
-            
+
             $this->_usuarioRepository->updateUser($id, $usuarioDto);
-            return new ResponseHandler("Usuario Eliminado Correctamente",$usuarioDto);
-            
+            return new ResponseHandler("Usuario Eliminado Correctamente", $usuarioDto);
+
         } catch (Exception $th) {
             // return $th->getMessage();
             return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -174,6 +176,8 @@ class UsuarioServices implements InterfaceUsuarioServices
 
     /**
      */
+
+
     public function obtenerUsuarios()
     {
         try {
@@ -189,10 +193,47 @@ class UsuarioServices implements InterfaceUsuarioServices
             $table = new TablesServerSide("users", $fields);
             $query = $table->createTable();
             return $table->getterTable($query);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $response = new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
             return $response->responses();
         }
+    }
+
+    /**
+     *
+     * @param string $id
+     * @param array $usuario
+     * @return ResponseHandler
+     */
+    public function updatePassword($id, array $usuario)
+    {
+
+        try {
+            $usuarioDto = [];
+
+            if (!$this->_usuarioRepository->userExist($id)) {
+                throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            $fields = [
+                "password"
+            ];
+
+            foreach ($fields as $field) {
+                $usuarioDto[$field] = Utilidades::EncriptarPassword(strtolower($usuario[$field]));
+            }
+
+            $this->_usuarioRepository->updateUser($id, $usuarioDto);
+
+            return new ResponseHandler("Contraseña Actualizada Correctamente");
+
+        } catch (Throwable $th) {
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (Exception $th) {
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
     }
+
+
 }

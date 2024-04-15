@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UsuarioRequest;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 
@@ -15,7 +16,7 @@ class UsuarioController extends Controller
 
     public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices)
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['updatePassword']]);
         $this->_usuarioService = $_interfaceUsuarioServices;
     }
 
@@ -23,6 +24,7 @@ class UsuarioController extends Controller
     public function store(UsuarioRequest $request)
     {
         $usuario = $request->all();
+        // return $usuario;
         $mensaje = $this->_usuarioService->crearUsuario($usuario);
         return $mensaje->responses();
     }
@@ -47,5 +49,12 @@ class UsuarioController extends Controller
     {
         $mensaje = $this->_usuarioService->eliminarUsuario($id);
         return $mensaje->responses();
+    }
+
+    public function updatePassword($id, UpdatePasswordRequest $request)
+    {
+        $password = $request->all();
+        $response = $this->_usuarioService->updatePassword($id, $password);
+        return $response->responses();
     }
 }

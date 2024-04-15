@@ -7,8 +7,9 @@ use App\Models\Status\Status;
 use App\Models\Users\Gender;
 use App\Models\Users\Role;
 use App\Models\Users\TypeDocument;
-use App\Models\Users\User;
+use App\Models\User;
 use App\Models\Users\UserRole;
+use App\Utils\Utilidades;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -57,7 +58,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Edwar David',
             'last_name' => 'Macias Lopez',
             'email' => 'edwmacias17@gmail.com',
-            'password' => password_hash("123@Cuatro#", PASSWORD_DEFAULT),
+            'password' => Utilidades::EncriptarPassword(env('PASSWORD_USERS_DEFAULT')),
             "gender_id" => 1,
             "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
             "number_telephone" => "+573108026110",

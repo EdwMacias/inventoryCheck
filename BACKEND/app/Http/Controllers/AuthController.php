@@ -7,8 +7,10 @@ use App\Http\Requests\LoginRequest;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-use App\Models\Users\User;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Models\User;
 use App\Utils\ResponseHandler;
+use App\Utils\Utilidades;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -23,22 +25,26 @@ class AuthController extends Controller
     {
         $responseHandler = new ResponseHandler();
 
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
 
-        $credentials = ["email" => $email, "password" => $password];
+        $usuario = User::where('email', strtolower($credentials['email']))->first();
 
-        $token = auth()->attempt($credentials);
+        $isPassword = Utilidades::VerificarPassword(strtolower($credentials['password']), $usuario->password);
 
-        if (!$token) {
+        if (!$isPassword) {
             $responseHandler->setMessage(["Credenciales Incorrectas"]);
             $responseHandler->setStatus(Response::HTTP_UNAUTHORIZED);
             return $responseHandler->responses();
         }
 
+        $token = auth()->login($usuario);
+
         if (auth()->user()->statu_id == 1) {
+
             $data = [
-                'usuario' => auth()->user(),
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
@@ -55,13 +61,10 @@ class AuthController extends Controller
 
     public function me()
     {
-        $responseHandler = new ResponseHandler();
         $usuario = auth()->user();
-        $resultado = User::find($usuario->getAuthIdentifier());
-        $responseHandler->setData($resultado->getUserWithRelatedData());
-        $responseHandler->setMessage('Informacion Usuario');
-        $responseHandler->setStatus(Response::HTTP_OK);
-        return $responseHandler->responses();
+        $resultado = User::find($usuario->getAuthIdentifier())->toArray();
+        $response = new ResponseHandler('Usuario Auntenticado', $resultado);
+        return $response->responses();
     }
 
     public function logout()
@@ -73,7 +76,6 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        $responseHandler = new ResponseHandler('Token Refrescado');
         $token = auth()->refresh();
 
         $data = [
@@ -82,11 +84,12 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
 
-        $responseHandler->setData($data);
-        $responseHandler->setStatus(Response::HTTP_OK);
+        $responseHandler = new ResponseHandler('Token Refrescado', $data);
         return $responseHandler->responses();
 
     }
+
+ 
 
 
 }
