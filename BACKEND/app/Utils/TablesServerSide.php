@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use Exception;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
@@ -9,32 +10,35 @@ class TablesServerSide
 {
     protected $table;
     protected $campos;
+    protected Request $request;
     private $totalRecords;
     private $filterRecords;
     private $drawn;
-    public function __construct(string $table, array $campos)
+    public function __construct(string $table, Request $request, array $campos)
     {
         $this->campos = $campos;
         $this->table = $table;
+        $this->request = $request;
     }
 
     public function createTable()
     {
 
-        $query = \DB::table($this->getTable());
-
-        $rquest = Request::capture();
+        $query = \DB::table($this->table)->select($this->campos);
 
         $this->setTotalRecords($query->count());
 
-        $this->setDrawn(intval($rquest->input("draw", 1)));
+        $this->setDrawn(intval($this->request->input("draw", 1)));
 
         $campos = $this->getCampos();
 
-        if ($rquest->has('search') && $rquest->input('search.value')) {
-            $searchValue = $rquest->input('search.value');
+        if ($this->request->has('search') && $this->request->input('search.value')) {
+            $searchValue = $this->request->input('search.value');
+            $campos = $this->campos;
             $query->where(function ($q) use ($searchValue, $campos) {
-                $q->orWhere($campos, 'LIKE', "%$searchValue%");
+                foreach ($campos as $campo) {
+                    $q->orWhere($campo, 'LIKE', "%$searchValue%");
+                }
             });
         }
 
@@ -46,8 +50,8 @@ class TablesServerSide
             $columns[] = ['db' => $campos[$i], 'dt' => $i];
         }
 
-        if ($rquest->has('order')) {
-            foreach ($rquest->input('order') as $order) {
+        if ($this->request->has('order')) {
+            foreach ($this->request->input('order') as $order) {
                 $columnIndex = $order['column'];
                 $columnName = $columns[$columnIndex]['db'];
                 $direction = $order['dir'];
@@ -55,8 +59,8 @@ class TablesServerSide
             }
         }
 
-        $start = $rquest->input('start', 0);
-        $length = $rquest->input('length', 10);
+        $start = $this->request->input('start', 0);
+        $length = $this->request->input('length', 10);
 
         if ($length != -1) {
             $query->offset($start)->limit($length);
@@ -67,7 +71,8 @@ class TablesServerSide
 
     public function getterTable(Builder $query)
     {
-        $data = $query->select($this->getCampos());
+        $data = $query->select($this->campos);
+
         return json_encode([
             "draw" => $this->drawn,
             "recordsTotal" => $this->totalRecords,
@@ -92,7 +97,7 @@ class TablesServerSide
 
     /**
      * Get the value of campos
-     */ 
+     */
     public function getCampos()
     {
         return $this->campos;
@@ -102,7 +107,7 @@ class TablesServerSide
      * Set the value of campos
      *
      * @return  self
-     */ 
+     */
     public function setCampos($campos)
     {
         $this->campos = $campos;
@@ -112,7 +117,7 @@ class TablesServerSide
 
     /**
      * Get the value of table
-     */ 
+     */
     public function getTable()
     {
         return $this->table;
@@ -122,7 +127,7 @@ class TablesServerSide
      * Set the value of table
      *
      * @return  self
-     */ 
+     */
     public function setTable($table)
     {
         $this->table = $table;

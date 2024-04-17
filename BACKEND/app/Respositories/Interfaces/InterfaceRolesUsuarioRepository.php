@@ -12,4 +12,14 @@ interface InterfaceRolesUsuarioRepository
     public function getRolesUsuarioById(int $user_id);
     public function updateRoleUser(int $role_user_id, array $roleUser): bool;
     public function deleteRoleUser(int $role_user_id): bool;
+        /**
+     * @param int $role_user_id
+     * @return bool
+     */
+    public function RoleUserExists(int $role_user_id) :bool;
+      /**
+     * @param int $role_id
+     * @return bool
+     */
+    public function roleExist(int $role_id): bool;
 }

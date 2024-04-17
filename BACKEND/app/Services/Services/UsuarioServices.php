@@ -11,6 +11,7 @@ use App\Utils\ResponseHandler;
 use App\Utils\TablesServerSide;
 use App\Utils\Utilidades;
 use Exception;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -180,6 +181,7 @@ class UsuarioServices implements InterfaceUsuarioServices
 
     public function obtenerUsuarios()
     {
+        $Request = Request::capture();
         try {
 
             $fields = [
@@ -190,7 +192,7 @@ class UsuarioServices implements InterfaceUsuarioServices
                 "number_telephone",
             ];
 
-            $table = new TablesServerSide("users", $fields);
+            $table = new TablesServerSide("users", $Request, $fields);
             $query = $table->createTable();
             return $table->getterTable($query);
         } catch (Throwable $th) {

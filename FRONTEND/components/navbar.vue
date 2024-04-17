@@ -19,14 +19,14 @@
                   <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
                 </li>
                 <!-- <li> -->
-                  <!-- <NuxtLink to="/usuarios/as">Asignar Rol Usuario</NuxtLink> -->
+                <!-- <NuxtLink to="/usuarios/as">Asignar Rol Usuario</NuxtLink> -->
                 <!-- </li> -->
               </ul>
             </details>
           </li>
           <li>
-                  <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
-                </li>
+            <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
+          </li>
         </ul>
       </div>
       <NuxtLink to="/" class="btn btn-ghost text-xl">CEDAC</NuxtLink>
