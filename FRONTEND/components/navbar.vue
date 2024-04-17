@@ -24,9 +24,12 @@
               </ul>
             </details>
           </li>
+          <li>
+                  <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
+                </li>
         </ul>
       </div>
-      <NuxtLink to="/" class="btn btn-ghost text-xl">CDEAC</NuxtLink>
+      <NuxtLink to="/" class="btn btn-ghost text-xl">CEDAC</NuxtLink>
 
       <div class="hidden lg:flex">
         <ul class="menu menu-horizontal px-4" style="z-index: 1000;">
@@ -45,6 +48,9 @@
                 </li> -->
               </ul>
             </details>
+          </li>
+          <li>
+            <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
           </li>
           <!-- <li><a>Item 3</a></li> -->
         </ul>
