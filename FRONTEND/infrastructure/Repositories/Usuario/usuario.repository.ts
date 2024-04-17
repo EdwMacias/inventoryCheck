@@ -12,7 +12,11 @@ export const UsuarioRepository = {
     },
 
     getToken: (): string | null => {
-        return getFromLocalStorage(tokenKey);
+        const usuario = UsuarioStore();
+        if (usuario.token) {
+            return usuario.token;
+        }
+        return null;
     },
 
     getEstadoOfConexion: (): boolean => {
@@ -26,7 +30,8 @@ export const UsuarioRepository = {
     },
 
     saveToken: (token: string) => {
-        saveToLocalStorage(tokenKey, token)
+        const usuarioStore = UsuarioStore();
+        usuarioStore.setToken(token);
     },
 
     saveEstadoConectado: (statu: boolean) => {

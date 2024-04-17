@@ -104,7 +104,7 @@
     </div>
 
     <div class="mt-24 flex items-center justify-end gap-x-6">
-      <button type="button" class="btn btn-neutral">Cancelar</button>
+      <NuxtLink to="/usuarios" class="btn btn-neutral">Cancelar</NuxtLink>
       <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
   </VeeForm>

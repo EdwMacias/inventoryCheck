@@ -16,11 +16,11 @@
               <summary>USUARIOS</summary>
               <ul class="p-2">
                 <li>
-                  <NuxtLink to="/usuarios/crear">Crear Usuario</NuxtLink>
+                  <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
                 </li>
-                <li>
-                  <NuxtLink to="/usuarios/asignar/roles">Asignar Rol Usuario</NuxtLink>
-                </li>
+                <!-- <li> -->
+                  <!-- <NuxtLink to="/usuarios/as">Asignar Rol Usuario</NuxtLink> -->
+                <!-- </li> -->
               </ul>
             </details>
           </li>
@@ -38,11 +38,11 @@
               <summary>USUARIOS</summary>
               <ul class="p-2">
                 <li>
-                  <NuxtLink to="/usuarios/crear">Crear Usuario</NuxtLink>
+                  <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
                 </li>
-                <li>
+                <!-- <li>
                   <NuxtLink to="/usuarios/asignar/roles">Asignar Rol Usuario</NuxtLink>
-                </li>
+                </li> -->
               </ul>
             </details>
           </li>

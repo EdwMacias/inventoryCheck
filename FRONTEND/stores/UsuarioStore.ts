@@ -1,16 +1,18 @@
 import { defineStore } from 'pinia'
-import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario'
+import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
 
 type usuarioStore = {
   conectado: boolean,
-  usuario?: UsuarioEntity
+  usuario?: UsuarioEntity,
+  token?: string
 }
 
 export const UsuarioStore = defineStore({
   id: 'UsuarioStore',
   state: (): usuarioStore => ({
     conectado: false,
-    usuario : undefined
+    usuario: undefined,
+    token: undefined
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {
@@ -19,7 +21,10 @@ export const UsuarioStore = defineStore({
     setConectado(conectado: boolean) {
       this.conectado = conectado
     },
-    clearStore(){
+    setToken(token: string) {
+      this.token = token
+    },
+    clearStore() {
       this.$reset();
     }
   },

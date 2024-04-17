@@ -28,12 +28,12 @@
 
         <!-- {/* Forgot Password Link */} -->
         <div class="text-right text-primary">
-          <a href="/forgot-password">
+          <nuxtLink href="/forgot-password">
             <span
               class="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
               Olvido Su Contraseña?
             </span>
-          </a>
+          </nuxtLink>
         </div>
         <button type="submit" class="btn mt-2 w-full btn-primary" :disabled="disableButton">
           Iniciar Sesión
