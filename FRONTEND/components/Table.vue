@@ -2,27 +2,18 @@
 @import 'datatables.net-dt';
 
 .dt-paging.paging_full_numbers button {
-  /* Agrega las clases de DaisyUI para los botones de paginación */
   padding: 0.5rem 1rem !important;
   border-radius: 0.375rem !important;
-  background-color: #d6e1fa !important;
   color: #fff !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
 }
-
-button.dt-paging-button.current {
-  border-radius: 0.375rem !important;
-  padding: 0.5rem 1rem !important;
-  /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; */
-  background-color: #3B82F6 !important;
-}
 </style>
+
 <template>
   <DataTable ref="table" class="table table-zebra rounded " :columns="columns" :options="options"
     :ajax="settingRequest">
     <template #action="props">
-      <button class="btn btn-primary  me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="console.log(props.rowData)">Editar</button>
+      <button class="btn btn-primary  me-1 btn-sm " :text="`Col 1: ${props.cellData}`" @click="editClick">Editar</button>
       <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`"
         @click="console.log(props.rowData)">Eliminar</button>
     </template>
@@ -38,7 +29,6 @@ import DataTablesCore, { type Config, type ConfigColumns } from 'datatables.net-
 import 'datatables.net-select';
 import 'datatables.net-responsive';
 import language from '@/lang/datatable.language.spanish.json';
-// import language from 'datatables.net-plugins/i18n/es-ES.mjs';
 
 const props = defineProps({
   url: String
@@ -66,7 +56,7 @@ const settingRequest: any = {
   url: props.url,
   method: 'GET',
   headers: {
-    Authorization: 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTMyMTc2ODcsImV4cCI6MTcxMzIyMTI4NywibmJmIjoxNzEzMjE3Njg3LCJqdGkiOiJXTXVod0F1ZDN3elk1dUlSIiwic3ViIjoiNyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJuYW1lIjoidXN1YXJpbyBwcnVlYmEiLCJsYXN0X25hbWUiOiJjZWRhYyIsImVtYWlsIjoiY2VkYWN0ZXN0QGdtYWlsLmNvbSJ9.uhie8UM9y-Dtrrl2-kwiEGQhKictsLUO95IqW2YhYQc',
+    Authorization: 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTMzNjQ3NjUsImV4cCI6MTcxMzM2ODM2NSwibmJmIjoxNzEzMzY0NzY1LCJqdGkiOiJsWTY1YjNPczJESUNxdXZ3Iiwic3ViIjoiNyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJuYW1lIjoidXN1YXJpbyBwcnVlYmEiLCJsYXN0X25hbWUiOiJjZWRhYyIsImVtYWlsIjoiY2VkYWN0ZXN0QGdtYWlsLmNvbSJ9.mefwXmxDM3WrxnEMcvb69PBX_rcq_N4QTjQxL5c15co',
   },
 };
 
@@ -89,6 +79,10 @@ const options: Config = {
 };
 
 const table = ref(); // This variable is used in the `ref` attribute for the component
+
+const editClick = () => {
+  return navigateTo("editar")
+}
 
 onMounted(function () {
   dt = table.value.dt;
