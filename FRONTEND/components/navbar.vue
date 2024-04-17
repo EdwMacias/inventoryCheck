@@ -75,7 +75,7 @@
             </a>
           </li>
           <li><a>Configuración</a></li>
-          <li><a>Cerrar Sesión</a></li>
+          <li><a @click="logoutUser">Cerrar Sesión</a></li>
         </ul>
       </button>
       <!-- <a class="btn">Button</a> -->
@@ -83,7 +83,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { UsuarioServices } from '~/domain/client/services/usuario.service';
+
+
+const logoutUser = async () => {
+  const spinnerStore = SpinnerStore();
+  spinnerStore.activeOrInactiveSpinner(true);
+  try {
+    await UsuarioServices.Logout();
+    spinnerStore.activeOrInactiveSpinner(false);
+    return navigateTo("/login");
+  } catch (error) {
+    console.log(error);
+  }
+  spinnerStore.activeOrInactiveSpinner(false);
+}
 
 </script>
 

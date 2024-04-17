@@ -8,7 +8,7 @@ export const UsuarioServices = {
         const response = await AuthenticationRepository.getToken(credenciales);
 
         let { data, messages, code } = response;
-        
+
         let messageSeatado!: string;
 
         if (typeof messages != 'string') {
@@ -28,7 +28,7 @@ export const UsuarioServices = {
 
         UsuarioRepository.saveToken(access_token);
         UsuarioRepository.saveEstadoConectado(true);
-        
+
         if (usuario !== undefined) {
             UsuarioRepository.saveUsuario(usuario)
         }
@@ -37,8 +37,10 @@ export const UsuarioServices = {
     },
 
     Logout: async () => {
-        // const response = await http.post<boolean>('/auth/logout');
-        // return response;
+        const response = await AuthenticationRepository.deleteToken();
+        UsuarioRepository.deleteToken();
+        UsuarioRepository.deleteUsuarioAndConexion();
+        return;
     },
 
     CreateUser: async () => {

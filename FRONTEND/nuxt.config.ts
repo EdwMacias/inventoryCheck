@@ -30,6 +30,11 @@ export default defineNuxtConfig({
   },
   piniaPersistedstate: {
   },
+  router:{
+    options: {
+
+    }
+  },
   app: {
     head: {
       title: "Chequeo Inventario",
