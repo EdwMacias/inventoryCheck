@@ -1,7 +1,7 @@
 <template>
   <div class="m-2">
     <p class="">inventario operativo</p>
-    <button class="btn" >indexar item</button>
+    <button class="btn" @click="crearItem" > Crear</button> 
     <button class="btn">observación</button>
     <!-- espacio para datatable, muestra de inventario-->
   </div>
@@ -11,6 +11,9 @@
 </template>
 
 <script lang="ts" setup>
+const crearItem = () => {
+  return navigateTo('../CreateItems')
+}
 
 </script>
 
