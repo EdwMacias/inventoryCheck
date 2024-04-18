@@ -80,13 +80,13 @@
         <label class="label">
           <span class='block text-sm font-medium leading-6 text-gray-900'>Imagen</span>
         </label>
-        <VeeField type="text" placeholder="" 
-        :class="`input w-full mt-1 ${errors.image ? 'input-error' : 'input-bordered'}`"
-        name="image">
-        </VeeField>
-        <VeeErrorMessage name="image" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
-
-      </div>
+            <VeeField type="file" placeholder="Escoge una imagen de referencia" 
+            :class="`input w-full mt-1 ${errors.image ? 'input-error' : 'input-bordered'}`"
+            name="image">
+            </VeeField>
+            <VeeErrorMessage name="image" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
+          
+      </div>  
 
       <div class="md:col-span-2 lg:col-span-1">
         <label class="label">
