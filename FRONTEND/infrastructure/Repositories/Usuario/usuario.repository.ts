@@ -47,6 +47,17 @@ export const UsuarioRepository = {
         usuarioStore.clearStore();
     },
 
+    setExpire: (expire: number) => {
+        const usuarioStore = UsuarioStore();
+        usuarioStore.setExpire(expire)
+    },
+    getExpire: () => {
+        const usuarioStore = UsuarioStore();
+        if (usuarioStore.expire) {
+            return usuarioStore.expire;
+        }
+        return 0;
+    },
     createUsuario: () => {
         const response = http.post<UsuarioEntity>("crear");
         return response;

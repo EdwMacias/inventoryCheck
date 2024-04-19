@@ -4,7 +4,8 @@ import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
 type usuarioStore = {
   conectado: boolean,
   usuario?: UsuarioEntity,
-  token?: string
+  token?: string,
+  expire?: number,
 }
 
 export const UsuarioStore = defineStore({
@@ -12,7 +13,8 @@ export const UsuarioStore = defineStore({
   state: (): usuarioStore => ({
     conectado: false,
     usuario: undefined,
-    token: undefined
+    token: undefined,
+    expire: 0
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {
@@ -23,6 +25,9 @@ export const UsuarioStore = defineStore({
     },
     setToken(token: string) {
       this.token = token
+    },
+    setExpire(expire: number) {
+      this.expire = expire
     },
     clearStore() {
       this.$reset();

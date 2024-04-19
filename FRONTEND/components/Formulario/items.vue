@@ -122,8 +122,8 @@ yup.setLocale({
 })
 
 const formularioSchema = yup.object({
-  "name": yup.string().required(),
-  "serial_number": yup.string().required(),
+  name: yup.string().required(),
+  serial_number: yup.string().required(),
   description: yup.string(),
   image: yup.string().required(),
   category_id: yup.string().required(),
@@ -131,8 +131,8 @@ const formularioSchema = yup.object({
 })
 
 const formulario = ref({
-  "name": '',
-  "serial_number": '',
+  name: '',
+  serial_number: '',
   description: '',
   image: '',
   category_id: '',

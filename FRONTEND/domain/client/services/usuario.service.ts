@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import type { LoginRequest } from "~/domain/models/Api/Request/login.request.model";
 import { AuthenticationRepository } from "~/infrastructure/Repositories/Authentication/authentication.repository";
 import { UsuarioRepository } from "~/infrastructure/Repositories/Usuario/usuario.repository";
@@ -25,9 +26,13 @@ export const UsuarioServices = {
 
 
         const { access_token, usuario } = data;
-
+        const { exp } = jwtDecode(access_token);
         UsuarioRepository.saveToken(access_token);
         UsuarioRepository.saveEstadoConectado(true);
+
+        if (exp) {
+            UsuarioRepository.setExpire(exp)
+        }
 
         if (usuario !== undefined) {
             UsuarioRepository.saveUsuario(usuario)
