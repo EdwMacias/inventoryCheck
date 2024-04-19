@@ -14,7 +14,7 @@
     :ajax="settingRequest">
     <template #action="props">
       <button class="btn btn-primary  me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="editClick">Editar</button>
+        @click="editClick(props.rowData)">Editar</button>
       <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`"
         @click="console.log(props.rowData)">Eliminar</button>
     </template>
@@ -82,8 +82,8 @@ const options: Config = {
 
 const table = ref(); // This variable is used in the `ref` attribute for the component
 
-const editClick = () => {
-  return navigateTo("editar")
+const editClick = (id: any) => {
+  return navigateTo("editar?id=" + id.email)
 }
 
 onMounted(function () {

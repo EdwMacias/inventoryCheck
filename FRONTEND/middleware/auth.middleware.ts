@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         }, 60000);
     }
 
-    return;
+    // return;
 
 })
 
