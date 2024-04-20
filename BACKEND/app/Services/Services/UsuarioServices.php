@@ -238,4 +238,20 @@ class UsuarioServices implements InterfaceUsuarioServices
     }
 
 
+    /**
+     *
+     * @param mixed $id
+     * @return ResponseHandler
+     */
+    public function obtenerUsuarioId($id): ResponseHandler
+    {
+        try {
+            $usuario = $this->_usuarioRepository->getUserByID($id);
+            return new ResponseHandler("Usuario Encontrado", $usuario->toArray(), Response::HTTP_OK);
+        } catch (Throwable $th) {
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (Exception $th) {
+            return new ResponseHandler("Usuario Encontrado", $usuario->toArray(), Response::HTTP_OK);
+        }
+    }
 }

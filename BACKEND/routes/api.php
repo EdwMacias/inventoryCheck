@@ -17,4 +17,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::delete('delete/{id}', [UsuarioController::class, 'destroy']);
     Route::post('update/password/{id}', [UsuarioController::class, 'updatePassword']);
     Route::get('get', [UsuarioController::class, 'show']);
+    Route::get('get/{id}', [UsuarioController::class, 'getUsuarioId']);
 });

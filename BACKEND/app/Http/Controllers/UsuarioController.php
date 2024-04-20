@@ -57,4 +57,10 @@ class UsuarioController extends Controller
         $response = $this->_usuarioService->updatePassword($id, $password);
         return $response->responses();
     }
+
+    public function getUsuarioId($id)
+    {
+        $response = $this->_usuarioService->obtenerUsuarioId($id);
+        return $response->responses();
+    }
 }
