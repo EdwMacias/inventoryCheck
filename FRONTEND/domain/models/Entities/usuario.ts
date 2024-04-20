@@ -1,13 +1,12 @@
-import type { documentEntity } from "./document";
-import type { roleEntity } from "./role";
-import type { statuEntity } from "./statu";
-
 export interface UsuarioEntity {
-    "user_id": string,
-    "name": string,
-    "last_name": string,
-    "email": string,
-    "role": roleEntity,
-    "document_type": documentEntity,
-    "statu": statuEntity
+    user_id?: number,
+    name?: string,
+    last_name?: string,
+    address?: string,
+    number_telephone?: string,
+    number_document?: string,
+    gender_id?: number,
+    statu_id?: number
+    email?: string,
+    document_type_id?: number,
 }

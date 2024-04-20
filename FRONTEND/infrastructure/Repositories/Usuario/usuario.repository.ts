@@ -19,6 +19,11 @@ export const UsuarioRepository = {
         return null;
     },
 
+    getUsuarioByEmail: async (email: string) => {
+        const response = await http.get<UsuarioEntity>('user/get/' + email);
+        return response.data;
+    },
+
     getEstadoOfConexion: (): boolean => {
         const usuario = UsuarioStore();
         return usuario.conectado;
@@ -40,7 +45,8 @@ export const UsuarioRepository = {
     },
 
     deleteToken: () => {
-        removeFromLocalStorage(tokenKey);
+        const usuarioStore = UsuarioStore();
+        usuarioStore.$reset();
     },
     deleteUsuarioAndConexion: () => {
         const usuarioStore = UsuarioStore();

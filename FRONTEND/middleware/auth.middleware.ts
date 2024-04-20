@@ -6,18 +6,21 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const conectado = UsuarioRepository.getEstadoOfConexion();
 
     if (!conectado || !tokenValid() || tokenExpired()) {
+        UsuarioRepository.deleteUsuarioAndConexion();
         return navigateTo("/login");
     }
 
     await refreshToken();
 
     if (process.browser) {
+        if (!conectado || !tokenValid() || tokenExpired()) {
+            UsuarioRepository.deleteUsuarioAndConexion();
+            return navigateTo("/login");
+        }
         setInterval(async () => {
             await refreshToken();
         }, 60000);
     }
-
-    // return;
 
 })
 
@@ -33,7 +36,7 @@ async function refreshToken() {
             } catch (error) {
                 console.error('Error al renovar el token:', error);
             }
-        } 
+        }
     }
 }
 
