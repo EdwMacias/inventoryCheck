@@ -64,16 +64,16 @@ export const UsuarioRepository = {
         }
         return 0;
     },
-    createUsuario: () => {
-        const response = http.post<UsuarioEntity>("crear");
+    createUsuario: (usuario: UsuarioEntity) => {
+        const response = http.post<UsuarioEntity>("user/create", usuario);
         return response;
     },
     deleteUsuario: () => {
         const response = http.delete<UsuarioEntity>("eliminar");
         return response;
     },
-    updateUsuario: () => {
-        const response = http.post<UsuarioEntity>("actualizar");
+    updateUsuario: (id: number, usuario: UsuarioEntity) => {
+        const response = http.post<UsuarioEntity>("user/update/" + id, usuario);
         return response;
     }
 }

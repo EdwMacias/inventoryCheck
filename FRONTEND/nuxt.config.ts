@@ -45,5 +45,5 @@ export default defineNuxtConfig({
   },
 
   plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css'],
-  css: ['bootstrap-icons/font/bootstrap-icons.css', '~/assets/css/main.scss'],
+  css: ['bootstrap-icons/font/bootstrap-icons.css', '~/assets/css/main.css'],
 })

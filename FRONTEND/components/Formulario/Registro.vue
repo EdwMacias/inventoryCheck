@@ -113,6 +113,7 @@
 </template>
 
 <script lang="ts" setup>
+import { UsuarioServices } from '~/domain/client/services/usuario.service';
 import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
 import { UsuarioRepository } from '~/infrastructure/Repositories/Usuario/usuario.repository';
 
@@ -141,48 +142,45 @@ const formularioSchema = yup.object({
   document_type_id: yup.number().required().moreThan(0),
 })
 
-const formulario: Ref<UsuarioEntity> = ref({
-  name: '',
-  last_name: '',
-  address: '',
-  document_type_id: 0,
-  email: '',
-  gender_id: 0
-});
+const formulario: Ref<UsuarioEntity> = ref({});
 
-const onSubmit = (values: UsuarioEntity, { resetForm }: any) => {
+const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
   const spinnerStore = SpinnerStore();
   const alertaStore = AlertaStore();
+  spinnerStore.activeOrInactiveSpinner(true);
+  let mensaje = '';
   try {
     const param = route.params.id;
     if (typeof param == 'string') {
       switch (param) {
         case 'crear':
-          alertaStore.emitNotificacion({ cabecera: 'Notificación', mensaje: 'Usuario Creado', tipo: 'success' });
-
-          console.log("crear usuario");
-          navigateTo('/usuarios')
-          return;
+          await UsuarioServices.createUser(values)
+          mensaje = 'Usuario Creado';
+          break;
         case 'editar':
-          console.log("editar usuario");
-          alertaStore.emitNotificacion({ cabecera: 'Notificación', mensaje: 'Usuario Actualizado', tipo: 'success' });
-          navigateTo('/usuarios')
-          return;
+          const { user_id } = formulario.value;
+          if (user_id) {
+            await UsuarioServices.updateUser(user_id, values);
+          }
+          mensaje = 'Usuario Actualizado';
+          break;
       }
     }
   } catch (error) {
     console.error(error)
+    return;
   }
-  // console.log("exito");
-
+  alertaStore.emitNotificacion({ cabecera: 'Notificación', mensaje: mensaje, tipo: 'success' });
+  spinnerStore.activeOrInactiveSpinner(false);
+  navigateTo('/usuarios')
 }
 
 onMounted(async () => {
   const spinnerStore = SpinnerStore();
 
   if (typeof route.query.id == 'string') {
-    const email: string = route.query.id;
     spinnerStore.activeOrInactiveSpinner(true);
+    const email: string = route.query.id;
     const response = await UsuarioRepository.getUsuarioByEmail(email);
     formulario.value = response;
     spinnerStore.activeOrInactiveSpinner(false);

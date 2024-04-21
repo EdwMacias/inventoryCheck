@@ -1,24 +1,23 @@
 <style>
 @import 'datatables.net-dt';
-
-/* .dt-paging.paging_full_numbers button {
-  padding: 0.5rem 1rem !important;
-  border-radius: 0.375rem !important;
-  color: #fff !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-} */
 </style>
 
 <template>
-  <DataTable ref="table" class="table table-zebra rounded " :columns="columns" :options="options"
+
+  <div class="flex justify-end mb-2">
+    <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar</NuxtLink>
+  </div>
+
+  <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options"
     :ajax="settingRequest">
     <template #action="props">
-      <button class="btn btn-primary  me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="editClick(props.rowData)">Editar</button>
+      <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
+        @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
       <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="console.log(props.rowData)">Eliminar</button>
+        @click="console.log(props.rowData)"><i class="bi bi-slash-circle"></i> Eliminar</button>
     </template>
   </DataTable>
+  <!-- </div> -->
 </template>
 
 <script lang="ts" setup>

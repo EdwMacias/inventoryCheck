@@ -1,5 +1,7 @@
 import { jwtDecode } from "jwt-decode";
+import { object } from "yup";
 import type { LoginRequest } from "~/domain/models/Api/Request/login.request.model";
+import type { UsuarioEntity } from "~/domain/models/Entities/usuario";
 import { AuthenticationRepository } from "~/infrastructure/Repositories/Authentication/authentication.repository";
 import { UsuarioRepository } from "~/infrastructure/Repositories/Usuario/usuario.repository";
 
@@ -48,11 +50,15 @@ export const UsuarioServices = {
         return;
     },
 
-    CreateUser: async () => {
-
-        return "Usuari Creado"
+    createUser: async (usuario: UsuarioEntity): Promise<boolean> => {
+        await UsuarioRepository.createUsuario(usuario);
+        return true;
     },
 
+    updateUser: async (id: number, usuario: UsuarioEntity): Promise<Boolean> => {
+        await UsuarioRepository.updateUsuario(id, usuario);
+        return true;
+    }
 
 
 }
