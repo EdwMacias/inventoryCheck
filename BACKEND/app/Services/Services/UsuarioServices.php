@@ -140,7 +140,7 @@ class UsuarioServices implements InterfaceUsuarioServices
             $this->_usuarioRepository->createUser($UsuarioDto);
 
             return new ResponseHandler("Usuario Creado Exitosamente", Response::HTTP_OK);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
