@@ -190,6 +190,7 @@ class UsuarioServices implements InterfaceUsuarioServices
                 "last_name",
                 "number_document",
                 "number_telephone",
+                "statu_id"
             ];
 
             $table = new TablesServerSide("users", $Request, $fields);

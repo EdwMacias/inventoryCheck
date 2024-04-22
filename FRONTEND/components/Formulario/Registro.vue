@@ -113,6 +113,7 @@
 </template>
 
 <script lang="ts" setup>
+import type Swal from 'sweetalert2';
 import { UsuarioServices } from '~/domain/client/services/usuario.service';
 import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
 import { UsuarioRepository } from '~/infrastructure/Repositories/Usuario/usuario.repository';
@@ -142,7 +143,10 @@ const formularioSchema = yup.object({
   document_type_id: yup.number().required().moreThan(0),
 })
 
-const formulario: Ref<UsuarioEntity> = ref({});
+const formulario: Ref<UsuarioEntity> = ref({
+  gender_id: 0,
+  document_type_id: 0
+});
 
 const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
   const spinnerStore = SpinnerStore();
@@ -177,7 +181,7 @@ const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
 
 onMounted(async () => {
   const spinnerStore = SpinnerStore();
-
+  const { $swal }: any = useNuxtApp()
   if (typeof route.query.id == 'string') {
     spinnerStore.activeOrInactiveSpinner(true);
     const email: string = route.query.id;
@@ -185,7 +189,6 @@ onMounted(async () => {
     formulario.value = response;
     spinnerStore.activeOrInactiveSpinner(false);
   }
-
 })
 
 

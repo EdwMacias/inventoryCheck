@@ -5,16 +5,21 @@
 <template>
 
   <div class="flex justify-end mb-2">
-    <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar</NuxtLink>
+    <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar
+    </NuxtLink>
   </div>
 
-  <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options"
-    :ajax="settingRequest">
+  <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options" :ajax="settingRequest">
     <template #action="props">
       <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
         @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
-      <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="console.log(props.rowData)"><i class="bi bi-slash-circle"></i> Eliminar</button>
+      <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`" :text="`Col 1: ${props.cellData}`"
+        @click="deleteButtonClick(props.rowData)"><i :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle': 'bi bi-x-circle'}`"></i>{{ props.rowData.statu_id != 1 ?
+          'Activar' : 'Inactivar'}}</button>
+      <!-- <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`" -->
+        <!-- @click="deleteButtonClick(props.rowData)"><i class="bi bi-slash-circle"></i>Eliminar</button> -->
+
+
     </template>
   </DataTable>
   <!-- </div> -->
@@ -31,25 +36,13 @@ import 'datatables.net-responsive';
 import language from '@/lang/datatable.language.spanish.json';
 import { UsuarioRepository } from '~/infrastructure/Repositories/Usuario/usuario.repository';
 
-const props = defineProps({
-  url: String
-});
+const emit = defineEmits(["inactivar"])
 
-const columns: ConfigColumns[] = [
-  { data: 'name', title: 'Nombre' },
-  { data: 'last_name', title: 'Apellido' },
-  { data: 'email', title: 'Correo Electronico' },
-  { data: 'number_document', title: 'Número Documento' },
-  { data: 'number_telephone', title: 'Célular' },
-  {
-    data: null,
-    render: '#action',
-    title: 'Acciones',
-    responsivePriority: 1,
-    searchable: false,
-    orderable: false
-  }
-];
+const props = defineProps<{
+  url: string,
+  columns: ConfigColumns[],
+}>()
+
 
 DataTable.use(DataTablesCore);
 
@@ -83,6 +76,25 @@ const table = ref(); // This variable is used in the `ref` attribute for the com
 
 const editClick = (id: any) => {
   return navigateTo("editar?id=" + id.email)
+}
+import swal from 'sweetalert2';
+
+function deleteButtonClick(id: any) {
+  let title = id.statu_id == 1 ? 'Inactivacion de Usuario' : 'Activación de Usuario';
+
+  swal.fire({
+    icon: 'warning',
+    title: title,
+    text: 'Seguro que quiere inactivar el usuario?',
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then(button => {
+    if (button.isConfirmed) {
+      return emit("inactivar")
+    }
+  })
 }
 
 onMounted(function () {

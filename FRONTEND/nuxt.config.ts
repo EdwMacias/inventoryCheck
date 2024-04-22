@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   },
   piniaPersistedstate: {
   },
-  router:{
+  router: {
     options: {
 
     }
@@ -44,6 +44,6 @@ export default defineNuxtConfig({
     }
   },
 
-  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css'],
-  css: ['bootstrap-icons/font/bootstrap-icons.css', '~/assets/css/main.css'],
+  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css','@/plugins/sweetalert2'],
+  css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
 })
