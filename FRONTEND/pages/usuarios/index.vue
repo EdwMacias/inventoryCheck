@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="mt-20 container mx-auto bg-white rounded p-2 shadow" style="z-index: 0;">
-      <Table :url="GET_USUARIOS_ALL" :columns="columns"></Table>
+      <ClientOnly>
+        <Table :url="GET_USUARIOS_ALL" :columns="columns"></Table>
+      </ClientOnly>
     </div>
   </div>
 </template>
