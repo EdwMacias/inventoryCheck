@@ -16,7 +16,7 @@
         <label class="label">
           <span class='block text-sm font-medium leading-6 text-gray-900'>Apellido</span>
         </label>
-        <VeeField name="last_name" type="text" placeholder="Rodríguez López" v-model="formulario.last_name"
+        <VeeField name="last_name" type="text" placeholder="Rodríguez" v-model="formulario.last_name"
           :class="`input w-full mt-1 ${errors.last_name ? 'input-error' : 'input-bordered'}`" />
         <VeeErrorMessage name="last_name" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
       </div>
@@ -84,7 +84,7 @@
         <label class="label">
           <span class='block text-sm font-medium leading-6 text-gray-900'>Número de Celular</span>
         </label>
-        <VeeField type="text" placeholder="+57312#######" v-model="formulario.number_telephone"
+        <VeeField type="text" placeholder="" v-model="formulario.number_telephone"
           :class="`input w-full mt-1 ${errors.number_telephone ? 'input-error' : 'input-bordered'}`"
           name="number_telephone">
         </VeeField>
