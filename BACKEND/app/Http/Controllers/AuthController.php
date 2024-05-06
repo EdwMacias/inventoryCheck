@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-// use app\utils\ResponseHandler;
-// use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\User;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;

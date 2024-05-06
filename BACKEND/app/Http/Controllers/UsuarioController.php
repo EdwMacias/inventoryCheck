@@ -8,10 +8,6 @@ use App\Services\Interfaces\InterfaceUsuarioServices;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
-
     protected InterfaceUsuarioServices $_usuarioService;
 
     public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices)
@@ -24,14 +20,10 @@ class UsuarioController extends Controller
     public function store(UsuarioRequest $request)
     {
         $usuario = $request->all();
-        // return $usuario;
         $mensaje = $this->_usuarioService->crearUsuario($usuario);
         return $mensaje->responses();
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show()
     {
         return $this->_usuarioService->obtenerUsuarios();

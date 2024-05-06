@@ -22,6 +22,7 @@
 <script setup lang="ts">
 definePageMeta({
   path: '/login',
-  middleware: ["login-middleware"]
 })
+
+
 </script>
