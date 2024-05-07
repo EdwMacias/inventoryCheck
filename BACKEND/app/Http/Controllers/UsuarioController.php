@@ -4,34 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UsuarioRequest;
+use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
+use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
-
     protected InterfaceUsuarioServices $_usuarioService;
+    protected InterfaceTemporaryCodeServices $_temporaryServices;
 
-    public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices)
+    public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices, InterfaceTemporaryCodeServices $interfaceTemporaryCodeServices)
     {
-        $this->middleware('auth:api', ['except' => ['updatePassword']]);
+        $this->middleware('auth:api', ['except' => ['updatePassword', 'getCodeTemporal','authenticacionCode']]);
         $this->_usuarioService = $_interfaceUsuarioServices;
+        $this->_temporaryServices = $interfaceTemporaryCodeServices;
     }
 
 
     public function store(UsuarioRequest $request)
     {
         $usuario = $request->all();
-        // return $usuario;
         $mensaje = $this->_usuarioService->crearUsuario($usuario);
         return $mensaje->responses();
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show()
     {
         return $this->_usuarioService->obtenerUsuarios();
@@ -51,10 +47,24 @@ class UsuarioController extends Controller
         return $mensaje->responses();
     }
 
-    public function updatePassword($id, UpdatePasswordRequest $request)
+    public function updatePassword($code, UpdatePasswordRequest $request)
     {
         $password = $request->all();
-        $response = $this->_usuarioService->updatePassword($id, $password);
+        $response = $this->_usuarioService->updatePassword($code, $password);
+        return $response->responses();
+    }
+
+    public function getCodeTemporal($email)
+    {
+        $response = $this->_temporaryServices->createCodeTemporary($email);
+        return $response->responses();
+    }
+
+    public function authenticacionCode(Request $request)
+    {
+        $email = htmlspecialchars($request->input('email'), ENT_QUOTES);
+        $codigo = htmlspecialchars($request->input('codigo'), ENT_QUOTES);
+        $response = $this->_temporaryServices->validateCodeTemporary($codigo, $email);
         return $response->responses();
     }
 

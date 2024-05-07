@@ -1,13 +1,11 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-
-
     if (to.params.id == 'editar' || to.params.id == 'crear') {
 
         if (to.params.id == 'editar' && !to.query.id) {
             return navigateTo('/error');
         }
 
-        if (to.params.id == 'crear' && Object.keys(to.query).length != 0 ) {
+        if (to.params.id == 'crear' && Object.keys(to.query).length != 0) {
             return navigateTo('/error');
         }
 
@@ -17,7 +15,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
         }
         return;
     }
-
 
     if (to.path !== '/' && !to.path.endsWith('/')) {
         const { path, query, hash } = to;

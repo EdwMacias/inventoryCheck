@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Inventory\TypesObservation;
 use App\Models\Status\Status;
 use App\Models\Users\Gender;
 use App\Models\Users\Role;
@@ -19,12 +20,13 @@ class DatabaseSeeder extends Seeder
 
         $genders = [
             ["name" => "HOMBRE"],
-            ["name" => "MUJER"]
+            ["name" => "MUJER"],
+            ["name" => "NO ESPECIFICA"]
         ];
 
         $roles = [
             ['name' => 'SUPERADMINISTRADOR'],
-            ['name' => 'ADMINISTRADO'],
+            ['name' => 'ADMINISTRADOR'],
             ['name' => 'USUARIO'],
         ];
         $documentos = [
@@ -36,6 +38,13 @@ class DatabaseSeeder extends Seeder
         $estados = [
             ['name' => 'ACTIVO'],
             ['name' => 'INACTIVO'],
+        ];
+
+        $tiposObservaciones = [
+            ['name' => 'CORRECTO'],
+            ['name' => 'ADVERTENCIA'],
+            ['name' => 'DAÑO'],
+            ['name' => 'OTRO'],
         ];
 
         foreach ($documentos as $documento) {
@@ -52,6 +61,10 @@ class DatabaseSeeder extends Seeder
 
         foreach ($genders as $gender) {
             Gender::firstOrCreate($gender);
+        }
+
+        foreach ($tiposObservaciones as $tiposObservacion) {
+            TypesObservation::firstOrCreate($tiposObservacion);
         }
 
         User::firstOrCreate([

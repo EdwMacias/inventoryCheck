@@ -6,7 +6,7 @@ export const get = async<T>(url: string) => {
         const response = await connection.get(url);
         return response.data as Response<T>;
     } catch (error) {
-        console.error('Error al obtener datos:', error);
+        // console.error('Error al obtener datos:', error);
         throw error;
     }
 }

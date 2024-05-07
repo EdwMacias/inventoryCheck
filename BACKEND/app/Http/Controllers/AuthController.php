@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-// use app\utils\ResponseHandler;
-// use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\User;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
@@ -49,6 +45,8 @@ class AuthController extends Controller
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ];
+
+
 
             $responseHandler->setMessage("Inicio de sesión exitoso");
             $responseHandler->setData($data);

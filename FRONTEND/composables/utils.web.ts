@@ -42,3 +42,6 @@ export const emitNotificaciones = async (alertas: { tipo: string, cabecera: stri
   await alertaStore.emitNotificacion(alertas);
 }
 
+export function checkWindowSize(size: number) {
+  return (window.innerWidth <= size);
+};
