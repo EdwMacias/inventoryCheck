@@ -46,6 +46,8 @@ class AuthController extends Controller
                 'expires_in' => auth()->factory()->getTTL() * 60
             ];
 
+
+
             $responseHandler->setMessage("Inicio de sesión exitoso");
             $responseHandler->setData($data);
         } else {

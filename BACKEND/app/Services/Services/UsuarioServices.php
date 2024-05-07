@@ -5,6 +5,7 @@ namespace App\Services\Services;
 use App\Respositories\Interfaces\InterfaceDocumentTypeRepository;
 use App\Respositories\Interfaces\InterfaceGenderRepository;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
+use App\Respositories\Repositories\TemporaryCodeRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Utils\Encriptacion;
 use App\Utils\ResponseHandler;
@@ -20,15 +21,18 @@ class UsuarioServices implements InterfaceUsuarioServices
     private InterfaceDocumentTypeRepository $_documentRepository;
     private InterfaceGenderRepository $_genderRepository;
     private InterfaceUsuarioRepository $_usuarioRepository;
+    private TemporaryCodeRepository $_temporaryCodeRepository;
 
     public function __construct(
         InterfaceDocumentTypeRepository $documentRepository,
         InterfaceGenderRepository $genderRepository,
-        InterfaceUsuarioRepository $usuarioRepository
+        InterfaceUsuarioRepository $usuarioRepository,
+        TemporaryCodeRepository $temporaryCodeRepository
     ) {
         $this->_documentRepository = $documentRepository;
         $this->_genderRepository = $genderRepository;
         $this->_usuarioRepository = $usuarioRepository;
+        $this->_temporaryCodeRepository = $temporaryCodeRepository;
     }
 
     /**
@@ -208,15 +212,29 @@ class UsuarioServices implements InterfaceUsuarioServices
      * @param array $usuario
      * @return ResponseHandler
      */
-    public function updatePassword($id, array $usuario)
+    public function updatePassword($code, array $usuario)
     {
 
         try {
-            $usuarioDto = [];
 
-            if (!$this->_usuarioRepository->userExist($id)) {
+            $usuarioDto = [];
+            $user = $this->_usuarioRepository->getUserByEmail($usuario["email"]);
+
+            if (!$user) {
                 throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
             }
+
+            $userId = $user->user_id;
+
+            $code = $this->_temporaryCodeRepository->temporaryCodeValidWhitUser($code, $userId);
+
+            if (!$code) {
+                throw new Exception("Codigo Invalido", Response::HTTP_NOT_ACCEPTABLE);
+            }
+
+            $code->is_used = true;
+            $code->save();
+
 
             $fields = [
                 "password"
@@ -226,8 +244,9 @@ class UsuarioServices implements InterfaceUsuarioServices
                 $usuarioDto[$field] = Utilidades::EncriptarPassword(strtolower($usuario[$field]));
             }
 
-            $this->_usuarioRepository->updateUser($id, $usuarioDto);
+            $this->_usuarioRepository->updateUser($userId, $usuarioDto);
 
+            $this->_temporaryCodeRepository->cleanTemporaryCode($userId);
             return new ResponseHandler("Contraseña Actualizada Correctamente");
 
         } catch (Throwable $th) {

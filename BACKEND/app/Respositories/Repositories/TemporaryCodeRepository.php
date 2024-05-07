@@ -38,9 +38,9 @@ class TemporaryCodeRepository implements InterfaceTemporaryCode
      *
      * @param string $code
      * @param int $user_id
-     * @return string
+     * @return object|TemporaryCode|null
      */
-    public function temporaryCodeValidWhitUser(string $code, int $user_id): string
+    public function temporaryCodeValidWhitUser(string $code, int $user_id) 
     {
         return TemporaryCode::where('code', $code)
             ->where('expires_at', '>', now())

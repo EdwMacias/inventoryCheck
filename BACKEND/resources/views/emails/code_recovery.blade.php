@@ -1010,7 +1010,7 @@
                 color: #ba3d4f;
               "
             >
-              {{$distressCall->code}}
+              {{$distressCall}}
             </p>
           </div>
         </div>

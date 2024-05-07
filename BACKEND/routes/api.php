@@ -13,7 +13,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'api', 'prefix' => 'recovery'], function ($router) {
     Route::get('code/temporary/{email}', [UsuarioController::class, 'getCodeTemporal']);
-    Route::post('password/{id}', [UsuarioController::class, 'updatePassword']);
+    Route::get('password/code/authenticacion', [UsuarioController::class, 'authenticacionCode']);
+    Route::post('password/{code}', [UsuarioController::class, 'updatePassword']);
 });
 
 Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {

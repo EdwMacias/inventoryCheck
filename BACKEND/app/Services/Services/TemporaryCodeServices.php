@@ -2,6 +2,7 @@
 
 namespace App\Services\Services;
 
+use App\Jobs\CrearCodigoTemporal;
 use App\Jobs\ProcesarCorreo;
 use App\Mail\EmergencyCallReceived;
 use App\Respositories\Interfaces\InterfaceTemporaryCode;
@@ -43,10 +44,10 @@ class TemporaryCodeServices implements InterfaceTemporaryCodeServices
 
             $temporaryCode = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
 
-            $temporaryCode = $this->_temporaryCodeRepository->createTemporaryCode($temporaryCode, $user->user_id);        
+            $this->_temporaryCodeRepository->createTemporaryCode($temporaryCode, $user->user_id);
 
             $correo = new EmergencyCallReceived($temporaryCode);
-            
+
             ProcesarCorreo::dispatch($email, $correo);
 
             return new ResponseHandler("Correo Enviado", [], Response::HTTP_OK);
@@ -62,7 +63,39 @@ class TemporaryCodeServices implements InterfaceTemporaryCodeServices
      *
      * @param mixed $code
      */
-    public function validateCodeTemporary($code)
+    public function validateCodeTemporary($code, $email)
     {
+
+        try {
+            $user = $this->_usuarioRepository->getUserByEmail($email);
+
+            if (!$user) {
+                throw new Exception("Correo no registrado", Response::HTTP_NOT_FOUND);
+            }
+
+            $codigoValido = $this->_temporaryCodeRepository->temporaryCodeValidWhitUser($code, $user->user_id);
+
+            if (!$codigoValido) {
+                throw new Exception("Codigo Invalido", Response::HTTP_NOT_ACCEPTABLE);
+            }
+            $codigoValido->is_used = true;
+            $codigoValido->save();
+
+            $temporaryCode = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+            $this->_temporaryCodeRepository->createTemporaryCode($temporaryCode, $user->user_id);
+
+            return new ResponseHandler("Correo Enviado", ["codigo_autenticacion" => $temporaryCode], Response::HTTP_OK);
+
+        } catch (Throwable $th) {
+            //throw $th;
+            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        } catch (Exception $th) {
+            return new ResponseHandler($th->getMessage(), [], $th->getCode());
+
+        }
+
+
     }
 }
