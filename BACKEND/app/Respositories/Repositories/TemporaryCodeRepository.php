@@ -12,12 +12,12 @@ class TemporaryCodeRepository implements InterfaceTemporaryCode
      * @param string $code
      * @return string
      */
-    public function createTemporaryCode(string $code)
+    public function createTemporaryCode(string $code, int $user_id)
     {
         return TemporaryCode::create([
             "code" => $code,
-            'expires_at' => now()->addMinutes(30),
-            'user_id' => auth()->user()->id
+            'expires_at' => now()->addMinutes(15),
+            'user_id' => $user_id
         ]);
     }
 
@@ -47,5 +47,13 @@ class TemporaryCodeRepository implements InterfaceTemporaryCode
             ->where('is_used', false)
             ->where('user_id', $user_id)
             ->first();
+    }
+    /**
+     *
+     * @param int $user_id
+     */
+    public function cleanTemporaryCode(int $user_id)
+    {
+        return TemporaryCode::where('user_id', $user_id)->delete();
     }
 }

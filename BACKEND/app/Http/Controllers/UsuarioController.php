@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UsuarioRequest;
+use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 
 class UsuarioController extends Controller
 {
     protected InterfaceUsuarioServices $_usuarioService;
+    protected InterfaceTemporaryCodeServices $_temporaryServices;
 
-    public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices)
+    public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices, InterfaceTemporaryCodeServices $interfaceTemporaryCodeServices)
     {
-        $this->middleware('auth:api', ['except' => ['updatePassword']]);
+        $this->middleware('auth:api', ['except' => ['updatePassword', 'getCodeTemporal']]);
         $this->_usuarioService = $_interfaceUsuarioServices;
+        $this->_temporaryServices = $interfaceTemporaryCodeServices;
     }
 
 
@@ -50,8 +53,11 @@ class UsuarioController extends Controller
         return $response->responses();
     }
 
-    public function getCodeTemporal($id){
-        
+    public function getCodeTemporal($email)
+    {
+        // $response = $this-
+        $response = $this->_temporaryServices->createCodeTemporary($email);
+        return $response->responses();
     }
 
     public function getUsuarioId($id)

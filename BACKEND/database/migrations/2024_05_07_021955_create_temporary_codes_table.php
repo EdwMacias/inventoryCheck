@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('temporary_codes', function (Blueprint $table) {
             $table->increments('temporary_code_id');
             $table->string('code', 6);
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
 
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->boolean('is_used')->default(false);

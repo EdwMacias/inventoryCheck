@@ -9,6 +9,7 @@ class TemporaryCode extends Model
 {
     use HasFactory;
     protected $table = 'temporary_codes';
+    protected $primaryKey = 'temporary_code_id';
     protected $fillable = [
         'code',
         'user_id',
