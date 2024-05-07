@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 
-const emit = defineEmits(["confirmar"])
+// const emit = defineEmits(["confirmar"])
 import swal from 'sweetalert2';
 import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
 import type { PasswordRecovery } from '~/domain/models/Api/Request/password.recovery.model';
