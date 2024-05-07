@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import swal from 'sweetalert2';
+import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
 
 
 const emit = defineEmits(["reenviarCodigo", "confirmar"]);
@@ -41,21 +42,55 @@ const schemaCodigo = yup.object({
     .max(999999, 'El código debe tener como máximo 6 dígitos')
 })
 
-function onSubmit(value: any) {
-  let codigo: number = value.code;
-  // console.log(codigo);
-  swal.fire({
-    icon: 'success',
-    title: "Notificación",
-    text: 'Codigo Validado Correctamente',
-    showCancelButton: false,
-    confirmButtonText: 'Confirmar',
-    reverseButtons: true
-  }).then(button => {
-    if (button.isConfirmed) {
-      return emit("confirmar", true)
+async function onSubmit(value: any) {
+
+  const passwordStore = useRecoveryPasswordStore();
+  const spinnerStore = SpinnerStore();
+  const alertaStore = AlertaStore();
+  const code: number = value.code;
+  spinnerStore.activeOrInactiveSpinner(true);
+  const email = passwordStore.email;
+
+  try {
+    let response;
+    if (email) {
+      response = await RecoveryPasswordServices.ValidationCodeRecovery(email, code);
+      passwordStore.setCode(response.data.codigo_autenticacion);
+    } else {
+      return swal.fire({
+        icon: 'error',
+        title: "Notificación error",
+        text: "Hubo un error por favor recargue la pagina y vuelva a intentar",
+        showCancelButton: false,
+        confirmButtonText: 'Confirmar',
+        reverseButtons: true
+      }).then(button => {
+        if (button.isConfirmed) {
+          return location.reload();
+        }
+        return location.reload();
+      })
     }
-  })
+    // passwordStore.setCode(code);
+    spinnerStore.activeOrInactiveSpinner(false);
+
+    swal.fire({
+      icon: 'success',
+      title: "Notificación",
+      text: 'Codigo Validado Correctamente',
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+      reverseButtons: true
+    }).then(button => {
+      if (button.isConfirmed) {
+        return emit("confirmar", true)
+      }
+    })
+  } catch (error: any) {
+    alertaStore.emitNotificacion({ mensaje: error.response.data.messages, tipo: 'warning', cabecera: 'Notificación' });
+  }
+  spinnerStore.activeOrInactiveSpinner(false);
+
 
 }
 </script>

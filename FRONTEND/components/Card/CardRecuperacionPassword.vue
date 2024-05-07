@@ -47,6 +47,8 @@
 
 const emit = defineEmits(["confirmar"])
 import swal from 'sweetalert2';
+import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
+import type { PasswordRecovery } from '~/domain/models/Api/Request/password.recovery.model';
 
 
 const schemaPassword = yup.object({
@@ -62,21 +64,69 @@ const schemaPassword = yup.object({
     .oneOf([yup.ref('password')], 'Las contraseñas deben coincidir')
 });
 
-function onSubmit(values: any) {
-  console.log(values);
-  swal.fire({
-    icon: 'success',
-    title: "Notificación",
-    text: 'Contraseña Cambiada con exito',
-    showCancelButton: false,
-    confirmButtonText: 'Confirmar',
-    reverseButtons: true
-  }).then(button => {
-    if (button.isConfirmed) {
-      return emit("confirmar", true)
+async function onSubmit(values: any) {
+
+  const passwordStore = useRecoveryPasswordStore();
+  const email = passwordStore.email;
+  const code = passwordStore.code;
+  const spinnerStore = SpinnerStore();
+  const alertaStore = AlertaStore();
+  spinnerStore.activeOrInactiveSpinner(true);
+
+  try {
+
+    if (!email || !code) {
+      return swal.fire({
+        icon: 'error',
+        title: "Notificación error",
+        text: "Hubo un error por favor recargue la pagina y vuelva a intentar",
+        showCancelButton: false,
+        confirmButtonText: 'Confirmar',
+        reverseButtons: true
+      }).then(button => {
+        if (button.isConfirmed) {
+          return location.reload();
+        }
+        return location.reload();
+      })
     }
-  })
-  // emit("confirmar", true)
+
+    const passwordModel: PasswordRecovery = {
+      email: email,
+      password: values.password,
+      password_confirmation: values.password_confirmation
+    }
+
+    await RecoveryPasswordServices.UpdatePassword(code, passwordModel)
+    spinnerStore.activeOrInactiveSpinner(false);
+
+    swal.fire({
+      icon: 'success',
+      title: "Notificación",
+      text: 'Contraseña Cambiada con exito',
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+      reverseButtons: true
+    }).then(button => {
+      if (button.isConfirmed) {
+        passwordStore.$reset();
+        navigateTo("/login")
+      } else {
+        passwordStore.$reset();
+        navigateTo("/login")
+      }
+    })
+
+  } catch (error: any) {
+    alertaStore.emitNotificacion({
+      mensaje: error.response.data.messages,
+      tipo: 'warning',
+      cabecera: 'Notificación'
+    });
+  }
+
+  spinnerStore.activeOrInactiveSpinner(false);
+
 }
 
 </script>

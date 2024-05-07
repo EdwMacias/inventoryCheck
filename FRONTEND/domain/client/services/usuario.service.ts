@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { object } from "yup";
 import type { LoginRequest } from "~/domain/models/Api/Request/login.request.model";
 import type { UsuarioEntity } from "~/domain/models/Entities/usuario";
 import { AuthenticationRepository } from "~/infrastructure/Repositories/Authentication/authentication.repository";

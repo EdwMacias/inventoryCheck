@@ -25,26 +25,46 @@
 
 <script lang="ts" setup>
 import swal from 'sweetalert2';
+import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
 
 const emit = defineEmits(["nextstep"])
 
-function onSubmit() {
-  swal.fire({
-    icon: 'success',
-    title: "Notificación",
-    text: 'Si el correo coincide, recibira un codigo a su correo.',
-    showCancelButton: false,
-    confirmButtonText: 'Confirmar',
-    reverseButtons: true
-  }).then(button => {
-    if (button.isConfirmed) {
-      return emit("nextstep")
-    }
-  })
+async function onSubmit(values: any) {
+
+  const spinnerStore = SpinnerStore();
+  const alertaStore = AlertaStore();
+  const passwordStore = useRecoveryPasswordStore();
+  const email: string = values.email;
+  spinnerStore.activeOrInactiveSpinner(true);
+
+  try {
+    await RecoveryPasswordServices.CodeTemporaryRecovery(email);
+    passwordStore.setEmail(email);
+    spinnerStore.activeOrInactiveSpinner(false);
+    swal.fire({
+      icon: 'success',
+      title: "Notificación",
+      text: 'Si el correo coincide, recibira un codigo a su correo.',
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+      reverseButtons: true
+    }).then(button => {
+      if (button.isConfirmed) {
+        return emit("nextstep")
+      }
+    })
+  } catch (error: any) {
+    alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
+  }
+  spinnerStore.activeOrInactiveSpinner(false);
+
+
 }
 const schemaCorreo = yup.object({
   email: yup.string().required().email()
 });
+
+
 
 </script>
 

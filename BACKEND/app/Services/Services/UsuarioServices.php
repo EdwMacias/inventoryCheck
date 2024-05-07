@@ -247,7 +247,7 @@ class UsuarioServices implements InterfaceUsuarioServices
             $this->_usuarioRepository->updateUser($userId, $usuarioDto);
 
             $this->_temporaryCodeRepository->cleanTemporaryCode($userId);
-            return new ResponseHandler("Contraseña Actualizada Correctamente");
+            return new ResponseHandler("Contraseña Actualizada Correctamente",null,Response::HTTP_OK);
 
         } catch (Throwable $th) {
             return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);

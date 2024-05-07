@@ -50,12 +50,12 @@ class TemporaryCodeServices implements InterfaceTemporaryCodeServices
 
             ProcesarCorreo::dispatch($email, $correo);
 
-            return new ResponseHandler("Correo Enviado", [], Response::HTTP_OK);
+            return new ResponseHandler("Correo Enviado", null, Response::HTTP_OK);
 
         } catch (Throwable $th) {
-            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new ResponseHandler($th->getMessage(), null, Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (Exception $th) {
-            return new ResponseHandler($th->getMessage(), [], $th->getCode());
+            return new ResponseHandler($th->getMessage(), null, $th->getCode());
         }
     }
 
