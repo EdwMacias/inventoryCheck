@@ -50,6 +50,10 @@ class UsuarioController extends Controller
         return $response->responses();
     }
 
+    public function getCodeTemporal($id){
+        
+    }
+
     public function getUsuarioId($id)
     {
         $response = $this->_usuarioService->obtenerUsuarioId($id);

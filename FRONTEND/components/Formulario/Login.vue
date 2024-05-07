@@ -28,7 +28,7 @@
 
         <!-- {/* Forgot Password Link */} -->
         <div class="text-right text-primary">
-          <nuxtLink to="/forgot-password">
+          <nuxtLink to="/forgot-password/">
             <span
               class="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
               Olvido Su Contraseña?

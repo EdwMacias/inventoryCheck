@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     '/': { appMiddleware: ['auth-middleware'] },
     '/login': {appMiddleware : ['login-middleware']},
     '/usuarios/**': { appMiddleware: ['auth-middleware'] },
-    '/forgot-password': { appMiddleware: ['login-middleware'] }
+    '/forgot-password': { appMiddleware: ['login-middleware']}
   },
   piniaPersistedstate: {
   },

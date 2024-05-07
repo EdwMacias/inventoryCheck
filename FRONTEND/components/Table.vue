@@ -16,13 +16,8 @@
       <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`" :text="`Col 1: ${props.cellData}`"
         @click="deleteButtonClick(props.rowData)"><i :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle': 'bi bi-x-circle'}`"></i>{{ props.rowData.statu_id != 1 ?
           'Activar' : 'Inactivar'}}</button>
-      <!-- <button class="btn btn-error btn-sm " :text="`Col 1: ${props.cellData}`" -->
-        <!-- @click="deleteButtonClick(props.rowData)"><i class="bi bi-slash-circle"></i>Eliminar</button> -->
-
-
     </template>
   </DataTable>
-  <!-- </div> -->
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,10 @@
 <template>
   <div class="min-h-screen bg-base-200 flex">
+
+    <nuxtLink to="/login" class="btn btn-primary mx-2 mt-2 absolute top-0 left-0">
+      <i class="bi bi-box-arrow-left"></i> Regresar al inicio de sesion
+    </nuxtLink>
+
     <div class="container mx-auto mt-20">
       <div class="card max-w-3xl lg:card-side mx-auto bg-base-100 shadow-xl">
 
@@ -10,12 +15,25 @@
           <li :class="stepClasses('step_final')">Finalizar</li>
         </ul>
 
+        <!-- {{code}} -->
         <div class="card-body">
-          <FormularioRecuperacionPassword @nextstep="function () { steps.step_code = true }" v-if="!steps.step_code">
-          </FormularioRecuperacionPassword>
+          <FormularioEmailRecuperacionPassword @nextstep="function () { steps.step_code = true }"
+            v-if="!steps.step_code" />
 
-          <FormularioOtpRecuperacionPassword v-if="steps.step_code && !steps.step_password">
-          </FormularioOtpRecuperacionPassword>
+          <CardCodigoVerificacion v-if="steps.step_code && !steps.step_password"
+            @confirmar="function () { steps.step_password = true }" />
+
+          <CardRecuperacionPassword v-if="steps.step_password && !steps.step_final"
+            @confirmar="function () { steps.step_final = true }"></CardRecuperacionPassword>
+
+          <div v-if="steps.step_final" class="text-center">
+            <h2 class="card-title">Finalización</h2>
+            <p class="mt-2 text-sm mt-10">Lograste cambiar tu contraseña con exito</p>
+            <p class="mt-2 text-sm ">Ahora puedes loguearte correctamente</p>
+            <div class="card-actions justify-end mt-20">
+              <NuxtLink to="/login" class="btn btn-success">Aceptar</NuxtLink>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -25,7 +43,9 @@
 </template>
 
 <script lang="ts" setup>
-
+definePageMeta({
+  path: '/forgot-password',
+})
 
 interface RecoverySteps {
   step_email: boolean,
@@ -42,18 +62,9 @@ const steps: Ref<RecoverySteps> = ref({
   step_final: false,
 })
 
-// const code = ref();
 
-definePageMeta({
-  path: '/forgot-password',
-  // middleware: []
-})
-const vertical: Ref<boolean> = ref(false);
 
-// function activeVertical() {
-//   vertical.value = checkWindowSize(1020)
-//   console.log(checkWindowSize(1020));
-// }
+
 
 function stepClasses(step: string) {
   return {
@@ -61,11 +72,6 @@ function stepClasses(step: string) {
     'step-primary': steps.value[step]
   };
 }
-
-onMounted(() => {
-  // window.addEventListener('resize', activeVertical);
-  // activeVertical();
-})
 
 
 </script>

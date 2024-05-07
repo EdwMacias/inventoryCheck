@@ -2,7 +2,7 @@
   <h1 class="card-title">¿Olvidaste tu contraseña?</h1>
   <p class="mb-2 text-xs">Por favor, ingrese el correo electrónico que utilizó para registrarse.</p>
   <VeeForm v-slot="{ handleSubmit, resetForm }" :validationSchema="schemaCorreo" as="div">
-    <form @submit.prevent="handleSubmit($event, onSubmit)" method="post">
+    <form @submit="handleSubmit($event, onSubmit)" method="post" id="correoContraseña">
       <VeeField name="email" type="email" v-slot="{ field, meta }">
         <label class="input input-bordered flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">

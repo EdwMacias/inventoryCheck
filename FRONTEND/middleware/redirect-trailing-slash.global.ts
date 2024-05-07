@@ -1,19 +1,4 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-
-    // console.log(to.path);
-
-    // if (to.path == "/forgot-password/") {
-    //     if (to.path.endsWith('/')) {
-    //         console.log("aqui");
-            
-    //     const newPath = to.path.slice(0, -1);
-    //     console.log(newPath);
-        
-    //     return navigateTo(newPath, { redirectCode: 301 });
-    //     }
-    //     // return;
-    // }
-
     if (to.params.id == 'editar' || to.params.id == 'crear') {
 
         if (to.params.id == 'editar' && !to.query.id) {
@@ -30,7 +15,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
         }
         return;
     }
-
 
     if (to.path !== '/' && !to.path.endsWith('/')) {
         const { path, query, hash } = to;
