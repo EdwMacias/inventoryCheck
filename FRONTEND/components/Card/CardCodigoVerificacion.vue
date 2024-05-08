@@ -4,26 +4,15 @@
     <p class="mt-2 text-sm mb-6">A su correo debió llegar un código. Por favor, digite el código.</p>
 
     <VeeForm @submit="onSubmit" :validation-schema="schemaCodigo">
-      <VeeField name="code" v-slot="{ handleChange }">
+      <VeeField name="code"  class="mb-5" v-slot="{ handleChange }">
         <FormularioOtpRecuperacionPassword @update:modelValue="handleChange" />
       </VeeField>
 
-      <VeeErrorMessage name="code" class="text-center justify-center
-                  text-error mt-8 animate__animated  animate__fadeIn">
+      <VeeErrorMessage name="code" class=" p-25
+                  text-error animate__animated  animate__fadeIn">
       </VeeErrorMessage>
 
-      <div class="text-center mt-4">
-        <p class="text-sm">No recibiste ningún código?</p>
-        <nuxtLink to="/forgot-password">
-          <span class="text-sm text-primary inline-block  
-                  hover:text-primary hover:underline 
-                  hover:cursor-pointer transition duration-200">
-            Reenviar Codigo
-          </span>
-        </nuxtLink>
-      </div>
-
-      <div class="card-actions justify-end mt-2">
+      <div class="card-actions justify-end mt-5">
         <button type="submit" class="btn btn-primary">Confirmar</button>
       </div>
     </VeeForm>
@@ -38,9 +27,10 @@ import { RecoveryPasswordServices } from '~/domain/client/services/recovery/pass
 const emit = defineEmits(["reenviarCodigo", "confirmar"]);
 
 const schemaCodigo = yup.object({
-  code: yup.number().required().min(100000, 'El código debe tener al menos 6 dígitos')
-    .max(999999, 'El código debe tener como máximo 6 dígitos')
-})
+  code: yup.string()
+    .required('El código es requerido')
+    .matches(/^\d{6}$/, 'El código debe tener exactamente 6 dígitos, no se permiten letras')
+});
 
 async function onSubmit(value: any) {
 
