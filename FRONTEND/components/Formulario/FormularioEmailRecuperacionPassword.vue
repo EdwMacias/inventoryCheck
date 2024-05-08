@@ -44,7 +44,7 @@ async function onSubmit(values: any) {
     swal.fire({
       icon: 'success',
       title: "Notificación",
-      text: 'Si el correo coincide, recibira un codigo a su correo.',
+      text: 'Recibira un codigo a su correo.',
       showCancelButton: false,
       confirmButtonText: 'Confirmar',
       reverseButtons: true
@@ -54,7 +54,7 @@ async function onSubmit(values: any) {
       }
     })
   } catch (error: any) {
-    alertaStore.emitNotificacion({ mensaje: error, tipo: 'warning', cabecera: 'Notificación' });
+    alertaStore.emitNotificacion({ mensaje: error.response.data.messages, tipo: 'warning', cabecera: 'Notificación' });
   }
   spinnerStore.activeOrInactiveSpinner(false);
 

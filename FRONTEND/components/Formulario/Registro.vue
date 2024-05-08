@@ -2,7 +2,7 @@
   <VeeForm :validationSchema="formularioSchema" class="mt-5" @submit="onSubmit" v-slot="{ meta, errors }">
     <h2 class="text-center font-semibold text-xl text-gray-900 mb-2">Información Personal</h2>
     <p class="text-center text-sm text-gray-600 mb-4">Utiliza una dirección permanente donde puedas recibir correo.</p>
-    {{ formulario }}
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
       <div>
         <label class="label">
