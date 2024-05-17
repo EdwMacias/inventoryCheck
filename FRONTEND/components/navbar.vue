@@ -9,7 +9,7 @@
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li>
-            <NuxtLink to="/">HOME</NuxtLink>
+            <NuxtLink to="/">INICIO</NuxtLink>
           </li>
           <li>
             <details>
@@ -29,12 +29,16 @@
           </li>
         </ul>
       </div>
-      <NuxtLink to="/" class="btn btn-ghost text-xl">CEDAC</NuxtLink>
+      <NuxtLink to="/" class="flex items-center">
+        <button class="btn btn-ghost rounded-md hover:bg-gray-200">
+          <img src="~/public/images/LogoEmpresa.png" alt="inicio-logo" class="navbar-logo rounded-md">
+        </button>
+      </NuxtLink>
 
       <div class="hidden lg:flex">
         <ul class="menu menu-horizontal px-4" style="z-index: 1000;">
           <li>
-            <NuxtLink to="/">HOME</NuxtLink>
+            <NuxtLink to="/">INICIO</NuxtLink>
           </li>
           <li>
             <details>
@@ -101,4 +105,14 @@ const logoutUser = async () => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.navbar-logo {
+  @apply max-w-20 h-auto;
+}
+
+@screen sm {
+  .navbar-logo {
+    @apply w-20; /* Ajusta según el tamaño deseado para dispositivos pequeños */
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:container lg:mx-auto px-5 py-5 m-5 ">
+  <div class="lg:container lg:mx-auto p-5">
     <FormularioRegistro></FormularioRegistro>
   </div>
 </template>
