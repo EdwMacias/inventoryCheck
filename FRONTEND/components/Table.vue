@@ -4,20 +4,25 @@
 
 <template>
 
-  <div class="flex justify-end mb-2">
-    <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar
-    </NuxtLink>
-  </div>
+  <div class="">
+    <div class="flex justify-end mb-2">
+      <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar
+      </NuxtLink>
+    </div>
 
-  <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options" :ajax="settingRequest">
-    <template #action="props">
-      <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
-        @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
-      <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`" :text="`Col 1: ${props.cellData}`"
-        @click="deleteButtonClick(props.rowData)"><i :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle': 'bi bi-x-circle'}`"></i>{{ props.rowData.statu_id != 1 ?
-          'Activar' : 'Inactivar'}}</button>
-    </template>
-  </DataTable>
+    <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options"
+      :ajax="settingRequest">
+      <template #action="props">
+        <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
+          @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
+        <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`"
+          :text="`Col 1: ${props.cellData}`" @click="deleteButtonClick(props.rowData)"><i
+            :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle' : 'bi bi-x-circle'}`"></i>{{
+              props.rowData.statu_id != 1 ?
+                'Activar' : 'Inactivar'}}</button>
+      </template>
+    </DataTable>
+  </div>
 </template>
 
 <script lang="ts" setup>

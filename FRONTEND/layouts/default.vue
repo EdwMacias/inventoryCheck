@@ -1,14 +1,14 @@
 <template>
-  <Spinner v-if="spinnerStore.status"></Spinner>
-  <div class="h-screen bg-gray-50">
+  <!-- <div class="bg-gray-50"> -->
     <header>
       <Alertas></Alertas>
+      <Spinner v-if="spinnerStore.status"></Spinner>
       <Navbar v-if="usuarioStore.conectado"></Navbar>
     </header>
-    <main class="justify-center space-y-12">
+    <main class="">
       <slot />
     </main>
-  </div>
+  <!-- </div> -->
   
 </template>
 
