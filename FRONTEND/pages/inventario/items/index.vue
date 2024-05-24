@@ -1,8 +1,8 @@
 <template>
-  <div class="container mx-auto">
-    <div class="card-actions justify-end  mx-2">
-      <NuxtLink class="btn btn-active btn-neutral gap-2 " to="/registros/inventario">Agregar articulo</NuxtLink>
-      <label class="input input-bordered flex items-center gap-2 w-96">
+  <div class="container mx-auto p-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+      <NuxtLink class="btn btn-active btn-neutral mb-2 md:mb-0" to="/registros/inventario">Agregar artículo</NuxtLink>
+      <label class="input input-bordered flex items-center gap-2 w-full md:w-96 mb-2 md:mb-0">
         <input type="text" class="grow" placeholder="Buscar" />
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
           <path fill-rule="evenodd"
@@ -10,19 +10,18 @@
             clip-rule="evenodd" />
         </svg>
       </label>
-      <div class="join">
+      <div class="join flex mb-2 md:mb-0">
         <button class="join-item btn btn-active">1</button>
-        <button class="join-item btn ">2</button>
+        <button class="join-item btn">2</button>
         <button class="join-item btn">3</button>
         <button class="join-item btn">4</button>
       </div>
     </div>
-    <div class="grid grid-cols-4 mt-2  container mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <ClientOnly>
         <Item v-for="(item, index) in items" :descripcion="item.descripcion" :image="item.image"
           :nombre_item="item.nombre_item" :key="index" />
       </ClientOnly>
-
     </div>
   </div>
 </template>
@@ -32,38 +31,30 @@
 const items = [
   {
     nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
+    descripcion: "Este es un ejemplo",
     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
+  },
+  {
     nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
+    descripcion: "Este es un ejemplo",
     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
+  },
+  {
     nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
+    descripcion: "Este es un ejemplo",
     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }
-  , {
+  },
+  {
     nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
+    descripcion: "Este es un ejemplo",
     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
+  },
+  {
     nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
+    descripcion: "Este es un ejemplo",
     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }, {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejmplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  }
+  },
+  // Repite los objetos de ejemplo aquí
 ]
 
 </script>

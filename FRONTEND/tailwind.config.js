@@ -6,7 +6,7 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["bumblebee"],
+    theme: ["bumblebee", "dark"],
     logs: true
   }
 }

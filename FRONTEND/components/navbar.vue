@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-white">
+  <div class="navbar bg-base-100">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -63,6 +63,7 @@
     <!-- <div class="navbar-center hidden lg:flex"> -->
     <!-- </div> -->
     <div class="navbar-end">
+      <Tema/>
       <button class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
@@ -71,12 +72,6 @@
           </div>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            <a class="justify-between">
-              Perfil
-              <span class="badge">New</span>
-            </a>
-          </li>
           <li><a>Configuración</a></li>
           <li><a @click="logoutUser">Cerrar Sesión</a></li>
         </ul>

@@ -1,13 +1,13 @@
 <template>
-  <div class="card bg-base-100 shadow-xl border p-1 mx-2 mt-2">
+  <div class="card bg-base-100 shadow-xl border mx-2 mt-2">
     <figure>
-      <img :src="image" :alt="descripcion" width="200" />
+      <img :src="image" :alt="descripcion" class="preview">
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ nombre_item }}</h2>
       <p>{{ descripcion }}</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary" @click="agregarObservacion">Agregar observación</button>
+        <Observacion />
       </div>
     </div>
   </div>
@@ -21,10 +21,15 @@ const props = defineProps({
   descripcion: String
 });
 
-
 const agregarObservacion = () => {
   console.log('Observacion agregada');
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.preview {
+  object-fit: cover;
+  border-radius: 2ch;
+  width: 100%;
+}
+</style>
