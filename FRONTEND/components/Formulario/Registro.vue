@@ -1,12 +1,12 @@
 <template>
   <VeeForm :validationSchema="formularioSchema" class="mt-5" @submit="onSubmit" v-slot="{ meta, errors }">
-    <h2 class="text-center font-semibold text-xl text-gray-900 mb-2">Información Personal</h2>
-    <p class="text-center text-sm text-gray-600 mb-4">Utiliza una dirección permanente donde puedas recibir correo.</p>
+    <h2 class="text-center font-semibold text-xl  mb-2">Información Personal</h2>
+    <p class="text-center text-sm  mb-4">Utiliza una dirección permanente donde puedas recibir correo.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
       <div>
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Nombre</span>
+          <span class='block text-sm font-medium leading-6 '>Nombre</span>
         </label>
         <VeeField name="name" type="text" placeholder="Carlos Mariano" v-model="formulario.name"
           :class="`input w-full mt-1 ${errors.name ? 'input-error' : 'input-bordered'}`" />
@@ -14,7 +14,7 @@
       </div>
       <div>
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Apellido</span>
+          <span class='block text-sm font-medium leading-6 '>Apellido</span>
         </label>
         <VeeField name="last_name" type="text" placeholder="Rodríguez" v-model="formulario.last_name"
           :class="`input w-full mt-1 ${errors.last_name ? 'input-error' : 'input-bordered'}`" />
@@ -25,9 +25,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
       <div class="md:col-span-1 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Tipo Documento</span>
+          <span class='block text-sm font-medium leading-6 '>Tipo Documento</span>
         </label>
-        <!-- <label for="tipo_documento" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Documento</label> -->
+        <!-- <label for="tipo_documento" class="block text-sm font-medium leading-6 ">Tipo de Documento</label> -->
         <VeeField name="document_type_id" v-model="formulario.document_type_id"
           :class="`select  w-full mt-1 ${errors.document_type_id ? 'select-error' : 'select-bordered'}`" as="select">
           <option value="0">Seleccione</option>
@@ -41,7 +41,7 @@
 
       <div class="md:col-span-1 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Número de Documento</span>
+          <span class='block text-sm font-medium leading-6 '>Número de Documento</span>
         </label>
 
         <VeeField name="number_document" type="text" placeholder="1093########" v-model="formulario.number_document"
@@ -53,7 +53,7 @@
 
       <div class="md:col-span-2 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Dirección</span>
+          <span class='block text-sm font-medium leading-6 '>Dirección</span>
         </label>
         <VeeField name="address" placeholder="Av 3ll #4mm" v-model="formulario.address"
           :class="`input w-full mt-1 ${errors.address ? 'input-error' : 'input-bordered'}`">
@@ -66,7 +66,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
       <div class="md:col-span-1 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Género</span>
+          <span class='block text-sm font-medium leading-6 '>Género</span>
         </label>
         <VeeField name="gender_id"
           :class="`select  w-full mt-1 ${errors.gender_id ? 'select-error' : 'select-bordered'}`"
@@ -82,7 +82,7 @@
 
       <div class="md:col-span-1 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Número de Celular</span>
+          <span class='block text-sm font-medium leading-6 '>Número de Celular</span>
         </label>
         <VeeField type="text" placeholder="" v-model="formulario.number_telephone"
           :class="`input w-full mt-1 ${errors.number_telephone ? 'input-error' : 'input-bordered'}`"
@@ -95,7 +95,7 @@
 
       <div class="md:col-span-2 lg:col-span-1">
         <label class="label">
-          <span class='block text-sm font-medium leading-6 text-gray-900'>Correo Electrónico</span>
+          <span class='block text-sm font-medium leading-6 '>Correo Electrónico</span>
         </label>
 
         <VeeField name="email" type="email" placeholder="example@gmail.com" v-model="formulario.email"
