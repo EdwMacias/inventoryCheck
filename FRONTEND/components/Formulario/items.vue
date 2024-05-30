@@ -1,8 +1,8 @@
 <template>
-  <div class="mx-2 md:mx-6 lg:mx-2">
+  <div class="m-2">
     <p class="bg-black text-white p-2 rounded-xl">{{ formulario }}</p>
     <VeeForm :validationSchema="formularioSchema" class="mt-5" @submit="onSubmit" v-slot="{ meta, errors }">
-      <h2 class="text-center font-semibold text-xl mb-2">Creación de articulos</h2>
+      <h2 class="text-center font-semibold text-xl mb-2">Creación de artículos</h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         <div>
@@ -22,31 +22,28 @@
           <VeeErrorMessage name="serial_number" class="text-error animate__animated animate__fadeIn"></VeeErrorMessage>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4" >
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         <div>
           <label class="label">
             <span class="block text-sm font-medium leading-6 ">Descripción del articulo</span>
           </label>
-          <VeeField name="description" v-slot="{ field }">
-            <textarea class="textarea textarea-bordered  w-full" placeholder="Descripción" v-bind="field"></textarea>
+          <VeeField name="description" as="textarea" :class="`textarea textarea-bordered  w-full mt-1 ${errors.description ? 'textarea-error' : 'textarea-bordered'}`" placeholder="Descripción" v-model="formulario.description">
           </VeeField>
           <VeeErrorMessage name="description" class="text-error animate__animated animate__fadeIn"></VeeErrorMessage>
         </div>
         <div>
           <div class="card  mt-2">
             <span class="block text-sm font-medium leading-6 ">Vista previa</span>
-              <input type="file" class="mt-2 file-input file-input-bordered w-full mb-1" name="resource" />
-              
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLEoaTsWQuPn6bW-_n6hqZvmy5Lh64qwETLg&s" class="rounded-xl  w-1/2 self-center" alt="Imagen del artículo" />
+              <input type="file" class="mt-2 file-input file-input-bordered w-full mb-1" name="resource" @change="handleFileChange" />
+            <img v-if="formulario.resource" :src="formulario.resource" class="rounded-xl  w-1/4 self-center" alt="Imagen del artículo" />
           </div>
         </div>
       </div>
-
-
       
       <div class="mt-4 flex items-center justify-end gap-x-6">
-        <NuxtLink to="/" class="btn btn-neutral">Cancelar</NuxtLink>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
+        <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
   </div>
@@ -61,16 +58,12 @@ yup.setLocale({
   number: {
     moreThan: "*Debe haber valores dentro del formulario"
   },
-  // string:{
-  //   default: "rellene los campos, por favor"
-  // },
 })
-
 
 const formularioSchema = yup.object({
   name: yup.string().required(),
   serial_number: yup.string().required(),
-  description: yup.string(),
+  description: yup.string().required(),
 })
 
 const formulario = ref({
@@ -79,11 +72,19 @@ const formulario = ref({
   description: '',
   resource: '',
 });
- //poner watcher para cuando se haya elegido la imagen
+
+const handleFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      formulario.value.resource = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+}
 
 const onSubmit = (values: any, { resetForm }: any) => {
   console.log(values);
-  
 }
-
 </script>
