@@ -32,16 +32,11 @@ class User extends Authenticatable implements JWTSubject
 
     protected $hidden = [
         'password',
-        // 'document_type_id',
-        // 'number_document',
         'remember_token',
         'created_at',
         'updated_at',
         'email_verified_at',
-        // 'gender_id',
         'statu_id',
-        // 'address',
-        // 'number_telephone'
     ];
 
     protected $casts = [
@@ -61,24 +56,6 @@ class User extends Authenticatable implements JWTSubject
             "email" => $this->email,
         ];
     }
-
-    // public function toArray()
-    // {
-    //     $array = parent::toArray();
-    //     return $array;
-    // }
-    // public function save(array $options = [])
-    // {
-    //     $this->password = Utilidades::EncriptarPassword($this->password);
-    //     return parent::save($options);
-    // }
-
-
-    // public function update(array $attributes = [], array $options = []): bool
-    // {
-    //     $this->password = Utilidades::EncriptarPassword($this->password);
-    //     return parent::update($attributes, $options);
-    // }
 
     public function statu()
     {

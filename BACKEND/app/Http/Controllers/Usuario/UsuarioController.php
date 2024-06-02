@@ -9,14 +9,17 @@ use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use Illuminate\Http\Request;
 
+
+
 class UsuarioController extends Controller
 {
+
     protected InterfaceUsuarioServices $_usuarioService;
     protected InterfaceTemporaryCodeServices $_temporaryServices;
 
     public function __construct(InterfaceUsuarioServices $_interfaceUsuarioServices, InterfaceTemporaryCodeServices $interfaceTemporaryCodeServices)
     {
-        $this->middleware('auth:api', ['except' => ['updatePassword', 'getCodeTemporal','authenticacionCode']]);
+        $this->middleware('auth:api', ['except' => ['updatePassword', 'getCodeTemporal', 'authenticacionCode']]);
         $this->_usuarioService = $_interfaceUsuarioServices;
         $this->_temporaryServices = $interfaceTemporaryCodeServices;
     }

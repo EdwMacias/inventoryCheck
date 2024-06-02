@@ -6,18 +6,31 @@ use App\Events\ServerCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(ItemRequest $itemCreacionRequest)
     {
-        
-      
-        return;
+        try {
+            //code...
+            $imagen = $itemCreacionRequest->file('resource');
+            $ruta = $imagen->store('imagenes', 'public');
+            $url = asset('storage/' . $ruta);
+            return response()->json(['url' => $url], 200);
+
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        // return;
     }
 
     /**

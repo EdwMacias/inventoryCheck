@@ -23,12 +23,12 @@ class ItemRequest extends FormRequest
     {
         return [
             "*" => "prohibited",
-            "name",
-            "serial_number",
-            "description",
+            // "name",
+            // "serial_number",
+            // "description",
             // "category_id",
-            "resource",
-            "statu_id"
+            "resource" => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            // "statu_id"
         ];
     }
 }

@@ -29,5 +29,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
 });
 
 Route::group(['prefix' => 'item'], function ($router) {
-    Route::get('create', [ItemController::class, 'store']);
+    Route::post('create', [ItemController::class, 'store']);
 });
