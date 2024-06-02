@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Usuario\UsuarioController;
+use App\Http\Controllers\Authentication\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+
+
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
@@ -23,4 +26,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::delete('delete/{id}', [UsuarioController::class, 'destroy']);
     Route::get('get', [UsuarioController::class, 'show']);
     Route::get('get/{id}', [UsuarioController::class, 'getUsuarioId']);
+});
+
+Route::group(['prefix' => 'item'], function ($router) {
+    Route::get('create', [ItemController::class, 'store']);
 });
