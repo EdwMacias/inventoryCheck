@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import { Item } from "#build/components";
 
 
 const route = useRoute();
