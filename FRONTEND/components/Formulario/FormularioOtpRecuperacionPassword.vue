@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, defineEmits } from 'vue';
 
 const code = ref('');
 

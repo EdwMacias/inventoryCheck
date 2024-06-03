@@ -5,9 +5,12 @@
 </template>
 
 <script lang="ts" setup>
+
 definePageMeta({
   middleware: ['actions-middleware']
 })
+
+
 </script>
 
 <style></style>

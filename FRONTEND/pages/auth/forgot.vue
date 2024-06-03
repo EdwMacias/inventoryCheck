@@ -39,7 +39,6 @@ interface RecoverySteps {
   step_email: boolean,
   step_code: boolean,
   step_password: boolean,
-  // step_final: boolean,
   [key: string]: boolean
 }
 
@@ -47,11 +46,7 @@ const steps: Ref<RecoverySteps> = ref({
   step_email: true,
   step_code: false,
   step_password: false,
-  // step_final: false,
 })
-
-
-
 
 
 function stepClasses(step: string) {

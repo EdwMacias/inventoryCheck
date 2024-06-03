@@ -1,5 +1,5 @@
-import { AuthenticationRepository } from "~/infrastructure/Repositories/Authentication/authentication.repository";
-import { UsuarioRepository } from "~/infrastructure/Repositories/Usuario/usuario.repository";
+import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
+import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
 

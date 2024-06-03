@@ -82,7 +82,9 @@
 </template>
 
 <script setup lang="ts">
-import { UsuarioServices } from '~/domain/client/services/usuario.service';
+import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+
+// import { UsuarioServices } from '~/domain/client/services/usuario.service';
 
 
 const logoutUser = async () => {
@@ -100,7 +102,8 @@ const logoutUser = async () => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+ 
 .navbar-logo {
   @apply max-w-20 h-auto;
 }

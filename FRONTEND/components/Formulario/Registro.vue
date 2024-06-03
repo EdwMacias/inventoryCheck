@@ -114,8 +114,8 @@
 
 <script lang="ts" setup>
 import type Swal from 'sweetalert2';
-import { UsuarioServices } from '~/domain/client/services/usuario.service';
-import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
+import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario';
 import { UsuarioRepository } from '~/infrastructure/Repositories/Usuario/usuario.repository';
 
 const route = useRoute();

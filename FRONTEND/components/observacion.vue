@@ -32,14 +32,13 @@
   </template>
   
   <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const itemId = route.params.id;
 const observations = ref([]);
 const isModalOpen = ref(false);
 const newObservation = ref('');
+
 const openModal = async () => {
   try {
     const response = await observationsService.getObservationsByItemId(itemId);

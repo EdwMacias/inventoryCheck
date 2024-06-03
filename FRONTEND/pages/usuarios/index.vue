@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import type { ConfigColumns } from 'datatables.net-dt';
-import { GET_USUARIOS_ALL } from '~/infrastructure/Connections/endpoints.connection';
+import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
 
 const columns: ConfigColumns[] = [
   { data: 'name', title: 'Nombre' },

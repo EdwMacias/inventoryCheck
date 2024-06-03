@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { UsuarioEntity } from '~/domain/models/Entities/usuario';
+import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario';
 
 type usuarioStore = {
   conectado: boolean,

@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4">
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-      <NuxtLink class="btn btn-active btn-neutral mb-2 md:mb-0" to="/registros/inventario">Agregar artículo</NuxtLink>
+      <NuxtLink class="btn btn-active btn-neutral mb-2 md:mb-0" to="registrar/crear">Agregar artículo</NuxtLink>
       <label class="input input-bordered flex items-center gap-2 w-full md:w-96 mb-2 md:mb-0">
         <input type="text" class="grow" placeholder="Buscar" />
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">

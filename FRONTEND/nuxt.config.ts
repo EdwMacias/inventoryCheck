@@ -26,7 +26,8 @@ export default defineNuxtConfig({
     '/': { appMiddleware: ['auth-middleware'] },
     '/login': { appMiddleware: ['login-middleware'] },
     '/usuarios/**': { appMiddleware: ['auth-middleware'] },
-    '/forgot-password': { appMiddleware: ['login-middleware'] }
+    '/forgot-password': { appMiddleware: ['login-middleware'] },
+    '/inventario/items/register': { appMiddleware: ['auth-middleware'] }
   },
   piniaPersistedstate: {
   },
@@ -44,8 +45,6 @@ export default defineNuxtConfig({
     }
   },
 
-  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/sweetalert2', {
-    src: '@/plugins/echo', mode: 'client'
-  }],
+  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/sweetalert2'],
   css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
 })

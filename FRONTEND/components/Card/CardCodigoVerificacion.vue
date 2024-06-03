@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import swal from 'sweetalert2';
-import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
+import { RecoveryPasswordServices } from '~/Domain/Client/Services/recovery/password/recovery.password.services';
 
 
 const emit = defineEmits(["reenviarCodigo", "confirmar"]);

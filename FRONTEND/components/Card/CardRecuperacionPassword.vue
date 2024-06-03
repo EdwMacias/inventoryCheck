@@ -47,8 +47,8 @@
 
 // const emit = defineEmits(["confirmar"])
 import swal from 'sweetalert2';
-import { RecoveryPasswordServices } from '~/domain/client/services/recovery/password/recovery.password.services';
-import type { PasswordRecovery } from '~/domain/models/Api/Request/password.recovery.model';
+import { RecoveryPasswordServices } from '~/Domain/Client/Services/recovery/password/recovery.password.services';
+import type { PasswordRecovery } from '~/Domain/Models/Api/Request/password.recovery.model';
 
 
 const schemaPassword = yup.object({

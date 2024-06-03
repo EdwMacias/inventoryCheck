@@ -34,7 +34,7 @@ import DataTablesCore, { type Config, type ConfigColumns } from 'datatables.net-
 import 'datatables.net-select';
 import 'datatables.net-responsive';
 import language from '@/lang/datatable.language.spanish.json';
-import { UsuarioRepository } from '~/infrastructure/Repositories/Usuario/usuario.repository';
+import {UsuarioRepository} from '@/Infrastructure/Repositories/Usuario/usuario.repository';
 
 const emit = defineEmits(["inactivar"])
 

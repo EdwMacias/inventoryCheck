@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 
-const props = defineProps({
+defineProps({
   nombre_item: String,
   image: String,
   descripcion: String
