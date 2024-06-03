@@ -7,7 +7,6 @@ use App\Respositories\Interfaces\InterfaceGenderRepository;
 use App\Respositories\Interfaces\InterfaceUsuarioRepository;
 use App\Respositories\Repositories\TemporaryCodeRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
-use App\Utils\Encriptacion;
 use App\Utils\ResponseHandler;
 use App\Utils\TablesServerSide;
 use App\Utils\Utilidades;
@@ -92,7 +91,7 @@ class UsuarioServices implements InterfaceUsuarioServices
             $this->_usuarioRepository->updateUser($id, $UsuarioDto);
 
             return new ResponseHandler("Usuario Actualizado Exitosamente", Response::HTTP_OK);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw new Exception($th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

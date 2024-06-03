@@ -31,7 +31,7 @@ class AuthController extends Controller
         $isPassword = Utilidades::VerificarPassword(strtolower($credentials['password']), $usuario->password);
 
         if (!$isPassword) {
-            $responseHandler->setMessage(["Credenciales Incorrectas"]);
+            $responseHandler->setMessagess(["Credenciales Incorrectas"]);
             $responseHandler->setStatus(Response::HTTP_UNAUTHORIZED);
             return $responseHandler->responses();
         }
@@ -48,10 +48,10 @@ class AuthController extends Controller
 
 
 
-            $responseHandler->setMessage("Inicio de sesión exitoso");
+            $responseHandler->setMessages("Inicio de sesión exitoso");
             $responseHandler->setData($data);
         } else {
-            $responseHandler->setMessage("El usuario no se encuentra activo");
+            $responseHandler->setMessages("El usuario no se encuentra activo");
         }
 
         return $responseHandler->responses();
