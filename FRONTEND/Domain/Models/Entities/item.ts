@@ -3,5 +3,5 @@ export interface ItemEntity {
     name: string,
     description: string,
     serial_number: string,
-    resource: string
+    resource?: File
 }

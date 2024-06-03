@@ -39,14 +39,14 @@
             <span class="block text-sm font-medium leading-6 ">Vista previa</span>
             <input type="file" class="mt-2 file-input file-input-bordered w-full mb-1" name="resource"
               @change="handleFileChange" />
-            <img v-if="formulario.resource" :src="formulario.resource" class="rounded-xl  w-1/4 self-center"
-              alt="Imagen del artículo" />
+            <!-- <img v-if="formulario.resource" :src="formulario.resource" class="rounded-xl  w-1/4 self-center"
+              alt="Imagen del artículo" /> -->
           </div>
         </div>
       </div>
 
       <div class="mt-4 flex items-center justify-end gap-x-6">
-        <!-- <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink> -->
+        <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
         <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
@@ -55,6 +55,7 @@
 
 <script lang="ts" setup>
 import type { ItemEntity } from '~/Domain/Models/Entities/item';
+const emits = defineEmits(["enviar"]);
 
 yup.setLocale({
   mixed: {
@@ -75,22 +76,30 @@ const formulario: Ref<ItemEntity> = ref({
   name: '',
   serial_number: '',
   description: '',
-  resource: '',
 });
 
 const handleFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      formulario.value.resource = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
+    formulario.value.resource = file;
+    console.log(file);
+
+    // reader.onload = (e) => {
+    //   // formulario.value.resource = e.target?.result as string;
+    // };
+    // reader.readAsDataURL(file);
   }
 }
 
+
 const onSubmit = (values: any) => {
-  console.log(values);
-  // Aquí puedes hacer lo que necesites con los valores enviados
+  const itemEntity: ItemEntity = values;
+  if (formulario.value.resource == null) return console.error("falta imagen");
+  itemEntity.resource = formulario.value.resource;
+  
+
+
+  return emits("enviar",itemEntity);
 };
 </script>
