@@ -1,7 +1,7 @@
 <template>
   <div class="m-2">
     <p class="bg-black text-white p-2 rounded-xl">{{ formulario }}</p>
-    <VeeForm :validationSchema="formularioSchema" class="mt-5" @onSubmit="onSubmit" v-slot="{ meta, errors }">
+    <VeeForm :validationSchema="formularioSchema" class="mt-5" @submit="onSubmit" v-slot="{ meta, errors }">
       <h2 class="text-center font-semibold text-xl mb-2">Creación de artículos</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -46,7 +46,7 @@
       </div>
 
       <div class="mt-4 flex items-center justify-end gap-x-6">
-        <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
+        <!-- <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink> -->
         <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
@@ -55,7 +55,6 @@
 
 <script lang="ts" setup>
 import type { ItemEntity } from '~/Domain/Models/Entities/item';
-
 
 yup.setLocale({
   mixed: {
@@ -90,7 +89,8 @@ const handleFileChange = (event: Event) => {
   }
 }
 
-function onSubmit(values: ItemEntity) {
+const onSubmit = (values: any) => {
   console.log(values);
-}
+  // Aquí puedes hacer lo que necesites con los valores enviados
+};
 </script>

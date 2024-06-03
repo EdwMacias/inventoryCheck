@@ -45,6 +45,6 @@ export default defineNuxtConfig({
     }
   },
 
-  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/sweetalert2'],
+  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/swal'],
   css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
 })

@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import swal from 'sweetalert2';
+
 import { RecoveryPasswordServices } from '~/Domain/Client/Services/recovery/password/recovery.password.services';
 
 const emit = defineEmits(["nextstep"])
