@@ -45,3 +45,40 @@ export const emitNotificaciones = async (alertas: { tipo: string, cabecera: stri
 export function checkWindowSize(size: number) {
   return (window.innerWidth <= size);
 };
+
+
+export function useImagen() {
+  // const fullSizeImageSrc = ref<string>('');
+  // const showModal = ref<boolean>(false);
+
+  const setImagen = (file: File, imagenRef: Ref<HTMLImageElement | null>): void => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target && typeof e.target.result === 'string' && imagenRef.value) {
+        imagenRef.value.src = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  
+  // const openModal = (imagenRef :  Ref<HTMLImageElement | null>) => {
+  //   if (imagenRef.value) {
+  //     fullSizeImageSrc.value = imagenRef.value.src;
+  //     showModal.value = true;
+  //   }
+  // };
+
+  // const closeModal = () => {
+  //   showModal.value = false;
+  //   fullSizeImageSrc.value = '';
+  // };
+
+  return {
+    // openModal,
+    // closeModal,
+    // fullSizeImageSrc,
+    // showModal,
+    setImagen
+  };
+}
