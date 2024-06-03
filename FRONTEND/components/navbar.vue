@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-base-100">
+  <div class="navbar bg-base-100 sticky top-0 z-20 shadow">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -18,9 +18,6 @@
                 <li>
                   <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
                 </li>
-                <!-- <li> -->
-                <!-- <NuxtLink to="/usuarios/as">Asignar Rol Usuario</NuxtLink> -->
-                <!-- </li> -->
               </ul>
             </details>
           </li>
@@ -47,28 +44,21 @@
                 <li>
                   <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
                 </li>
-                <!-- <li>
-                  <NuxtLink to="/usuarios/asignar/roles">Asignar Rol Usuario</NuxtLink>
-                </li> -->
               </ul>
             </details>
           </li>
           <li>
             <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
           </li>
-          <!-- <li><a>Item 3</a></li> -->
         </ul>
       </div>
     </div>
-    <!-- <div class="navbar-center hidden lg:flex"> -->
-    <!-- </div> -->
     <div class="navbar-end">
-      <Tema/>
+      <Tema class="btn btn-ghost"/>
       <button class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component"
-              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <div>
+            <Profile/>
           </div>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -76,16 +66,12 @@
           <li><a @click="logoutUser">Cerrar Sesión</a></li>
         </ul>
       </button>
-      <!-- <a class="btn">Button</a> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
-
-// import { UsuarioServices } from '~/domain/client/services/usuario.service';
-
 
 const logoutUser = async () => {
   const spinnerStore = SpinnerStore();
@@ -99,11 +85,9 @@ const logoutUser = async () => {
   }
   spinnerStore.activeOrInactiveSpinner(false);
 }
-
 </script>
 
 <style scoped lang="scss">
- 
 .navbar-logo {
   @apply max-w-20 h-auto;
 }

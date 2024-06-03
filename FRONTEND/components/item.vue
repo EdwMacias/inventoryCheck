@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-base-100 shadow-xl border mx-2 mt-2">
+  <div class="card bg-base-100 shadow-xl border-xl mx-2 mt-2">
     <figure>
       <img :src="image" :alt="descripcion" class="preview">
     </figure>
