@@ -1,8 +1,8 @@
 <template>
-  <div class="m-2">
-    <p class="bg-black text-white p-2 rounded-xl">{{ formulario }}</p>
+  <div class="m-2 container mx-auto">
+    <h2 class="font-semibold text-xl mb-2">Creación de artículos</h2>
+
     <VeeForm :validationSchema="formularioSchema" class="mt-5" @submit="onSubmit" v-slot="{ meta, errors }">
-      <h2 class="text-center font-semibold text-xl mb-2">Creación de artículos</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         <div>
@@ -35,19 +35,30 @@
           <VeeErrorMessage name="description" class="text-error animate__animated animate__fadeIn"></VeeErrorMessage>
         </div>
         <div>
-          <div class="card  mt-2">
-            <span class="block text-sm font-medium leading-6 ">Vista previa</span>
-            <input type="file" class="mt-2 file-input file-input-bordered w-full mb-1" name="resource"
-              @change="handleFileChange" />
-            <!-- <img v-if="formulario.resource" :src="formulario.resource" class="rounded-xl  w-1/4 self-center"
-              alt="Imagen del artículo" /> -->
+          <label class="label">
+            <span class="block text-sm font-medium leading-6">Cargar Imagen</span>
+          </label>
+          <div class="card card-compact w-100">
+            <div class="card-body">
+              <div class="card-actions justify-end">
+                <input type="file" class="file-input file-input-bordered w-full" name="resource"
+                  @change="handleFileChange" />
+              </div>
+              <div class="divider"></div>
+              <figure>
+                <img ref="itemPhoto" @click="openModal(true)"
+                  src="https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg"
+                  alt="Imagen del articulo" width="400" height="400" />
+              </figure>
+              <CardImagenFull :isModalOpen="isModalOpen" :imagen="itemPhoto?.src" @close="openModal" ></CardImagenFull>
+              
+            </div>
+          </div>
+          <div class="mt-4 flex items-center justify-end gap-x-6">
+            <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
+            <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
           </div>
         </div>
-      </div>
-
-      <div class="mt-4 flex items-center justify-end gap-x-6">
-        <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
-        <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
   </div>
@@ -56,6 +67,16 @@
 <script lang="ts" setup>
 import type { ItemEntity } from '~/Domain/Models/Entities/item';
 const emits = defineEmits(["enviar"]);
+
+const { setImagen } = useImagen();
+const itemPhoto = ref<HTMLImageElement | null>(null);
+const isModalOpen = ref(false);
+
+function openModal(valor : boolean) {
+  isModalOpen.value = valor;
+}
+
+
 
 yup.setLocale({
   mixed: {
@@ -81,14 +102,10 @@ const formulario: Ref<ItemEntity> = ref({
 const handleFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
-    const reader = new FileReader();
     formulario.value.resource = file;
-    console.log(file);
-
-    // reader.onload = (e) => {
-    //   // formulario.value.resource = e.target?.result as string;
-    // };
-    // reader.readAsDataURL(file);
+    if (itemPhoto.value != undefined) {
+      setImagen(file, itemPhoto);
+    }
   }
 }
 
@@ -97,9 +114,8 @@ const onSubmit = (values: any) => {
   const itemEntity: ItemEntity = values;
   if (formulario.value.resource == null) return console.error("falta imagen");
   itemEntity.resource = formulario.value.resource;
-  
-
-
-  return emits("enviar",itemEntity);
+  return emits("enviar", itemEntity);
 };
 </script>
+
+<!-- <style scoped lang="scss"></style> -->
