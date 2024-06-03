@@ -5,8 +5,9 @@ namespace App\Models\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class ResourceModel extends Model
 {
+    
     use HasFactory;
     protected $table = "audiovisual_resource";
 

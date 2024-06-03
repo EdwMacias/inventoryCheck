@@ -2,7 +2,7 @@
 
 namespace App\Models\Status;
 
-use App\Models\Users\User;
+use App\Models\User as ModelsUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +25,6 @@ class Status extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'status_id');
+        return $this->hasMany(ModelsUser::class, 'status_id');
     }
 }

@@ -4,7 +4,6 @@ namespace App\Respositories\Repositories;
 
 use App\Models\Inventory\Item;
 use App\Respositories\Interfaces\InterfaceItemRepository;
-use Exception;
 
 class ItemRepository implements InterfaceItemRepository
 {
@@ -38,7 +37,7 @@ class ItemRepository implements InterfaceItemRepository
      */
     public function delete($id)
     {
-        $itemModel = Item::find($id);
+        $itemModel = Item::on()->find($id);
         return $itemModel->delete();
     }
 
@@ -48,7 +47,7 @@ class ItemRepository implements InterfaceItemRepository
      */
     public function inactivate($id)
     {
-        $itemModel = Item::find($id);
+        $itemModel = Item::on()->find($id);
         $itemModel->statu_id = 0;
         return $itemModel->save();
     }
@@ -60,8 +59,24 @@ class ItemRepository implements InterfaceItemRepository
      */
     public function update($id, array $item)
     {
-        $campos = ["name", "serial_number", "description"];
-        $itemModel = Item::find($id);
-        $itemModel->update($campos, $item);
+        $itemModel = Item::on()->find($id);
+        return $itemModel->update($item);
+    }
+
+
+    public function getItemByName(string $name): bool
+    {
+        $item = Item::where('name', $name)->exists();
+        return $item;
+    }
+    /**
+     *
+     * @param string $serialNumber
+     * @return bool
+     */
+    public function getItemBySerialNumber(string $serialNumber): bool
+    {
+        $item = Item::where('serial_number', $serialNumber)->exists();
+        return $item;
     }
 }

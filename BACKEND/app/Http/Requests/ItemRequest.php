@@ -22,13 +22,11 @@ class ItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "*" => "prohibited",
-            // "name",
-            // "serial_number",
-            // "description",
-            // "category_id",
-            "resource" => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            // "statu_id"
+            '*' => 'prohibited',
+            'name' => 'required|string|max:50',
+            'serial_number' => 'required|string|max:100',
+            'description' => 'required|string',
+            'resource' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

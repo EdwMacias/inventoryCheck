@@ -1,18 +1,21 @@
 <?php
 
 namespace App\Respositories\Repositories;
+
 use App\Respositories\Interfaces\InterfaceResourceRepository;
+use App\Models\Storage\Resource;
+use App\Models\Storage\ResourceModel;
 
 class ResourceRepository implements InterfaceResourceRepository
 {
     /**
      *
      * @param array $resource
+     * @return bool
      */
-    public function create(array $resource) {
-        // $resourceItem = new Resource() ;
-        // new User();
-        
-        throw new Exception("Error Processing Request", 1);
+    public function create(array $resource): bool
+    {
+        $resourceModel = new ResourceModel($resource);
+        return $resourceModel->save();
     }
 }

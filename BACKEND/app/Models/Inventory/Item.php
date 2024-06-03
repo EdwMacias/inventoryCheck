@@ -2,20 +2,21 @@
 
 namespace App\Models\Inventory;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
     protected $table = "items";
     protected $primaryKey = "item_id";
 
     protected $fillable = [
+        "item_id",
         "name",
         "serial_number",
         "description",
-        "category_id",
         "statu_id"
     ];
     

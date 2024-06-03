@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->increments('item_id');
+            $table->string('item_id', 40)->primary();
             $table->string('name', 50);
             $table->string('serial_number', 100)->unique();
             $table->text('description');
@@ -22,9 +22,9 @@ return new class extends Migration
             $table->index('category_id');
 
             $table->foreign('statu_id')->references("statu_id")->on("status")
-            ->onDelete("restrict")->onUpdate("cascade");
+                ->onDelete("restrict")->onUpdate("cascade");
             $table->foreign('category_id')->references('category_id')->on('categories')
-            ->onDelete('restrict')->onUpdate("cascade");
+                ->onDelete('restrict')->onUpdate("cascade");
         });
 
         Schema::create('item_observations', function (Blueprint $table) {
@@ -32,7 +32,7 @@ return new class extends Migration
 
             $table->text('observation');
 
-            $table->integer('item_id')->unsigned();
+            $table->string('item_id',40);
             $table->integer('user_id')->unsigned();
             $table->integer('types_observation_id')->unsigned();
 
@@ -54,7 +54,7 @@ return new class extends Migration
         Schema::create('audiovisual_resource', function (Blueprint $table) {
             $table->increments('audiovisual_resource_id');
 
-            $table->integer('item_id')->nullable()->unsigned();
+            $table->string('item_id',40)->nullable();
             $table->integer('item_observation_id')->nullable()->unsigned();
 
             $table->text('resource');

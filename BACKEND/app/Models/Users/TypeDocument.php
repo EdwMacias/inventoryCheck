@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\User;
 use App\Utils\Encriptacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

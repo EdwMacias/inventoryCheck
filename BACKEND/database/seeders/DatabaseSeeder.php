@@ -67,22 +67,22 @@ class DatabaseSeeder extends Seeder
             TypesObservation::firstOrCreate($tiposObservacion);
         }
 
-        User::firstOrCreate([
-            'name' => 'Edwar David',
-            'last_name' => 'Macias Lopez',
-            'email' => 'edwmacias17@gmail.com',
-            'password' => Utilidades::EncriptarPassword(env('PASSWORD_USERS_DEFAULT')),
-            "gender_id" => 1,
-            "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
-            "number_telephone" => "+573108026110",
-            'document_type_id' => 1,
-            "number_document" => "10202020223",
-            'statu_id' => 1,
-        ]);
+        // User::firstOrCreate([
+        //     'name' => 'Edwar David',
+        //     'last_name' => 'Macias Lopez',
+        //     'email' => 'edwmacias17@gmail.com',
+        //     'password' => Utilidades::EncriptarPassword(env('PASSWORD_USERS_DEFAULT')),
+        //     "gender_id" => 1,
+        //     "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
+        //     "number_telephone" => "+573108026110",
+        //     'document_type_id' => 1,
+        //     "number_document" => "10202020223",
+        //     'statu_id' => 1,
+        // ]);
 
-        UserRole::firstOrCreate([
-            'role_id' => 1,
-            'user_id' => 1,
-        ]);
+        // UserRole::firstOrCreate([
+        //     'role_id' => 1,
+        //     'user_id' => 1,
+        // ]);
     }
 }

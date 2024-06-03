@@ -4,6 +4,11 @@ namespace App\Respositories\Interfaces;
 
 interface InterfaceResourceRepository
 {
-    public function create(array $resource);
+    /**
+     *
+     * @param array $resource
+     * @return bool
+     */
+    public function create(array $resource): bool;
     // public function create(array $resource);
 }
