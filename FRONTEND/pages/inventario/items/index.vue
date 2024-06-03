@@ -20,7 +20,9 @@
     <!-- <div><p>{{ respuesta }}</p></div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <ClientOnly>
-        <Item v-for="(respuestas, index) in respuesta.data" :descripcion="respuestas.description" :image="respuestas.resource" :nombre_item="respuestas.name" :itemId="respuestas.item_id" :serial-number="respuestas.serial_number"  :key="index" />
+        <Item v-for="(respuestas, index) in respuesta.data" :descripcion="respuestas.description"
+          :image="respuestas.resource" :nombre_item="respuestas.name" :itemId="respuestas.item_id"
+          :serial-number="respuestas.serial_number" :key="index" />
       </ClientOnly>
     </div>
   </div>
@@ -28,8 +30,9 @@
 
 <script lang="ts" setup>
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
-const respuesta = ref({
-  data: []});
+const respuesta: any = ref({
+  data: []
+});
 
 onMounted(async () => {
   try {
