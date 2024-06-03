@@ -19,6 +19,7 @@ export const post = async<T>(url: string, data?: {} | string) => {
         return response.data;
     } catch (error: any) {
         let mensaje: string = '';
+        // console.error(error);
         if (error.response) {
             if (error.response.data.message) {
                 mensaje = error.response.data.message

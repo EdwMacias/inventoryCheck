@@ -24,19 +24,14 @@
 </template>
 
 <script setup>
+import { Item } from "#build/components";
+
 
 const route = useRoute();
 const itemId = route.params.id;
 const observations = ref([]);
 const user = ref({});
 
-onMounted(async () => {
-  try {
-    const response = await observationsService.getObservationsByItemId(itemId);
-    observations.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-});
+
 
 </script>

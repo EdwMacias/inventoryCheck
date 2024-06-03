@@ -12,7 +12,7 @@ export const ItemRepository = {
     },
     Pagination: async (url: string | null = null) => {
         const URL_PETICION = (url) ? url : GET_ITEMS_PAGINATION;
-        const response = await http.get<PaginationResponse<ItemEntity>>(URL_PETICION);
+        const response = await http.post<PaginationResponse<ItemEntity>>(URL_PETICION);
         return response;
     }
 

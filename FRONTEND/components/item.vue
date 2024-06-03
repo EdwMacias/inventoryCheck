@@ -15,10 +15,12 @@
 
 <script setup lang="ts">
 
-defineProps({
+const props = defineProps({
   nombre_item: String,
   image: String,
-  descripcion: String
+  descripcion: String, 
+  serialNumber: String,
+  id: String
 });
 
 const agregarObservacion = () => {

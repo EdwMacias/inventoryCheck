@@ -17,44 +17,37 @@
         <button class="join-item btn">4</button>
       </div>
     </div>
+    <!-- <div><p>{{ respuesta }}</p></div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <ClientOnly>
-        <Item v-for="(item, index) in items" :descripcion="item.descripcion" :image="item.image"
-          :nombre_item="item.nombre_item" :key="index" />
+        <Item v-for="(respuestas, index) in respuesta.data" :descripcion="respuestas.description" :image="respuestas.resource" :nombre_item="respuestas.name" :itemId="respuestas.item_id" :serial-number="respuestas.serial_number"  :key="index" />
       </ClientOnly>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
+const respuesta = ref({
+  data: []});
 
-const items = [
-  {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejemplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  },
-  {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejemplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  },
-  {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejemplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  },
-  {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejemplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  },
-  {
-    nombre_item: "ejemplo",
-    descripcion: "Este es un ejemplo",
-    image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
-  },
-  // Repite los objetos de ejemplo aquí
-]
+onMounted(async () => {
+  try {
+    const response = await ItemRepository.Pagination();
+    respuesta.value = response.data;
+    console.log(respuesta.value.data);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+// const items = [
+//   {
+//     nombre_item: "ejemplo",
+//     descripcion: "Este es un ejemplo",
+//     image: "https://hogaruniversal.vtexassets.com/arquivos/ids/163480/L60810-TETERA-INOX-25L.jpg?v=637562810425800000"
+//   }
+// ]
 
 </script>
