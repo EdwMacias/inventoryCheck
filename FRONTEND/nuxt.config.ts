@@ -1,23 +1,17 @@
-
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: [
-    '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
-    '@nuxtjs/tailwindcss',
-    [
-      '@vee-validate/nuxt',
-      {
-        autoImports: true,
-        componentNames: {
-          Form: 'VeeForm',
-          Field: 'VeeField',
-          FieldArray: 'VeeFieldArray',
-          ErrorMessage: 'VeeErrorMessage',
-        },
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/tailwindcss', [
+    '@vee-validate/nuxt',
+    {
+      autoImports: true,
+      componentNames: {
+        Form: 'VeeForm',
+        Field: 'VeeField',
+        FieldArray: 'VeeFieldArray',
+        ErrorMessage: 'VeeErrorMessage',
       },
-    ],
-  ],
+    },
+  ], '@nuxt/image'],
   ssr: true,
   pinia: {
     storesDirs: ["./stores/**"]

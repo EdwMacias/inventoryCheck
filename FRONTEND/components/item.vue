@@ -1,7 +1,7 @@
 <template>
   <div class="card bg-base-100 shadow-xl border-xl mx-2 mt-2">
     <figure>
-      <img :src="image" :alt="descripcion" class="preview">
+      <NuxtImg :src="image" format="webp" :alt="descripcion" class="preview"/>
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ nombre_item }}</h2>
