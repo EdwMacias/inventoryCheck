@@ -15,13 +15,7 @@ class ItemView extends Model
     protected $primaryKey = "item_id";
 
     protected $fillable = [
-        // "name",
         "resource",
     ];
-
-    // public function getResourceUrlAttribute()
-    // {
-    //     return url($this->resource);
-    // }
 
 }

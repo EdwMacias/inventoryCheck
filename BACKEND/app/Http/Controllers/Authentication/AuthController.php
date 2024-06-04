@@ -17,44 +17,30 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $loginRequest)
     {
         $responseHandler = new ResponseHandler();
 
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
+        $usuario = User::where('email', strtolower($loginRequest['email']))->first();
 
-        $usuario = User::where('email', strtolower($credentials['email']))->first();
-
-        $isPassword = Utilidades::VerificarPassword(strtolower($credentials['password']), $usuario->password);
+        $isPassword = Utilidades::VerificarPassword(strtolower($loginRequest['password']), $usuario->password);
 
         if (!$isPassword) {
-            $responseHandler->setMessagess(["Credenciales Incorrectas"]);
-            $responseHandler->setStatus(Response::HTTP_UNAUTHORIZED);
-            return $responseHandler->responses();
+            return $responseHandler->setMessages("Credenciales Incorrectas")->setStatus(Response::HTTP_UNAUTHORIZED)->responses();
         }
-
-        $token = auth()->login($usuario);
+        auth()->login($usuario);
 
         if (auth()->user()->statu_id == 1) {
 
             $data = [
-                'access_token' => $token,
+                'access_token' => auth()->login($usuario),
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ];
 
-
-
-            $responseHandler->setMessages("Inicio de sesión exitoso");
-            $responseHandler->setData($data);
-        } else {
-            $responseHandler->setMessages("El usuario no se encuentra activo");
+            return $responseHandler->setMessages("Inicio de sesión exitoso")->setData($data)->responses();
         }
-
-        return $responseHandler->responses();
+        return $responseHandler->setMessages("El usuario no se encuentra activo")->responses();
     }
 
     public function me()

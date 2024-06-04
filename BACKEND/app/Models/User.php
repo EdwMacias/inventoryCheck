@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Models\Status\Status;
+use App\Utils\Sanizacion;
 use App\Utils\Utilidades;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,8 +60,34 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function statu()
+    public function setNameAttribute($value)
     {
-        return $this->belongsTo(Status::class, 'statu_id');
+        $this->attributes['name'] = Sanizacion::cleanInput($value);
     }
+
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = Sanizacion::cleanInput($value);
+    }
+
+    public function setAddressAttribute($value)
+    {
+        $this->attributes['address'] = Sanizacion::cleanInput($value);
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = Sanizacion::cleanInput($value);
+    }
+
+    public function setNumberTelephoneAttribute($value)
+    {
+        $this->attributes['number_telephone'] = Sanizacion::cleanInput($value);
+    }
+
+    public function setNumberDocumentAttribute($value)
+    {
+        $this->attributes['number_document'] = preg_replace('/[^0-9]/', '', $value);
+    }
+
 }
