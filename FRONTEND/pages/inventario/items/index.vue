@@ -1,28 +1,46 @@
 <template>
   <div class="container mx-auto p-4">
-    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 sticky top-0 bg-white z-10 p-4 shadow">
-      <NuxtLink class="btn btn-active btn-neutral mb-2 md:mb-0" to="registrar/crear">Agregar artículo</NuxtLink>
-      <label class="input input-bordered flex items-center gap-2 w-full md:w-96 mb-2 md:mb-0">
-        <input type="text" class="grow" placeholder="Buscar" />
+    <div class="flex flex-row items-center justify-between mb-2 sticky top-0 rounded-xl z-10 p-4 bg-base-100 bordered shadow-xl rounded-xl gap-2 busqueda" >
+      <!-- Botón de agregar artículo -->
+      <NuxtLink class="btn btn-active btn-neutral hidden sm:inline-flex" to="registrar/crear">
+        Agregar artículo
+      </NuxtLink>
+      <NuxtLink class="btn btn-active btn-neutral inline-flex sm:hidden" to="registrar/crear">
+        +
+      </NuxtLink>
+
+      
+      <!-- Paginación -->
+      <div class="join ">
+        <button v-for="link in filteredLinks" :key="link.label" :disabled="!link.url" 
+        @click="changePage(link.url)" 
+        :class="{'btn-active': link.active}" 
+        class="join-item btn">
+        {{ link.label }}
+      </button>
+    </div>
+    
+    <!-- Input de página -->
+    <div class="flex items-center bordered">
+      <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#" class="input input-bordered w-12 mx-1" />
+      <button @click="goToPage" class="btn btn-active"> > </button>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="search-box">
+      <label class="input input-bordered flex items-center w-96 sm:w-64 ">
+        <input v-if="`window.innerWidth > 640`" type="text" class="grow sm:inline-block w-full" />
+        <input v-else type="text" class="grow sm:inline-block w-full"/>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
           <path fill-rule="evenodd"
             d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
             clip-rule="evenodd" />
         </svg>
       </label>
-      <div class="join flex mb-2 md:mb-0">
-        <button v-for="link in filteredLinks" :key="link.label" :disabled="!link.url" 
-                @click="changePage(link.url)" 
-                :class="{'btn-active': link.active}" 
-                class="join-item btn">
-          {{ link.label }}
-        </button>
-      </div>
-      <div class="flex items-center gap-2 mb-2 md:mb-0">
-        <input type="number" v-model="pageInput" @keydown.enter="goToPage" class="input input-bordered w-24" placeholder="Page #" />
-        <button @click="goToPage" class="btn">Go</button>
-      </div>
     </div>
+
+    </div>
+    <!-- Listado de ítems -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
       <ClientOnly>
         <Item v-for="respuestaItem in respuesta.data" :key="respuestaItem.item_id"
@@ -35,8 +53,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
+
 
 interface RespuestaItem {
   item_id: string;
@@ -111,3 +129,18 @@ onMounted(async () => {
 });
 
 </script>
+
+<style scoped>
+.busqueda:hover {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}
+.busqueda{
+  opacity:0.5
+}
+.search-box:click {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+</style>
