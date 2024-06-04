@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Models\Users;
-
-use App\Utils\Encriptacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +12,6 @@ class Role extends Model
 
     protected $primaryKey = 'role_id';
 
-    // public $incrementing = false;
     protected $fillable = [
         'name'
     ];
@@ -25,16 +22,4 @@ class Role extends Model
         'updated_at'
     ];
 
-    // public $timestamps = false;
-    // public function toArray()
-    
-    // {
-    //     $array = parent::toArray();
-    //     // $array['role_id'] = Encriptacion::getEncriptacion($this->role_id);
-    //     return $array;
-    // }
-    public function users()
-    {
-        return $this->hasMany(User::class, 'role_id');
-    }
 }
