@@ -4,7 +4,7 @@
 
     <VeeForm :validationSchema="formularioSchema" @submit="onSubmit" v-slot="{ meta, errors }">
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <div>
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Nombre</span>
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2  gap-2">
         <div>
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Descripción del articulo</span>
@@ -35,30 +35,22 @@
           <VeeErrorMessage name="description" class="text-error animate__animated animate__fadeIn"></VeeErrorMessage>
         </div>
         <div>
-          <label class="label">
-            <span class="block text-md font-medium leading-6">Cargar Imagen</span>
-          </label>
-          <div class="card card-compact w-100">
+          <div class="card card-compact w-full">
             <div class="card-body">
-              <div class="card-actions justify-end">
-                <input type="file" class="file-input file-input-bordered w-full" name="resource"
-                  @change="handleFileChange" />
-              </div>
-              
+                <input type="file" class="file-input file-input-bordered w-full" name="resource" @change="handleFileChange" />
               <figure class="mt-2">
                 <img ref="itemPhoto" @click="openModal(true)"
                   src="https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg"
                   alt="Imagen del articulo" width="360"  />
               </figure>
               <CardImagenFull :isModalOpen="isModalOpen" :imagen="itemPhoto?.src" @close="openModal" ></CardImagenFull>
-              
             </div>
           </div>
-          <div class="mt-4 flex items-center justify-end gap-x-6">
-            <NuxtLink to="/inventario/items" class="btn btn-neutral">Cancelar</NuxtLink>
-            <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
-          </div>
         </div>
+      </div>
+      <div class=" flex gap-2 w-full grid grid-cols-1 md:grid-cols-2">
+        <NuxtLink to="/inventario/items" class="btn btn-neutral w-50">Cancelar</NuxtLink>
+        <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
   </div>

@@ -42,9 +42,11 @@
     <!-- Listado de ítems -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
       <ClientOnly>
-        <Item v-for="respuestaItem in filteredItems" :key="respuestaItem.item_id" :descripcion="respuestaItem.description" :image="respuestaItem.resource" :nombre_item="respuestaItem.name" :itemId="respuestaItem.item_id" :serial-number="respuestaItem.serial_number" />
+        <Item v-for="respuestaItem in filteredItems" :key="respuestaItem.item_id" :descripcion="respuestaItem.description" :image="respuestaItem.resource" :nombre_item="respuestaItem.name" :itemId="respuestaItem.item_id" :serial-number="respuestaItem.serial_number" @click="openModal(respuestaItem.resource)" />
       </ClientOnly>
     </div>
+    <ImageModal :isOpen="isModalOpen" :image="selectedImage" @close="isModalOpen = false" />
+
   </div>
 </template>
 
@@ -52,7 +54,8 @@
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 const isSearching = ref(false);
 const searchQuery = ref('');
-
+const isModalOpen = ref(false);
+const selectedImage = ref('');
 const busqueda = () => {
   isSearching.value = !isSearching.value;
 };
@@ -62,6 +65,7 @@ interface RespuestaItem {
   description: string;
   serial_number: string;
   resource: string;
+  resourcePreview?: string;
 }
 
 interface PaginationResponse {
@@ -134,6 +138,10 @@ const filteredItems = computed(() => {
   );
 });
 
+const openModal = (image: string) => {
+  selectedImage.value = image;
+  isModalOpen.value = true;
+};
 onMounted(async () => {
   await fetchItems(respuesta.value.path);
 });
