@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Item\ItemObservationController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Authentication\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
 Route::group(['prefix' => 'item'], function ($router) {
     Route::post('create', [ItemController::class, 'store']);
     Route::post('pagination', [ItemController::class, 'pagination']);
+
+    Route::group(['prefix' => 'observation'], function ($router) {
+        Route::post('create', [ItemObservationController::class, 'store']);
+        Route::post('update/{id}', [ItemObservationController::class, 'update']);
+    });
+    
 });

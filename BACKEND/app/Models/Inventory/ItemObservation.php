@@ -3,6 +3,7 @@
 namespace App\Models\Inventory;
 
 use App\Utils\Sanizacion;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,13 @@ class ItemObservation extends Model
     public function setObservationAttribute($value)
     {
         $this->attributes['observation'] = Sanizacion::cleanInput($value);
+    }
+
+    public function hasBeenFiveMinutesSinceCreation(): bool
+    {
+        $creationTime = $this->created_at;
+        $currentTime = Carbon::now();
+        return $creationTime->diffInMinutes($currentTime) >= 5;
     }
 
 

@@ -3,6 +3,7 @@
 namespace App\Services\Interfaces;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
 
 interface InterfaceItemObservationServices
 {
@@ -14,12 +15,12 @@ interface InterfaceItemObservationServices
     public function create(ItemObservationDTO $itemObservationDTO);
     /**
      *
-     * @param string $id
+     * @param string $observationId
      * id de la observacion a actualizar
      * @param ItemObservationDTO $itemObservationDTO
      * dto con los parametros a actualizar
      */
-    public function update(string $id, ItemObservationDTO $itemObservationDTO);
+    public function update(string $observationId, ItemObservationUpdateDto $itemObservationDTO);
     /**
      *
      * @param string $observationId

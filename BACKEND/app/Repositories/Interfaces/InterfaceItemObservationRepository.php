@@ -3,6 +3,8 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
+use App\Models\Inventory\ItemObservation;
 
 interface InterfaceItemObservationRepository
 {
@@ -19,8 +21,9 @@ interface InterfaceItemObservationRepository
      *
      * @param string $observationId
      * id de la observacion a buscar
+     * @return ItemObservation
      */
-    public function getObservationByObservationId(string $observationId);
+    public function getObservationByObservationId(string $observationId) : ItemObservation;
     /**
      *
      * @param \App\DTOs\ItemDTOs\ItemObservationDTO $itemObservationDTO
@@ -39,7 +42,7 @@ interface InterfaceItemObservationRepository
      * datos de la observacion a actualizar
      * @return bool
      */
-    public function update(string $observationId, ItemObservationDTO $itemObservationDTO): bool;
+    public function update(string $observationId, ItemObservationUpdateDto $itemObservationDTO): bool;
     /**
      *
      * @param string $itemId
