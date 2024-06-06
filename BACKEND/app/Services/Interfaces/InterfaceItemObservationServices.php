@@ -22,15 +22,16 @@ interface InterfaceItemObservationServices
     public function update(string $id, ItemObservationDTO $itemObservationDTO);
     /**
      *
-     * @param string $id
+     * @param string $observationId
      * id de la observacion a buscar
      */
-    public function getObservationById(string $id);
+    public function getObservationByObservationId(string $observationId);
     /**
      *
-     * @param string $id
+     * @param string $itemId
      * id del item a buscar por observaciones
      */
-    public function getObservationsByItemId(string $id);
+    public function getObservationsByItemId(string $itemId);
+
 
 }

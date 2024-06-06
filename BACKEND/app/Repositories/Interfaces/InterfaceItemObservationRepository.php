@@ -8,19 +8,19 @@ interface InterfaceItemObservationRepository
 {
      /**
      *
-     * @param string $ObservationId
+     * @param string $observationId
      * id de la observacion a buscar
      * @return bool
      * --Retorna true si existe false si no existe
      */
-    public function exitsObservationByObservationId(string $ObservationId);
+    public function exitsObservationByObservationId(string $observationId);
 
     /**
      *
-     * @param string $ObservationId
+     * @param string $observationId
      * id de la observacion a buscar
      */
-    public function getObservationById(string $ObservationId);
+    public function getObservationByObservationId(string $observationId);
     /**
      *
      * @param \App\DTOs\ItemDTOs\ItemObservationDTO $itemObservationDTO
@@ -33,17 +33,17 @@ interface InterfaceItemObservationRepository
     public function create(ItemObservationDTO $itemObservationDTO): bool;
     /**
      *
-     * @param string $ObservationId
+     * @param string $observationId
      * id de la observacion a actualizar
      * @param ItemObservationDTO $itemObservationDTO
      * datos de la observacion a actualizar
      * @return bool
      */
-    public function update(string $ObservationId, ItemObservationDTO $itemObservationDTO): bool;
+    public function update(string $observationId, ItemObservationDTO $itemObservationDTO): bool;
     /**
      *
-     * @param string $ItemId
+     * @param string $itemId
      * id del item a buscar
      */
-    public function getAllObservationByItemId(string $ItemId): array;
+    public function getAllObservationByItemId(string $itemId): array;
 }

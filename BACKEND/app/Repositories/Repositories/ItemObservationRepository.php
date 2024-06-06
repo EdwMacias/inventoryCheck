@@ -25,44 +25,44 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
 
     /**
      *
-     * @param string $ItemId
+     * @param string $itemId
      * id del item a buscar
      */
-    public function getAllObservationByItemId(string $ItemId): array
+    public function getAllObservationByItemId(string $itemId): array
     {
-        return ItemObservation::where('item_id', $ItemId)->toArray();
+        return ItemObservation::where('item_id', $itemId)->toArray();
     }
     /**
      *
-     * @param string $ObservationId
+     * @param string $observationId
      * id de la observacion a buscar
      */
-    public function getObservationById(string $ObservationId)
+    public function getObservationByObservationId(string $observationId)
     {
-        return ItemObservation::find($ObservationId);
+        return ItemObservation::find($observationId);
     }
 
     /**
      *
-     * @param string $ObservationId
+     * @param string $observationId
      * id de la observacion a actualizar
      * @param ItemObservationDTO $itemObservationDTO
      * datos de la observacion a actualizar
      * @return bool
      */
-    public function update(string $ObservationId, ItemObservationDTO $itemUpdateObservationDTO): bool
+    public function update(string $observationId, ItemObservationDTO $itemUpdateObservationDTO): bool
     {
-        $itemObservation = ItemObservation::find($ObservationId);
+        $itemObservation = ItemObservation::find($observationId);
         $itemObservation->observation = $itemUpdateObservationDTO->observation;
         return $itemObservation->save();
     }
     /**
      *
-     * @param string $ObservationId id de la observacion a buscar
+     * @param string $observationId id de la observacion a buscar
      * @return bool --Retorna true si existe false si no existe
      */
-    public function exitsObservationByObservationId(string $ObservationId)
+    public function exitsObservationByObservationId(string $observationId)
     {
-        return ItemObservation::find($ObservationId)->exists();
+        return ItemObservation::find($observationId)->exists();
     }
 }

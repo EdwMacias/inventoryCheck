@@ -9,6 +9,7 @@ use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
 use App\Repositories\Interfaces\InterfaceTemporaryCode;
+use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Repositories\Repositories\GenderRepository;
 use App\Repositories\Repositories\ItemObservationRepository;
@@ -17,6 +18,7 @@ use App\Repositories\Repositories\ResourceRepository;
 use App\Repositories\Repositories\RolesUserRepository;
 use App\Repositories\Repositories\TemporaryCodeRepository;
 use App\Repositories\Repositories\TypeDocumentRepository;
+use App\Repositories\Repositories\TypesObservationRepository;
 use App\Repositories\Repositories\UsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Services\Interfaces\InterfaceItemServices;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceItemRepository::class, ItemRepository::class);
         $this->app->bind(InterfaceResourceRepository::class, ResourceRepository::class);
         $this->app->bind(InterfaceItemObservationRepository::class, ItemObservationRepository::class);
+        $this->app->bind(InterfaceTypesObservationRepository::class, TypesObservationRepository::class);
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);
         $this->app->bind(InterfaceTemporaryCodeServices::class, TemporaryCodeServices::class);
