@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 
-use App\Respositories\Interfaces\InterfaceResourceRepository;
+use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Models\Storage\Resource;
 use App\Models\Storage\ResourceModel;
 

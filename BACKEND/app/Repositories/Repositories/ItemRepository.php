@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 
 use App\Models\Inventory\Item;
-use App\Respositories\Interfaces\InterfaceItemRepository;
+use App\Repositories\Interfaces\InterfaceItemRepository;
 
 class ItemRepository implements InterfaceItemRepository
 {
@@ -78,5 +78,14 @@ class ItemRepository implements InterfaceItemRepository
     {
         $item = Item::where('serial_number', $serialNumber)->exists();
         return $item;
+    }
+    /**
+     *
+     * @param string $itemId id del item a buscar
+     * @return bool --Retorna true si existe false si no existe
+     */
+    public function existItemByItemId(string $itemId): bool
+    {
+        return Item::find($itemId)->exists();
     }
 }

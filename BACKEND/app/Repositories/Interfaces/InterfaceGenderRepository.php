@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Respositories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 interface InterfaceGenderRepository
 {

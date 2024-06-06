@@ -15,7 +15,6 @@ class TypesObservation extends Model
     protected $fillable = [
         'name'
     ];
-
     protected $hidden = [
         'types_observation',
         'created_at',

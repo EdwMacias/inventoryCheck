@@ -2,23 +2,27 @@
 
 namespace App\Providers;
 
-use App\Respositories\Interfaces\InterfaceDocumentTypeRepository;
-use App\Respositories\Interfaces\InterfaceGenderRepository;
-use App\Respositories\Interfaces\InterfaceItemRepository;
-use App\Respositories\Interfaces\InterfaceResourceRepository;
-use App\Respositories\Interfaces\InterfaceRolesUsuarioRepository;
-use App\Respositories\Interfaces\InterfaceTemporaryCode;
-use App\Respositories\Interfaces\InterfaceUsuarioRepository;
-use App\Respositories\Repositories\GenderRepository;
-use App\Respositories\Repositories\ItemRepository;
-use App\Respositories\Repositories\ResourceRepository;
-use App\Respositories\Repositories\RolesUserRepository;
-use App\Respositories\Repositories\TemporaryCodeRepository;
-use App\Respositories\Repositories\TypeDocumentRepository;
-use App\Respositories\Repositories\UsuarioRepository;
+use App\Repositories\Interfaces\InterfaceDocumentTypeRepository;
+use App\Repositories\Interfaces\InterfaceGenderRepository;
+use App\Repositories\Interfaces\InterfaceItemObservationRepository;
+use App\Repositories\Interfaces\InterfaceItemRepository;
+use App\Repositories\Interfaces\InterfaceResourceRepository;
+use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceTemporaryCode;
+use App\Repositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Repositories\GenderRepository;
+use App\Repositories\Repositories\ItemObservationRepository;
+use App\Repositories\Repositories\ItemRepository;
+use App\Repositories\Repositories\ResourceRepository;
+use App\Repositories\Repositories\RolesUserRepository;
+use App\Repositories\Repositories\TemporaryCodeRepository;
+use App\Repositories\Repositories\TypeDocumentRepository;
+use App\Repositories\Repositories\UsuarioRepository;
+use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Services\Interfaces\InterfaceItemServices;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
+use App\Services\Services\ItemObservationServices;
 use App\Services\Services\ItemServices;
 use App\Services\Services\TemporaryCodeServices;
 use App\Services\Services\UsuarioServices;
@@ -39,11 +43,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceTemporaryCode::class, TemporaryCodeRepository::class);
         $this->app->bind(InterfaceItemRepository::class, ItemRepository::class);
         $this->app->bind(InterfaceResourceRepository::class, ResourceRepository::class);
-
+        $this->app->bind(InterfaceItemObservationRepository::class, ItemObservationRepository::class);
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);
         $this->app->bind(InterfaceTemporaryCodeServices::class, TemporaryCodeServices::class);
         $this->app->bind(InterfaceItemServices::class, ItemServices::class);
+        $this->app->bind(InterfaceItemObservationServices::class, ItemObservationServices::class);
     }
 
     /**

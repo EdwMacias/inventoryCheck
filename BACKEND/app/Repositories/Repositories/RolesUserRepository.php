@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 
 use App\Models\Users\Role;
 use App\Models\Users\UserRole;
-use App\Respositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
 
 class RolesUserRepository implements InterfaceRolesUsuarioRepository
 {

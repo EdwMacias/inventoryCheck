@@ -2,16 +2,13 @@
 
 namespace App\Services\Services;
 
-use App\Jobs\CrearCodigoTemporal;
 use App\Jobs\ProcesarCorreo;
 use App\Mail\EmergencyCallReceived;
-use App\Respositories\Interfaces\InterfaceTemporaryCode;
-use App\Respositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceTemporaryCode;
+use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Utils\ResponseHandler;
 use Exception;
-use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 

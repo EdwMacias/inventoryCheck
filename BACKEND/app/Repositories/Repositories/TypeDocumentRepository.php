@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 use App\Models\Users\TypeDocument;
-use App\Respositories\Interfaces\InterfaceDocumentTypeRepository;
+use App\Repositories\Interfaces\InterfaceDocumentTypeRepository;
 
 class TypeDocumentRepository extends TypeDocument implements InterfaceDocumentTypeRepository
 {

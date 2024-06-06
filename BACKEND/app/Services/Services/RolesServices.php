@@ -2,8 +2,8 @@
 
 namespace App\Services\Services;
 
-use App\Respositories\Interfaces\InterfaceRolesUsuarioRepository;
-use App\Respositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceRolesServices;
 use App\Utils\ResponseHandler;
 use Exception;

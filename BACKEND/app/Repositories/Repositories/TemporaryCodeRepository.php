@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 
-use App\Respositories\Interfaces\InterfaceTemporaryCode;
+use App\Repositories\Interfaces\InterfaceTemporaryCode;
 use App\Models\TemporaryCode;
 
 class TemporaryCodeRepository implements InterfaceTemporaryCode

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Respositories\Interfaces;
-
-use App\Models\Users\UserRole;
+namespace App\Repositories\Interfaces;
 
 interface InterfaceRolesUsuarioRepository
 {

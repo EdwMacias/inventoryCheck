@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Respositories\Repositories;
+namespace App\Repositories\Repositories;
 
 use App\Models\Users\Gender;
-use App\Respositories\Interfaces\InterfaceGenderRepository;
+use App\Repositories\Interfaces\InterfaceGenderRepository;
 
 class GenderRepository extends Gender implements InterfaceGenderRepository
 {

@@ -2,10 +2,10 @@
 
 namespace App\Services\Services;
 
-use App\Respositories\Interfaces\InterfaceDocumentTypeRepository;
-use App\Respositories\Interfaces\InterfaceGenderRepository;
-use App\Respositories\Interfaces\InterfaceUsuarioRepository;
-use App\Respositories\Repositories\TemporaryCodeRepository;
+use App\Repositories\Interfaces\InterfaceDocumentTypeRepository;
+use App\Repositories\Interfaces\InterfaceGenderRepository;
+use App\Repositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Repositories\TemporaryCodeRepository;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Utils\ResponseHandler;
 use App\Utils\TablesServerSide;

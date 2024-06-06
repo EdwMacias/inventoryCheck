@@ -84,15 +84,18 @@ class TablesServerSide
     private function setTotalRecords($totalRecords)
     {
         $this->totalRecords = $totalRecords;
+        return $this;
     }
     private function setfilterRecords($filterRecords)
     {
         $this->filterRecords = $filterRecords;
+        return $this;
     }
 
     private function setDrawn($drawn)
     {
         $this->drawn = $drawn;
+        return $this;
     }
 
     /**
@@ -111,7 +114,6 @@ class TablesServerSide
     public function setCampos($campos)
     {
         $this->campos = $campos;
-
         return $this;
     }
 

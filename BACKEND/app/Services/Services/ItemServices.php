@@ -4,8 +4,8 @@ namespace App\Services\Services;
 
 use App\Models\Inventory\Item;
 use App\Models\Views\ItemView;
-use App\Respositories\Interfaces\InterfaceItemRepository;
-use App\Respositories\Interfaces\InterfaceResourceRepository;
+use App\Repositories\Interfaces\InterfaceItemRepository;
+use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Services\Interfaces\InterfaceItemServices;
 use App\Utils\ResponseHandler;
 use Exception;
