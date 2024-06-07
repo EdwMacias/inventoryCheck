@@ -15,7 +15,7 @@ return new class extends Migration
             CREATE OR REPLACE VIEW item_observations_with_resource AS
             SELECT io.*, ar.resource
             FROM item_observations io
-            LEFT JOIN audiovisual_resource ar ON io.item_observation_id = ar.audiovisual_resource_id
+            LEFT JOIN audiovisual_resource ar ON io.item_observation_id = ar.item_observation_id
         ");
     }
 
