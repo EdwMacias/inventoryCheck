@@ -28,7 +28,7 @@ return new class extends Migration
         });
 
         Schema::create('item_observations', function (Blueprint $table) {
-            $table->increments('item_observation_id');
+            $table->string('item_observation_id',40)->primary();
 
             $table->text('observation');
 
@@ -55,7 +55,7 @@ return new class extends Migration
             $table->increments('audiovisual_resource_id');
 
             $table->string('item_id',40)->nullable();
-            $table->integer('item_observation_id')->nullable()->unsigned();
+            $table->string('item_observation_id',40)->nullable();
 
             $table->text('resource');
 
