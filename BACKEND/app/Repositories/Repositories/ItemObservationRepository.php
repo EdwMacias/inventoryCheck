@@ -3,7 +3,7 @@
 namespace App\Repositories\Repositories;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
-use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
 use App\Models\Inventory\ItemObservation;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 
@@ -52,7 +52,7 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
      * datos de la observacion a actualizar
      * @return bool
      */
-    public function update(string $observationId, ItemObservationUpdateDto $itemUpdateObservationDTO): bool
+    public function update(string $observationId, ItemObservationUpdateDTO $itemUpdateObservationDTO): bool
     {
         $itemObservation = ItemObservation::find($observationId);
         $itemObservation->observation = $itemUpdateObservationDTO->observation;

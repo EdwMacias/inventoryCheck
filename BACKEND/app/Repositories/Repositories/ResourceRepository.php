@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Repositories;
 
+use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Models\Storage\Resource;
 use App\Models\Storage\ResourceModel;
@@ -10,12 +11,12 @@ class ResourceRepository implements InterfaceResourceRepository
 {
     /**
      *
-     * @param array $resource
+     * @param ResourceDTO $resource
      * @return bool
      */
-    public function create(array $resource): bool
+    public function create(ResourceDTO $resource): bool
     {
-        $resourceModel = new ResourceModel($resource);
+        $resourceModel = new ResourceModel($resource->toArray());
         return $resourceModel->save();
     }
 }

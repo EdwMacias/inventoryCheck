@@ -2,7 +2,7 @@
 
 namespace App\DTOs\ItemDTOs;
 
-class ItemObservationUpdateDto
+class ItemObservationUpdateDTO
 {
     public $observation;
     public $types_observation_id;

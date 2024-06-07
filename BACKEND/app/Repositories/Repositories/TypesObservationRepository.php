@@ -10,13 +10,13 @@ class TypesObservationRepository implements InterfaceTypesObservationRepository
 
     /**
      *
-     * @param string $typeObservatioId
+     * @param string $typeObservationId
      * -- ID del tipo de observación a buscar
      * @return bool
      * -- Retorna true si existe, false si no existe
      */
-    public function existTypeObservationByTypeObservatioId(string $typeObservatioId): bool
+    public function existTypeObservationByTypeObservatioId(string $typeObservationId): bool
     {
-        return TypesObservation::find($typeObservatioId)->exists();
+        return TypesObservation::where('types_observation_id', $typeObservationId)->exists();
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\DTOs\ItemDTOs\ItemCreateDTO;
 
 interface InterfaceItemRepository
 {
-    public function create(array $item): bool;
+    public function create(ItemCreateDTO $item): bool;
     public function update($id, array $item);
     public function delete($id);
     public function inactivate($id);

@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
-use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
 use App\Models\Inventory\ItemObservation;
 
 interface InterfaceItemObservationRepository
@@ -42,7 +42,7 @@ interface InterfaceItemObservationRepository
      * datos de la observacion a actualizar
      * @return bool
      */
-    public function update(string $observationId, ItemObservationUpdateDto $itemObservationDTO): bool;
+    public function update(string $observationId, ItemObservationUpdateDTO $itemObservationDTO): bool;
     /**
      *
      * @param string $itemId

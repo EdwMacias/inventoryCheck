@@ -2,6 +2,8 @@
 
 namespace App\Services\Services;
 
+use App\DTOs\ItemDTOs\ItemCreateDTO;
+use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Models\Inventory\Item;
 use App\Models\Views\ItemView;
 use App\Repositories\Interfaces\InterfaceItemRepository;
@@ -39,39 +41,29 @@ class ItemServices implements InterfaceItemServices
         $responseHandle = new ResponseHandler();
 
         try {
-            //code...
-            $primaryKey = uuid_create();
 
-            $item = [
-                "item_id" => $primaryKey,
-                "name" => $item["name"],
-                "serial_number" => $item["serial_number"],
-                "description" => $item["description"],
-            ];
+            $itemDto = ItemCreateDTO::fromArray($item);
 
             $ruta = $resource->store('imagenes', 'public');
             $url = asset('storage/' . $ruta);
 
-            $resource = [
-                "item_id" => $primaryKey,
-                "resource" => $url
-            ];
+            $resourceDTO = new ResourceDTO($url, $itemDto->item_id, null);
 
-            $result = $this->itemRepository->getItemByName($item["name"]);
+            $result = $this->itemRepository->getItemByName($itemDto->name);
 
             if ($result) {
                 throw new Exception("Ya existe este nombre", Response::HTTP_CONFLICT);
             }
 
-            $result = $this->itemRepository->getItemBySerialNumber($item["serial_number"]);
+            $result = $this->itemRepository->getItemBySerialNumber($itemDto->serial_number);
 
             if ($result) {
                 throw new Exception("Este serial ya fue agregado", Response::HTTP_CONFLICT);
             }
 
 
-            $this->itemRepository->create($item);
-            $this->resourceRepository->create($resource);
+            $this->itemRepository->create($itemDto);
+            $this->resourceRepository->create($resourceDTO);
 
             return $responseHandle->setData(true)->setMessages("Creado")->setStatus(200)->responses();
         } catch (\Throwable $th) {

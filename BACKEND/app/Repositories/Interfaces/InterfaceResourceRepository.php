@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\DTOs\ResourceDTOs\ResourceDTO;
 
 interface InterfaceResourceRepository
 {
     /**
      *
-     * @param array $resource
+     * @param ResourceDTO $resource
      * @return bool
      */
-    public function create(array $resource): bool;
+    public function create(ResourceDTO $resource): bool;
     // public function create(array $resource);
 }

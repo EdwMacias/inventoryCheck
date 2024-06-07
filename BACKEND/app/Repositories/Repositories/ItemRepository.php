@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Repositories;
 
+use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\Models\Inventory\Item;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 
@@ -21,12 +22,12 @@ class ItemRepository implements InterfaceItemRepository
 
     /**
      *
-     * @param array $item
+     * @param ItemCreateDTO $item
      * @return bool
      */
-    public function create(array $item): bool
+    public function create(ItemCreateDTO $item): bool
     {
-        $itemModel = new Item($item);
+        $itemModel = new Item($item->toArray());
         $itemModel->statu_id = 1;
         return $itemModel->save();
     }
@@ -86,6 +87,6 @@ class ItemRepository implements InterfaceItemRepository
      */
     public function existItemByItemId(string $itemId): bool
     {
-        return Item::find($itemId)->exists();
+        return Item::where('item_id', $itemId)->exists();
     }
 }

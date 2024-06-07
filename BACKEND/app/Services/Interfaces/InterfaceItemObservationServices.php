@@ -3,7 +3,8 @@
 namespace App\Services\Interfaces;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
-use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
+use Illuminate\Http\UploadedFile;
 
 interface InterfaceItemObservationServices
 {
@@ -11,8 +12,9 @@ interface InterfaceItemObservationServices
      *
      * @param ItemObservationDTO $itemObservationDTO
      * dto con los datos a crear de la observacion del item
+     * @param array $resources
      */
-    public function create(ItemObservationDTO $itemObservationDTO);
+    public function create(ItemObservationDTO $itemObservationDTO, array $resources);
     /**
      *
      * @param string $observationId
@@ -20,7 +22,7 @@ interface InterfaceItemObservationServices
      * @param ItemObservationDTO $itemObservationDTO
      * dto con los parametros a actualizar
      */
-    public function update(string $observationId, ItemObservationUpdateDto $itemObservationDTO);
+    public function update(string $observationId, ItemObservationUpdateDTO $itemObservationDTO);
     /**
      *
      * @param string $observationId

@@ -3,15 +3,18 @@
 namespace App\Services\Services;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
-use App\DTOs\ItemDTOs\ItemObservationUpdateDto;
+use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
+use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
+use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Utils\ResponseHandler;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -22,26 +25,32 @@ class ItemObservationServices implements InterfaceItemObservationServices
     protected InterfaceItemRepository $itemRepository;
     protected InterfaceItemObservationRepository $itemObservationRepository;
     protected InterfaceTypesObservationRepository $typeObservationRepository;
+    protected InterfaceResourceRepository $resourceRepository;
+
 
     public function __construct(
         InterfaceItemObservationRepository $interfaceItemObservationRepository,
         InterfaceItemRepository $interfaceItemRepository,
         InterfaceUsuarioRepository $interfaceUsuarioRepository,
-        InterfaceTypesObservationRepository $interfaceTypesObservationRepository
+        InterfaceTypesObservationRepository $interfaceTypesObservationRepository,
+        InterfaceResourceRepository $interfaceResourceRepository
     ) {
         $this->usuarioRepository = $interfaceUsuarioRepository;
         $this->itemRepository = $interfaceItemRepository;
         $this->itemObservationRepository = $interfaceItemObservationRepository;
         $this->typeObservationRepository = $interfaceTypesObservationRepository;
+        $this->resourceRepository = $interfaceResourceRepository;
     }
 
     /**
      *
      * @param ItemObservationDTO $itemObservationDTO
      * dto con los datos a crear de la observacion del item
+     * @param UploadedFile $resource
+     * recursos a cargar de la observacion
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(ItemObservationDTO $itemObservationDTO)
+    public function create(ItemObservationDTO $itemObservationDTO, array $resources)
     {
         $responseHandler = new ResponseHandler();
         try {
@@ -59,6 +68,15 @@ class ItemObservationServices implements InterfaceItemObservationServices
             }
 
             $response = $this->itemObservationRepository->create($itemObservationDTO);
+
+            if ($response) {
+                foreach ($resources as $resource) {
+                    $ruta = $resource->store('imagenes', 'public');
+                    $url = asset('storage/' . $ruta);
+                    $resourceDTO = new ResourceDTO($url, null, $itemObservationDTO->item_observation_id);
+                    $this->resourceRepository->create($resourceDTO);
+                }
+            }
 
             return $responseHandler->setData($response)->setMessages("Observación Creada")->responses();
 
@@ -128,7 +146,7 @@ class ItemObservationServices implements InterfaceItemObservationServices
      * @param ItemObservationDTO $itemObservationDTO
      * dto con los parametros a actualizar
      */
-    public function update(string $observationId, ItemObservationUpdateDto $itemObservationUpdateDto)
+    public function update(string $observationId, ItemObservationUpdateDTO $itemObservationUpdateDto)
     {
         $responseHandler = new ResponseHandler();
         try {
