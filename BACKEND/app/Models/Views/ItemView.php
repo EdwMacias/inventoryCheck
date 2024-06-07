@@ -10,7 +10,7 @@ class ItemView extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = "item_views";
+    protected $table = "audiovisual_items";
 
     protected $primaryKey = "item_id";
 
