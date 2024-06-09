@@ -2,18 +2,19 @@
 
 namespace App\Utils;
 
-use Exception;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TablesServerSide
 {
-    protected $table;
-    protected $campos;
+    protected string $table;
+    protected array $campos;
     protected Request $request;
-    private $totalRecords;
-    private $filterRecords;
-    private $drawn;
+    private int $totalRecords;
+    private int $filterRecords;
+    private int $drawn;
+
     public function __construct(string $table, Request $request, array $campos)
     {
         $this->campos = $campos;
@@ -21,46 +22,26 @@ class TablesServerSide
         $this->request = $request;
     }
 
-    public function createTable()
+    public function createTable(): Builder
     {
-
-        $query = \DB::table($this->table)->select($this->campos);
+        $query = DB::table($this->table)->select($this->campos);
 
         $this->setTotalRecords($query->count());
-
-        $this->setDrawn(intval($this->request->input("draw", 1)));
-
-        $campos = $this->getCampos();
+        $this->setDrawn((int)$this->request->input("draw", 1));
 
         if ($this->request->has('search') && $this->request->input('search.value')) {
             $searchValue = $this->request->input('search.value');
-            $campos = $this->campos;
-            $query->where(function ($q) use ($searchValue, $campos) {
-                foreach ($campos as $campo) {
-                    $q->orWhere($campo, 'LIKE', "%$searchValue%");
-                }
-            });
+            $query = $this->applySearchFilter($query, $searchValue);
         }
 
-        $this->setfilterRecords($query->count());
-
-        $columns = [];
-
-        for ($i = 0; $i < sizeof($campos); $i++) {
-            $columns[] = ['db' => $campos[$i], 'dt' => $i];
-        }
+        $this->setFilterRecords($query->count());
 
         if ($this->request->has('order')) {
-            foreach ($this->request->input('order') as $order) {
-                $columnIndex = $order['column'];
-                $columnName = $columns[$columnIndex]['db'];
-                $direction = $order['dir'];
-                $query->orderBy($columnName, $direction);
-            }
+            $query = $this->applyOrder($query);
         }
 
-        $start = $this->request->input('start', 0);
-        $length = $this->request->input('length', 10);
+        $start = (int)$this->request->input('start', 0);
+        $length = (int)$this->request->input('length', 10);
 
         if ($length != -1) {
             $query->offset($start)->limit($length);
@@ -69,39 +50,74 @@ class TablesServerSide
         return $query;
     }
 
-    public function getterTable(Builder $query)
+    public function getterTable(Builder $query): string
     {
-        $data = $query->select($this->campos);
+        $data = $query->get();
 
         return json_encode([
             "draw" => $this->drawn,
             "recordsTotal" => $this->totalRecords,
             "recordsFiltered" => $this->filterRecords,
-            "data" => $data->get(),
+            "data" => $data,
         ]);
     }
 
-    private function setTotalRecords($totalRecords)
+    private function setTotalRecords(int $totalRecords): self
     {
         $this->totalRecords = $totalRecords;
         return $this;
     }
-    private function setfilterRecords($filterRecords)
+
+    private function setFilterRecords(int $filterRecords): self
     {
         $this->filterRecords = $filterRecords;
         return $this;
     }
 
-    private function setDrawn($drawn)
+    private function setDrawn(int $drawn): self
     {
         $this->drawn = $drawn;
         return $this;
     }
 
+    private function applySearchFilter(Builder $query, string $searchValue): Builder
+    {
+        return $query->where(function ($q) use ($searchValue) {
+            foreach ($this->campos as $campo) {
+                $q->orWhere($campo, 'LIKE', "%$searchValue%");
+            }
+        });
+    }
+
+    private function applyOrder(Builder $query): Builder
+    {
+        $columns = $this->getColumns();
+
+        foreach ($this->request->input('order') as $order) {
+            $columnIndex = (int)$order['column'];
+            $columnName = $columns[$columnIndex]['db'];
+            $direction = $order['dir'];
+            $query->orderBy($columnName, $direction);
+        }
+
+        return $query;
+    }
+
+    private function getColumns(): array
+    {
+        $columns = [];
+
+        foreach ($this->campos as $index => $campo) {
+            $columns[] = ['db' => $campo, 'dt' => $index];
+        }
+
+        return $columns;
+    }
+
     /**
      * Get the value of campos
      */
-    public function getCampos()
+    public function getCampos(): array
     {
         return $this->campos;
     }
@@ -109,9 +125,9 @@ class TablesServerSide
     /**
      * Set the value of campos
      *
-     * @return  self
+     * @return self
      */
-    public function setCampos($campos)
+    public function setCampos(array $campos): self
     {
         $this->campos = $campos;
         return $this;
@@ -120,7 +136,7 @@ class TablesServerSide
     /**
      * Get the value of table
      */
-    public function getTable()
+    public function getTable(): string
     {
         return $this->table;
     }
@@ -128,12 +144,11 @@ class TablesServerSide
     /**
      * Set the value of table
      *
-     * @return  self
+     * @return self
      */
-    public function setTable($table)
+    public function setTable(string $table): self
     {
         $this->table = $table;
-
         return $this;
     }
 }
