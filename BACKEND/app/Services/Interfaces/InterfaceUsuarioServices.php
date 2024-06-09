@@ -2,23 +2,66 @@
 
 namespace App\Services\Interfaces;
 
+use App\DTOs\Usuario\UsuarioCreateDTO;
 use App\Models\User;
 use App\Utils\ResponseHandler;
+use Illuminate\Http\JsonResponse;
 
 interface InterfaceUsuarioServices
 {
-  public function crearUsuario($UserModel);
-  public function actualizarUsuario($id, array $usuario): ResponseHandler;
-  public function eliminarUsuario($id);
-  public function obtenerUsuarios();
 
   /**
-   *
-   * @param string $id
+   * Crear Usuario
+   * @param UsuarioCreateDTO $usuarioCreateDTO
+   * Dto de usuario a crear
+   * @return JsonResponse
+   */
+  public function crearUsuario(UsuarioCreateDTO $usuarioCreateDTO): JsonResponse;
+  
+  /**
+   * Actualizar usuario
+   * @param string $userId
+   * Id del usuario a actualizar
+   * @param UsuarioCreateDTO $usuarioCreateDTO
+   * Datos del usuario a actualizar
+   */
+  public function actualizarUsuario(string $userId, UsuarioCreateDTO $usuarioCreateDTO): JsonResponse;
+  
+  /**
+   * Inactivar usuario por ID
+   * @param string $userId
+   * Id del usuario a inactivar
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function inactivar(string $userId): JsonResponse;
+  
+  /**
+   * Activar usuario por id
+   * @param string $userId
+   * Id del usuario a activar
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function activar(string $userId): JsonResponse;
+  
+  /**
+   * metodo para retornar los usuarios
+   */
+  public function obtenerUsuarios();
+  
+  /**
+   *Cambiar contraseña del usuario
+   * @param string $code
+   * codigo recibido del usuario
    * @param array $usuario
    * @return ResponseHandler
    */
-  public function updatePassword($id, array $usuario);
+  public function updatePassword($code, array $usuario);
 
-  public function obtenerUsuarioId($id): ResponseHandler;
+  /**
+   * Recuperar usaurio por el id
+   * @param string $userId
+   * Id del usuario a buscar
+   * @return JsonResponse
+   */
+  public function obtenerUsuarioId($userId): JsonResponse;
 }

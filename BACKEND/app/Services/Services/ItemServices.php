@@ -3,6 +3,7 @@
 namespace App\Services\Services;
 
 use App\DTOs\ItemDTOs\ItemCreateDTO;
+use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Models\Inventory\Item;
 use App\Models\Views\ItemView;
@@ -13,6 +14,7 @@ use App\Utils\ResponseHandler;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemServices implements InterfaceItemServices
@@ -28,41 +30,37 @@ class ItemServices implements InterfaceItemServices
     }
     /**
      * Crea un item.
-     *
-     *@param array $item   
+     *@param ItemCreateDTO $item   
      *Datos del item para crear
      *@param mixed $resource 
      *Imagen capturada con la función file de la request
      * @return JsonResponse
      */
-
-    public function create(array $item, $resource): JsonResponse
+    public function create(ItemCreateDTO $itemCreateDTO, $resource): JsonResponse
     {
         $responseHandle = new ResponseHandler();
 
         try {
 
-            $itemDto = ItemCreateDTO::fromArray($item);
-
             $ruta = $resource->store('imagenes', 'public');
             $url = asset('storage/' . $ruta);
 
-            $resourceDTO = new ResourceDTO($url, $itemDto->item_id, null);
+            $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
 
-            $result = $this->itemRepository->getItemByName($itemDto->name);
+            $result = $this->itemRepository->getItemByName($itemCreateDTO->name);
 
             if ($result) {
                 throw new Exception("Ya existe este nombre", Response::HTTP_CONFLICT);
             }
 
-            $result = $this->itemRepository->getItemBySerialNumber($itemDto->serial_number);
+            $result = $this->itemRepository->getItemBySerialNumber($itemCreateDTO->serial_number);
 
             if ($result) {
                 throw new Exception("Este serial ya fue agregado", Response::HTTP_CONFLICT);
             }
 
 
-            $this->itemRepository->create($itemDto);
+            $this->itemRepository->create($itemCreateDTO);
             $this->resourceRepository->create($resourceDTO);
 
             return $responseHandle->setData(true)->setMessages("Creado")->setStatus(200)->responses();
@@ -75,20 +73,22 @@ class ItemServices implements InterfaceItemServices
 
 
     /**
-     * Devuelve una lista de los items.
-     *
-     *
+     * Lista los items por paginación
      * @return JsonResponse
      */
     public function listItemPagination(): JsonResponse
     {
         $responseHandler = new ResponseHandler();
         try {
-            $items = ItemView::paginate(10);
+            $request = Request::capture();
+
+            $perPage = $request->input('perPage', 10);
+            $page = $request->input('page', 1);
+
+            $items = $this->itemRepository->paginationItems($perPage, $page);
 
             $items->getCollection()->transform(function ($item) {
-                $item->resource = url($item->resource);
-                return $item;
+                return ItemViewPaginationDTO::fromModel($item);
             });
 
             return $responseHandler->setData($items)->setMessages("Datos Traidos Correctamente")->responses();
@@ -101,9 +101,4 @@ class ItemServices implements InterfaceItemServices
 
     }
 
-
-    // public function update($id, array $item): JsonResponse
-    // {
-    //     throw new Exception("Error Processing Request", 1);
-    // }
 }
