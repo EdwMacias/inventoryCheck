@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Item;
 
+use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\Events\ServerCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
@@ -23,34 +24,25 @@ class ItemController extends Controller
         $this->itemService = $interfaceItemServices;
     }
 
+    /**
+     * Crea un item
+     * @param ItemRequest $itemCreacionRequest
+     * request de creacion
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(ItemRequest $itemCreacionRequest)
     {
-        return $this->itemService->create($itemCreacionRequest->toArray(), $itemCreacionRequest->file("resource"));
+        $itemCreateDto = ItemCreateDTO::fromArray($itemCreacionRequest->all());
+        return $this->itemService->create($itemCreateDto, $itemCreacionRequest->file("resource"));
     }
 
     /**
-     * Display the specified resource.
+     * Pagina los items
+     * perpage determina los items a mostrar
+     * page la pagina que va a renderizar
      */
     public function pagination()
     {
-        //
         return $this->itemService->listItemPagination();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ItemRequest $itemRequest, string $id)
-    {
-        //
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

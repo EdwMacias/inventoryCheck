@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Usuario;
 
+use App\DTOs\Usuario\UsuarioCreateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UsuarioRequest;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use Illuminate\Http\Request;
-
-
 
 class UsuarioController extends Controller
 {
@@ -24,36 +23,57 @@ class UsuarioController extends Controller
         $this->_temporaryServices = $interfaceTemporaryCodeServices;
     }
 
-
-    public function store(UsuarioRequest $request)
-    {
-        $usuario = $request->all();
-        $mensaje = $this->_usuarioService->crearUsuario($usuario);
-        return $mensaje->responses();
-    }
-
+    /**
+     * recupera todos los usuarios por filtraciones ssr
+     */
     public function show()
     {
         return $this->_usuarioService->obtenerUsuarios();
     }
-
-    public function update($id, UsuarioRequest $request)
+    
+    /**
+     * Crea un usuario
+     * @param UsuarioRequest $usuarioRequest
+     */
+    public function store(UsuarioRequest $usuarioRequest)
     {
-        $usuario = $request->all();
-        $mensaje = $this->_usuarioService->actualizarUsuario($id, $usuario);
-        return $mensaje->responses();
-
+        $usuarioCreateDTO = UsuarioCreateDTO::fromArray($usuarioRequest->all());
+        return $this->_usuarioService->crearUsuario($usuarioCreateDTO);
     }
 
-    public function destroy(int $id)
+    /**
+     * Actualiza un usuario
+     * @param $id
+     * id del usuario
+     * @param UsuarioRequest $usuarioRequest
+     */
+    public function update($id, UsuarioRequest $usuarioRequest)
     {
-        $mensaje = $this->_usuarioService->eliminarUsuario($id);
-        return $mensaje->responses();
+        $usuarioCreateDTO = UsuarioCreateDTO::fromArray($usuarioRequest->all());
+        return $this->_usuarioService->actualizarUsuario($id, $usuarioCreateDTO);
+    }
+    /**
+     * Inactiva un usuario
+     * @param $id
+     * id del usuario
+     */
+    public function inactivar($id)
+    {
+        return $this->_usuarioService->inactivar($id);
+    }
+    /**
+     * Activa un usuario
+     * @param $id
+     * id del usuario
+     */
+    public function activar($id)
+    {
+        return $this->_usuarioService->activar($id);
     }
 
-    public function updatePassword($code, UpdatePasswordRequest $request)
+    public function updatePassword($code, UpdatePasswordRequest $updatePasswordRequest)
     {
-        $password = $request->all();
+        $password = $updatePasswordRequest->all();
         $response = $this->_usuarioService->updatePassword($code, $password);
         return $response->responses();
     }
@@ -72,9 +92,11 @@ class UsuarioController extends Controller
         return $response->responses();
     }
 
+    /**
+     * obtiene el usuario por el id
+     */
     public function getUsuarioId($id)
     {
-        $response = $this->_usuarioService->obtenerUsuarioId($id);
-        return $response->responses();
+        return $this->_usuarioService->obtenerUsuarioId($id);
     }
 }

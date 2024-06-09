@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Authentication;
 
+use App\DTOs\AuthenticationDTOs\LoginRequestDTO;
+use App\DTOs\AuthenticationDTOs\LoginResponseDTO;
+use App\DTOs\Usuario\UsuarioResponseDTO;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,68 +15,84 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
 
-    public function __construct()
+    protected InterfaceUsuarioRepository $usuarioRepository;
+
+    public function __construct(InterfaceUsuarioRepository $interfaceUsuarioRepository)
     {
         $this->middleware('auth:api', ['except' => ['login']]);
+        $this->usuarioRepository = $interfaceUsuarioRepository;
     }
 
     public function login(LoginRequest $loginRequest)
     {
         $responseHandler = new ResponseHandler();
 
-        $usuario = User::where('email', strtolower($loginRequest['email']))->first();
+        $loginRequestDto = LoginRequestDTO::fromArray($loginRequest->all());
 
-        $isPassword = Utilidades::VerificarPassword(strtolower($loginRequest['password']), $usuario->password);
+        $usuario = $this->usuarioRepository->getUserByEmail($loginRequestDto->email);
+
+        if (!$usuario) {
+            return $responseHandler
+                ->setMessages("Error")
+                ->setData(["error" => "Usuario no registrado"])
+                ->setStatus(Response::HTTP_NOT_FOUND)->responses();
+        }
+
+        $isPassword = Utilidades::VerificarPassword(strtolower($loginRequestDto->password), $usuario->password);
 
         if (!$isPassword) {
-            return $responseHandler->setMessages("Credenciales Incorrectas")->setStatus(Response::HTTP_UNAUTHORIZED)->responses();
+            return $responseHandler
+                ->setMessages("Error")
+                ->setData(["error" => "Credenciales Incorrectas"])
+                ->setStatus(Response::HTTP_UNAUTHORIZED)->responses();
         }
+
         auth()->login($usuario);
 
         if (auth()->user()->statu_id == 1) {
-
-            $data = [
-                'access_token' => auth()->login($usuario),
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
-            ];
-
-            return $responseHandler->setMessages("Inicio de sesión exitoso")->setData($data)->responses();
+            $expires_in = auth()->factory()->getTTL() * 60;
+            $loginResponseDTO = new LoginResponseDTO(auth()->login($usuario), 'bearer', $expires_in);
+            return $responseHandler
+                ->setMessages("Inicio de sesión exitoso")
+                ->setData($loginResponseDTO->toArray())
+                ->responses();
         }
-        return $responseHandler->setMessages("El usuario no se encuentra activo")->responses();
+
+        return $responseHandler
+            ->setMessages("Error")
+            ->setData(["error" => "El usuario no se encuentra activo"])
+            ->setStatus(Response::HTTP_UNAUTHORIZED)
+            ->responses();
     }
 
     public function me()
     {
+        $responseHandler = new ResponseHandler();
         $usuario = auth()->user();
-        $resultado = User::find($usuario->getAuthIdentifier())->toArray();
-        $response = new ResponseHandler('Usuario Auntenticado', $resultado);
-        return $response->responses();
+        $usuario = $this->usuarioRepository->getUserByID($usuario->getAuthIdentifier());
+        $usuarioResponseDTO = UsuarioResponseDTO::fromArray($usuario->toArray())->toArray();
+        return $responseHandler->setMessages("Usuario Authenticado")
+            ->setData($usuarioResponseDTO)
+            ->responses();
     }
 
     public function logout()
     {
+        $responseHandler = new ResponseHandler('Conexión Terminada');
         auth()->logout();
-        $responseHandler = new ResponseHandler('Successfully logged out');
         return $responseHandler->responses();
     }
 
     public function refresh()
     {
+        $responseHandler = new ResponseHandler('Token Refrescado');
+
         $token = auth()->refresh();
+        $expires_in = auth()->factory()->getTTL() * 60;
 
-        $data = [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ];
-
-        $responseHandler = new ResponseHandler('Token Refrescado', $data);
-        return $responseHandler->responses();
+        $loginResponseDTO = new LoginResponseDTO($token, 'bearer', $expires_in);
+        return $responseHandler->setData($loginResponseDTO->toArray())->responses();
 
     }
-
-
-
 
 }
