@@ -12,11 +12,10 @@ return new class extends Migration {
     {
         DB::statement("
         CREATE OR REPLACE VIEW audiovisual_items AS
-        SELECT i.item_id, i.name, i.serial_number, i.description, ar.resource
+        SELECT i.item_id, i.name, i.serial_number, i.description, ar.resource, i.created_at
         FROM items i
         INNER JOIN audiovisual_resource ar ON i.item_id = ar.item_id
         ");
-
     }
 
     /**
