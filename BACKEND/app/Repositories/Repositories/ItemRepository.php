@@ -4,7 +4,9 @@ namespace App\Repositories\Repositories;
 
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\Models\Inventory\Item;
+use App\Models\Views\ItemView;
 use App\Repositories\Interfaces\InterfaceItemRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ItemRepository implements InterfaceItemRepository
 {
@@ -88,5 +90,10 @@ class ItemRepository implements InterfaceItemRepository
     public function existItemByItemId(string $itemId): bool
     {
         return Item::where('item_id', $itemId)->exists();
+    }
+
+    public function paginationItems(string $perPage, string $page): LengthAwarePaginator
+    {
+        return ItemView::orderBy('created_at', 'asc')->paginate($perPage, ['*'], 'page', $page);
     }
 }

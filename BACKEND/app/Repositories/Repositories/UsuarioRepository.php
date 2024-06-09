@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Repositories;
 
+use App\DTOs\Usuario\UsuarioCreateDTO;
+use App\DTOs\Usuario\UsuarioUpdateDTO;
 use App\Models\User;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 
@@ -9,24 +11,23 @@ class UsuarioRepository implements InterfaceUsuarioRepository
 {
 
     /** 
-     * @param array $usuario 
+     * @param UsuarioCreateDTO $usuarioCreateDTO 
      * @return bool
      */
-    public function createUser(array $usuario)
+    public function createUser(UsuarioCreateDTO $usuarioCreateDTO)
     {
-        $usuario = new User($usuario);
-        // return $usuario;
+        $usuario = new User($usuarioCreateDTO->toArray());
         return $usuario->save();
     }
 
     /** 
-     * @param int $id 
-     * @param array $usuario 
+     * @param string $userId 
+     * @param UsuarioUpdateDTO $usuario 
      * @return bool
      */
-    public function updateUser(int $user_id, array $usuario): bool
+    public function updateUser(string $userId, UsuarioUpdateDTO $usuarioUpdateDTO): bool
     {
-        return User::find($user_id)->update($usuario);
+        return User::find($userId)->update($usuarioUpdateDTO->toArray());
     }
 
     /** 
@@ -54,7 +55,7 @@ class UsuarioRepository implements InterfaceUsuarioRepository
      */
     public function getUserByEmail(string $email)
     {
-        return User::where("email", $email)->first();
+        return User::where("email", strtolower($email))->first();
     }
 
     /** 
@@ -67,12 +68,12 @@ class UsuarioRepository implements InterfaceUsuarioRepository
     }
 
     /** 
-     * @param int $userId 
+     * @param string $userId 
      * @return object|User|null
      */
-    public function getUserByID(int $userId)
+    public function getUserByID(string $userId)
     {
-        return User::find($userId)->first();
+        return User::find($userId);
     }
 
     /**

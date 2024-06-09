@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface InterfaceItemRepository
 {
@@ -18,4 +19,12 @@ interface InterfaceItemRepository
      * @return bool --Retorna true si existe false si no existe
      */
     public function existItemByItemId(string $itemId): bool;
+    /**
+     * @param string $perPage
+     * Cantidad de items a mostrar
+     * @param string $page 
+     * pagina a cargar
+     */
+    public function paginationItems(string $perPage, string $page): LengthAwarePaginator;
+
 }
