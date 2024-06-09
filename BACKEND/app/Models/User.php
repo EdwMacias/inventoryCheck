@@ -27,19 +27,16 @@ class User extends Authenticatable implements JWTSubject
         'number_document',
         'name',
         'last_name',
-        'address',
         'email',
         'number_telephone',
         'email_verified_at',
     ];
 
     protected $hidden = [
-        'password',
         'remember_token',
         'created_at',
         'updated_at',
         'email_verified_at',
-        'statu_id',
     ];
 
     protected $casts = [
@@ -62,27 +59,27 @@ class User extends Authenticatable implements JWTSubject
 
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = Sanizacion::cleanInput($value);
+        $this->attributes['name'] = strtolower(Sanizacion::cleanInput($value));
     }
 
     public function setLastNameAttribute($value)
     {
-        $this->attributes['last_name'] = Sanizacion::cleanInput($value);
+        $this->attributes['last_name'] = strtolower(Sanizacion::cleanInput($value));
     }
 
     public function setAddressAttribute($value)
     {
-        $this->attributes['address'] = Sanizacion::cleanInput($value);
+        $this->attributes['address'] = Sanizacion::cleanInput(strtolower($value));
     }
 
     public function setEmailAttribute($value)
     {
-        $this->attributes['email'] = Sanizacion::cleanInput($value);
+        $this->attributes['email'] = Sanizacion::cleanInput(strtolower($value));
     }
 
     public function setNumberTelephoneAttribute($value)
     {
-        $this->attributes['number_telephone'] = Sanizacion::cleanInput($value);
+        $this->attributes['number_telephone'] = preg_replace('/[^0-9]/', '', $value);
     }
 
     public function setNumberDocumentAttribute($value)

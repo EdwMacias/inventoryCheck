@@ -14,8 +14,8 @@ class ItemView extends Model
 
     protected $primaryKey = "item_id";
 
-    protected $fillable = [
-        "resource",
-    ];
+    // protected $fillable = [
+    //     "resource",
+    // ];
 
 }
