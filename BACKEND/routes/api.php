@@ -24,7 +24,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'recovery'], function ($router)
 Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::post('create', [UsuarioController::class, 'store']);
     Route::post('update/{id}', [UsuarioController::class, 'update']);
-    Route::delete('delete/{id}', [UsuarioController::class, 'destroy']);
+    Route::put('inactivar/{id}', [UsuarioController::class, 'inactivar']);
+    Route::put('activar/{id}', [UsuarioController::class, 'activar']);
     Route::get('get', [UsuarioController::class, 'show']);
     Route::get('get/{id}', [UsuarioController::class, 'getUsuarioId']);
 });
@@ -37,5 +38,4 @@ Route::group(['prefix' => 'item'], function ($router) {
         Route::post('create', [ItemObservationController::class, 'store']);
         Route::post('update/{id}', [ItemObservationController::class, 'update']);
     });
-    
 });
