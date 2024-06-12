@@ -1,7 +1,7 @@
 <template>
   <header>
     <Alertas></Alertas>
-    <Spinner v-if="spinnerStore.status"></Spinner>
+    <LoadingsSpinner v-if="spinnerStore.status"></LoadingsSpinner>
     <Navbar v-if="usuarioStore.conectado"></Navbar>
   </header>
   <main class="">

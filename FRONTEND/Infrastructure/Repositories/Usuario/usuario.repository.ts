@@ -1,8 +1,6 @@
 import { http } from "~/Infrastructure/http/http";
 import type { UsuarioEntity } from "../../../Domain/Models/Entities/usuario";
-
-
-const tokenKey = "access_token"
+import { GET_USUARIO_BY_EMAIL, POST_CREATE_USUARIO, POST_UPDATE_USUARIO, PUT_USUARIO_ACTIVAR, PUT_USUARIO_INACTIVAR } from "~/Infrastructure/Connections/endpoints.connection";
 
 export const UsuarioRepository = {
 
@@ -20,7 +18,7 @@ export const UsuarioRepository = {
     },
 
     getUsuarioByEmail: async (email: string) => {
-        const response = await http.get<UsuarioEntity>('user/get/' + email);
+        const response = await http.get<UsuarioEntity>(buildURLWithId(GET_USUARIO_BY_EMAIL, email));
         return response.data;
     },
 
@@ -64,16 +62,22 @@ export const UsuarioRepository = {
         }
         return 0;
     },
-    createUsuario: (usuario: UsuarioEntity) => {
-        const response = http.post<UsuarioEntity>("user/create", usuario);
+    createUsuario: async (usuario: UsuarioEntity) => {
+        const response = await http.post<UsuarioEntity>(POST_CREATE_USUARIO, usuario);
         return response;
     },
-    deleteUsuario: () => {
-        const response = http.delete<UsuarioEntity>("eliminar");
+
+    updateUsuario: async (id: number, usuario: UsuarioEntity) => {
+        const response = await http.post<UsuarioEntity>(buildURLWithId(POST_UPDATE_USUARIO, id), usuario);
         return response;
     },
-    updateUsuario: (id: number, usuario: UsuarioEntity) => {
-        const response = http.post<UsuarioEntity>("user/update/" + id, usuario);
+
+    activarUsuario: async (email: string) => {
+        const response = await http.put<boolean>(buildURLWithId(PUT_USUARIO_ACTIVAR, email));
+        return response;
+    },
+    inactivarUsuario: async (email: string) => {
+        const response = await http.put<boolean>(buildURLWithId(PUT_USUARIO_INACTIVAR, email));
         return response;
     }
 }

@@ -113,10 +113,10 @@
 </template>
 
 <script lang="ts" setup>
-import type Swal from 'sweetalert2';
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario';
 import { UsuarioRepository } from '~/Infrastructure/Repositories/Usuario/usuario.repository';
+const { $swal }: any = useNuxtApp()
 
 const route = useRoute();
 
@@ -181,7 +181,6 @@ const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
 
 onMounted(async () => {
   const spinnerStore = SpinnerStore();
-  const { $swal }: any = useNuxtApp()
   if (typeof route.query.id == 'string') {
     spinnerStore.activeOrInactiveSpinner(true);
     const email: string = route.query.id;

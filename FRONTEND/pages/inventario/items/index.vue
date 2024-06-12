@@ -1,28 +1,24 @@
 <template>
   <div class="mx-auto">
-    <div 
-      class="flex flex-row items-center justify-between mb-2 sticky top-0 rounded-xl z-10 p-4 bg-base-100 bordered shadow-xl gap-2 busqueda" >
+    <div class="flex flex-row items-center justify-between mb-2 
+      sticky top-0 rounded-xl z-10 p-4 bg-base-100 bordered shadow-xl gap-2 busqueda">
       <!-- Botón de agregar artículo -->
-      <NuxtLink v-if="!isSearching" class="btn btn-active btn-neutral hidden sm:inline-flex" to="registrar/crear">
+      <NuxtLink class="btn btn-active btn-neutral hidden sm:inline-flex" to="registrar/crear">
         Agregar artículo
       </NuxtLink>
-      <NuxtLink v-if="!isSearching" class="btn btn-active btn-neutral inline-flex sm:hidden" to="registrar/crear">
-        +
-      </NuxtLink>
 
-      <!-- Paginación -->
       <div v-if="!isSearching" class="join">
-        <button v-for="link in filteredLinks" :key="link.label" :disabled="!link.url" 
-        @click="changePage(link.url)" 
-        :class="{'btn-active': link.active}" 
-        class="join-item btn">
-        {{ link.label }}
-      </button>
+        <button v-for="link in pagination.links" :key="link.label" :disabled="!link.url" @click="changePage(link.url)"
+          :class="{ 'btn-active': link.active }" class="join-item btn">
+          {{ link.label == "pagination.previous" ? 'Anterior' : link.label == 'pagination.next' ? 'Siguiente' :
+            link.label }}
+        </button>
       </div>
 
       <!-- Input de página -->
       <div v-if="!isSearching" class="flex items-center bordered">
-        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#" class="input input-bordered w-12 mx-1" />
+        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#"
+          class="input input-bordered w-12 mx-1" />
         <button @click="goToPage" class="btn btn-active"> > </button>
       </div>
 
@@ -37,54 +33,33 @@
           </svg>
         </label>
       </div>
+
     </div>
-  
-    <!-- Listado de ítems -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+    <!-- </div> -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
-        <Item v-for="respuestaItem in filteredItems" :key="respuestaItem.item_id" :descripcion="respuestaItem.description" :image="respuestaItem.resource" :nombre_item="respuestaItem.name" :itemId="respuestaItem.item_id" :serial-number="respuestaItem.serial_number" @click="openModal(respuestaItem.resource)" />
+        <LazyItem v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description"
+          :image="item.resource" :nombre_item="item.name" :itemId="item.item_id" />
       </ClientOnly>
     </div>
-    <ImageModal :isOpen="isModalOpen" :image="selectedImage" @close="isModalOpen = false" />
 
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
+import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
+
+const loading = ref(false);
 const isSearching = ref(false);
 const searchQuery = ref('');
-const isModalOpen = ref(false);
-const selectedImage = ref('');
+
 const busqueda = () => {
   isSearching.value = !isSearching.value;
 };
-interface RespuestaItem {
-  item_id: string;
-  name: string;
-  description: string;
-  serial_number: string;
-  resource: string;
-  resourcePreview?: string;
-}
 
-interface PaginationResponse {
-  current_page: number;
-  data: RespuestaItem[];
-  first_page_url: string;
-  from: number;
-  last_page: number;
-  last_page_url: string;
-  links: { url: string | null; label: string; active: boolean }[];
-  next_page_url: string | null;
-  path: string;
-  per_page: number;
-  prev_page_url: string | null;
-  to: number;
-  total: number;
-}
-
-const respuesta = ref<PaginationResponse>({
+const pagination = ref<PaginationResponse<ItemResponse>>({
   current_page: 0,
   data: [],
   first_page_url: '',
@@ -102,48 +77,34 @@ const respuesta = ref<PaginationResponse>({
 
 const pageInput = ref<number | null>(null);
 
-const filteredLinks = computed(() => {
-  return respuesta.value.links.filter(link => !['pagination.previous', 'pagination.next'].includes(link.label));
-});
-
 const fetchItems = async (url: string | null) => {
   try {
     const response = await ItemRepository.Pagination(url);
-    respuesta.value = response.data;
+    pagination.value = response;
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 };
 
-const changePage = (url: string | null) => {
-  fetchItems(url);
+const changePage = async (url: string | null) => {
+  pagination.value.data.length = 0;
+  const response = await ItemRepository.Pagination(url);
+  pagination.value = response;
 };
 
 const goToPage = () => {
   if (pageInput.value !== null) {
     const page = pageInput.value;
-    const url = `${respuesta.value.path}?page=${page}`;
+    const url = `${pagination.value.path}?page=${page}`;
     fetchItems(url);
   }
 };
 
-const filteredItems = computed(() => {
-  if (!searchQuery.value) {
-    return respuesta.value.data;
-  }
-  return respuesta.value.data.filter(item => 
-    item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.serial_number.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
 
-const openModal = (image: string) => {
-  selectedImage.value = image;
-  isModalOpen.value = true;
-};
 onMounted(async () => {
-  await fetchItems(respuesta.value.path);
+  const response = await ItemRepository.Pagination();
+  pagination.value = response;
+  
 });
 
 </script>
@@ -153,12 +114,13 @@ onMounted(async () => {
   opacity: 1;
   transition: all 0.5s ease-in-out;
 }
-.busqueda{
-  opacity:0.5
-}
-.search-box:click {
-    flex-grow: 1;
-    width: 100%;
-  }
 
+.busqueda {
+  opacity: 0.5
+}
+
+.search-box:click {
+  flex-grow: 1;
+  width: 100%;
+}
 </style>

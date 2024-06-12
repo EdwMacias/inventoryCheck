@@ -1,25 +1,29 @@
 <template>
   <div>
-    <input type="checkbox" :checked="modalOpen" @click="toggleModal" id="my_modal_7" class="modal-toggle" />
-    <div class="modal" @click="preventDoubleClick">
-      <div class="modal-box w-11/12 max-w-5xl">
+    <input type="checkbox" :checked="modalOpen" @click="toggleModal" :id="idModal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box">
         <div class="">
-          <label for="my_modal_7" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          <label :for="idModal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             @click="closeModalBackdrop">✕</label>
         </div>
-        <img :src="imagen" alt="Imagen del artículo" />
+        <img :src="imagen" alt="Imagen del artículo" class="w-full h-auto"
+          style="max-height: 80vh; object-fit: contain;" />
       </div>
-      <label class="modal-backdrop" for="my_modal_7" @click="closeModalBackdrop">Cerrar</label>
+      <label class="modal-backdrop" :for="idModal" @click="closeModalBackdrop">Cerrar</label>
     </div>
   </div>
+
 </template>
 
 <script setup lang="ts">
+
 
 const emit = defineEmits(["close"]);
 
 const props = defineProps<{
   isModalOpen: boolean
+  idModal : string
   imagen: string | undefined
 }>();
 

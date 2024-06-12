@@ -1,8 +1,10 @@
 import { jwtDecode } from "jwt-decode";
+import type { UserDTO } from "~/Domain/DTOs/UsuarioDTO";
 import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.model";
 import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario";
 import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
 import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
+import { DatatableStore } from "~/stores/DatatableStore";
 
 export const UsuarioServices = {
 
@@ -57,7 +59,22 @@ export const UsuarioServices = {
     updateUser: async (id: number, usuario: UsuarioEntity): Promise<Boolean> => {
         await UsuarioRepository.updateUsuario(id, usuario);
         return true;
+    },
+
+    statuUsuario: async (userDto: UserDTO) => {
+        try {
+            if (userDto.statu_id != 1) {
+                await UsuarioRepository.activarUsuario(userDto.email);
+            } else {
+                await UsuarioRepository.inactivarUsuario(userDto.email);
+            }
+        } catch (error) {
+            console.error('Error updating user status:', error);
+            console.log(error);
+
+        }
+        const datatableStore = DatatableStore();
+        // datatableStore.draw();
+
     }
-
-
 }

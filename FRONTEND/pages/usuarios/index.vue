@@ -1,16 +1,20 @@
 <template>
   <div>
-    <div class="mt-20 container mx-auto bg-white rounded p-2 shadow" style="z-index: 0;">
+    <div class="mt-20 container mx-auto bg-white rounded" style="z-index: 0;">
       <ClientOnly>
-        <Table :url="GET_USUARIOS_ALL" :columns="columns"></Table>
+        <Table :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario"></Table>
       </ClientOnly>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+
 import type { ConfigColumns } from 'datatables.net-dt';
+import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import type { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
 import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
+import { DatatableStore } from '~/stores/DatatableStore';
 
 const columns: ConfigColumns[] = [
   { data: 'name', title: 'Nombre' },
@@ -20,7 +24,7 @@ const columns: ConfigColumns[] = [
   { data: 'number_telephone', title: 'Célular' },
   {
     data: null,
-    render: '#action',
+    render: '#user-action',
     title: 'Acciones',
     responsivePriority: 1,
     searchable: false,
@@ -28,6 +32,12 @@ const columns: ConfigColumns[] = [
   }
 ];
 
+async function statuUsuario(userDTO: UserDTO, table: any) {
+  const spinnerStore = SpinnerStore();
+  spinnerStore.activeOrInactiveSpinner(true);
+  await UsuarioServices.statuUsuario(userDTO)
+  DatatableStore().reload();
+}
 
 </script>
 

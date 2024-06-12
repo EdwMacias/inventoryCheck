@@ -8,41 +8,52 @@
     <div class="flex justify-end mb-2">
       <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar
       </NuxtLink>
+      <button class="btn btn-primary" @click="reloadTable">
+        <i class="bi bi-arrow-clockwise"></i>Recargar Tabla
+      </button>
     </div>
 
-    <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options"
-      :ajax="settingRequest">
-      <template #action="props">
+    <DataTable ref="table" class="table table-zebra" :columns="columns" :options="options">
+      <template #user-action="props">
         <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
           @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
         <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`"
-          :text="`Col 1: ${props.cellData}`" @click="deleteButtonClick(props.rowData)"><i
+          :text="`Col 1: ${props.cellData}`" @click="inactive(props.rowData)"><i
             :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle' : 'bi bi-x-circle'}`"></i>{{
               props.rowData.statu_id != 1 ?
-                'Activar' : 'Inactivar'}}</button>
+                'Activar' : 'Inactivar' }}</button>
       </template>
+
+      <template #roles-action="props">
+        <button class="btn btn-primary me-1 btn-sm " :text="`Col 1: ${props.cellData}`"
+          @click="editClick(props.rowData)"><i class="bi bi-pen-fill"></i>Editar</button>
+        <button :class="`btn  me-1 ${props.rowData.statu_id == 1 ? 'btn-neutral ' : 'btn-accent '} btn-sm`"
+          :text="`Col 1: ${props.cellData}`" @click="inactive(props.rowData)"><i
+            :class="`${props.rowData.statu_id != 1 ? 'bi bi-check2-circle' : 'bi bi-x-circle'}`"></i>{{
+              props.rowData.statu_id != 1 ?
+                'Activar' : 'Inactivar' }}</button>
+      </template>
+
     </DataTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-
-let dt;
-
 import DataTable from 'datatables.net-vue3';
 import DataTablesCore, { type Config, type ConfigColumns } from 'datatables.net-dt';
 import 'datatables.net-select';
 import 'datatables.net-responsive';
 import language from '@/lang/datatable.language.spanish.json';
-import {UsuarioRepository} from '@/Infrastructure/Repositories/Usuario/usuario.repository';
+import { UsuarioRepository } from '@/Infrastructure/Repositories/Usuario/usuario.repository';
+import { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
 
 const emit = defineEmits(["inactivar"])
+const { $swal } = useNuxtApp();
 
 const props = defineProps<{
   url: string,
   columns: ConfigColumns[],
 }>()
-
 
 DataTable.use(DataTablesCore);
 
@@ -52,6 +63,17 @@ const settingRequest: any = {
   headers: {
     Authorization: 'Bearer ' + UsuarioRepository.getToken(),
   },
+  error: async (err: any) => {
+    console.log(err);
+  },
+  beforeSend: function () {
+    const spinner = SpinnerStore();
+    spinner.activeOrInactiveSpinner(true);
+  },
+  complete: function () {
+    const spinner = SpinnerStore();
+    spinner.activeOrInactiveSpinner(false);
+  }
 };
 
 const options: Config = {
@@ -68,8 +90,9 @@ const options: Config = {
   responsive: true,
   select: true,
   serverSide: true,
-  processing: true,
+  processing: false,
   language: language,
+  ajax: settingRequest
 };
 
 const table = ref(); // This variable is used in the `ref` attribute for the component
@@ -77,12 +100,11 @@ const table = ref(); // This variable is used in the `ref` attribute for the com
 const editClick = (id: any) => {
   return navigateTo("editar?id=" + id.email)
 }
-import swal from 'sweetalert2';
 
-function deleteButtonClick(id: any) {
+function inactive(id: any) {
   let title = id.statu_id == 1 ? 'Inactivacion de Usuario' : 'Activación de Usuario';
-
-  swal.fire({
+  const userDTO = new UserDTO(id);
+  $swal.fire({
     icon: 'warning',
     title: title,
     text: 'Seguro que quiere inactivar el usuario?',
@@ -92,14 +114,24 @@ function deleteButtonClick(id: any) {
     reverseButtons: true
   }).then(button => {
     if (button.isConfirmed) {
-      return emit("inactivar")
+      emit("inactivar", userDTO, table)
     }
   })
 }
 
-onMounted(function () {
-  dt = table.value.dt;
+const reloadTable = () => {
+  console.log("ejecutando reload");
 
+  if (table.value && table.value.dt) {
+    table.value.dt.draw();
+  }
+}
+DatatableStore().reload = reloadTable;
+
+
+onMounted(function () {
+
+  const spinner = SpinnerStore();
   const selectTable = document.querySelector('.dt-length select');
   selectTable?.classList.remove('dt-input');
   selectTable?.classList.add('select', 'select-bordered')
@@ -109,6 +141,12 @@ onMounted(function () {
   inputTable?.classList.add('input', 'input-bordered', 'rounded');
   inputTable?.setAttribute('placeholder', 'Buscar....');
 
-  dt.ajax = settingRequest;
+  table.value.dt.on('preDraw', function () {
+    spinner.activeOrInactiveSpinner(true);
+  });
+
+  table.value.dt.on('draw', function () {
+    spinner.activeOrInactiveSpinner(false);
+  });
 });
 </script>

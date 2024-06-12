@@ -1,7 +1,7 @@
 <template>
   <div class="card bg-base-100 shadow-xl border-xl mx-2 mt-2">
     <figure>
-      <NuxtImg :src="image" format="webp" :alt="descripcion" class="preview"/>
+      <img ref="imagen" :src="image" :alt="descripcion" @click="openModal(true)" @error="imageLoadError" />
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ nombre_item }}</h2>
@@ -10,22 +10,36 @@
         <Observacion />
       </div>
     </div>
+    <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />
   </div>
 </template>
 
 <script setup lang="ts">
 
-const props = defineProps({
-  nombre_item: String,
-  image: String,
-  descripcion: String, 
-  serialNumber: String,
-  id: String
-});
+const isModalOpen = ref(false);
+const imagen: Ref<HTMLImageElement | null> = ref(null);
+function openModal(valor: boolean) {
+  isModalOpen.value = valor;
+}
+
+
+const props = defineProps<{
+  nombre_item: string,
+  image: string,
+  descripcion: string,
+  // serialNumber: string,
+  itemId: string
+}>();
 
 const agregarObservacion = () => {
   console.log('Observacion agregada');
 };
+
+function imageLoadError(event: Event) {
+  if (imagen.value) {
+    imagen.value.src = "https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg";
+  }
+}
 </script>
 
 <style scoped>

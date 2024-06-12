@@ -21,8 +21,6 @@
 
 <script lang="ts" setup>
 
-// import { useMyAlertaStoreStore } from '~/stores/AlertaStore';
-
 interface alerta { tipo: string, cabecera: string, mensaje: string }
 
 const iconosAlerta: Record<string, string> = {
