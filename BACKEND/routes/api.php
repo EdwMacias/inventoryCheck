@@ -26,13 +26,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::post('update/{id}', [UsuarioController::class, 'update']);
     Route::put('inactivar/{id}', [UsuarioController::class, 'inactivar']);
     Route::put('activar/{id}', [UsuarioController::class, 'activar']);
-    Route::get('get', [UsuarioController::class, 'show']);
-    Route::get('get/{id}', [UsuarioController::class, 'getUsuarioId']);
+    Route::get('all', [UsuarioController::class, 'show']);
+    Route::get('{id}', [UsuarioController::class, 'getUsuarioId']);
 });
 
 Route::group(['prefix' => 'item'], function ($router) {
     Route::post('create', [ItemController::class, 'store']);
-    Route::post('pagination', [ItemController::class, 'pagination']);
+    Route::get('pagination', [ItemController::class, 'pagination']);
 
     Route::group(['prefix' => 'observation'], function ($router) {
         Route::post('create', [ItemObservationController::class, 'store']);

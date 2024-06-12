@@ -223,16 +223,16 @@ class UsuarioServices implements InterfaceUsuarioServices
         $responseHandler = new ResponseHandler();
         try {
 
-            $usuario = $this->_usuarioRepository->getUserByID($userId);
+            $usuario = $this->_usuarioRepository->getUserByEmail($userId);
 
             if (!$usuario) {
                 throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
             }
 
             $usuarioUpdateDTO = UsuarioUpdateDTO::fromArray($usuario->toArray());
-            $usuarioUpdateDTO->statu_id = false;
+            $usuarioUpdateDTO->statu_id = 2;
 
-            $this->_usuarioRepository->updateUser($userId, $usuarioUpdateDTO);
+            $this->_usuarioRepository->updateUser($usuarioUpdateDTO->user_id, $usuarioUpdateDTO);
             return $responseHandler->setData(true)->setMessages("Usuario Inactivado")->responses();
 
         } catch (Exception $th) {
@@ -248,17 +248,17 @@ class UsuarioServices implements InterfaceUsuarioServices
     {
         $responseHandler = new ResponseHandler();
         try {
-
-            $usuario = $this->_usuarioRepository->getUserByID($userId);
+            
+            $usuario = $this->_usuarioRepository->getUserByEmail($userId);
 
             if (!$usuario) {
                 throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
             }
 
             $usuarioUpdateDTO = UsuarioUpdateDTO::fromArray($usuario->toArray());
-            $usuarioUpdateDTO->statu_id = true;
+            $usuarioUpdateDTO->statu_id = 1;
 
-            $this->_usuarioRepository->updateUser($userId, $usuarioUpdateDTO);
+            $this->_usuarioRepository->updateUser($usuarioUpdateDTO->user_id, $usuarioUpdateDTO);
             return $responseHandler->setData(true)->setMessages("Usuario Activada")->responses();
 
         } catch (Exception $th) {

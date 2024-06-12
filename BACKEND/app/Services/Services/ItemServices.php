@@ -5,8 +5,6 @@ namespace App\Services\Services;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
-use App\Models\Inventory\Item;
-use App\Models\Views\ItemView;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Services\Interfaces\InterfaceItemServices;
