@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemServices implements InterfaceItemServices
@@ -41,8 +42,7 @@ class ItemServices implements InterfaceItemServices
         try {
 
             $ruta = $resource->store('imagenes', 'public');
-            $url = asset('storage/' . $ruta);
-
+            $url = asset($ruta);
             $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
 
             $result = $this->itemRepository->getItemByName($itemCreateDTO->name);
@@ -60,6 +60,7 @@ class ItemServices implements InterfaceItemServices
 
             $this->itemRepository->create($itemCreateDTO);
             $this->resourceRepository->create($resourceDTO);
+            $this->limpiarCachePaginacion();
 
             return $responseHandle->setData(true)->setMessages("Creado")->setStatus(200)->responses();
         } catch (\Throwable $th) {
@@ -83,13 +84,20 @@ class ItemServices implements InterfaceItemServices
             $perPage = $request->input('perPage', 10);
             $page = $request->input('page', 1);
 
-            $items = $this->itemRepository->paginationItems($perPage, $page);
+            $cacheKey = 'pagination_' . $perPage . '_' . $page;
+            // return $responseHandler->setData($cacheKey)->responses();
+            // Intenta recuperar los elementos de la caché
+            // Cache::pull($cacheKey);
+            // $items = Cache::get($cacheKey);
+            $items = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($perPage, $page) {
+                return $this->itemRepository->paginationItems($perPage, $page);
+            });
 
             $items->getCollection()->transform(function ($item) {
                 return ItemViewPaginationDTO::fromModel($item);
             });
 
-            return $responseHandler->setData($items)->setMessages("Datos Traidos Correctamente")->responses();
+            return $responseHandler->setData($items)->setMessages("Datos Traídos Correctamente")->responses();
 
         } catch (\Throwable $th) {
             return $responseHandler->handleException($th);
@@ -99,4 +107,18 @@ class ItemServices implements InterfaceItemServices
 
     }
 
+    private function limpiarCachePaginacion()
+    {
+        // Obtener todas las claves de la caché
+        $keys = Cache::getStore()->getPrefix() . ':*';
+
+        // Filtrar las claves relacionadas con la paginación
+        $paginationKeys = collect(Cache::getStore()->get($keys))->filter(function ($value, $key) {
+            return strpos($key, 'pagination_items') !== false;
+        })->keys()->toArray();
+
+        // Eliminar las claves de la caché
+
+        Cache::forget($paginationKeys);
+    }
 }

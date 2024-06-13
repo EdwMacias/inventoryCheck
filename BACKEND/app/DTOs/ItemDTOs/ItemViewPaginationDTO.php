@@ -14,7 +14,7 @@ class ItemViewPaginationDTO
     {
         $this->item_id = $item->item_id;
         $this->name = $item->name;
-        $this->resource = url($item->resource);
+        $this->resource = $item->resource;
         $this->description = $item->description;
     }
 
