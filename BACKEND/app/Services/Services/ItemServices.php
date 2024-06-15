@@ -60,7 +60,6 @@ class ItemServices implements InterfaceItemServices
 
             $this->itemRepository->create($itemCreateDTO);
             $this->resourceRepository->create($resourceDTO);
-            $this->limpiarCachePaginacion();
 
             return $responseHandle->setData(true)->setMessages("Creado")->setStatus(200)->responses();
         } catch (\Throwable $th) {
@@ -84,14 +83,7 @@ class ItemServices implements InterfaceItemServices
             $perPage = $request->input('perPage', 10);
             $page = $request->input('page', 1);
 
-            $cacheKey = 'pagination_' . $perPage . '_' . $page;
-            // return $responseHandler->setData($cacheKey)->responses();
-            // Intenta recuperar los elementos de la caché
-            // Cache::pull($cacheKey);
-            // $items = Cache::get($cacheKey);
-            $items = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($perPage, $page) {
-                return $this->itemRepository->paginationItems($perPage, $page);
-            });
+            $items = $this->itemRepository->paginationItems($perPage, $page);
 
             $items->getCollection()->transform(function ($item) {
                 return ItemViewPaginationDTO::fromModel($item);
@@ -107,18 +99,4 @@ class ItemServices implements InterfaceItemServices
 
     }
 
-    private function limpiarCachePaginacion()
-    {
-        // Obtener todas las claves de la caché
-        $keys = Cache::getStore()->getPrefix() . ':*';
-
-        // Filtrar las claves relacionadas con la paginación
-        $paginationKeys = collect(Cache::getStore()->get($keys))->filter(function ($value, $key) {
-            return strpos($key, 'pagination_items') !== false;
-        })->keys()->toArray();
-
-        // Eliminar las claves de la caché
-
-        Cache::forget($paginationKeys);
-    }
 }
