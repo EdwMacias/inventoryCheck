@@ -1,6 +1,6 @@
 <template>
     <div>
-      <button @click="openModal" class="btn btn-primary">Mostrar Observaciones</button>
+      <button @click="openModal" class="btn btn-primary">Observación</button>
   
       <div v-if="isModalOpen" class="modal modal-open">
         <div class="modal-box">

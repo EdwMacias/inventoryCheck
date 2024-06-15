@@ -40,7 +40,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
         <LazyItem v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description"
-          :image="item.resource" :nombre_item="item.name" :itemId="item.item_id" />
+          :image="item.resource" :nombre_item="item.name" :itemId="item.item_id" :serial_number="item.serial_number" />
       </ClientOnly>
     </div>
 

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@chenfengyuan/vue-barcode": "^2.0.2",
     "@nuxtjs/color-mode": "^3.4.1",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
@@ -25,6 +26,7 @@
     "datatables.net-vue3": "^3.0.1",
     "default-passive-events": "^2.0.0",
     "i18n": "^0.15.1",
+    "jsbarcode": "^3.11.6",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.12.1",
     "pinia": "^2.1.7",

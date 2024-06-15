@@ -15,6 +15,7 @@
         </div>
         <FormularioLogin />
       </div>
+      <Tema></Tema>
     </div>
   </div>
 </template>

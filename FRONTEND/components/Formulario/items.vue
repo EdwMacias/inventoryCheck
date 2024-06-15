@@ -18,13 +18,14 @@
             <span class="block text-md font-medium leading-6 ">Serial de Item</span>
           </label>
           <VeeField name="serial_number" type="text" placeholder="AH1234" v-model="formulario.serial_number"
-            :class="`input w-full mt-1 ${errors.serial_number ? 'input-error' : 'input-bordered'}`" />
+            :class="`input uppercase w-full mt-1 ${errors.serial_number ? 'input-error' : 'input-bordered'}`" />
           <VeeErrorMessage name="serial_number" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2  gap-2">
+      <div class="grid grid-cols-1 md:grid-cols-3  gap-2">
+        
         <div>
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Descripción del Item</span>
@@ -35,7 +36,18 @@
           </VeeField>
           <VeeErrorMessage name="description" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
+         
         </div>
+        <!-- espacio para codigo de barras-->
+        
+        <div>
+          <label class="label">
+            <span class="block text-md font-medium leading-6 ">codigo de barras</span>
+            
+          </label>
+          <VueBarcode v-if="barcodeValue" :value="barcodeValue" format="EAN13" tag="svg" class="w-full block"/>
+          <VueBarcode v-else value="1234567890" tag="svg" class="w-full block" ></VueBarcode>
+         </div>
         <div>
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Imagen del item</span>
@@ -54,8 +66,8 @@
           </div>
         </div>
       </div>
-      <div class=" flex gap-2 grid grid-cols-1 md:grid-cols-2">
-        <NuxtLink to="/inventario/items" class="btn btn-neutral w-50">Cancelar</NuxtLink>
+      <div class=" flex gap-2 grid grid-cols-2 ">
+        <NuxtLink to="/inventario/items" class="btn btn-neutral mb-2">Cancelar</NuxtLink>
         <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
       </div>
     </VeeForm>
@@ -63,13 +75,14 @@
 </template>
 
 <script lang="ts" setup>
+
 import type { ItemEntity } from '~/Domain/Models/Entities/item';
 const emits = defineEmits(["enviar"]);
 const inputFile = ref();
 const { setImagen } = useImagen();
 const itemPhoto = ref<HTMLImageElement | null>(null);
 const isModalOpen = ref(false);
-
+const barcodeValue = ref<string | null>(null);
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
@@ -94,6 +107,17 @@ const formulario: Ref<ItemEntity> = ref({
   serial_number: '',
   description: '',
 });
+
+watch(() => formulario.value.serial_number, (newSerialNumber) => {
+  if (!newSerialNumber) {
+    barcodeValue.value = null;
+    return;
+  } 
+    barcodeValue.value = newSerialNumber;
+  return;
+});
+
+barcodeValue.value = formulario.value.serial_number;
 
 
 const handleFileChange = (event: Event) => {

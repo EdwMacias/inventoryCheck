@@ -39,6 +39,6 @@ export default defineNuxtConfig({
     }
   },
 
-  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/swal'],
+  plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/swal', '@/plugins/vue-barcode',],
   css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
 })
