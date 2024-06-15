@@ -77,6 +77,7 @@ class ItemServices implements InterfaceItemServices
     public function listItemPagination(): JsonResponse
     {
         $responseHandler = new ResponseHandler();
+        
         try {
             $request = Request::capture();
 
