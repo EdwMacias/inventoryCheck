@@ -1,11 +1,11 @@
 <template>
-  <div class="card bg-base-100 shadow-xl border-xl mx-2 mt-2">
+  <div class="card bg-base-100 shadow-xl border-xl ">
     <figure>
       <img ref="imagen" :src="image" :alt="descripcion" @click="openModal(true)" @error="imageLoadError" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{ nombre_item }}</h2>
-      <p>{{ descripcion }}</p>
+      <h2 class="card-title" style="word-wrap: break-word;">{{ nombre_item }}</h2>
+      <p style="word-wrap: break-word;">{{descripcion}}</p>
       <div class="card-actions justify-end">
         <Observacion />
       </div>

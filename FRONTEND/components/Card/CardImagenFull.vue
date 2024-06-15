@@ -50,5 +50,11 @@ function preventDoubleClick(event: MouseEvent) {
 </script>
 
 <style scoped>
+.modal-box {
+  /* Ajusta el tamaño de la caja de la modal según sea necesario */
+  max-height: 80vh; /* Altura máxima */
+  max-width: 80vw; /* Anchura máxima */
+  /* Agrega más estilos según sea necesario */
+}
 /* Agrega tus estilos personalizados aquí si es necesario */
 </style>

@@ -47,18 +47,13 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, ref } from 'vue';
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 
-const loading = ref(false);
 const isSearching = ref(false);
 const searchQuery = ref('');
-
-const busqueda = () => {
-  isSearching.value = !isSearching.value;
-};
-
 const pagination = ref<PaginationResponse<ItemResponse>>({
   current_page: 0,
   data: [],
@@ -74,8 +69,12 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
   to: 0,
   total: 0,
 });
-
 const pageInput = ref<number | null>(null);
+
+onMounted(async () => {
+  console.log("montado");
+  await fetchItems(null); // Llama a fetchItems al montar el componente para cargar los elementos
+});
 
 const fetchItems = async (url: string | null) => {
   try {
@@ -88,24 +87,22 @@ const fetchItems = async (url: string | null) => {
 
 const changePage = async (url: string | null) => {
   pagination.value.data.length = 0;
-  const response = await ItemRepository.Pagination(url);
-  pagination.value = response;
+  await fetchItems(url);
 };
 
-const goToPage = () => {
+const goToPage = async  () => {
   if (pageInput.value !== null) {
     const page = pageInput.value;
     const url = `${pagination.value.path}?page=${page}`;
-    fetchItems(url);
+    console.log(url);
+    
+    await fetchItems(url);
   }
 };
 
-
-onMounted(async () => {
-  const response = await ItemRepository.Pagination();
-  pagination.value = response;
-  
-});
+const busqueda = () => {
+  isSearching.value = !isSearching.value;
+};
 
 </script>
 
