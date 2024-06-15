@@ -1,16 +1,17 @@
 <template>
-  <div class="mx-auto">
+ <div class="mx-auto">
     <div class="flex flex-row items-center justify-between mb-2 
       sticky top-0 rounded-xl z-10 p-4 bg-base-100 bordered shadow-xl gap-2 busqueda">
       <!-- Botón de agregar artículo -->
-      <NuxtLink class="btn btn-active btn-neutral hidden sm:inline-flex" to="registrar/crear">
-        Agregar artículo
+      <NuxtLink class="btn btn-active btn-neutral sm:inline-flex" to="registrar/crear">
+        <span class="hidden sm:inline">Agregar artículo</span>
+        <span class="inline sm:hidden">+</span>
       </NuxtLink>
 
       <div v-if="!isSearching" class="join">
         <button v-for="link in pagination.links" :key="link.label" :disabled="!link.url" @click="changePage(link.url)"
           :class="{ 'btn-active': link.active }" class="join-item btn">
-          {{ link.label == "pagination.previous" ? 'Anterior' : link.label == 'pagination.next' ? 'Siguiente' :
+          {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' :
             link.label }}
         </button>
       </div>
