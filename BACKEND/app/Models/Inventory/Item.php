@@ -34,6 +34,7 @@ class Item extends Model
 
     public function setSerialNumberAttribute($value)
     {
+        $value = preg_replace('/\s+/', '', $value);
         $this->attributes['serial_number'] = Sanizacion::cleanInput($value);
     }
 
