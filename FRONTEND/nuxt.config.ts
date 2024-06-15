@@ -11,7 +11,7 @@ export default defineNuxtConfig({
         ErrorMessage: 'VeeErrorMessage',
       },
     },
-  ], '@nuxt/image'],
+  ]],
   ssr: true,
   pinia: {
     storesDirs: ["./stores/**"]
