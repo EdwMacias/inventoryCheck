@@ -1,15 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: [
+    './src/**/*.{html,js,ts,vue}', // Ajusta esta línea para que coincida con la estructura de tu proyecto
+  ],
   theme: {
     extend: {},
   },
   plugins: [require("daisyui")],
   daisyui: {
-    theme: ["light"],
-    darkTheme: "bumblebee", // name of one of the included themes for dark mode
-
-    logs: true
-  }
+    themes: ["bumblebee", "dark"],
+    logs: true,
+  },
 }
-

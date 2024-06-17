@@ -1,7 +1,5 @@
 <template>
-    <div>
-      <button @click="openModal" class="btn btn-primary">Observación</button>
-  
+      <button @click="openModal" class="btn btn-outline btn-primary btn-sm ">Observación</button>
       <div v-if="isModalOpen" class="modal modal-open">
         <div class="modal-box">
           <h3 class="font-bold text-lg mb-4">Observaciones para el ítem ID: {{ itemId }}</h3>
@@ -28,7 +26,6 @@
           </div>
         </div>
       </div>
-    </div>
   </template>
   
   <script setup lang="ts">
