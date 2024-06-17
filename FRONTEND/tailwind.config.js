@@ -8,7 +8,7 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["bumblebee", "dark"],
+    themes: ["bumblebee", "luxury"],
     logs: true,
   },
 }
