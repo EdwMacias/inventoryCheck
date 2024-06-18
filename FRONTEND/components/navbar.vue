@@ -68,15 +68,9 @@
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
-import { UsuarioStore } from '~/stores/usuarioStore'
 const permisos = ref(false);
-const tipoUsuario = UsuarioStore();
-console.log(permisos.value);
-onMounted(async () => {
-    if (tipoUsuario.usuarioType === true) {
-      permisos.value = true;
-      }
-});
+
+
 
 const logoutUser = async () => {
   const spinnerStore = SpinnerStore();

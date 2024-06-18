@@ -32,7 +32,7 @@ export const UsuarioStore = defineStore({
     setExpire(expire: number) {
       this.expire = expire
     },
-    setUsuarioType(type: number) {
+    setUsuarioType(type: boolean) {
       this.usuarioType = type
     },
     clearStore() {
