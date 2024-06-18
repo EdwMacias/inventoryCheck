@@ -16,13 +16,14 @@ class VerifyFrontendOrigin
      */
     public function handle(Request $request, Closure $next)
     {
-        $allowedOrigin = env('URL_FRONTEND', 'http://localhost:3000');
-        $origin = $request->headers->get('Origin');
+        // $allowedOrigin = env('URL_FRONTEND');
+        // $origin = $request->headers->get('Origin');
+        // $host = $request->headers->get('Host');
         $userAgent = $request->headers->get('User-Agent');
 
-        if ($origin !== $allowedOrigin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
+        // if ($origin !== $allowedOrigin) {
+        //     return response()->json(['error' => '"aqui" Forbidden', "origin" => $origin, "host" => $host,"headers"=>json_encode($request->headers)], 403);
+        // }
 
         if (strpos($userAgent, 'Postman') !== false || strpos($userAgent, 'curl') !== false) {
             return response()->json(['error' => 'Forbidden'], 403);

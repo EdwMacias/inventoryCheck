@@ -11,7 +11,7 @@ FROM base as build-stage
 WORKDIR /app/
 
 COPY package*.json .
-RUN npm install && npm update
+RUN npm install
 # RUN npm install -D sass
 COPY . .
 RUN npm run build
