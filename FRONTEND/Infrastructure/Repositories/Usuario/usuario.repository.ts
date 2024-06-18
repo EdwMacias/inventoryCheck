@@ -6,6 +6,7 @@ export const UsuarioRepository = {
 
     getUsuario: (): UsuarioEntity | undefined => {
         const usuario = UsuarioStore();
+        console.log(usuario)
         return usuario.usuario;
     },
 

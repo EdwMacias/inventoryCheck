@@ -11,16 +11,11 @@
           <li>
             <NuxtLink to="/">INICIO</NuxtLink>
           </li>
-          <li>
-            <details>
-              <summary>USUARIOS</summary>
-              <ul class="p-2">
-                <li>
-                  <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
-                </li>
-              </ul>
-            </details>
-          </li>
+            <li v-if="permisos">
+              <NuxtLink to="/usuarios/">USUARIOS</NuxtLink>
+              <NuxtLink to="/usuarios/asignar/roles/">asignación de usuarios</NuxtLink>
+
+            </li>
           <li>
             <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
           </li>
@@ -43,6 +38,7 @@
               <ul class="p-2">
                 <li>
                   <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
+                  <NuxtLink v-if="permisos" to="/usuarios/asignar/roles/">asignación de usuarios</NuxtLink>
                 </li>
               </ul>
             </details>
@@ -72,6 +68,16 @@
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import { UsuarioStore } from '~/stores/usuarioStore'
+const permisos = ref(true);
+const tipoUsuario = UsuarioStore();
+console.log(permisos.value);
+onMounted(async () => {
+    if (tipoUsuario.usuarioType === true) {
+      permisos.value = true;
+      console.log(tipoUsuario.usuarioType);
+    }
+});
 
 const logoutUser = async () => {
   const spinnerStore = SpinnerStore();

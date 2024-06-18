@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { number } from 'yup';
 import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario';
 
 type usuarioStore = {
@@ -6,6 +7,7 @@ type usuarioStore = {
   usuario?: UsuarioEntity,
   token?: string,
   expire?: number,
+  usuarioType?: boolean
 }
 
 export const UsuarioStore = defineStore({
@@ -14,7 +16,8 @@ export const UsuarioStore = defineStore({
     conectado: false,
     usuario: undefined,
     token: undefined,
-    expire: 0
+    expire: 0,
+    usuarioType: true
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {
@@ -28,6 +31,9 @@ export const UsuarioStore = defineStore({
     },
     setExpire(expire: number) {
       this.expire = expire
+    },
+    setUsuarioType(type: number) {
+      this.usuarioType = type
     },
     clearStore() {
       this.$reset();
