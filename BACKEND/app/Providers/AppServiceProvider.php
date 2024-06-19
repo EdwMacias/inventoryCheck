@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\InterfaceGenderRepository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
-use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 use App\Repositories\Interfaces\InterfaceTemporaryCode;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
@@ -22,10 +22,12 @@ use App\Repositories\Repositories\TypesObservationRepository;
 use App\Repositories\Repositories\UsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Services\Interfaces\InterfaceItemServices;
+use App\Services\Interfaces\InterfaceRolesServices;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Services\Services\ItemObservationServices;
 use App\Services\Services\ItemServices;
+use App\Services\Services\RolesServices;
 use App\Services\Services\TemporaryCodeServices;
 use App\Services\Services\UsuarioServices;
 use Illuminate\Support\ServiceProvider;
@@ -41,17 +43,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceUsuarioRepository::class, UsuarioRepository::class);
         $this->app->bind(InterfaceDocumentTypeRepository::class, TypeDocumentRepository::class);
         $this->app->bind(InterfaceGenderRepository::class, GenderRepository::class);
-        $this->app->bind(InterfaceRolesUsuarioRepository::class, RolesUserRepository::class);
+        $this->app->bind(InterfaceRolesUserRepository::class, RolesUserRepository::class);
         $this->app->bind(InterfaceTemporaryCode::class, TemporaryCodeRepository::class);
         $this->app->bind(InterfaceItemRepository::class, ItemRepository::class);
         $this->app->bind(InterfaceResourceRepository::class, ResourceRepository::class);
         $this->app->bind(InterfaceItemObservationRepository::class, ItemObservationRepository::class);
         $this->app->bind(InterfaceTypesObservationRepository::class, TypesObservationRepository::class);
+        
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);
         $this->app->bind(InterfaceTemporaryCodeServices::class, TemporaryCodeServices::class);
         $this->app->bind(InterfaceItemServices::class, ItemServices::class);
         $this->app->bind(InterfaceItemObservationServices::class, ItemObservationServices::class);
+        $this->app->bind(InterfaceRolesServices::class, RolesServices::class);
     }
 
     /**

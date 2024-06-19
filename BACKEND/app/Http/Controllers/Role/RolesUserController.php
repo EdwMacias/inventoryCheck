@@ -5,50 +5,33 @@ namespace App\Http\Controllers\Role;
 use App\DTOs\RolesDTOs\RoleRequestDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RolesRequest;
-use App\Models\Users\UserRole;
-use Illuminate\Http\Request;
+use App\Services\Interfaces\InterfaceRolesServices;
 
 class RolesUserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-    public function __construct()
+    protected InterfaceRolesServices $_roleService;
+    public function __construct(InterfaceRolesServices $interfaceRolesServices)
     {
         $this->middleware('auth:api');
+        $this->_roleService = $interfaceRolesServices;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Asigna un rol a un usuario
+     * @param RolesRequest $rolesRequest
      */
     public function assing(RolesRequest $rolesRequest)
     {
         $rolesRequestDTO = RoleRequestDTO::fromArray($rolesRequest->all());
-        
+        return $this->_roleService->assign($rolesRequestDTO);
     }
 
     /**
-     * Display the specified resource.
+     * Elimina el rol de un usuario
+     * @param string $id
      */
-    public function show(UserRole $userRole)
+    public function delete(string $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserRole $userRole)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserRole $userRole)
-    {
-        //
+        return $this->_roleService->deleteUserRole($id);
     }
 }
