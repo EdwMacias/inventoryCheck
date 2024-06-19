@@ -17,7 +17,7 @@ export const UsuarioStore = defineStore({
     usuario: undefined,
     token: undefined,
     expire: 0,
-    usuarioType: true
+    usuarioType: false
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {
@@ -32,7 +32,7 @@ export const UsuarioStore = defineStore({
     setExpire(expire: number) {
       this.expire = expire
     },
-    setUsuarioType(type: number) {
+    setUsuarioType(type: boolean) {
       this.usuarioType = type
     },
     clearStore() {
