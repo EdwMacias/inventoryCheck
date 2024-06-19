@@ -2,90 +2,50 @@
 
 namespace App\Repositories\Repositories;
 
+use App\DTOs\RolesDTOs\RoleUserDTO;
 use App\Models\Users\Role;
 use App\Models\Users\UserRole;
-use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 
-class RolesUserRepository implements InterfaceRolesUsuarioRepository
+class RolesUserRepository implements InterfaceRolesUserRepository
 {
 
     /**
-     *
-     * @param int $role_user_id
+     * @param string $role_id
      * @return bool
      */
-    public function deleteRoleUser(int $role_user_id): bool
+    public function roleExist(string $role_id): bool
     {
-        return UserRole::find($role_user_id)->delete();
+        return Role::where('role_id', $role_id)->exists();
     }
 
+
     /**
-     * @param int $role_user_id
+     * Crea el rol del usuario
+     * @param RoleUserDTO $roleUserDTO
      * @return bool
      */
-    public function RoleUserExists($role_user_id): bool
+    public function save(RoleUserDTO $roleUserDTO): bool
     {
-        return UserRole::find($role_user_id)->exists();
+        return UserRole::save($roleUserDTO->toArray());
     }
 
     /**
-     * @param int $role_id
+     * Elimina rol del usuario
+     * @param string $user_role_id
+     * id del rol del usuario
+     */
+    public function delete(string $user_role_id): bool
+    {
+        return UserRole::where('user_role_id', $user_role_id)->delete();
+    }
+    /**
+     * verifica si el rol esta asignado
+     * @param string $user_role_id
      * @return bool
      */
-    public function roleExist(int $role_id): bool
+    public function existUserRoleId(string $user_role_id): bool
     {
-        return Role::find($role_id)->exists();
-    }
-
-    /**
-     *
-     * @param int $role_user_id
-     * @return array
-     */
-    public function findById(int $role_user_id): array
-    {
-        return UserRole::find($role_user_id)->toArray();
-    }
-
-    /**
-     *
-     * @param int $user_id
-     * @return array
-     */
-    public function getRolesUsuarioById(int $user_id)
-    {
-        return UserRole::where("user_id", $user_id)->toArray();
-    }
-
-    /**
-     *
-     * @param int $user_id
-     * @param int $role_id
-     * @return bool
-     */
-    public function RoleAsignInUser(int $user_id, int $role_id): bool
-    {
-        return UserRole::where("user_id", $user_id)->where("role_id", $role_id)->exists();
-    }
-
-    /**
-     *
-     * @param array $roleUser
-     * @return bool
-     */
-    public function saveRoleUser(array $roleUser): bool
-    {
-        return UserRole::save($roleUser);
-    }
-
-    /**
-     *
-     * @param int $role_user_id
-     * @param array $roleUser
-     * @return bool
-     */
-    public function updateRoleUser(int $role_user_id, array $roleUser): bool
-    {
-        return UserRole::update($roleUser);
+        return UserRole::where('user_role_id', $user_role_id)->exists();
     }
 }

@@ -23,7 +23,7 @@ class RolesRequest extends FormRequest
     {
         return [
             "*" => "prohibited",
-            "user_id" => "required|int",
+            "email" => "required|email",
             "role_id" => "required|int",
         ];
     }

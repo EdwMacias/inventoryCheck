@@ -2,93 +2,88 @@
 
 namespace App\Services\Services;
 
-use App\Repositories\Interfaces\InterfaceRolesUsuarioRepository;
+use App\DTOs\RolesDTOs\RoleRequestDTO;
+use App\DTOs\RolesDTOs\RoleUserDTO;
+use App\DTOs\Usuario\UsuarioResponseDTO;
+use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceRolesServices;
 use App\Utils\ResponseHandler;
 use Exception;
+use Illuminate\Database\QueryException;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolesServices implements InterfaceRolesServices
 {
     private InterfaceUsuarioRepository $_usuarioRepository;
-    private InterfaceRolesUsuarioRepository $_RolesRepository;
-    public function __construct(InterfaceUsuarioRepository $interfaceUsuarioRepository, InterfaceRolesUsuarioRepository $interfaceRolesUsuarioRepository)
-    {
+    private InterfaceRolesUserRepository $_roleUserRepository;
+    public function __construct(
+        InterfaceUsuarioRepository $interfaceUsuarioRepository,
+        InterfaceRolesUserRepository $interfaceRolesUsuarioRepository
+    ) {
         $this->_usuarioRepository = $interfaceUsuarioRepository;
-        $this->_RolesRepository = $interfaceRolesUsuarioRepository;
+        $this->_roleUserRepository = $interfaceRolesUsuarioRepository;
     }
     /**
-     *
-     * @param array $roleEntity
-     * @return ResponseHandler
+     * Asignar rol al usuario
+     * @param RoleRequestDTO $roleRequestDTO
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function asignarUserRole($roleEntity)
+    public function assign(RoleRequestDTO $roleRequestDTO)
     {
+        $responseHandler = new ResponseHandler();
+
         try {
-            $roleEntityDto = [];
-            $fields = ["user_id", "role_id"];
 
-            foreach ($fields as $field) {
-                $roleEntityDto[$field] = $roleEntity[$field];
+            $usuario = $this->_usuarioRepository->getUserByEmail($roleRequestDTO->email);
+
+            $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
+
+            if (!$usuario) {
+                throw new Exception("Correo no encontrado", Response::HTTP_NOT_FOUND);
             }
 
-            if (!$this->_usuarioRepository->userExist($roleEntityDto["user_id"])) {
-                throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
+            if (!$this->_roleUserRepository->roleExist($roleRequestDTO->email)) {
+                throw new Exception("El rol no existe", Response::HTTP_NOT_FOUND);
             }
 
-            if (!$this->_RolesRepository->roleExist($roleEntityDto["role_id"])) {
-                throw new Exception("Rol no encontrado", Response::HTTP_NOT_FOUND);
-            }
+            $roleUserDTO = new RoleUserDTO($roleRequestDTO->email, $usuarioDTO->user_id);
 
+            $this->_roleUserRepository->save($roleUserDTO);
 
-            $this->_RolesRepository->saveRoleUser($roleEntityDto);
+            return $responseHandler->setData(true)->setMessages("Rol asignado")->responses();
 
-            return new ResponseHandler("Rol asignado con exito", [], Response::HTTP_OK);
         } catch (\Throwable $th) {
-            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (Exception $th) {
-            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $responseHandler->handleException($th);
+        } catch (Exception $ex) {
+            return $responseHandler->handleException($ex);
         }
 
     }
-
     /**
-     *
-     * @param array $roleEntity
+     * Elimina rol a un usuario
+     * @param  string $roleEntity
      */
-    public function deleteUserRole($roleEntity)
+    public function deleteUserRole(string $user_role_id)
     {
+        $responseHandler = new ResponseHandler();
         try {
-            //code...
-            $roleUserId = 1;
-
-            if (!$this->_RolesRepository->RoleUserExists($roleUserId)) {
-                throw new Exception("Rol de usuario no encontrado", Response::HTTP_NOT_FOUND);
+            if (!$this->_roleUserRepository->existUserRoleId($user_role_id)) {
+                throw new Exception("El rol asignado no existe", 1);
             }
 
-            $this->_RolesRepository->deleteRoleUser($roleUserId);
+            $this->_roleUserRepository->delete($user_role_id);
 
-            return new ResponseHandler("Rol desasignado correctamente", [], Response::HTTP_OK);
-
+            return $responseHandler->setData(true)->setMessages("Rol de usuario eliminado")->responses();
         } catch (\Throwable $th) {
-            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (Exception $th) {
-            return new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $responseHandler->handleException($th);
+        } catch (QueryException $qe) {
+            return $responseHandler->handleException($qe);
+        } catch (Exception $e) {
+            return $responseHandler->handleException($e);
         }
     }
 
-    /**
-     */
-    public function getUserRole()
-    {
-    }
+    
 
-    /**
-     *@param int $idUserRole
-     * @param array $roleEntity
-     */
-    public function updateUserRole($roleEntity)
-    {
-    }
 }

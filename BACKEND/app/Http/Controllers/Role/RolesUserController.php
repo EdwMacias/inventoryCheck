@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Role;
 
+use App\DTOs\RolesDTOs\RoleRequestDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RolesRequest;
 use App\Models\Users\UserRole;
@@ -18,19 +19,13 @@ class RolesUserController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
-    {
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RolesRequest $request)
+    public function assing(RolesRequest $rolesRequest)
     {
-        $roles = $request->all();
+        $rolesRequestDTO = RoleRequestDTO::fromArray($rolesRequest->all());
         
-        
-        //
     }
 
     /**

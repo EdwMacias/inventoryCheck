@@ -1,22 +1,20 @@
 <?php
 
 namespace App\Services\Interfaces;
+use App\DTOs\RolesDTOs\RoleRequestDTO;
 
 interface InterfaceRolesServices
 {
 
     /**
-     * @param  array $roleEntity
+     * Asigna rol a un usuario
+     * @param RoleRequestDTO $roleRequestDTO
      */
-    public function asignarUserRole($roleEntity);
+    public function assign(RoleRequestDTO $roleRequestDTO);
     /**
-     * @param  array $roleEntity
+     * Elimina rol a un usuario
+     * @param  string $roleEntity
      */
-    public function deleteUserRole($roleEntity);
-    public function getUserRole();
-    /**
-     * @param array $roleEntity
-     */
-    public function updateUserRole($roleEntity);
+    public function deleteUserRole(string $user_role_id);
 
 }
