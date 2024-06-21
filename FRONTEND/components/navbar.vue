@@ -9,15 +9,19 @@
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li>
-            <NuxtLink to="/">INICIO</NuxtLink>
+            <NuxtLink to="/">Inicio</NuxtLink>
           </li>
             <li v-if="permisos">
-              <NuxtLink to="/usuarios/">USUARIOS</NuxtLink>
-              <NuxtLink to="/usuarios/asignar/roles/">asignación de usuarios</NuxtLink>
+              <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
+              <NuxtLink to="/usuarios/asignar/roles">asignación de roles</NuxtLink>
 
             </li>
           <li>
-            <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
+            <NuxtLink to="/inventario/items">Inventario</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/">Hoja de vida</NuxtLink>
+
           </li>
         </ul>
       </div>
@@ -30,21 +34,24 @@
       <div class="hidden lg:flex">
         <ul class="menu menu-horizontal px-4" style="z-index: 1000;">
           <li>
-            <NuxtLink to="/">INICIO</NuxtLink>
+            <NuxtLink to="/">Inicio</NuxtLink>
           </li>
-          <li>
+          <li v-if="permisos">
             <details>
-              <summary>USUARIOS</summary>
+              <summary>Usuarios</summary>
               <ul class="p-2">
                 <li>
-                  <NuxtLink v-if="permisos" to="/usuarios/">Usuarios</NuxtLink>
-                  <NuxtLink v-if="permisos" to="/usuarios/asignar/roles/">asignación de usuarios</NuxtLink>
+                  <NuxtLink to="/usuarios/">Usuarios</NuxtLink>
+                  <NuxtLink to="/usuarios/asignar/roles">asignación de roles</NuxtLink>
                 </li>
               </ul>
             </details>
           </li>
           <li>
-            <NuxtLink to="/inventario/items">INVENTARIO</NuxtLink>
+            <NuxtLink to="/inventario/items">Inventario</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/">Hoja de vida</NuxtLink>
           </li>
         </ul>
       </div>
@@ -68,7 +75,7 @@
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
-const permisos = ref(false);
+const permisos = ref(true);
 
 
 

@@ -9,4 +9,5 @@ export interface UsuarioEntity {
     statu_id?: number
     email?: string,
     document_type_id?: number,
+    userRole?: string
 }
