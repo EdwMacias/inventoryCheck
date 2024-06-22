@@ -48,4 +48,23 @@ class RolesUserRepository implements InterfaceRolesUserRepository
     {
         return UserRole::where('user_role_id', $user_role_id)->exists();
     }
+
+    /**
+     * Obtener Rol de usuario
+     * @param string $user_id
+     * @return UserRole | null
+     */
+    public function getRoleUser(string $user_id): UserRole|null
+    {
+        return UserRole::where('user_id', $user_id)->first();
+    }
+    /**
+     * Obtener Rol de usuario
+     * @param string $user_id
+     * @return Role | null
+     */
+    public function getRole(string $role_id): Role
+    {
+        return Role::where('role_id', $role_id)->first('name');
+    }
 }

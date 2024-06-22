@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Interfaces;
+
 use App\DTOs\RolesDTOs\RoleRequestDTO;
 
 interface InterfaceRolesServices
@@ -16,5 +17,11 @@ interface InterfaceRolesServices
      * @param  string $roleEntity
      */
     public function deleteUserRole(string $user_role_id);
+
+    /**
+     * obtener role del usuario
+     * @param string $email
+     */
+    public function getRoleUsuario(string $email);
 
 }

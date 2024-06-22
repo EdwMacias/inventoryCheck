@@ -14,8 +14,9 @@ class ItemViewPaginationDTO
     {
         $this->item_id = $item->item_id;
         $this->name = $item->name;
-        $this->resource = $item->resource;
+        $this->resource = url($item->resource);
         $this->description = $item->description;
+        $this->description = $item->serial_number;
     }
 
     public static function fromModel($item): self
