@@ -84,6 +84,49 @@ class RolesServices implements InterfaceRolesServices
         }
     }
 
-    
+    /**
+     * obtener role del usuario
+     * @param string $email
+     */
+    public function getRoleUsuario(string $email)
+    {
+        $responseHandler = new ResponseHandler();
+
+        try {
+            //code...
+            $usuario = $this->_usuarioRepository->getUserByEmail($email);
+
+            if (!$usuario) {
+                throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
+
+            $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
+
+            if (!$roleUser) {
+                throw new Exception("Usuario no tiene roles asignados", Response::HTTP_NOT_FOUND);
+            }
+
+
+            $roleUserDTO = RoleUserDTO::fromArray($roleUser->toArray());
+
+            $roleUser = $this->_roleUserRepository->getRole($roleUserDTO->role_id);
+
+            if (!$roleUser) {
+                throw new Exception("Rol no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            return $responseHandler->setData($roleUser->toArray())->setMessages('Rol de usuario encontrado')->responses();
+
+        } catch (\Throwable $th) {
+            return $responseHandler->handleException($th);
+        } catch (Exception $e) {
+            return $responseHandler->handleException($e);
+        } catch (QueryException $qe) {
+            return $responseHandler->handleException($qe);
+        }
+    }
+
 
 }

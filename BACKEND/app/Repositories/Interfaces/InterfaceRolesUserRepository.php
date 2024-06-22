@@ -3,6 +3,8 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\RolesDTOs\RoleUserDTO;
+use App\Models\Users\Role;
+use App\Models\Users\UserRole;
 
 interface InterfaceRolesUserRepository
 {
@@ -32,4 +34,19 @@ interface InterfaceRolesUserRepository
      * @return bool
      */
     public function existUserRoleId(string $user_role_id): bool;
+
+    /**
+     * Obtener Rol de usuario
+     * @param string $user_id
+     * @return \App\Models\Users\UserRole | null
+     */
+    public function getRoleUser(string $user_id): UserRole|null;
+
+    
+    /**
+     * Obtener Rol de usuario
+     * @param string $user_id
+     * @return \App\Models\Users\Role | null
+     */
+    public function getRole(string $role_id) :Role;
 }

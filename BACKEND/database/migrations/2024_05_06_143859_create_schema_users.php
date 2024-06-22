@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -13,7 +12,7 @@ return new class extends Migration
 
             $table->string('name', 100);
             $table->string('last_name', 100);
-            $table->string('email', 100)->unique();
+            $table->string('email', 100)->unique(strtolower('UUsers_Email'));
             $table->string('address', 100);
             $table->string('number_telephone', 25);
             $table->string('number_document', 25);
@@ -26,14 +25,21 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index('email');
-            $table->index('document_type_id');
-            $table->index('number_document');
-            $table->index('gender_id');
+            $table->index('email', strtolower('IUsers_Email'));
+            $table->index('document_type_id', strtolower('IUsers_DocType'));
+            $table->index('number_document', strtolower('IUsers_NumDoc'));
+            $table->index('gender_id', strtolower('IUsers_Gender'));
+            $table->index('statu_id', strtolower('IUser_Statu'));
 
-            $table->foreign('document_type_id')->references("document_type_id")->on("types_documents")->onDelete("restrict");
-            $table->foreign('statu_id')->references("statu_id")->on("status")->onDelete("restrict");
-            $table->foreign('gender_id')->references("gender_id")->on("genders")->onDelete("restrict");
+            $table->foreign('document_type_id', strtolower('FUsers_DocType'))
+                ->references("document_type_id")->on("types_documents")
+                ->onDelete("restrict");
+
+            $table->foreign('statu_id', strtolower('FUsers_Statu'))
+                ->references("statu_id")->on("status")->onDelete("restrict");
+
+            $table->foreign('gender_id', strtolower('FUsers_Gender'))
+                ->references("gender_id")->on("genders")->onDelete("restrict");
 
         });
 
@@ -43,14 +49,17 @@ return new class extends Migration
             $table->integer('role_id')->unsigned();
             $table->timestamps();
 
-            $table->index('user_id');
-            $table->index('role_id');
+            $table->index('user_id', strtolower('IUsRol_User'));
+            $table->index('role_id', strtolower('IUsRol_Role'));
 
-            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('restrict');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('restrict');
+            $table->foreign('role_id', strtolower('FUsRol_Role'))
+                ->references('role_id')->on('roles')->onDelete('restrict');
+
+            $table->foreign('user_id', strtolower('FUsRol_User'))
+                ->references('user_id')->on('users')->onDelete('restrict');
         });
 
-       
+
     }
 
     public function down(): void

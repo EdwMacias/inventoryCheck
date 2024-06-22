@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->string('code', 6);
             $table->integer('user_id')->unsigned();
 
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id',strtolower('FTempCode_User'))->references('user_id')->on('users')->onDelete('cascade');
+            
             $table->boolean('is_used')->default(false);
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();

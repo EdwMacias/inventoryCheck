@@ -42,7 +42,7 @@ class ItemServices implements InterfaceItemServices
         try {
 
             $ruta = $resource->store('imagenes', 'public');
-            $url = asset($ruta);
+            $url = 'storage/'.asset($ruta);
             $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
 
             $result = $this->itemRepository->getItemByName($itemCreateDTO->name);

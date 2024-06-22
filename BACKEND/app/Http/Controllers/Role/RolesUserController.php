@@ -34,4 +34,13 @@ class RolesUserController extends Controller
     {
         return $this->_roleService->deleteUserRole($id);
     }
+
+    /**
+     * @param string $id
+     */
+    public function getRoleUsuario(string $id)
+    {
+        return $this->_roleService->getRoleUsuario($id);
+        
+    }
 }
