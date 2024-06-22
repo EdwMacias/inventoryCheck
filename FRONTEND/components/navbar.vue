@@ -19,10 +19,6 @@
           <li>
             <NuxtLink to="/inventario/items">Inventario</NuxtLink>
           </li>
-          <li>
-            <NuxtLink to="/">Hoja de vida</NuxtLink>
-
-          </li>
         </ul>
       </div>
       <NuxtLink to="/" class="flex items-center">
@@ -50,9 +46,7 @@
           <li>
             <NuxtLink to="/inventario/items">Inventario</NuxtLink>
           </li>
-          <li>
-            <NuxtLink to="/">Hoja de vida</NuxtLink>
-          </li>
+
         </ul>
       </div>
     </div>
