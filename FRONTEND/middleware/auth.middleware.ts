@@ -10,9 +10,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return navigateTo("/login");
     }
 
-    await refreshToken();
+    // await refreshToken();
 
-    if (process.browser) {
+    if (import.meta.browser) {
         if (!conectado || !tokenValid() || tokenExpired()) {
             UsuarioRepository.deleteUsuarioAndConexion();
             return navigateTo("/login");

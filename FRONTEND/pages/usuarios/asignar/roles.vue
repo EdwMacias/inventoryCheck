@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-sm mx-5">
+  <div class="breadcrumbs text-lg mx-5">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -22,12 +22,7 @@
 definePageMeta({
   middleware: 'auth-middleware'
 })
-// import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
-// import { http } from '~/Infrastructure/http/http';
 onMounted(async () => {
-
-  // const { data } = await http.get<>(GET_USUARIOS_ALL)
-  // datos.value = data;
 })
 const datos = ref()
 const userRole = ref('SUPERADMINISTRADOR')

@@ -2,7 +2,7 @@
 
 
   <div class="">
-    <div class="breadcrumbs text-sm mx-5">
+    <div class="breadcrumbs text-lg mx-5">
       <ul>
         <li>
           <NuxtLink to="/">Inicio</NuxtLink>

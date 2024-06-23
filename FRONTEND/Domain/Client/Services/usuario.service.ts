@@ -4,31 +4,15 @@ import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.mod
 import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario";
 import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
 import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
-import { DatatableStore } from "~/stores/DatatableStore";
 
 export const UsuarioServices = {
 
     Login: async (credenciales: LoginRequest) => {
         const response = await AuthenticationRepository.getToken(credenciales);
 
-        let { data, messages, code } = response;
+        let { data } = response;
 
-        let messageSeatado!: string;
-
-        if (typeof messages != 'string') {
-            if (messages.length > 0) {
-                messageSeatado = messages[0];
-            }
-        } else {
-            messageSeatado = messages;
-        }
-
-        if (code > 400) {
-            return { messages: messageSeatado, session: false };
-        }
-
-
-        const { access_token, usuario } = data;
+        const { access_token } = data;
         const { exp } = jwtDecode(access_token);
         UsuarioRepository.saveToken(access_token);
         UsuarioRepository.saveEstadoConectado(true);
@@ -37,11 +21,9 @@ export const UsuarioServices = {
             UsuarioRepository.setExpire(exp)
         }
 
-        if (usuario !== undefined) {
-            UsuarioRepository.saveUsuario(usuario)
-        }
-
-        return { messages: messageSeatado, session: true };
+        const usuario = await AuthenticationRepository.me();
+        UsuarioRepository.saveUsuario(usuario.data)
+        return;
     },
 
     Logout: async () => {
@@ -71,10 +53,6 @@ export const UsuarioServices = {
         } catch (error) {
             console.error('Error updating user status:', error);
             console.log(error);
-
         }
-        const datatableStore = DatatableStore();
-        // datatableStore.draw();
-
     }
 }
