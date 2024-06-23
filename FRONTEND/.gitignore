@@ -8,6 +8,8 @@ dist
 
 # Node dependencies
 node_modules
+/Infrastructure/Connections/config.connections.ts
+Infrastructure/Connections/config.connections.ts
 
 # Logs
 logs

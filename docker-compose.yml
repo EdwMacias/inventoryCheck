@@ -13,14 +13,16 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8000
+    ports:
+      - 8000:8000
     depends_on:
       - redis
     volumes:
-      - /imagenes:/app/storage/app/public/imagenes
+      - C:\imagenes:/app/storage/app/public/imagenes
   redis: 
     image: redis/redis-stack-server:7.2.0-v10
     volumes:
-      - /redis:/data
+      - C:\redis:/data
     environment:
       - REDIS_ARGS=--requirepass contraseña_redis
 networks:

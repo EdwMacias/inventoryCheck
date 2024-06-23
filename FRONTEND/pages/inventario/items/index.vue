@@ -1,7 +1,19 @@
 <template>
- <div class="mx-auto">
+
+
+  <div class="">
+    <div class="breadcrumbs text-sm mx-5">
+      <ul>
+        <li>
+          <NuxtLink to="/">Inicio</NuxtLink>
+        </li>
+        <li>
+          <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+        </li>
+      </ul>
+    </div>
     <div class="flex flex-row items-center justify-between mb-2 
-      sticky top-0 rounded-xl z-10 p-4 bg-base-100 bordered shadow-xl gap-2 busqueda">
+        rounded-xl p-4 bg-base-100 bordered gap-2 busqueda">
       <!-- Botón de agregar artículo -->
       <NuxtLink class="btn btn-active btn-neutral sm:inline-flex" to="registrar/crear">
         <span class="hidden sm:inline">Agregar artículo</span>
@@ -11,9 +23,7 @@
       <div v-if="!isSearching" class="join">
         <button v-for="link in pagination.links" :key="link.label" :disabled="!link.url" @click="changePage(link.url)"
           :class="{ 'btn-active': link.active }" class="join-item btn">
-          {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' :
-            link.label }}
-        </button>
+          {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' : link.label }} </button>
       </div>
 
       <!-- Input de página -->
@@ -39,8 +49,8 @@
     <!-- </div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
-        <LazyItem v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description"
-          :image="item.resource" :nombre_item="item.name" :itemId="item.item_id" :serial_number="item.serial_number" />
+        <Item v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description" :image="item.resource"
+          :nombre_item="item.name" :itemId="item.item_id" />
       </ClientOnly>
     </div>
 
@@ -48,7 +58,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
@@ -73,17 +82,17 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
 const pageInput = ref<number | null>(null);
 
 onMounted(async () => {
-  console.log("montado");
-  await fetchItems(null); // Llama a fetchItems al montar el componente para cargar los elementos
+  await fetchItems();
 });
 
-const fetchItems = async (url: string | null) => {
-  try {
-    const response = await ItemRepository.Pagination(url);
-    pagination.value = response;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+const fetchItems = async (url: string | null = null) => {
+  SpinnerStore().activeOrInactiveSpinner(true);
+
+  const response = await ItemRepository.Pagination(url);
+  pagination.value = response;
+  console.log(response);
+  SpinnerStore().activeOrInactiveSpinner(false);
+
 };
 
 const changePage = async (url: string | null) => {
@@ -91,12 +100,11 @@ const changePage = async (url: string | null) => {
   await fetchItems(url);
 };
 
-const goToPage = async  () => {
+const goToPage = async () => {
   if (pageInput.value !== null) {
     const page = pageInput.value;
     const url = `${pagination.value.path}?page=${page}`;
     console.log(url);
-    
     await fetchItems(url);
   }
 };
@@ -107,18 +115,18 @@ const busqueda = () => {
 
 </script>
 
-<style scoped>
-.busqueda:hover {
+<style scoped lang="css">
+/* .busqueda:hover {
   opacity: 1;
   transition: all 0.5s ease-in-out;
-}
-
+} */
+/* 
 .busqueda {
   opacity: 0.5
-}
-
+} */
+/* 
 .search-box:click {
   flex-grow: 1;
   width: 100%;
-}
+} */
 </style>

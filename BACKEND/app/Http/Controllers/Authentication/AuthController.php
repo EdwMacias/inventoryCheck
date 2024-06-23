@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         if (!$usuario) {
             return $responseHandler
-                ->setMessages("Error")
+                ->setMessages("Usuario no registrado")
                 ->setData(["error" => "Usuario no registrado"])
                 ->setStatus(Response::HTTP_NOT_FOUND)->responses();
         }
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         if (!$isPassword) {
             return $responseHandler
-                ->setMessages("Error")
+                ->setMessages("Credenciales Incorrectas")
                 ->setData(["error" => "Credenciales Incorrectas"])
                 ->setStatus(Response::HTTP_UNAUTHORIZED)->responses();
         }
@@ -59,7 +59,7 @@ class AuthController extends Controller
         }
 
         return $responseHandler
-            ->setMessages("Error")
+            ->setMessages("El usuario no se encuentra activo")
             ->setData(["error" => "El usuario no se encuentra activo"])
             ->setStatus(Response::HTTP_UNAUTHORIZED)
             ->responses();

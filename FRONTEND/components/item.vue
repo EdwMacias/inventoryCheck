@@ -13,12 +13,12 @@
             <div class="modal-action">
               <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="openModal(false)">x</button>
-                <VueBarcode :value="`${serial_number}`" format="EAN13" tag="svg" :options="{ height: '50' }" />
+                <!-- <VueBarcode :value="`${serial_number}`" format="EAN13" tag="svg" :options="{ height: '50' }" /> -->
               </form>
             </div>
           </div>
         </dialog>
-        <Observacion class="" />
+        <Observacion />
       </div>
     </div>
     <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />
@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import defaultImage from '@/public/images/defaultimage.webp';
 
 const isModalOpen = ref(false);
 const imagen: Ref<HTMLImageElement | null> = ref(null);
@@ -36,7 +37,7 @@ const myModal = ref(null);
 
 const showModal = () => {
   if (myModal.value) {
-    myModal.value.showModal();
+    // myModal.value.showModal();
   }
 };
 
@@ -44,7 +45,7 @@ const props = defineProps<{
   nombre_item: string,
   image: string,
   descripcion: string,
-  serial_number: string,
+  // serial_number: string,
   itemId: string
 }>();
 
@@ -53,9 +54,7 @@ const agregarObservacion = () => {
 };
 
 function imageLoadError(event: Event) {
-  if (imagen.value) {
-    imagen.value.src = "https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg";
-  }
+  if (imagen.value) imagen.value.src = defaultImage;
 }
 </script>
 

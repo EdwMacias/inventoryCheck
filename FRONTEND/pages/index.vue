@@ -1,11 +1,14 @@
 <template>
-
-    <div class="flex flex-col justify-center items-center">
-        <kbd class="kbd mt-4">Trabajo en proceso</kbd>
-        <Clock class="en-proceso" /></div>
+    <div class="flex flex-col  items-center m-2 p-2">
+        <kbd class="kbd">Trabajo en proceso</kbd>
+        <div>
+            
+        </div>
+        <Clock class="en-proceso" />
+    </div>
 </template>
 <style scoped>
-.en-proceso{
+.en-proceso {
     height: 50%;
     width: 50%;
     display: flex;
@@ -14,7 +17,7 @@
 }
 
 
-.kbd{
+.kbd {
     font-size: 3rem;
     padding: 1rem;
     border-radius: 1rem;
@@ -22,8 +25,4 @@
 </style>
 
 <script setup lang="ts">
-const { $swal } = useNuxtApp();
-
-
-
 </script>

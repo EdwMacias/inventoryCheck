@@ -65,3 +65,7 @@ export function useImagen() {
 export function buildURLWithId(endpoint: string, id: any): string {
   return endpoint.replace('{id}', id.toString());
 }
+
+export function capitalizarPrimeraLetra(str: string){
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

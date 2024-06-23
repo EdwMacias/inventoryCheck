@@ -1,6 +1,14 @@
 <template>
+  <div class="breadcrumbs text-sm mx-5">
+    <ul>
+      <li>
+        <NuxtLink to="/">Inicio</NuxtLink>
+      </li>
+      <li>Usuarios</li>
+    </ul>
+  </div>
   <div>
-    <div class="mt-20 container mx-auto bg-white rounded" style="z-index: 0;">
+    <div class="mx-5" >
       <ClientOnly>
         <Table :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario"></Table>
       </ClientOnly>

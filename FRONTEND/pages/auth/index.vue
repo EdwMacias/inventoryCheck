@@ -5,7 +5,7 @@
             <div class="hero-content py-12">
               <div class="max-w-md">
                 <div class="text-center">
-                  <img src="/images/LogoEmpresa.png" alt="Dashwind Admin Template" class="w-100 inline-block"></img>
+                  <img src="/images/LogoEmpresa.webp" alt="Dashwind Admin Template" class="w-100 inline-block"></img>
                 </div>
               </div>
             </div>

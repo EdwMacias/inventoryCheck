@@ -1,4 +1,11 @@
 <template>
+    <div class="breadcrumbs text-sm mx-5">
+        <ul>
+            <li><NuxtLink to="/">Inicio</NuxtLink></li>
+            <li><NuxtLink to="/inventario/items/">Inventario</NuxtLink></li>
+            <li>Crear Item</li>
+        </ul>
+    </div>
     <div>
         <FormularioItems @enviar="create" />
     </div>
