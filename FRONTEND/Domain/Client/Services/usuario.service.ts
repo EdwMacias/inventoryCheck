@@ -15,14 +15,13 @@ export const UsuarioServices = {
         const { access_token } = data;
         const { exp } = jwtDecode(access_token);
         UsuarioRepository.saveToken(access_token);
-        UsuarioRepository.saveEstadoConectado(true);
-
         if (exp) {
             UsuarioRepository.setExpire(exp)
         }
-
         const usuario = await AuthenticationRepository.me();
         UsuarioRepository.saveUsuario(usuario.data)
+        UsuarioRepository.saveEstadoConectado(true);
+
         return;
     },
 
