@@ -27,7 +27,8 @@ class RolesUserRepository implements InterfaceRolesUserRepository
      */
     public function save(RoleUserDTO $roleUserDTO): bool
     {
-        return UserRole::save($roleUserDTO->toArray());
+        UserRole::create($roleUserDTO->toArray());
+        return true;
     }
 
     /**
@@ -67,4 +68,22 @@ class RolesUserRepository implements InterfaceRolesUserRepository
     {
         return Role::where('role_id', $role_id)->first('name');
     }
+
+    /**
+     * @param string $role_id
+     * @param string $user_id
+     */
+    public function roleInUser(string $role_id, string $user_id): bool
+    {
+        return UserRole::where('role_id', $role_id)->where('user_id',$user_id)->exists();
+    }
+    /**
+     * @param string $role_user_id
+     * @param string $user_id
+     */
+    public function roleUserIdInUser(string $role_user_id, string $user_id): bool
+    {
+        return UserRole::where('user_role_id', $role_user_id)->where('user_id',$user_id)->exists();
+    }
+
 }

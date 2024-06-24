@@ -9,9 +9,12 @@ use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceRolesServices;
 use App\Utils\ResponseHandler;
+use App\Utils\TablesServerSide;
 use Exception;
 use Illuminate\Database\QueryException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Throwable;
 
 class RolesServices implements InterfaceRolesServices
 {
@@ -35,28 +38,39 @@ class RolesServices implements InterfaceRolesServices
 
         try {
 
+            if (!$this->_roleUserRepository->roleInUser('1', auth()->user()->user_id)) {
+                throw new Exception("No tiene permisos para realizar esta acción", Response::HTTP_UNAUTHORIZED);
+            }
+
             $usuario = $this->_usuarioRepository->getUserByEmail($roleRequestDTO->email);
 
             $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
+
 
             if (!$usuario) {
                 throw new Exception("Correo no encontrado", Response::HTTP_NOT_FOUND);
             }
 
-            if (!$this->_roleUserRepository->roleExist($roleRequestDTO->email)) {
+            if (!$this->_roleUserRepository->roleExist($roleRequestDTO->role_id)) {
                 throw new Exception("El rol no existe", Response::HTTP_NOT_FOUND);
             }
 
-            $roleUserDTO = new RoleUserDTO($roleRequestDTO->email, $usuarioDTO->user_id);
+            $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
+
+            if ($roleUser) {
+                throw new Exception("Este Usuario ya tiene un rol asignado", Response::HTTP_CONFLICT);
+            }
+
+            $roleUserDTO = new RoleUserDTO($roleRequestDTO->role_id, $usuarioDTO->user_id);
 
             $this->_roleUserRepository->save($roleUserDTO);
 
             return $responseHandler->setData(true)->setMessages("Rol asignado")->responses();
 
-        } catch (\Throwable $th) {
-            return $responseHandler->handleException($th);
+        } catch (Throwable $th) {
+            return $responseHandler->handleException($th, $th->getCode());
         } catch (Exception $ex) {
-            return $responseHandler->handleException($ex);
+            return $responseHandler->handleException($ex, $ex->getCode());
         }
 
     }
@@ -67,15 +81,28 @@ class RolesServices implements InterfaceRolesServices
     public function deleteUserRole(string $user_role_id)
     {
         $responseHandler = new ResponseHandler();
+
         try {
+
+            $user_id = auth()->user()->user_id;
+
+            if (!$this->_roleUserRepository->roleInUser('1', $user_id)) {
+                throw new Exception("No tiene permisos para realizar esta acción", Response::HTTP_UNAUTHORIZED);
+            }
+
             if (!$this->_roleUserRepository->existUserRoleId($user_role_id)) {
-                throw new Exception("El rol asignado no existe", 1);
+                throw new Exception("El rol asignado no existe", Response::HTTP_NOT_FOUND);
+            }
+
+            if ($this->_roleUserRepository->roleUserIdInUser($user_role_id, $user_id)) {
+                throw new Exception("No puedes des-asginar tus roles", Response::HTTP_NOT_FOUND);
             }
 
             $this->_roleUserRepository->delete($user_role_id);
 
             return $responseHandler->setData(true)->setMessages("Rol de usuario eliminado")->responses();
-        } catch (\Throwable $th) {
+
+        } catch (Throwable $th) {
             return $responseHandler->handleException($th);
         } catch (QueryException $qe) {
             return $responseHandler->handleException($qe);
@@ -88,26 +115,16 @@ class RolesServices implements InterfaceRolesServices
      * obtener role del usuario
      * @param string $email
      */
-    public function getRoleUsuario(string $email)
+    public function getRoleUsuario()
     {
         $responseHandler = new ResponseHandler();
 
         try {
-            //code...
-            $usuario = $this->_usuarioRepository->getUserByEmail($email);
-
-            if (!$usuario) {
-                throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
-            }
-
-            $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
-
-            $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
+            $roleUser = $this->_roleUserRepository->getRoleUser(auth()->user()->user_id);
 
             if (!$roleUser) {
                 throw new Exception("Usuario no tiene roles asignados", Response::HTTP_NOT_FOUND);
             }
-
 
             $roleUserDTO = RoleUserDTO::fromArray($roleUser->toArray());
 
@@ -119,8 +136,8 @@ class RolesServices implements InterfaceRolesServices
 
             return $responseHandler->setData($roleUser->toArray())->setMessages('Rol de usuario encontrado')->responses();
 
-        } catch (\Throwable $th) {
-            return $responseHandler->handleException($th);
+        } catch (Throwable $th) {
+            return $responseHandler->handleException($th, $th->getCode());
         } catch (Exception $e) {
             return $responseHandler->handleException($e);
         } catch (QueryException $qe) {
@@ -128,5 +145,27 @@ class RolesServices implements InterfaceRolesServices
         }
     }
 
+    public function getRolesUser()
+    {
+        $request = Request::capture();
+        
+        if (!$this->_roleUserRepository->roleInUser('1', auth()->user()->user_id)) {
+            throw new Exception("No tiene permisos para realizar esta acción", Response::HTTP_UNAUTHORIZED);
+        }
+
+        try {
+            $fields = [
+                "user_role_id",
+                "role_name",
+                "user_name",
+            ];
+            $table = new TablesServerSide("user_roles_view", $request, $fields);
+            $query = $table->createTable();
+            return $table->getterTable($query);
+        } catch (Throwable $th) {
+            $response = new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $response->responses();
+        }
+    }
 
 }

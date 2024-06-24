@@ -13,9 +13,4 @@ class ItemView extends Model
     protected $table = "audiovisual_items";
 
     protected $primaryKey = "item_id";
-
-    // protected $fillable = [
-    //     "resource",
-    // ];
-
 }

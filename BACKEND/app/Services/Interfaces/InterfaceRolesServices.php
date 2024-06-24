@@ -20,8 +20,9 @@ interface InterfaceRolesServices
 
     /**
      * obtener role del usuario
-     * @param string $email
      */
-    public function getRoleUsuario(string $email);
+    public function getRoleUsuario();
+
+    public function getRolesUser();
 
 }

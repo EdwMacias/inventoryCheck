@@ -16,16 +16,16 @@ class RoleUserDTO
     public static function fromArray($data)
     {
         return new self(
-            $data["user_id"] ?? null,
             $data["role_id"] ?? null,
+            $data["user_id"] ?? null,
         );
     }
 
     public function toArray()
     {
         return [
-            "user_id" => $this->user_id,
             "role_id" => $this->role_id,
+            "user_id" => $this->user_id,
         ];
     }
 }

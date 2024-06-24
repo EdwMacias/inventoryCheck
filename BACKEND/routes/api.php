@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Item\ItemObservationController;
+use App\Http\Controllers\Role\RolesUserController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Authentication\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,11 @@ Route::group(['prefix' => 'item'], function ($router) {
         Route::post('create', [ItemObservationController::class, 'store']);
         Route::post('update/{id}', [ItemObservationController::class, 'update']);
     });
+});
+
+Route::group(['prefix' => 'role'], function ($router) {
+    Route::get('roles',[RolesUserController::class,'get']);
+    Route::post('assing', [RolesUserController::class, 'assing']);
+    Route::delete('unassign/{id}', [RolesUserController::class, 'unassign']);
+    Route::get('/get', [RolesUserController::class, 'getRoleUsuario']);
 });

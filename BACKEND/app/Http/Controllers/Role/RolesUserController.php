@@ -30,17 +30,20 @@ class RolesUserController extends Controller
      * Elimina el rol de un usuario
      * @param string $id
      */
-    public function delete(string $id)
+    public function unassign(string $id)
     {
         return $this->_roleService->deleteUserRole($id);
     }
 
     /**
-     * @param string $id
+     * Recupera rol del usuario
      */
-    public function getRoleUsuario(string $id)
+    public function getRoleUsuario()
     {
-        return $this->_roleService->getRoleUsuario($id);
-        
+        return $this->_roleService->getRoleUsuario();
+    }
+
+    public function get(){
+        return $this->_roleService->getRolesUser();
     }
 }

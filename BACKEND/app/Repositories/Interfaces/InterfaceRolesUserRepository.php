@@ -49,4 +49,20 @@ interface InterfaceRolesUserRepository
      * @return \App\Models\Users\Role | null
      */
     public function getRole(string $role_id) :Role;
+    /**
+     * @param string $role_id
+     * id del rol a buscar 
+     * @param string $user_id
+     * id del usuario a buscar
+     * @return bool
+     */
+    public function roleInUser(string $role_id, string $user_id): bool;
+    /**
+     * @param string $role_user_id
+     * role_user_id para buscar
+     * @param string $user_id
+     */
+    public function roleUserIdInUser(string $role_user_id, string $user_id): bool;
+
+
 }
