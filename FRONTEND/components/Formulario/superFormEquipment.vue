@@ -5,7 +5,6 @@
       <div class="card border shadow-lg p-4 ">
         <h2 class="card-title">1. Datos del Equipo y Fabricante</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
-
           <div>
             <label class="label">Nombre equipo</label>
             <VeeField name="name" v-model="superFormulario.name" :class="`input w-full ${errors.name ? 'input-error' : 'input-bordered'}`" />
@@ -82,9 +81,9 @@
               <VeeErrorMessage name="contacto" class="text-error" />
           </div>
           <div class="form-control ">
-              <label class="label">Email</label>
-              <VeeField name="email" v-model="superFormulario.email" :class="`input w-full ${errors.email ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="email" class="text-error" />
+              <label class="label">Email de proveedor</label>
+              <VeeField name="email_proveedor" v-model="superFormulario.email_proveedor" :class="`input w-full ${errors.email ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="email_proveedor" class="text-error" />
           </div>
         </div>
       </div>
@@ -138,16 +137,10 @@
           </div>
         </div>
       </div>
-
       <!-- Datos de adquisición del equipo -->
       <div class="card border shadow-lg p-4">
         <h2 class="card-title">4. Datos de Adquisición del Equipo</h2>
         <div class="form-control mb-2">
-          <div>
-            <label class="label">Proveedor</label>
-            <VeeField name="proveedor" v-model="superFormulario.proveedor" :class="`input w-full ${errors.proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="proveedor" class="text-error" />
-          </div>
           <div>
             <label class="label">Fecha de adquisición</label>
             <VeeField name="fecha_adquisicion" type="date" v-model="superFormulario.fecha_adquisicion" :class="`input w-full ${errors.fecha_adquisicion ? 'input-error' : 'input-bordered'}`" />
@@ -159,14 +152,14 @@
             <VeeErrorMessage name="valor_adquisicion" class="text-error" />
           </div>
           <div>
-            <label class="label">Persona de contacto</label>
+            <label class="label">telefono de contacto</label>
             <VeeField name="persona_contacto" v-model="superFormulario.persona_contacto" :class="`input w-full ${errors.persona_contacto ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="persona_contacto" class="text-error" />
           </div>
           <div>
-            <label class="label">Teléfono/email</label>
-            <VeeField name="telefono_email" v-model="superFormulario.telefono_email" :class="`input w-full ${errors.telefono_email ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="telefono_email" class="text-error" />
+            <label class="label">email de contacto</label>
+            <VeeField name="email_contacto" v-model="superFormulario.email_contacto" :class="`input w-full ${errors.email_contacto ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="email_contacto" class="text-error" />
           </div>
         </div>
       </div>
@@ -194,9 +187,18 @@
             <VeeField name="proveedor_calibracion" v-model="superFormulario.proveedor_calibracion" :class="`input w-full ${errors.proveedor_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="proveedor_calibracion" class="text-error" />
           </div>
+          <div>
+            <label class="label">telefono de contacto de calibración</label>
+            <VeeField name="persona_contacto_calibracion" v-model="superFormulario.persona_contacto_calibracion" :class="`input w-full ${errors.persona_contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="persona_contacto_calibracion" class="text-error" />
+          </div>
+          <div>
+            <label class="label">email de contacto de calibración</label>
+            <VeeField name="email_contacto_calibracion" v-model="superFormulario.email_contacto_calibracion" :class="`input w-full ${errors.email_contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="email_contacto_calibracion" class="text-error" />
+          </div>
         </div>
       </div>
-
       <!-- Control de equipos -->
       <div class="card border shadow-lg p-4">
         <h2 class="card-title">6. Control de Equipos</h2>
@@ -206,7 +208,11 @@
             <VeeField name="frecuencia_verificacion" v-model="superFormulario.frecuencia_verificacion" :class="`input w-full ${errors.frecuencia_verificacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="frecuencia_verificacion" class="text-error" />
           </div>
-          <!-- procedimiento de verificación pendiente por agregar-->
+          <div>
+            <label class="label">Procedimiento de verificación</label>
+            <VeeField name="procedimiento_verificacion" v-model="superFormulario.procedimiento_verificacion" :class="`input w-full ${errors.procedimiento_verificacion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="procedimiento_verificacion" class="text-error" />
+          </div>
           <div>
             <label class="label">Frecuencia de calibración</label>
             <VeeField name="frecuencia_calibracion" v-model="superFormulario.frecuencia_calibracion" :class="`input w-full ${errors.frecuencia_calibracion ? 'input-error' : 'input-bordered'}`" />
@@ -246,6 +252,7 @@ const superFormulario: Ref<SuperItemEntity> = ref({
   ubicacion: '',
   ficha_tecnica: '',
   proveedor_venta: '',
+  email_proveedor: '',
   contacto_proveedor_venta: '',
   email: '',
   manual_uso: '',
@@ -254,6 +261,7 @@ const superFormulario: Ref<SuperItemEntity> = ref({
   periodicidad_calibracion: '',
   periodicidad_verificacion: '',
   contacto: '',
+  email_contacto: '',
   resolucion: '',
   clase_exactitud: '',
   rango_medicion: '',
@@ -265,7 +273,6 @@ const superFormulario: Ref<SuperItemEntity> = ref({
   proveedor_calibracion: '',
   frecuencia_verificacion: '',
   frecuencia_calibracion: '',
-  proveedor: '',
   fecha_adquisicion: '',
   valor_adquisicion: '',
   persona_contacto: '',
@@ -301,6 +308,7 @@ const superFormularioSchema = yup.object({
   periodicidad_calibracion: yup.string().required('*Campo requerido'),
   periodicidad_verificacion: yup.string().required('*Campo requerido'),
   proveedor_venta: yup.string().required('*Campo requerido'),
+  email_proveedor: yup.string().required('*Campo requerido'),
   contacto_proveedor_venta: yup.string().required('*Campo requerido'),
   email: yup.string().required('*Campo requerido'),
   manual_uso: yup.string().required('*Campo requerido'),
@@ -315,7 +323,6 @@ const superFormularioSchema = yup.object({
   proveedor_calibracion: yup.string().required('*Campo requerido'),
   frecuencia_verificacion: yup.string().required('*Campo requerido'),
   frecuencia_calibracion: yup.string().required('*Campo requerido'),
-  proveedor: yup.string().required('*Campo requerido'),
   fecha_adquisicion: yup.date().required('*Campo requerido'),
   valor_adquisicion: yup.string().required('*Campo requerido'),
   persona_contacto: yup.string().required('*Campo requerido'),
