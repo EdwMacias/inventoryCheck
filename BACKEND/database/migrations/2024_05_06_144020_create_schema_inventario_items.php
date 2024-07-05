@@ -9,15 +9,10 @@ return new class extends Migration {
     {
         Schema::create('items', function (Blueprint $table) {
             $table->string('item_id', 40)->primary();
-            $table->string('name', 50);
-            $table->string('serial_number', 100)->unique(strtolower('UItem_SerNum'));
-            $table->text('description');
-
-            $table->integer('category_id')->unsigned()->nullable();
+            $table->integer('category_id')->unsigned();
             $table->integer('statu_id')->unsigned()->default(1);
-
+            
             $table->timestamps();
-
             $table->index('category_id', strtolower('IItems_Category'));
 
             $table->foreign('statu_id', strtolower('FItems_Statu'))->references("statu_id")->on("status")
