@@ -15,9 +15,7 @@ class Item extends Model
 
     protected $fillable = [
         "item_id",
-        "name",
-        "serial_number",
-        "description",
+        "category_id",
         "statu_id"
     ];
 
@@ -27,24 +25,4 @@ class Item extends Model
         'updated_at'
     ];
 
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = Sanizacion::cleanInput($value);
-    }
-
-    public function setSerialNumberAttribute($value)
-    {
-        $value = preg_replace('/\s+/', '', $value);
-        $this->attributes['serial_number'] = Sanizacion::cleanInput($value);
-    }
-
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = Sanizacion::cleanInput($value);
-    }
-
-    public function setStatuIdAttribute($value)
-    {
-        $this->attributes['statu_id'] = Sanizacion::cleanInput($value);
-    }
 }

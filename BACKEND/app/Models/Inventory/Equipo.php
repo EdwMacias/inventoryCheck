@@ -179,15 +179,15 @@ class Equipo extends Model
         $this->attributes['numero_factura'] = Sanizacion::cleanInput($value);
     }
 
-    public function setFechaCalibracionActualAttribute($value)
-    {
-        $this->attributes['fecha_calibracion_actual'] = new \DateTime(Sanizacion::cleanInput($value));
-    }
+    // public function setFechaCalibracionActualAttribute($value)
+    // {
+    //     $this->attributes['fecha_calibracion_actual'] = new \DateTime(Sanizacion::cleanInput($value));
+    // }
 
-    public function setFechaProximaCalibracionAttribute($value)
-    {
-        $this->attributes['fecha_proxima_calibracion'] = new \DateTime(Sanizacion::cleanInput($value));
-    }
+    // public function setFechaProximaCalibracionAttribute($value)
+    // {
+    //     $this->attributes['fecha_proxima_calibracion'] = new \DateTime(Sanizacion::cleanInput($value));
+    // }
 
     public function setMaximaIncertidumbreCalibracionAttribute($value)
     {

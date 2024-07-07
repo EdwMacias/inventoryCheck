@@ -2,9 +2,8 @@
 
 namespace App\DTOs\ItemDTOs\EquiposDTOs;
 
-class EquiposCreateDTO
+class EquiposCreateRequestDTO
 {
-    public $item_id;
     public string $name;
     public string $fabricante;
     public string $modelo;
@@ -30,6 +29,7 @@ class EquiposCreateDTO
     public \DateTime $fecha_adquisicion;
     public ?int $valor_adquicion;
     public ?string $numero_factura;
+    public string $category_id;
     public string $frecuencia_verificacion;
     public string $procedimiento_verificacion;
     public string $frecuencia_calibracion;
@@ -42,7 +42,6 @@ class EquiposCreateDTO
     public ?string $telefono_calibracion;
 
     public function __construct(
-        $item_id,
         string $name,
         string $fabricante,
         string $modelo,
@@ -68,6 +67,7 @@ class EquiposCreateDTO
         \DateTime $fecha_adquisicion,
         ?int $valor_adquicion,
         ?string $numero_factura,
+        string $category_id,
         string $frecuencia_verificacion,
         string $procedimiento_verificacion,
         string $frecuencia_calibracion,
@@ -79,7 +79,6 @@ class EquiposCreateDTO
         ?string $email_calibracion,
         ?string $telefono_calibracion
     ) {
-        $this->item_id = $item_id;
         $this->name = $name;
         $this->fabricante = $fabricante;
         $this->modelo = $modelo;
@@ -105,6 +104,7 @@ class EquiposCreateDTO
         $this->fecha_adquisicion = $fecha_adquisicion;
         $this->valor_adquicion = $valor_adquicion;
         $this->numero_factura = $numero_factura;
+        $this->category_id = $category_id;
         $this->frecuencia_verificacion = $frecuencia_verificacion;
         $this->procedimiento_verificacion = $procedimiento_verificacion;
         $this->frecuencia_calibracion = $frecuencia_calibracion;
@@ -117,35 +117,35 @@ class EquiposCreateDTO
         $this->telefono_calibracion = $telefono_calibracion;
     }
 
-    public static function fromArray(array $data)
+    public static function fromArray(array $data): self
     {
         return new self(
-            $data['item_id'] ?? null,
-            $data['name'] ?? null,
-            $data['fabricante'] ?? null,
-            $data['modelo'] ?? null,
-            $data['marca'] ?? null,
-            $data['serie_lote'] ?? null,
-            $data['activo_fijo'] ?? null,
-            $data['ubicacion'] ?? null,
-            $data['ficha_tecnica'] ?? null,
-            $data['manual'] ?? null,
-            $data['garantia'] ?? null,
-            $data['instruc_operacion'] ?? null,
-            $data['periocidad_calibracion'] ?? null,
-            $data['periocidad_verificacion'] ?? null,
-            $data['proveedor'] ?? null,
-            $data['contacto_proveedor'] ?? null,
-            $data['telefono_proveedor'] ?? null,
+            $data['name'],
+            $data['fabricante'],
+            $data['modelo'],
+            $data['marca'],
+            $data['serie_lote'],
+            $data['activo_fijo'],
+            $data['ubicacion'],
+            $data['ficha_tecnica'],
+            $data['manual'],
+            $data['garantia'],
+            $data['instruc_operacion'],
+            $data['periocidad_calibracion'],
+            $data['periocidad_verificacion'],
+            $data['proveedor'],
+            $data['contacto_proveedor'],
+            $data['telefono_proveedor'],
             $data['email_proveedor'],
             $data['resolucion'] ?? null,
             $data['clase_exactitud'] ?? null,
             $data['rango_medicion'] ?? null,
             $data['intervalo_medicion'] ?? null,
             $data['error_maximo_permitido'] ?? null,
-            new \DateTime($data['fecha_adquisicion'] ?? null),
+            new \DateTime($data['fecha_adquisicion']),
             $data['valor_adquicion'] ?? null,
             $data['numero_factura'] ?? null,
+            $data['category_id'] ?? null,
             $data['frecuencia_verificacion'] ?? null,
             $data['procedimiento_verificacion'] ?? null,
             $data['frecuencia_calibracion'] ?? null,
@@ -162,7 +162,6 @@ class EquiposCreateDTO
     public function toArray(): array
     {
         return [
-            'item_id' => $this->item_id,
             'name' => $this->name,
             'fabricante' => $this->fabricante,
             'modelo' => $this->modelo,
@@ -188,11 +187,12 @@ class EquiposCreateDTO
             'fecha_adquisicion' => $this->fecha_adquisicion->format('Y-m-d'),
             'valor_adquicion' => $this->valor_adquicion,
             'numero_factura' => $this->numero_factura,
+            'category_id' => $this->category_id,
             'frecuencia_verificacion' => $this->frecuencia_verificacion,
             'procedimiento_verificacion' => $this->procedimiento_verificacion,
             'frecuencia_calibracion' => $this->frecuencia_calibracion,
             'fecha_calibracion_actual' => $this->fecha_calibracion_actual ? $this->fecha_calibracion_actual->format('Y-m-d') : null,
-            'fecha_proxima_calibracion' => $this->fecha_proxima_calibracion ? $this->fecha_proxima_calibracion->format('Y-m-d') : null,
+        'fecha_proxima_calibracion' => $this->fecha_proxima_calibracion ? $this->fecha_proxima_calibracion->format('Y-m-d') : null,
             'maxima_incertidumbre_calibracion' => $this->maxima_incertidumbre_calibracion,
             'proveedor_calibracion' => $this->proveedor_calibracion,
             'contacto_calibracion' => $this->contacto_calibracion,
@@ -200,5 +200,4 @@ class EquiposCreateDTO
             'telefono_calibracion' => $this->telefono_calibracion
         ];
     }
-
 }

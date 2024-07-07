@@ -5,25 +5,22 @@ namespace App\DTOs\ItemDTOs;
 class ItemCreateDTO
 {
     public string $item_id;
-    public string $name;
-    public string $serial_number;
-    public string $description;
+    public string $category_id;
+    public string $statu_id;
 
-    public function __construct(string $item_id, string $name, string $serial_number, string $description)
+    public function __construct(string $item_id, string $category_id, string $statu_id)
     {
         $this->item_id = $item_id;
-        $this->name = $name;
-        $this->serial_number = $serial_number;
-        $this->description = $description;
+        $this->category_id = $category_id;
+        $this->statu_id = $statu_id;
     }
 
     public static function fromArray(array $data): self
     {
         return new self(
             $data['item_id'] ?? uuid_create(),
-            $data['name'] ?? null,
-            $data['serial_number'] ?? null,
-            $data['description'] ?? null
+            $data['category_id'] ?? null,
+            $data["statu_id"] ?? TRUE
         );
     }
 
@@ -31,9 +28,8 @@ class ItemCreateDTO
     {
         return [
             'item_id' => $this->item_id,
-            'name' => $this->name,
-            'serial_number' => $this->serial_number,
-            'description' => $this->description,
+            'category_id' => $this->category_id,
+            'statu_id' => $this->statu_id
         ];
     }
 

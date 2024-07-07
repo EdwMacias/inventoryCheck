@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Item;
 
+use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
+use App\Http\Requests\Items\Equipo\EquipoRequest;
 use App\Services\Interfaces\InterfaceItemServices;
 
 
@@ -40,5 +42,13 @@ class ItemController extends Controller
     public function pagination()
     {
         return $this->itemService->listItemPagination();
+    }
+
+    public function createEquipo(EquipoRequest $equipoRequest)
+    {
+        $equipoCreateRequestDTO = EquiposCreateRequestDTO::fromArray($equipoRequest->all());
+        return $this->itemService->createEquipo($equipoCreateRequestDTO, $equipoRequest->file("resource"));
+        // return $equipoCreateRequestDTO->toArray();
+        // return "hola";
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Services\Services;
 
+use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
+use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
+use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Services\Interfaces\InterfaceItemServices;
@@ -13,19 +16,23 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\UploadedFile;
 
 class ItemServices implements InterfaceItemServices
 {
 
     protected InterfaceItemRepository $itemRepository;
     protected InterfaceResourceRepository $resourceRepository;
+    protected InterfaceEquipoRespository $equipoRespository;
 
-    public function __construct(InterfaceItemRepository $interfaceItemRepository, InterfaceResourceRepository $interfaceResourceRepository)
-    {
+    public function __construct(
+        InterfaceItemRepository $interfaceItemRepository,
+        InterfaceResourceRepository $interfaceResourceRepository,
+        InterfaceEquipoRespository $interfaceEquiposRespository
+    ) {
         $this->resourceRepository = $interfaceResourceRepository;
         $this->itemRepository = $interfaceItemRepository;
+        $this->equipoRespository = $interfaceEquiposRespository;
     }
     /**
      * Crea un item.
@@ -35,28 +42,16 @@ class ItemServices implements InterfaceItemServices
      *Imagen capturada con la función file de la request
      * @return JsonResponse
      */
-    public function create(ItemCreateDTO $itemCreateDTO, $resource): JsonResponse
+    public function create(ItemCreateDTO $itemCreateDTO, array|UploadedFile|null $resource): JsonResponse
     {
         $responseHandle = new ResponseHandler();
 
         try {
-
-            $ruta = $resource->store('imagenes', 'public');
-            $url = 'storage/'.asset($ruta);
-            $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
-
-            $result = $this->itemRepository->getItemByName($itemCreateDTO->name);
-
-            if ($result) {
-                throw new Exception("Ya existe este nombre", Response::HTTP_CONFLICT);
+            if ($resource) {
+                $ruta = $resource->store('imagenes', 'public');
+                $url = 'storage/' . asset($ruta);
+                $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
             }
-
-            $result = $this->itemRepository->getItemBySerialNumber($itemCreateDTO->serial_number);
-
-            if ($result) {
-                throw new Exception("Este serial ya fue agregado", Response::HTTP_CONFLICT);
-            }
-
 
             $this->itemRepository->create($itemCreateDTO);
             $this->resourceRepository->create($resourceDTO);
@@ -77,7 +72,7 @@ class ItemServices implements InterfaceItemServices
     public function listItemPagination(): JsonResponse
     {
         $responseHandler = new ResponseHandler();
-        
+
         try {
             $request = Request::capture();
 
@@ -100,4 +95,50 @@ class ItemServices implements InterfaceItemServices
 
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function createEquipo(EquiposCreateRequestDTO $equiposCreateRequestDTO, array|UploadedFile|null $resource)
+    {
+        $responseHandler = new ResponseHandler();
+        try {
+            //code...
+            $itemCreateDTO = ItemCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
+            $url = '';
+            // return $responseHandler->setData($itemCreateDTO->toArray())
+            //     ->setMessages("Equipo Creado Exitosamente")
+            //     ->setStatus(200)
+            //     ->responses();
+
+            if ($resource) {
+                $ruta = $resource->store('imagenes', 'public');
+                $url = 'storage/' . asset($ruta);
+            }
+
+            $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
+            // $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
+            // $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
+            $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
+            $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
+            // return $responseHandler->setData($equipoCreateDTO->toArray())
+            //     ->setMessages("Equipo Creado Exitosamente")
+            //     ->setStatus(200)
+            //     ->responses();
+            $this->itemRepository->create($itemCreateDTO);
+            $this->resourceRepository->create($resourceDTO);
+            $this->equipoRespository->create($equipoCreateDTO->toArray());
+
+            return $responseHandler->setData($equipoCreateDTO->toArray())
+                ->setMessages("Equipo Creado Exitosamente")
+                ->setStatus(200)
+                ->responses();
+
+        } catch (Exception $e) {
+            return $responseHandler->handleException($e, 500);
+        } catch (QueryException $qe) {
+            return $responseHandler->handleException($qe);
+        }
+
+
+    }
 }

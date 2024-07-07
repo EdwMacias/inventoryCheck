@@ -20,7 +20,7 @@ class RolesUserController extends Controller
      * Asigna un rol a un usuario
      * @param RolesRequest $rolesRequest
      */
-    public function assing(RolesRequest $rolesRequest)
+    public function assign(RolesRequest $rolesRequest)
     {
         $rolesRequestDTO = RoleRequestDTO::fromArray($rolesRequest->all());
         return $this->_roleService->assign($rolesRequestDTO);
