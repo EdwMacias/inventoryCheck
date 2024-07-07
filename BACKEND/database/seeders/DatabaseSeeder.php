@@ -3,14 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Inventory\Category;
 use App\Models\Inventory\TypesObservation;
 use App\Models\Status\Status;
 use App\Models\Users\Gender;
 use App\Models\Users\Role;
 use App\Models\Users\TypeDocument;
-use App\Models\User;
-use App\Models\Users\UserRole;
-use App\Utils\Utilidades;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -47,6 +45,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'OTRO'],
         ];
 
+        $categories = [
+            ['name' => 'EQUIPO_PISTA'],
+            ['name' => 'ADMINISTRATIVO'],
+            ['name' => 'MANTENIMIENTO']
+        ];
+
         foreach ($documentos as $documento) {
             TypeDocument::firstOrCreate($documento);
         }
@@ -67,22 +71,9 @@ class DatabaseSeeder extends Seeder
             TypesObservation::firstOrCreate($tiposObservacion);
         }
 
-        // User::firstOrCreate([
-        //     'name' => 'Edwar David',
-        //     'last_name' => 'Macias Lopez',
-        //     'email' => 'edwmacias17@gmail.com',
-        //     'password' => Utilidades::EncriptarPassword(env('PASSWORD_USERS_DEFAULT')),
-        //     "gender_id" => 1,
-        //     "address" => "Av 9 #21 Norte-2 a 21 Norte-160",
-        //     "number_telephone" => "+573108026110",
-        //     'document_type_id' => 1,
-        //     "number_document" => "10202020223",
-        //     'statu_id' => 1,
-        // ]);
+        foreach ($categories as $category) {
+            Category::firstOrCreate($category);
+        }
 
-        // UserRole::firstOrCreate([
-        //     'role_id' => 1,
-        //     'user_id' => 1,
-        // ]);
     }
 }
