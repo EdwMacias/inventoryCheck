@@ -8,6 +8,7 @@ export interface ItemEntity {
 }
 
 export interface SuperItemEntity {
+    email_proveedor: any;
     item_id?: string;
     name: string;
     description: string;
@@ -38,11 +39,15 @@ export interface SuperItemEntity {
     fecha_proxima_calibracion?: string;
     maxima_incertidumbre?: string;
     proveedor_calibracion?: string;
+    persona_contacto_calibracion: string;
+    email_contacto_calibracion: string;
     frecuencia_verificacion?: string;
+    procedimiento_verificacion?: string;
     frecuencia_calibracion?: string;
     proveedor?: string;
     fecha_adquisicion?: string;
     valor_adquisicion?: string;
+    email_contacto?: string;
     persona_contacto?: string;
     telefono_email?: string;
   }
