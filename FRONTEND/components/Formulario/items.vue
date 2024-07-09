@@ -1,19 +1,17 @@
 <template>
   <div class="mx-2">
     <h2 class="font-semibold text-xl mt-2">Creación de artículos</h2>
-
     <VeeForm :validationSchema="formularioSchema" @submit="onSubmit" v-slot="{ meta, errors }">
       <div> <!-- Tipo de equipo -->
         <label class="label">
           <span class="block text-md font-medium leading-6 ">Tipo de equipo</span>
         </label>
         <VeeField name="equipment_type" v-model="formulario.equipment_type" :class="`select w-full mt-1 ${errors.equipment_type ? 'select-error' : 'select-bordered'}`" as="select">
-          <option value="0">Seleccione</option>
           <option v-for="equipo in equipo.tipo" :key="equipo.value" :value="equipo.value">{{ equipo.text }}</option>
         </VeeField>
         <VeeErrorMessage name="equipment_type" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
       </div>
-      <div v-if="formulario.equipment_type == 1 || formulario.equipment_type == 0" class="mt-1">
+      <div v-if="formulario.equipment_type == 1" class="mt-1">
         <FormularioSuperFormEquipment @submit="handleSuperFormSubmit" />
       </div>
       <div id="simpleForm" v-else>
@@ -104,6 +102,7 @@ yup.setLocale({
 
 const equipo = ref({
   tipo: [
+    {value: 0, text: 'Seleccione'},
     {value: 1, text: 'Equipo de pista'},
     {value: 2, text: 'administrativo'},
     {value: 3, text: 'mantenimiento'}
