@@ -1,17 +1,7 @@
 export interface ItemEntity {
-    item_id?: string,
-    name: string,
-    description: string,
-    serial_number: string,
-    resource?: File
-    equipment_type: number
-}
-
-export interface SuperItemEntity {
     email_proveedor: any;
     item_id?: string;
     name: string;
-    description: string;
     serial_number: string;
     resource?: File;
     equipment_type: number;
