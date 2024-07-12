@@ -19,7 +19,7 @@ export interface ItemEntity {
     instruccion_operacion?: string;
     periodicidad_calibracion?: string;
     periodicidad_verificacion?: string;
-    contacto?: string;
+    adquisicion_contacto?: string;
     resolucion?: string;
     clase_exactitud?: string;
     rango_medicion?: string;
