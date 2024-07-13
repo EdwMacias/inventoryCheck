@@ -6,16 +6,16 @@
         <label class="label">
           <span class="block text-md font-medium leading-6 ">Tipo de equipo</span>
         </label>
-        <VeeField name="equipment_type" v-model="formulario.equipment_type" :class="`select w-full mt-1 ${errors.equipment_type ? 'select-error' : 'select-bordered'}`" as="select">
+        <VeeField name="category_id" v-model="formulario.category_id" :class="`select w-full mt-1 ${errors.category_id ? 'select-error' : 'select-bordered'}`" as="select">
           <option v-for="equipo in equipo.tipo" :key="equipo.value" :value="equipo.value">{{ equipo.text }}</option>
         </VeeField>
-        <VeeErrorMessage name="equipment_type" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
+        <VeeErrorMessage name="category_id" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
       </div>
       {{ formulario }}
-      <div v-if="formulario.equipment_type == 0" class="mt-1 text-error animate__animated  animate__fadeIn" >
+      <div v-if="formulario.category_id == '0'" class="mt-1 text-error animate__animated  animate__fadeIn" >
 Seleccione un tipo de equipo, por favor.
 </div>
-      <div v-if="formulario.equipment_type == 1" class="mt-1">
+      <div v-if="formulario.category_id == '1'" class="mt-1">
         <div class="m-2">
           <div class="grid :grid-cols-2 xl:grid-cols-3 gap-4">
             <div class="card border shadow-lg p-4 ">
@@ -43,8 +43,8 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div>
                   <label class="label">Serial / (serie - lote)</label>
-                  <VeeField name="serial_number" v-model="formulario.serial_number" :class="`input w-full ${errors.serial_number ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="serial_number" class="text-error" />
+                  <VeeField name="serie_lote" v-model="formulario.serie_lote" :class="`input w-full ${errors.serie_lote ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="serie_lote" class="text-error" />
                 </div>
                 <div class="form-control ">
                     <label class="label">Activo Fijo</label>
@@ -63,8 +63,8 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div class="form-control ">
                     <label class="label">MANUAL DE USO(ubicación)</label>
-                    <VeeField name="manual_uso" v-model="formulario.manual_uso" :class="`input w-full ${errors.manual_uso ? 'input-error' : 'input-bordered'}`" />
-                    <VeeErrorMessage name="manual_uso" class="text-error" />
+                    <VeeField name="manual" v-model="formulario.manual" :class="`input w-full ${errors.manual ? 'input-error' : 'input-bordered'}`" />
+                    <VeeErrorMessage name="manual" class="text-error" />
                 </div>
                 <div class="form-control ">
                     <label class="label">Garantia</label>
@@ -73,8 +73,8 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div class="form-control ">
                     <label class="label">Instr. de Operación</label>
-                    <VeeField name="instruccion_operacion" v-model="formulario.instruccion_operacion" :class="`input w-full ${errors.instruccion_operacion ? 'input-error' : 'input-bordered'}`" />
-                    <VeeErrorMessage name="instruccion_operacion" class="text-error" />
+                    <VeeField name="instruc_operacion" v-model="formulario.instruc_operacion" :class="`input w-full ${errors.instruc_operacion ? 'input-error' : 'input-bordered'}`" />
+                    <VeeErrorMessage name="instruc_operacion" class="text-error" />
                 </div>
                 <div class="form-control ">
                     <label class="label">Periodicidad de Calibración</label>
@@ -88,13 +88,13 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div class="form-control ">
                     <label class="label">Nombre Proveedor de venta</label>
-                    <VeeField name="proveedor_venta" v-model="formulario.proveedor_venta" :class="`input w-full ${errors.proveedor_venta ? 'input-error' : 'input-bordered'}`" />
-                    <VeeErrorMessage name="proveedor_venta" class="text-error" />
+                    <VeeField name="proveedor" v-model="formulario.proveedor" :class="`input w-full ${errors.proveedor ? 'input-error' : 'input-bordered'}`" />
+                    <VeeErrorMessage name="proveedor" class="text-error" />
                 </div>
                 <div class="form-control ">
                     <label class="label">contacto proveedor</label>
-                    <VeeField name="contacto_proveedor_venta" v-model="formulario.contacto_proveedor_venta" :class="`input w-full ${errors.contacto_proveedor_venta ? 'input-error' : 'input-bordered'}`" />
-                    <VeeErrorMessage name="contacto_proveedor_venta" class="text-error" />
+                    <VeeField name="contacto_proveedor" v-model="formulario.contacto_proveedor" :class="`input w-full ${errors.contacto_proveedor ? 'input-error' : 'input-bordered'}`" />
+                    <VeeErrorMessage name="contacto_proveedor" class="text-error" />
                 </div>
                 <div class="form-control ">
                     <label class="label">Email de proveedor</label>
@@ -154,8 +154,8 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div>
                   <label class="label">Error máximo permitido</label>
-                  <VeeField name="error_maximo" v-model="formulario.error_maximo" :class="`input w-full ${errors.error_maximo ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="error_maximo" class="text-error" />
+                  <VeeField name="error_maximo_permitido" v-model="formulario.error_maximo_permitido" :class="`input w-full ${errors.error_maximo_permitido ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="error_maximo_permitido" class="text-error" />
                 </div>
               </div>
             </div>
@@ -164,24 +164,24 @@ Seleccione un tipo de equipo, por favor.
               <h2 class="card-title">4. Datos de Adquisición del Equipo</h2>
               <div class="form-control mb-2">
                 <div>
-                  <label class="label">Fecha de adquisición</label>
+                  <label class="label">Fecha de Compra</label>
                   <VeeField name="fecha_adquisicion" type="date" v-model="formulario.fecha_adquisicion" :class="`input w-full ${errors.fecha_adquisicion ? 'input-error' : 'input-bordered'}`" />
                   <VeeErrorMessage name="fecha_adquisicion" class="text-error" />
                 </div>
                 <div>
-                  <label class="label">Valor de adquisición</label>
+                  <label class="label">Valor de compra</label>
                   <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion" :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
                   <VeeErrorMessage name="valor_adquisicion" class="text-error" />
                 </div>
                 <div>
                   <label class="label">telefono de contacto</label>
-                  <VeeField name="adquisicion_contacto" v-model="formulario.adquisicion_contacto" :class="`input w-full ${errors.adquisicion_contacto ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="adquisicion_contacto" class="text-error" />
+                  <VeeField name="telefono_proveedor" v-model="formulario.telefono_proveedor" :class="`input w-full ${errors.telefono_proveedor ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="telefono_proveedor" class="text-error" />
                 </div>
                 <div>
                   <label class="label">email de contacto</label>
-                  <VeeField name="email_contacto" v-model="formulario.email_contacto" :class="`input w-full ${errors.email_contacto ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="email_contacto" class="text-error" />
+                  <VeeField name="email_proveedor" v-model="formulario.email_proveedor" :class="`input w-full ${errors.email_proveedor ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="email_proveedor" class="text-error" />
                 </div>
               </div>
             </div>
@@ -201,8 +201,8 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div>
                   <label class="label">Max. incertidumbre/calibración</label>
-                  <VeeField name="maxima_incertidumbre" v-model="formulario.maxima_incertidumbre" :class="`input w-full ${errors.maxima_incertidumbre ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="maxima_incertidumbre" class="text-error" />
+                  <VeeField name="maxima_incertidumbre_calibracion" v-model="formulario.maxima_incertidumbre_calibracion" :class="`input w-full ${errors.maxima_incertidumbre_calibracion ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="maxima_incertidumbre_calibracion" class="text-error" />
                 </div>
                 <div>
                   <label class="label">Proveedor de calibración</label>
@@ -211,13 +211,13 @@ Seleccione un tipo de equipo, por favor.
                 </div>
                 <div>
                   <label class="label">telefono de contacto de calibración</label>
-                  <VeeField name="persona_contacto_calibracion" v-model="formulario.persona_contacto_calibracion" :class="`input w-full ${errors.persona_contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="persona_contacto_calibracion" class="text-error" />
+                  <VeeField name="contacto_calibracion" v-model="formulario.contacto_calibracion" :class="`input w-full ${errors.contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="contacto_calibracion" class="text-error" />
                 </div>
                 <div></div>
                   <label class="label">email de contacto de calibración</label>
-                  <VeeField name="email_contacto_calibracion" v-model="formulario.email_contacto_calibracion" :class="`input w-full ${errors.email_contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
-                  <VeeErrorMessage name="email_contacto_calibracion" class="text-error" />
+                  <VeeField name="email_calibracion" v-model="formulario.email_calibracion" :class="`input w-full ${errors.email_calibracion ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage name="email_calibracion" class="text-error" />
                 </div>
               </div>
               <div class="card border shadow-lg p-4">
@@ -244,7 +244,7 @@ Seleccione un tipo de equipo, por favor.
         <!-- Control de equipos -->
       </div>
       </div>
-      <div id="simpleForm" v-if="formulario.equipment_type == 2 || formulario.equipment_type == 3">
+      <div id="simpleForm" v-if="formulario.category_id == '2' || formulario.category_id == '3'">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div> <!-- Nombre del item -->
             <label class="label">
@@ -257,18 +257,18 @@ Seleccione un tipo de equipo, por favor.
             <label class="label">
               <span class="block text-md font-medium leading-6 ">Serial de Item</span>
             </label>
-            <VeeField name="serial_number" type="text" placeholder="AH1234" v-model="formulario.serial_number" :class="`input uppercase w-full mt-1 ${errors.serial_number ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="serial_number" class="text-error animate__animated animate__fadeIn label block"></VeeErrorMessage>
+            <VeeField name="serie_lote" type="text" placeholder="AH1234" v-model="formulario.serie_lote" :class="`input uppercase w-full mt-1 ${errors.serie_lote ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="serie_lote" class="text-error animate__animated animate__fadeIn label block"></VeeErrorMessage>
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3  gap-2">
-          <!-- <div >
+          <div>
             <label class="label">
-              <span class="block text-md font-medium leading-6 ">Descripción del Item</span>
+              <span class="block text-md font-medium leading-6 ">Valor de compra</span>
             </label>
-            <VeeField name="description" as="textarea" :class="`textarea textarea-bordered  w-full mt-1 ${errors.description ? 'textarea-error' : 'textarea-bordered'}`" placeholder="Descripción" v-model="formulario.description"></VeeField>
-            <VeeErrorMessage name="description" class="text-error animate__animated animate__fadeIn label block"></VeeErrorMessage>
-          </div> -->
+            <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion" :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="valor_adquisicion" class="text-error" />
+          </div>
           <div> 
             <label class="label">
               <span class="block text-md font-medium leading-6 ">codigo de barras</span>
@@ -304,6 +304,7 @@ Seleccione un tipo de equipo, por favor.
 import { ref, watch } from 'vue';
 import * as yup from 'yup';
 import type { ItemEntity } from '~/Domain/Models/Entities/item';
+import swal from 'sweetalert2';
 
 const emits = defineEmits(["enviar"]);
 const inputFile = ref();
@@ -336,90 +337,99 @@ const equipo = ref({
 
 const simpleFormSchema = yup.object({
   name: yup.string().required('*Campo requerido'),
-  serial_number: yup.string().required('*Campo requerido'),
-  equipment_type: yup.number().required().moreThan(0, 'Seleccione una opción válida')
+  serie_lote: yup.string().required('*Campo requerido'),
+  category_id: yup.number().required().moreThan(0, 'Seleccione una opción válida'),
+  valor_adquisicion: yup.string().required('*Campo requerido'),
 });
 
 const validationSchema = computed(() => {
-  return formulario.value.equipment_type === 1 ? detailedFormSchema : simpleFormSchema;
+  return formulario.value.category_id === '1' ? detailedFormSchema : simpleFormSchema;
 });
 
-const detailedFormSchema  = yup.object({
-  equipment_type: yup.number().required().moreThan(0), //
-  name: yup.string().required('*Campo requerido'), //
-  fabricante: yup.string().required('*Campo requerido'), //
-  modelo: yup.string().required('*Campo requerido'), //
-  marca: yup.string().required('*Campo requerido'),//
-  serial_number: yup.string().required('*Campo requerido'), //
-  activo_fijo: yup.string().required('*Campo requerido'),//
-  ubicacion: yup.string().required('*Campo requerido'), //
-  ficha_tecnica: yup.string().required('*Campo requerido'), //
-  garantia: yup.string().required('*Campo requerido'), //
-  instruccion_operacion: yup.string().required('*Campo requerido'), //
-  periodicidad_calibracion: yup.string().required('*Campo requerido'), //
-  periodicidad_verificacion: yup.string().required('*Campo requerido'), //
-  proveedor_venta: yup.string().required('*Campo requerido'), //
-  email_proveedor: yup.string().required('*Campo requerido'), //
-  contacto_proveedor_venta: yup.string().required('*Campo requerido'), //
-  email_contacto: yup.string().required('*Campo requerido'), //
-  manual_uso: yup.string().required('*Campo requerido'), //
-  resolucion: yup.string().required('*Campo requerido'), //
-  clase_exactitud: yup.string().required('*Campo requerido'), //
-  rango_medicion: yup.string().required('*Campo requerido'), //
-  intervalo_medicion: yup.string().required('*Campo requerido'), //
-  error_maximo: yup.string().required('*Campo requerido'), //
-  fecha_calibracion_actual: yup.date().required('*Campo requerido'), //
-  fecha_proxima_calibracion: yup.date().required('*Campo requerido'), //
-  maxima_incertidumbre: yup.string().required('*Campo requerido'), //
-  proveedor_calibracion: yup.string().required('*Campo requerido'), //
-  frecuencia_verificacion: yup.string().required('*Campo requerido'),//
-  frecuencia_calibracion: yup.string().required('*Campo requerido'), //
-  procedimiento_verificacion: yup.string().required('*Campo requerido'), //
-  persona_contacto_calibracion: yup.string().required('*Campo requerido'), //
-  email_contacto_calibracion: yup.string().required('*Campo requerido'), //
-  fecha_adquisicion: yup.date().required('*Campo requerido'), //
-  valor_adquisicion: yup.string().required('*Campo requerido'), //
-  adquisicion_contacto: yup.string().required('*Campo requerido'), ///
+const detailedFormSchema = yup.object({
+  name: yup.string().required('*Campo requerido'),
+  fabricante: yup.string().required('*Campo requerido'),
+  modelo: yup.string().required('*Campo requerido'),
+  marca: yup.string().required('*Campo requerido'),
+  serie_lote: yup.string().required('*Campo requerido'),
+  activo_fijo: yup.string().required('*Campo requerido'),
+  ubicacion: yup.string().required('*Campo requerido'),
+  ficha_tecnica: yup.string().required('*Campo requerido'),
+  manual: yup.string().required('*Campo requerido'),
+  garantia: yup.string().required('*Campo requerido'),
+  instruc_operacion: yup.string().required('*Campo requerido'),
+  periocidad_calibracion: yup.string().required('*Campo requerido'),
+  periodicidad_verificacion: yup.string().required('*Campo requerido'),
+  proveedor: yup.string().required('*Campo requerido'),
+  contacto_proveedor: yup.string().required('*Campo requerido'),
+  telefono_proveedor: yup.string().required('*Campo requerido'),
+  email_proveedor: yup.string().required('*Campo requerido').email(),
+  resolucion: yup.string().nullable(),
+  clase_exactitud: yup.string().nullable(),
+  rango_medicion: yup.string().nullable(),
+  intervalo_medicion: yup.string().nullable(),
+  error_maximo_permitido: yup.string().nullable(),
+  fecha_adquisicion: yup.date().required('*Campo requerido'),
+  valor_adquisicion: yup.number().nullable(),
+  numero_factura: yup.string().nullable(),
+  frecuencia_verificacion: yup.string().required('*Campo requerido'),
+  category_id: yup.string().required('*Campo requerido'),
+  procedimiento_verificacion: yup.string().required('*Campo requerido'),
+  frecuencia_calibracion: yup.string().required('*Campo requerido'),
+  fecha_calibracion_actual: yup.date().nullable(),
+  fecha_proxima_calibracion: yup.date().nullable(),
+  maxima_incertidumbre_calibracion: yup.string().nullable(),
+  proveedor_calibracion: yup.string().nullable(),
+  contacto_calibracion: yup.string().nullable(),
+  email_calibracion: yup.string().nullable().email(),
+  telefono_calibracion: yup.string().nullable(),
+  resource: yup.mixed().required('*Campo requerido')
+
 });
 
 const formulario: Ref<ItemEntity> = ref({
   name: '',
-  serial_number: '',
-  equipment_type: 0,
   fabricante: '',
   modelo: '',
+  resource: null,
   marca: '',
+  serie_lote: '',
   activo_fijo: '',
   ubicacion: '',
   ficha_tecnica: '',
-  proveedor_venta: '',
-  email_proveedor: '',
-  contacto_proveedor_venta: '',
-  manual_uso: '',
+  manual: '',
   garantia: '',
-  instruccion_operacion: '',
+  instruc_operacion: '',
   periodicidad_calibracion: '',
   periodicidad_verificacion: '',
-  email_contacto: '',
+  proveedor: '',
+  contacto_proveedor: '',
+  telefono_proveedor: '',
+  email_proveedor: '',
   resolucion: '',
   clase_exactitud: '',
   rango_medicion: '',
   intervalo_medicion: '',
-  error_maximo: '',
+  error_maximo_permitido: '',
+  fecha_adquisicion: '',
+  valor_adquisicion: null,
+  numero_factura: '',
+  frecuencia_verificacion: '',
+  category_id: '',
+  procedimiento_verificacion: '',
+  frecuencia_calibracion: '',
   fecha_calibracion_actual: '',
   fecha_proxima_calibracion: '',
-  maxima_incertidumbre: '',
+  maxima_incertidumbre_calibracion: '',
   proveedor_calibracion: '',
-  adquisicion_contacto: '',
-  persona_contacto_calibracion: '',
-  email_contacto_calibracion: '',
-  frecuencia_verificacion: '',
-  frecuencia_calibracion: '',
-  fecha_adquisicion: '',
-  valor_adquisicion: '',
+  contacto_calibracion: '',
+  email_calibracion: '',
+  telefono_calibracion: ''
 });
 
-watch(() => formulario.value.serial_number, (newSerialNumber) => {
+
+
+watch(() => formulario.value.serie_lote, (newSerialNumber) => {
   if (!newSerialNumber) {
     barcodeValue.value = null;
     return;
@@ -427,7 +437,7 @@ watch(() => formulario.value.serial_number, (newSerialNumber) => {
   barcodeValue.value = newSerialNumber;
   return;
 });
-barcodeValue.value = formulario.value.serial_number;
+barcodeValue.value = formulario.value.serie_lote;
 
 const handleFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
@@ -441,10 +451,20 @@ const handleFileChange = (event: Event) => {
 
 const onSubmit = (values: any) => {
   const itemEntity = values;
-  if (formulario.value.resource == null) return console.error("Falta imagen");
+  if (formulario.value.resource == null) {
+  swal.fire({
+    icon: 'error',
+    title: "Falta recurso imagen",
+    text: "Hubo un error por favor incluya la imagen.",
+    showCancelButton: false,
+    confirmButtonText: 'Aceptar',
+    reverseButtons: true
+    });
+    return;
+  }
   itemEntity.resource = formulario.value.resource;
   const combinedData = { ...itemEntity, ...formulario.value };
   console.log(combinedData);
   emits("enviar", combinedData);
-};
+}
 </script>
