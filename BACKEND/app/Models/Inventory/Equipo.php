@@ -24,8 +24,8 @@ class Equipo extends Model
         'manual',
         'garantia',
         'instruc_operacion',
-        'periocidad_calibracion',
-        'periocidad_verificacion',
+        'periodicidad_calibracion',
+        'periodicidad_verificacion',
         'proveedor',
         'contacto_proveedor',
         'telefono_proveedor',
@@ -36,7 +36,7 @@ class Equipo extends Model
         'intervalo_medicion',
         'error_maximo_permitido',
         'fecha_adquisicion',
-        'valor_adquicion',
+        'valor_adquision',
         'numero_factura',
         'fecha_calibracion_actual',
         'fecha_proxima_calibracion',
@@ -47,7 +47,12 @@ class Equipo extends Model
         'email_calibracion',
         'frecuencia_verificacion',
         'procedimiento_verificacion',
-        'frecuencia_calibracion'
+        'cond_electrica',
+        'cond_mecanica',
+        'cond_seguridad',
+        'cond_ambientales',
+        'cond_transporte',
+        'cond_otras'
     ];
     public function setItemIdAttribute($value)
     {
@@ -109,14 +114,14 @@ class Equipo extends Model
         $this->attributes['instruc_operacion'] = Sanizacion::cleanInput($value);
     }
 
-    public function setPeriocidadCalibracionAttribute($value)
+    public function setperiodicidadCalibracionAttribute($value)
     {
-        $this->attributes['periocidad_calibracion'] = Sanizacion::cleanInput($value);
+        $this->attributes['periodicidad_calibracion'] = Sanizacion::cleanInput($value);
     }
 
-    public function setPeriocidadVerificacionAttribute($value)
+    public function setperiodicidadVerificacionAttribute($value)
     {
-        $this->attributes['periocidad_verificacion'] = Sanizacion::cleanInput($value);
+        $this->attributes['periodicidad_verificacion'] = Sanizacion::cleanInput($value);
     }
 
     public function setProveedorAttribute($value)
@@ -169,9 +174,9 @@ class Equipo extends Model
         $this->attributes['fecha_adquisicion'] = new \DateTime(Sanizacion::cleanInput($value));
     }
 
-    public function setValorAdquicionAttribute($value)
+    public function setValoradquisionAttribute($value)
     {
-        $this->attributes['valor_adquicion'] = Sanizacion::cleanInput($value);
+        $this->attributes['valor_adquision'] = Sanizacion::cleanInput($value);
     }
 
     public function setNumeroFacturaAttribute($value)
