@@ -36,5 +36,10 @@ export interface ItemEntity {
   email_calibracion?: string | null;
   telefono_calibracion?: string | null;
   resource: File | null;
-
+  cond_electrica: boolean;
+  cond_mecanica: boolean;
+  cond_seguridad: boolean;
+  cond_ambientales: boolean;
+  cond_transporte: boolean;
+  cond_otras: boolean;
 }

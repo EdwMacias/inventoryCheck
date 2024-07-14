@@ -185,7 +185,6 @@ Seleccione un tipo de equipo, por favor.
                 </div>
               </div>
             </div>
-            <!-- Datos de calibración del equipo -->
             <div class="card border shadow-lg p-4">
               <h2 class="card-title">5. Datos de Calibración del Equipo</h2>
               <div class="form-control mb-2">
@@ -238,6 +237,65 @@ Seleccione un tipo de equipo, por favor.
                     <VeeField name="frecuencia_calibracion" v-model="formulario.frecuencia_calibracion" :class="`input w-full ${errors.frecuencia_calibracion ? 'input-error' : 'input-bordered'}`" />
                     <VeeErrorMessage name="frecuencia_calibracion" class="text-error" />
                   </div>
+                </div>
+              </div>
+              <div class="card border shadow-lg p-4">
+                <h2 class="card-title">7. Condición de uso</h2>
+                <div class="form-control mb-2">
+                  <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Condición Eléctrica</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_electrica" v-model="formulario.cond_electrica" class="checkbox" />
+                    <label for="cond_electrica" class="ml-2">Buena</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Condición Mecánica</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_mecanica" v-model="formulario.cond_mecanica" class="checkbox" />
+                    <label for="cond_mecanica" class="ml-2">Buena</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Condición de Seguridad</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_seguridad" v-model="formulario.cond_seguridad" class="checkbox" />
+                    <label for="cond_seguridad" class="ml-2">Buena</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Condiciones Ambientales</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_ambientales" v-model="formulario.cond_ambientales" class="checkbox" />
+                    <label for="cond_ambientales" class="ml-2">Buena</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Condiciones de Transporte</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_transporte" v-model="formulario.cond_transporte" class="checkbox" />
+                    <label for="cond_transporte" class="ml-2">Buena</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="label">
+                    <span class="block text-md font-medium leading-6">Otras Condiciones</span>
+                  </label>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="cond_otras" v-model="formulario.cond_otras" class="checkbox" />
+                    <label for="cond_otras" class="ml-2">Buena</label>
+                  </div>
+                </div>
                 </div>
               </div>
           </div>
@@ -384,7 +442,6 @@ const detailedFormSchema = yup.object({
   email_calibracion: yup.string().nullable().email(),
   telefono_calibracion: yup.string().nullable(),
   resource: yup.mixed().required('*Campo requerido')
-
 });
 
 const formulario: Ref<ItemEntity> = ref({
@@ -424,9 +481,14 @@ const formulario: Ref<ItemEntity> = ref({
   proveedor_calibracion: '',
   contacto_calibracion: '',
   email_calibracion: '',
-  telefono_calibracion: ''
+  telefono_calibracion: '',
+  cond_electrica: false,
+  cond_mecanica: false,
+  cond_seguridad: false,
+  cond_ambientales: false,
+  cond_transporte: false,
+  cond_otras: false
 });
-
 
 
 watch(() => formulario.value.serie_lote, (newSerialNumber) => {
