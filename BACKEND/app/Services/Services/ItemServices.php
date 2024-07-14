@@ -102,30 +102,25 @@ class ItemServices implements InterfaceItemServices
     {
         $responseHandler = new ResponseHandler();
         try {
-            //code...
-            $itemCreateDTO = ItemCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
+
             $url = '';
-            // return $responseHandler->setData($itemCreateDTO->toArray())
-            //     ->setMessages("Equipo Creado Exitosamente")
-            //     ->setStatus(200)
-            //     ->responses();
+            $itemCreateDTO = ItemCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
 
             if ($resource) {
                 $ruta = $resource->store('imagenes', 'public');
                 $url = 'storage/' . asset($ruta);
             }
-
-            $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
-            // $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
-            // $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
+            
             $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
             $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
-            // return $responseHandler->setData($equipoCreateDTO->toArray())
-            //     ->setMessages("Equipo Creado Exitosamente")
-            //     ->setStatus(200)
-            //     ->responses();
+            
             $this->itemRepository->create($itemCreateDTO);
-            $this->resourceRepository->create($resourceDTO);
+
+            if ($resource) {
+                $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
+                $this->resourceRepository->create($resourceDTO);
+            }
+
             $this->equipoRespository->create($equipoCreateDTO->toArray());
 
             return $responseHandler->setData($equipoCreateDTO->toArray())

@@ -16,8 +16,8 @@ class EquiposCreateDTO
     public string $manual;
     public string $garantia;
     public string $instruc_operacion;
-    public string $periocidad_calibracion;
-    public string $periocidad_verificacion;
+    public string $periodicidad_calibracion;
+    public string $periodicidad_verificacion;
     public string $proveedor;
     public string $contacto_proveedor;
     public string $telefono_proveedor;
@@ -28,7 +28,7 @@ class EquiposCreateDTO
     public ?string $intervalo_medicion;
     public ?string $error_maximo_permitido;
     public \DateTime $fecha_adquisicion;
-    public ?int $valor_adquicion;
+    public ?int $valor_adquisicion;
     public ?string $numero_factura;
     public string $frecuencia_verificacion;
     public string $procedimiento_verificacion;
@@ -40,6 +40,12 @@ class EquiposCreateDTO
     public ?string $contacto_calibracion;
     public ?string $email_calibracion;
     public ?string $telefono_calibracion;
+    public bool $cond_electrica;
+    public bool $cond_mecanica;
+    public bool $cond_ambientales;
+    public bool $cond_seguridad;
+    public bool $cond_transporte;
+    public bool $cond_otras;
 
     public function __construct(
         $item_id,
@@ -54,8 +60,8 @@ class EquiposCreateDTO
         string $manual,
         string $garantia,
         string $instruc_operacion,
-        string $periocidad_calibracion,
-        string $periocidad_verificacion,
+        string $periodicidad_calibracion,
+        string $periodicidad_verificacion,
         string $proveedor,
         string $contacto_proveedor,
         string $telefono_proveedor,
@@ -66,7 +72,7 @@ class EquiposCreateDTO
         ?string $intervalo_medicion,
         ?string $error_maximo_permitido,
         \DateTime $fecha_adquisicion,
-        ?int $valor_adquicion,
+        ?int $valor_adquisicion,
         ?string $numero_factura,
         string $frecuencia_verificacion,
         string $procedimiento_verificacion,
@@ -77,7 +83,13 @@ class EquiposCreateDTO
         ?string $proveedor_calibracion,
         ?string $contacto_calibracion,
         ?string $email_calibracion,
-        ?string $telefono_calibracion
+        ?string $telefono_calibracion,
+        bool $cond_electrica,
+        bool $cond_mecanica,
+        bool $cond_ambientales,
+        bool $cond_seguridad,
+        bool $cond_transporte,
+        bool $cond_otras
     ) {
         $this->item_id = $item_id;
         $this->name = $name;
@@ -91,8 +103,8 @@ class EquiposCreateDTO
         $this->manual = $manual;
         $this->garantia = $garantia;
         $this->instruc_operacion = $instruc_operacion;
-        $this->periocidad_calibracion = $periocidad_calibracion;
-        $this->periocidad_verificacion = $periocidad_verificacion;
+        $this->periodicidad_calibracion = $periodicidad_calibracion;
+        $this->periodicidad_verificacion = $periodicidad_verificacion;
         $this->proveedor = $proveedor;
         $this->contacto_proveedor = $contacto_proveedor;
         $this->telefono_proveedor = $telefono_proveedor;
@@ -103,7 +115,7 @@ class EquiposCreateDTO
         $this->intervalo_medicion = $intervalo_medicion;
         $this->error_maximo_permitido = $error_maximo_permitido;
         $this->fecha_adquisicion = $fecha_adquisicion;
-        $this->valor_adquicion = $valor_adquicion;
+        $this->valor_adquisicion = $valor_adquisicion;
         $this->numero_factura = $numero_factura;
         $this->frecuencia_verificacion = $frecuencia_verificacion;
         $this->procedimiento_verificacion = $procedimiento_verificacion;
@@ -115,6 +127,12 @@ class EquiposCreateDTO
         $this->contacto_calibracion = $contacto_calibracion;
         $this->email_calibracion = $email_calibracion;
         $this->telefono_calibracion = $telefono_calibracion;
+        $this->cond_electrica = $cond_electrica;
+        $this->cond_mecanica = $cond_mecanica;
+        $this->cond_ambientales = $cond_ambientales;
+        $this->cond_seguridad = $cond_seguridad;
+        $this->cond_transporte = $cond_transporte;
+        $this->cond_otras = $cond_otras;
     }
 
     public static function fromArray(array $data)
@@ -132,8 +150,8 @@ class EquiposCreateDTO
             $data['manual'] ?? null,
             $data['garantia'] ?? null,
             $data['instruc_operacion'] ?? null,
-            $data['periocidad_calibracion'] ?? null,
-            $data['periocidad_verificacion'] ?? null,
+            $data['periodicidad_calibracion'] ?? null,
+            $data['periodicidad_verificacion'] ?? null,
             $data['proveedor'] ?? null,
             $data['contacto_proveedor'] ?? null,
             $data['telefono_proveedor'] ?? null,
@@ -144,7 +162,7 @@ class EquiposCreateDTO
             $data['intervalo_medicion'] ?? null,
             $data['error_maximo_permitido'] ?? null,
             new \DateTime($data['fecha_adquisicion'] ?? null),
-            $data['valor_adquicion'] ?? null,
+            $data['valor_adquisicion'] ?? null,
             $data['numero_factura'] ?? null,
             $data['frecuencia_verificacion'] ?? null,
             $data['procedimiento_verificacion'] ?? null,
@@ -156,6 +174,12 @@ class EquiposCreateDTO
             $data['contacto_calibracion'] ?? null,
             $data['email_calibracion'] ?? null,
             $data['telefono_calibracion'] ?? null,
+            $data['cond_electrica'] ?? null,
+            $data['cond_mecanica'] ?? null,
+            $data['cond_ambientales'] ?? null,
+            $data['cond_seguridad'] ?? null,
+            $data['cond_transporte'] ?? null,
+            $data['cond_otras'] ?? null,
         );
     }
 
@@ -174,8 +198,8 @@ class EquiposCreateDTO
             'manual' => $this->manual,
             'garantia' => $this->garantia,
             'instruc_operacion' => $this->instruc_operacion,
-            'periocidad_calibracion' => $this->periocidad_calibracion,
-            'periocidad_verificacion' => $this->periocidad_verificacion,
+            'periodicidad_calibracion' => $this->periodicidad_calibracion,
+            'periodicidad_verificacion' => $this->periodicidad_verificacion,
             'proveedor' => $this->proveedor,
             'contacto_proveedor' => $this->contacto_proveedor,
             'telefono_proveedor' => $this->telefono_proveedor,
@@ -186,7 +210,7 @@ class EquiposCreateDTO
             'intervalo_medicion' => $this->intervalo_medicion,
             'error_maximo_permitido' => $this->error_maximo_permitido,
             'fecha_adquisicion' => $this->fecha_adquisicion->format('Y-m-d'),
-            'valor_adquicion' => $this->valor_adquicion,
+            'valor_adquisicion' => $this->valor_adquisicion,
             'numero_factura' => $this->numero_factura,
             'frecuencia_verificacion' => $this->frecuencia_verificacion,
             'procedimiento_verificacion' => $this->procedimiento_verificacion,
@@ -197,7 +221,13 @@ class EquiposCreateDTO
             'proveedor_calibracion' => $this->proveedor_calibracion,
             'contacto_calibracion' => $this->contacto_calibracion,
             'email_calibracion' => $this->email_calibracion,
-            'telefono_calibracion' => $this->telefono_calibracion
+            'telefono_calibracion' => $this->telefono_calibracion,
+            'cond_electrica' => $this->cond_electrica,
+            'cond_mecanica' => $this->cond_mecanica,
+            'cond_ambientales' => $this->cond_ambientales,
+            'cond_seguridad' => $this->cond_seguridad,
+            'cond_transporte' => $this->cond_transporte,
+            'cond_otras' => $this->cond_otras
         ];
     }
 

@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('manual');
             $table->string('garantia');
             $table->string('instruc_operacion');
-            $table->string('periocidad_calibracion');
-            $table->string('periocidad_verificacion');
+            $table->string('periodicidad_calibracion');
+            $table->string('periodicidad_verificacion');
             $table->string('proveedor');
             $table->string('contacto_proveedor');
             $table->string('telefono_proveedor');
@@ -44,7 +44,7 @@ return new class extends Migration
             
             // DATOS DE ADQUISICIÓN  DEL EQUIPO
             $table->timestamp('fecha_adquisicion');
-            $table->integer('valor_adquicion')->nullable();
+            $table->integer('valor_adquisicion')->nullable();
             $table->string('numero_factura')->nullable();
 
             // DATOS CALIBRACIÓN DEL EQUIPO
@@ -61,6 +61,14 @@ return new class extends Migration
             $table->string('frecuencia_verificacion');
             $table->string('procedimiento_verificacion');
             $table->string('frecuencia_calibracion')->nullable();
+
+            // Condiciones de uso de equipo
+            $table->boolean('cond_electrica');
+            $table->boolean('cond_mecanica');
+            $table->boolean('cond_ambientales');
+            $table->boolean('cond_seguridad');
+            $table->boolean('cond_transporte');
+            $table->boolean('cond_otras');
 
             $table->foreign('item_id', strtolower('FEquipos_Item'))->references('item_id')->on('items')
                 ->onDelete('cascade')->onUpdate("cascade");

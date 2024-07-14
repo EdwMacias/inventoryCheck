@@ -46,6 +46,24 @@ class ItemController extends Controller
 
     public function createEquipo(EquipoRequest $equipoRequest)
     {
+        $equipoRequest->merge([
+            'cond_electrica' => filter_var($equipoRequest->input('cond_electrica'), FILTER_VALIDATE_BOOLEAN),
+            'cond_mecanica' => filter_var($equipoRequest->input('cond_mecanica'), FILTER_VALIDATE_BOOLEAN),
+            'cond_ambientales' => filter_var($equipoRequest->input('cond_ambientales'), FILTER_VALIDATE_BOOLEAN),
+            'cond_seguridad' => filter_var($equipoRequest->input('cond_seguridad'), FILTER_VALIDATE_BOOLEAN),
+            'cond_transporte' => filter_var($equipoRequest->input('cond_transporte'), FILTER_VALIDATE_BOOLEAN),
+            'cond_otras' => filter_var($equipoRequest->input('cond_otras'), FILTER_VALIDATE_BOOLEAN),
+        ]);
+    
+        $validated = $equipoRequest->validate([
+            'cond_electrica' => 'required|bool',
+            'cond_mecanica' => 'required|bool',
+            'cond_ambientales' => 'required|bool',
+            'cond_seguridad' => 'required|bool',
+            'cond_transporte' => 'required|bool',
+            'cond_otras' => 'required|bool',
+        ]);
+    
         $equipoCreateRequestDTO = EquiposCreateRequestDTO::fromArray($equipoRequest->all());
         return $this->itemService->createEquipo($equipoCreateRequestDTO, $equipoRequest->file("resource"));
         // return $equipoCreateRequestDTO->toArray();
