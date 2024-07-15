@@ -10,7 +10,7 @@ export interface ItemRequest {
     manual: string;
     garantia: string;
     instruc_operacion: string;
-    periocidad_calibracion: string;
+    periodicidad_calibracion: string;
     periodicidad_verificacion: string;
     proveedor: string;
     contacto_proveedor: string;
@@ -25,7 +25,7 @@ export interface ItemRequest {
     valor_adquisicion?: number | null;
     numero_factura?: string | null;
     frecuencia_verificacion: string;
-    category_id: string;
+    category_id: number;
     procedimiento_verificacion: string;
     frecuencia_calibracion: string;
     fecha_calibracion_actual?: string | null;

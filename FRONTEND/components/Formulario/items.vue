@@ -12,10 +12,10 @@
         <VeeErrorMessage name="category_id" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
       </div>
       {{ formulario }}
-      <div v-if="formulario.category_id == '0'" class="mt-1 text-error animate__animated  animate__fadeIn" >
-Seleccione un tipo de equipo, por favor.
-</div>
-      <div v-if="formulario.category_id == '1'" class="mt-1">
+      <div v-if="formulario.category_id == 0" class="mt-1 text-error animate__animated  animate__fadeIn" >
+        Seleccione un tipo de equipo, por favor.
+      </div>
+      <div v-if="formulario.category_id == 1"  class="mt-1">
         <div class="m-2">
           <div class="grid :grid-cols-2 xl:grid-cols-3 gap-4">
             <div class="card border shadow-lg p-4 ">
@@ -240,60 +240,60 @@ Seleccione un tipo de equipo, por favor.
                 </div>
               </div>
               <div class="card border shadow-lg p-4">
-                <h2 class="card-title">7. Condición de uso</h2>
+                <h2 class="card-title">7. Condiciones de uso</h2>
                 <div class="form-control mb-2">
                   <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Condición Eléctrica</span>
+                    <span class="block text-md font-medium leading-6">Condición Eléctrica (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_electrica" v-model="formulario.cond_electrica" class="checkbox" />
-                    <label for="cond_electrica" class="ml-2">Buena</label>
+                    <label for="cond_electrica" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Condición Mecánica</span>
+                    <span class="block text-md font-medium leading-6">Condición Mecánica (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_mecanica" v-model="formulario.cond_mecanica" class="checkbox" />
-                    <label for="cond_mecanica" class="ml-2">Buena</label>
+                    <label for="cond_mecanica" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Condición de Seguridad</span>
+                    <span class="block text-md font-medium leading-6">Condición de Seguridad (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_seguridad" v-model="formulario.cond_seguridad" class="checkbox" />
-                    <label for="cond_seguridad" class="ml-2">Buena</label>
+                    <label for="cond_seguridad" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Condiciones Ambientales</span>
+                    <span class="block text-md font-medium leading-6">Condiciones Ambientales (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_ambientales" v-model="formulario.cond_ambientales" class="checkbox" />
-                    <label for="cond_ambientales" class="ml-2">Buena</label>
+                    <label for="cond_ambientales" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Condiciones de Transporte</span>
+                    <span class="block text-md font-medium leading-6">Condiciones de Transporte (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_transporte" v-model="formulario.cond_transporte" class="checkbox" />
-                    <label for="cond_transporte" class="ml-2">Buena</label>
+                    <label for="cond_transporte" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 <div>
                   <label class="label">
-                    <span class="block text-md font-medium leading-6">Otras Condiciones</span>
+                    <span class="block text-md font-medium leading-6">Otras Condiciones (por defecto: NO APLICA)</span>
                   </label>
                   <div class="flex items-center">
                     <input type="checkbox" id="cond_otras" v-model="formulario.cond_otras" class="checkbox" />
-                    <label for="cond_otras" class="ml-2">Buena</label>
+                    <label for="cond_otras" class="ml-2">Aplicado</label>
                   </div>
                 </div>
                 </div>
@@ -302,7 +302,7 @@ Seleccione un tipo de equipo, por favor.
         <!-- Control de equipos -->
       </div>
       </div>
-      <div id="simpleForm" v-if="formulario.category_id == '2' || formulario.category_id == '3'">
+      <div id="simpleForm" v-if="formulario.category_id == 2 || formulario.category_id == 3">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div> <!-- Nombre del item -->
             <label class="label">
@@ -401,7 +401,7 @@ const simpleFormSchema = yup.object({
 });
 
 const validationSchema = computed(() => {
-  return formulario.value.category_id === '1' ? detailedFormSchema : simpleFormSchema;
+  return formulario.value.category_id === 1 ? detailedFormSchema : simpleFormSchema;
 });
 
 const detailedFormSchema = yup.object({
@@ -431,7 +431,7 @@ const detailedFormSchema = yup.object({
   valor_adquisicion: yup.number().nullable(),
   numero_factura: yup.string().nullable(),
   frecuencia_verificacion: yup.string().required('*Campo requerido'),
-  category_id: yup.string().required('*Campo requerido'),
+  category_id: yup.number().required('*Campo requerido'),
   procedimiento_verificacion: yup.string().required('*Campo requerido'),
   frecuencia_calibracion: yup.string().required('*Campo requerido'),
   fecha_calibracion_actual: yup.date().nullable(),
@@ -472,7 +472,7 @@ const formulario: Ref<ItemEntity> = ref({
   valor_adquisicion: null,
   numero_factura: '',
   frecuencia_verificacion: '',
-  category_id: '',
+  category_id: 0,
   procedimiento_verificacion: '',
   frecuencia_calibracion: '',
   fecha_calibracion_actual: '',

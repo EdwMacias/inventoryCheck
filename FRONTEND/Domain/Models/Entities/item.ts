@@ -25,7 +25,7 @@ export interface ItemEntity {
   valor_adquisicion?: number | null;
   numero_factura?: string | null;
   frecuencia_verificacion: string;
-  category_id: string;
+  category_id: number;
   procedimiento_verificacion: string;
   frecuencia_calibracion: string;
   fecha_calibracion_actual?: string | null;
