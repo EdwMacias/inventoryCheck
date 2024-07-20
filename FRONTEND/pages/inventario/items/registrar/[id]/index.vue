@@ -29,7 +29,7 @@
         </div>
 
         <FormularioEquipos v-if="categoriaSeleccionada == 1" @callback="EquipoService.create" />
-        <FormularioItem v-if="categoriaSeleccionada == 2" />
+        <FormularioItem v-if="categoriaSeleccionada == 2" @callback="itemService.create" />
 
     </div>
 
@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
+import { itemService } from '~/Domain/Client/Services/Items/item.service';
 
 definePageMeta({
     middleware: ['actions-middleware']
