@@ -72,7 +72,7 @@ export class EquipoRequestCreateDTO implements EquipoRequestCreate {
         this.valor_adquisicion = data.valor_adquisicion;
         this.numero_factura = data.numero_factura;
         this.frecuencia_verificacion = data.frecuencia_verificacion;
-        this.category_id = data.category_id;
+        this.category_id = 1;
         this.procedimiento_verificacion = data.procedimiento_verificacion;
         this.frecuencia_calibracion = data.frecuencia_calibracion;
         this.fecha_calibracion_actual = data.fecha_calibracion_actual;
