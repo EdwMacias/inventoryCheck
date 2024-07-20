@@ -81,6 +81,7 @@ function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
 
+
 const formularioItemBasicoSchema = yup.object({
   name: yup.string().required('*Campo requerido'),
   serie_lote: yup.string().required('*Campo requerido'),
@@ -105,6 +106,17 @@ const formulario: Ref<itemBasico> = ref({
   valor_adquisicion: '',
   resource: null
 });
+
+watch(() => formulario.value.serie_lote, (newSerialNumber) => {
+  if (!newSerialNumber) {
+    barcodeValue.value = null;
+    return;
+  }
+  barcodeValue.value = newSerialNumber;
+  return;
+});
+barcodeValue.value = formulario.value.serie_lote;
+
 
 const onSubmit = (values: any) => {
   const itemBasicoEntity = values;

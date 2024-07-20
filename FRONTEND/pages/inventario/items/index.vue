@@ -1,6 +1,4 @@
 <template>
-
-
   <div class="">
     <div class="breadcrumbs text-lg mx-5">
       <ul>
@@ -49,7 +47,7 @@
     <!-- </div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
-        <Item v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description" :image="item.resource"
+        <Item v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description" :image="item.resource" :category_id="item.category_id"
           :nombre_item="item.name" :itemId="item.item_id" />
       </ClientOnly>
     </div>
@@ -116,17 +114,5 @@ const busqueda = () => {
 </script>
 
 <style scoped lang="css">
-/* .busqueda:hover {
-  opacity: 1;
-  transition: all 0.5s ease-in-out;
-} */
-/* 
-.busqueda {
-  opacity: 0.5
-} */
-/* 
-.search-box:click {
-  flex-grow: 1;
-  width: 100%;
-} */
+
 </style>

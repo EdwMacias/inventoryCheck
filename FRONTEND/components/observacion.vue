@@ -1,5 +1,5 @@
 <template>
-      <button @click="openModal" class="btn btn-outline btn-primary btn-sm ">Observación</button>
+      <button @click="openModal" class="btn btn-outline btn-primary btn-sm"> abrir</button>
       <div v-if="isModalOpen" class="modal modal-open">
         <div class="modal-box">
           <h3 class="font-bold text-lg mb-4">Observaciones para el ítem ID: {{ itemId }}</h3>
@@ -9,61 +9,66 @@
             <p>No hay observaciones disponibles.</p>
           </div>
           <div v-else class="grid grid-cols-1 gap-4">
-            <div v-for="observation in observations" :key="observation.item_observation_id" class="card shadow-lg compact bg-base-100">
+            <div v-for="observation in observations" :key="observation.itemId" class="card shadow-lg compact bg-base-100">
               <div class="card-body">
-                <h2 class="card-title">Observación ID: {{ observation.item_observation_id }}</h2>
-                <p><strong>Observación:</strong> {{ observation.observation }}</p>
-                <p><strong>Realizada por:</strong> {{ observation.user.name }}</p>
-                <p><strong>Tipo de Observación:</strong> {{ observation.types_observation_id }}</p>
-                <p><strong>Fecha de Creación:</strong> {{ observation.created_at }}</p>
-                <p><strong>Fecha de Actualización:</strong> {{ observation.updated_at }}</p>
+                <h2 class="card-title">Observación ID:</h2>
+                <p><strong>Observación:</strong></p>
+                <p><strong>Realizada por:</strong> </p>
+                <p><strong>Tipo de Observación:</strong> </p>
+                <p><strong>Fecha de Creación:</strong></p>
+                <p><strong>Fecha de Actualización:</strong> </p>
               </div>
             </div>
           </div>
           <div class="modal-action">
-            <button @click="addObservation" class="btn btn-primary">Agregar</button>
+            <button @click="" class="btn btn-primary">Agregar</button>
             <button @click="closeModal" class="btn btn-ghost">Cancelar</button>
           </div>
         </div>
       </div>
   </template>
-  
-  <script setup lang="ts">
 
-const route = useRoute();
-const itemId = route.params.id;
-const observations = ref([]);
-const isModalOpen = ref(false);
-const newObservation = ref('');
-
-const openModal = async () => {
-  try {
-    const response = await observationsService.getObservationsByItemId(itemId);
-    observations.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
+<script setup lang="ts">
+import type { ObservationResponse } from '~/Domain/Models/Api/Response/observation.response';
+  const route = useRoute();
+  const itemId = route.params.id;
+  const observations = ref<ObservationResponse[]>([]);
+  const isModalOpen = ref(false);
+  const newObservation = ref('');
+  const openModal = () => {
   isModalOpen.value = true;
-};
+  };
+  // const openModal = async () => {
+  // try {
+  //   const response = await observationsService.getObservationsByItemId(itemId);
+  //   observations.value = response.data;
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  // isModalOpen.value = true;
+  // };
 
-const closeModal = () => {
+  const observation = ref('Observación');
+
+
+  const closeModal = () => {
   isModalOpen.value = false;
-};
+  };
 
-const handleEscKey = (event: KeyboardEvent) => {
+  const handleEscKey = (event: KeyboardEvent) => {
   if (event.key === 'Escape') {
     closeModal();
   }
-};
+  };
 
-onMounted(() => {
+  onMounted(() => {
   window.addEventListener('keydown', handleEscKey);
-});
+  });
 
-onBeforeUnmount(() => {
+  onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleEscKey);
-});
-  </script>
+  });
+</script>
   
   <style scoped>
   .modal-open {
