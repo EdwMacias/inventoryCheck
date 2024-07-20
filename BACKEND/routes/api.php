@@ -37,9 +37,13 @@ Route::group(['prefix' => 'item'], function () {
         Route::post('', [ItemController::class, 'createEquipo']);
     });
 
+    Route::group(['prefix' => 'basico'], function () {
+        Route::post('', [ItemController::class, 'store']);
+    });
+
     Route::group(['prefix' => 'observation'], function () {
-        Route::post('create', [ItemObservationController::class, 'store']);
-        Route::post('update/{id}', [ItemObservationController::class, 'update']);
+        Route::post('', [ItemObservationController::class, 'store']);
+        Route::post('{id}', [ItemObservationController::class, 'update']);
     });
 });
 

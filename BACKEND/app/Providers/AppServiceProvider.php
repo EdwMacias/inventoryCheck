@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Interfaces\InterfaceDocumentTypeRepository;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceGenderRepository;
+use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
@@ -14,6 +15,7 @@ use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Repositories\Repositories\EquipoRespository;
 use App\Repositories\Repositories\GenderRepository;
+use App\Repositories\Repositories\ItemBasicoRepository;
 use App\Repositories\Repositories\ItemObservationRepository;
 use App\Repositories\Repositories\ItemRepository;
 use App\Repositories\Repositories\ResourceRepository;
@@ -52,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceItemObservationRepository::class, ItemObservationRepository::class);
         $this->app->bind(InterfaceTypesObservationRepository::class, TypesObservationRepository::class);
         $this->app->bind(InterfaceEquipoRespository::class, EquipoRespository::class);
+        $this->app->bind(InterfaceItemBasicoRepository::class, ItemBasicoRepository::class);
 
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);

@@ -4,10 +4,13 @@ namespace App\Services\Services;
 
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
+use App\DTOs\ItemDTOs\ItemBasicoCreateDTO;
+use App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
+use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Services\Interfaces\InterfaceItemServices;
@@ -24,43 +27,62 @@ class ItemServices implements InterfaceItemServices
     protected InterfaceItemRepository $itemRepository;
     protected InterfaceResourceRepository $resourceRepository;
     protected InterfaceEquipoRespository $equipoRespository;
+    protected InterfaceItemBasicoRepository $itemBasicoRepository;
 
     public function __construct(
         InterfaceItemRepository $interfaceItemRepository,
         InterfaceResourceRepository $interfaceResourceRepository,
-        InterfaceEquipoRespository $interfaceEquiposRespository
+        InterfaceEquipoRespository $interfaceEquiposRespository,
+        InterfaceItemBasicoRepository $interfaceItemBasicoRepository
     ) {
         $this->resourceRepository = $interfaceResourceRepository;
         $this->itemRepository = $interfaceItemRepository;
         $this->equipoRespository = $interfaceEquiposRespository;
+        $this->itemBasicoRepository = $interfaceItemBasicoRepository;
     }
     /**
      * Crea un item.
-     *@param ItemCreateDTO $item   
+     *@param ItemBasicoCreateRequestDTO $itemBasicoCreateDTO   
      *Datos del item para crear
      *@param mixed $resource 
      *Imagen capturada con la función file de la request
      * @return JsonResponse
      */
-    public function create(ItemCreateDTO $itemCreateDTO, array|UploadedFile|null $resource): JsonResponse
+    public function create(ItemBasicoCreateRequestDTO $itemBasicoCreateDTO, array|UploadedFile|null $resource): JsonResponse
     {
-        $responseHandle = new ResponseHandler();
+        $responseHandler = new ResponseHandler();
 
         try {
+
+            $url = '';
+            $itemCreateDTO = ItemCreateDTO::fromArray($itemBasicoCreateDTO->toArray());
+
             if ($resource) {
                 $ruta = $resource->store('imagenes', 'public');
                 $url = 'storage/' . asset($ruta);
-                $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
             }
 
-            $this->itemRepository->create($itemCreateDTO);
-            $this->resourceRepository->create($resourceDTO);
+            $itemBasicoCreateDTO = new ItemBasicoCreateDTO($itemBasicoCreateDTO->toArray());
+            $itemBasicoCreateDTO->item_id = $itemCreateDTO->item_id;
 
-            return $responseHandle->setData(true)->setMessages("Creado")->setStatus(200)->responses();
+            $this->itemRepository->create($itemCreateDTO);
+
+            if ($resource) {
+                $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
+                $this->resourceRepository->create($resourceDTO);
+            }
+
+            $this->itemBasicoRepository->create($itemBasicoCreateDTO->toArray());
+
+            return $responseHandler->setData($itemBasicoCreateDTO->toArray())
+                ->setMessages("Item Basico Creado Exitosamente")
+                ->setStatus(200)
+                ->responses();
+
         } catch (\Throwable $th) {
-            return $responseHandle->handleException($th);
+            return $responseHandler->handleException($th);
         } catch (Exception $e) {
-            return $responseHandle->handleException($e);
+            return $responseHandler->handleException($e);
         }
     }
 
@@ -110,10 +132,10 @@ class ItemServices implements InterfaceItemServices
                 $ruta = $resource->store('imagenes', 'public');
                 $url = 'storage/' . asset($ruta);
             }
-            
+
             $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
             $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
-            
+
             $this->itemRepository->create($itemCreateDTO);
 
             if ($resource) {

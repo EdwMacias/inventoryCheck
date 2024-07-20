@@ -24,8 +24,9 @@ class ItemRequest extends FormRequest
         return [
             '*' => 'prohibited',
             'name' => 'required|string|max:50',
-            'serial_number' => 'required|string|max:100',
-            'description' => 'required|string',
+            'serie_lote' => 'required|string|max:100',
+            'valor_adquisicion' => 'required|string',
+            'category_id' => 'required|string',
             'resource' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }

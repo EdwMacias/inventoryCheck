@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Item;
 
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
-use App\DTOs\ItemDTOs\ItemCreateDTO;
+use App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
 use App\Http\Requests\Items\Equipo\EquipoRequest;
 use App\Services\Interfaces\InterfaceItemServices;
-
 
 class ItemController extends Controller
 {
@@ -30,7 +29,7 @@ class ItemController extends Controller
      */
     public function store(ItemRequest $itemCreacionRequest)
     {
-        $itemCreateDto = ItemCreateDTO::fromArray($itemCreacionRequest->all());
+        $itemCreateDto = new ItemBasicoCreateRequestDTO($itemCreacionRequest->all());
         return $this->itemService->create($itemCreateDto, $itemCreacionRequest->file("resource"));
     }
 
@@ -41,6 +40,7 @@ class ItemController extends Controller
      */
     public function pagination()
     {
+        // return []
         return $this->itemService->listItemPagination();
     }
 
@@ -54,7 +54,7 @@ class ItemController extends Controller
             'cond_transporte' => filter_var($equipoRequest->input('cond_transporte'), FILTER_VALIDATE_BOOLEAN),
             'cond_otras' => filter_var($equipoRequest->input('cond_otras'), FILTER_VALIDATE_BOOLEAN),
         ]);
-    
+
         $validated = $equipoRequest->validate([
             'cond_electrica' => 'required|bool',
             'cond_mecanica' => 'required|bool',
@@ -63,7 +63,7 @@ class ItemController extends Controller
             'cond_transporte' => 'required|bool',
             'cond_otras' => 'required|bool',
         ]);
-    
+
         $equipoCreateRequestDTO = EquiposCreateRequestDTO::fromArray($equipoRequest->all());
         return $this->itemService->createEquipo($equipoCreateRequestDTO, $equipoRequest->file("resource"));
         // return $equipoCreateRequestDTO->toArray();
