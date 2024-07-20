@@ -1,87 +1,143 @@
 <template>
-      <button @click="openModal" class="btn btn-outline btn-primary btn-sm"> abrir</button>
-      <div v-if="isModalOpen" class="modal modal-open">
-        <div class="modal-box">
-          <h3 class="font-bold text-lg mb-4">Observaciones para el ítem ID: {{ itemId }}</h3>
-          <p class="mb-2">Nueva observación:</p>
-          <textarea class="textarea textarea-bordered w-full" placeholder="Escribe una observación" v-model="newObservation"></textarea>
-          <div v-if="observations.length === 0">
-            <p>No hay observaciones disponibles.</p>
+  <button @click="openModal" class="btn btn-primary btn-sm"> Crear</button>
+  <div v-if="isModalOpen" class="modal modal-open">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg mb-4">Observaciones para el ítem ID: {{ route.params.id }}</h3>
+        <VeeForm :validationSchema="formularioObservacionSchema" @submit="onSubmit" v-slot="{ meta, errors }">
+          <div>
+            <label class="label">Fecha de ejecucion</label>
+            <VeeField name="fecha" v-model="formulario.fecha" type="date"
+              :class="`input w-full ${errors.fecha ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="fecha" class="text-error" />
           </div>
-          <div v-else class="grid grid-cols-1 gap-4">
-            <div v-for="observation in observations" :key="observation.itemId" class="card shadow-lg compact bg-base-100">
-              <div class="card-body">
-                <h2 class="card-title">Observación ID:</h2>
-                <p><strong>Observación:</strong></p>
-                <p><strong>Realizada por:</strong> </p>
-                <p><strong>Tipo de Observación:</strong> </p>
-                <p><strong>Fecha de Creación:</strong></p>
-                <p><strong>Fecha de Actualización:</strong> </p>
-              </div>
-            </div>
+          <div>
+            <label class="label">Asunto</label>
+            <VeeField name="asunto" v-model="formulario.asunto" type="select"
+              :class="`select ${errors.asunto ? 'select-error' : 'select-bordered'}`">
+              <option value="mantenimiento">Mantenimiento</option>
+              <option value="calibracion">Calibración</option>
+              <option value="Verificacion">Verificacion</option>
+              </VeeField>
+            <VeeErrorMessage name="asunto" class="select-error" />
           </div>
-          <div class="modal-action">
-            <button @click="" class="btn btn-primary">Agregar</button>
+          <div>
+            <label class="label">Descripción</label>
+            <VeeField name="descripcion" v-model="formulario.descripcion"
+              :class="`input w-full ${errors.descripcion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="descripcion" class="text-error" />
+          </div>
+          <div>
+            <label class="label">Estado</label>
+            <VeeField name="estado" v-model="formulario.estado"
+              :class="`input w-full ${errors.estado ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="estado" class="text-error" />
+          </div>
+          <div>
+            <label class="label">Responsable</label>
+            <VeeField name="responsable" v-model="formulario.responsable"
+              :class="`input w-full ${errors.responsable ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="responsable" class="text-error" />
+          </div>
+          <div>
+            <label class="label">Próxima Acción</label>
+            <VeeField name="proxAct" v-model="formulario.proxAct"
+              :class="`input w-full ${errors.proxAct ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="proxAct" class="text-error" />
+          </div>
+          <div>
+            <label class="label">Procedimiento de verificación</label>
+            <VeeField name="procedimiento_verificacion" v-model="formulario.procedimiento_verificacion" type="date"
+              :class="`input w-full ${errors.procedimiento_verificacion ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="procedimiento_verificacion" class="text-error" />
+          </div>
+          <div>
+            <label class="label">Firma</label>
+            <canvas ref="canvasRef" width="400" height="200" style="border:1px solid #000000; border-radius: 10px;"></canvas>
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary" @click="clearSignature">Limpiar Firma</button>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Agregar</button>
             <button @click="closeModal" class="btn btn-ghost">Cancelar</button>
           </div>
-        </div>
+          <div v-if="errors">{{ errors }}</div>
+        </VeeForm>
       </div>
-  </template>
+    </div>
+</template>
 
 <script setup lang="ts">
-import type { ObservationResponse } from '~/Domain/Models/Api/Response/observation.response';
-  const route = useRoute();
-  const itemId = route.params.id;
-  const observations = ref<ObservationResponse[]>([]);
-  const isModalOpen = ref(false);
-  const newObservation = ref('');
-  const openModal = () => {
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute } from 'vue-router';
+import * as yup from 'yup';
+import { useSignaturePad } from '~/composables/useSignaturePad';
+
+const route = useRoute();
+const isModalOpen = ref(false);
+const formulario = ref({
+  id: route.params.id,
+  fecha: '',
+  asunto: '',
+  descripcion: '',
+  estado: '',
+  responsable: '',
+  firma: '',
+  proxAct: '',
+  procedimiento_verificacion: '',
+});
+
+const { canvasRef, clearSignature, getSignatureDataURL } = useSignaturePad();
+
+const openModal = () => {
   isModalOpen.value = true;
-  };
-  // const openModal = async () => {
-  // try {
-  //   const response = await observationsService.getObservationsByItemId(itemId);
-  //   observations.value = response.data;
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  // isModalOpen.value = true;
-  // };
+};
 
-  const observation = ref('Observación');
-
-
-  const closeModal = () => {
+const closeModal = () => {
   isModalOpen.value = false;
-  };
+};
 
-  const handleEscKey = (event: KeyboardEvent) => {
+const handleEscKey = (event: KeyboardEvent) => {
   if (event.key === 'Escape') {
     closeModal();
   }
-  };
+};
 
-  onMounted(() => {
+onMounted(() => {
   window.addEventListener('keydown', handleEscKey);
-  });
+});
 
-  onBeforeUnmount(() => {
+onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleEscKey);
-  });
+});
+
+const formularioObservacionSchema = yup.object({
+  fecha: yup.string().required('*Campo requerido'),
+  asunto: yup.string().required('*Campo requerido'),
+  descripcion: yup.string().required('*Campo requerido'),
+  estado: yup.string().required('*Campo requerido'),
+  responsable: yup.string().required('*Campo requerido'),
+  proxAct: yup.string().required('*Campo requerido'),
+  procedimiento_verificacion: yup.string().required('*Campo requerido'),
+});
+
+const onSubmit = (values: any) => {
+  formulario.value.firma = getSignatureDataURL() || '';
+  console.log(values);
+};
 </script>
-  
-  <style scoped>
-  .modal-open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 50;
-  }
-  </style>
-  
+
+<style scoped>
+.modal-open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+</style>

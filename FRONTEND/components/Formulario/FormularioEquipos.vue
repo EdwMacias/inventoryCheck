@@ -192,9 +192,7 @@
           </div>
           <div>
             <label class="label">email de contacto</label>
-            <VeeField name="email_proveedor" v-model="formulario.email_proveedor"
-              :class="`input w-full ${errors.email_proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="email_proveedor" class="text-error" />
+            <input name="email_proveedor" v-model="formulario.email_proveedor" class="input w-full" disabled />
           </div>
         </div>
       </div>

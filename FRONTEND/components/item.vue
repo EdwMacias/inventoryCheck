@@ -13,12 +13,12 @@
             <div class="modal-action">
               <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="openModal(false)">x</button>
-                <!-- <VueBarcode :value="`${serial_number}`" format="EAN13" tag="svg" :options="{ height: '50' }" /> -->
               </form>
             </div>
           </div>
         </dialog>
         <Observacion />
+      <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones</NuxtLink>
       </div>
     </div>
     <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />
@@ -49,9 +49,6 @@ const props = defineProps<{
   itemId: string
 }>();
 
-const agregarObservacion = () => {
-  console.log('Observacion agregada');
-};
 
 function imageLoadError(event: Event) {
   if (imagen.value) imagen.value.src = defaultImage;
