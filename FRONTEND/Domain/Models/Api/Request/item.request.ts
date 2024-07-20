@@ -35,7 +35,7 @@ export interface ItemRequest {
     contacto_calibracion?: string | null;
     email_calibracion?: string | null;
     telefono_calibracion?: string | null;
-    resource: File | null;
+    resource: any;
     cond_electrica: boolean;
     cond_mecanica: boolean;
     cond_seguridad: boolean;

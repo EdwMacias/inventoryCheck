@@ -10,8 +10,7 @@ export const ItemRepository = {
         const formData = new FormData();
 
         formData.set("name",itemRequest.name);
-        formData.set("description",itemRequest.description);
-        formData.set("serial_number",itemRequest.serial_number);
+        formData.set("serial_number",itemRequest.serie_lote);
         formData.set("resource",itemRequest.resource);
 
         const response = await http.post<Boolean>(POST_ITEM_CREATE, formData);

@@ -3,5 +3,6 @@ export interface ItemResponse {
     name: string,
     description: string,
     serial_number: string,
-    resource: string
+    resource: string,
+    category_id: number
 }

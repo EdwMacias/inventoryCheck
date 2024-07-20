@@ -1,10 +1,6 @@
 <template>
 
-  <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" v-slot="{ meta, errors }">
-    <!-- {{ formulario }} -->
-
-    {{ errors }}
-    
+  <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" v-slot="{ meta, errors }">    
     <div class="grid :grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
       <div class="card border shadow-lg p-4 ">
         <h2 class="card-title">1. Datos del Equipo y Fabricante</h2>
@@ -477,5 +473,16 @@ const onSubmit = (values: any) => {
   const equipoFormulario = { ...equipoEntity, ...formulario.value };
   emits("callback", equipoFormulario);
 }
+
+watch(() => formulario.value.serie_lote, (newSerialNumber) => {
+  if (!newSerialNumber) {
+    barcodeValue.value = null;
+    return;
+  }
+  barcodeValue.value = newSerialNumber;
+  return;
+});
+barcodeValue.value = formulario.value.serie_lote;
+
 
 </script>
