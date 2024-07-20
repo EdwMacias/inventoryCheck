@@ -66,6 +66,20 @@ export function buildURLWithId(endpoint: string, id: any): string {
   return endpoint.replace('{id}', id.toString());
 }
 
-export function capitalizarPrimeraLetra(str: string){
+export function capitalizarPrimeraLetra(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function toFormData(object: any) {
+  const formData = new FormData();
+  for (const key in object) {
+    if (object.hasOwnProperty(key)) {
+      formData.append(key, object[key]);
+    }
+  }
+  return formData;
+}
+
+export const dtoToObject = <T>(dto: any) => {
+  return { ...dto } as T;
 }
