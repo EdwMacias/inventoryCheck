@@ -107,7 +107,9 @@ class ItemServices implements InterfaceItemServices
                 return ItemViewPaginationDTO::fromModel($item);
             });
 
-            return $responseHandler->setData($items)->setMessages("Datos Traídos Correctamente")->responses();
+            return $responseHandler->setData($items)
+                ->setMessages("Datos Traídos Correctamente")
+                ->responses();
 
         } catch (\Throwable $th) {
             return $responseHandler->handleException($th);

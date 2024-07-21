@@ -55,7 +55,7 @@ class ItemController extends Controller
             'cond_otras' => filter_var($equipoRequest->input('cond_otras'), FILTER_VALIDATE_BOOLEAN),
         ]);
 
-        $validated = $equipoRequest->validate([
+        $equipoRequest->validate([
             'cond_electrica' => 'required|bool',
             'cond_mecanica' => 'required|bool',
             'cond_ambientales' => 'required|bool',
@@ -66,7 +66,5 @@ class ItemController extends Controller
 
         $equipoCreateRequestDTO = EquiposCreateRequestDTO::fromArray($equipoRequest->all());
         return $this->itemService->createEquipo($equipoCreateRequestDTO, $equipoRequest->file("resource"));
-        // return $equipoCreateRequestDTO->toArray();
-        // return "hola";
     }
 }

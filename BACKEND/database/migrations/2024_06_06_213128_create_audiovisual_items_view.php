@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        DB::statement("
-        CREATE OR REPLACE VIEW audiovisual_items AS
-        SELECT ar.audiovisual_resource_id, i.item_id, i.created_at
-        FROM items i
-        INNER JOIN audiovisual_resource ar ON i.item_id = ar.item_id
+        DB::statement("CREATE OR REPLACE VIEW audiovisual_items AS SELECT equipos.name, 
+        items.item_id, audiovisual_resource.resource, equipos.serie_lote, items.category_id,
+        equipos.created_at, equipos.updated_at FROM items 
+        INNER JOIN equipos ON equipos.item_id = items.item_id 
+        INNER JOIN audiovisual_resource ON audiovisual_resource.item_id = items.item_id
         ");
     }
 
