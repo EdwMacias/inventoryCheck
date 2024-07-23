@@ -10,15 +10,19 @@
               :class="`input w-full ${errors.fecha ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="fecha" class="text-error" />
           </div>
-          <div>
-            <label class="label">Asunto</label>
-            <VeeField name="asunto" v-model="formulario.asunto" type="select"
-              :class="`select ${errors.asunto ? 'select-error' : 'select-bordered'}`">
-              <option value="mantenimiento">Mantenimiento</option>
-              <option value="calibracion">Calibración</option>
-              <option value="Verificacion">Verificacion</option>
-              </VeeField>
-            <VeeErrorMessage name="asunto" class="select-error" />
+          <div class="form-control">
+            <label class="cursor-pointer flex items-center space-x-2 my-1">
+              <input type="radio" name="service" value="mantenimiento" v-model="formulario.asunto" class="radio checked:bg-yellow-500" checked/>
+              <span class="label-text">Mantenimiento</span>
+            </label>
+            <label class="cursor-pointer flex items-center space-x-2 my-1">
+              <input type="radio" name="service" value="verificacion" v-model="formulario.asunto" class="radio checked:bg-green-500" />
+              <span class="label-text">Verificación</span>
+            </label>
+            <label class="cursor-pointer flex items-center space-x-2 my-1">
+              <input type="radio" name="service" value="calibracion" v-model="formulario.asunto" class="radio checked:bg-red-500" />
+              <span class="label-text">Calibración</span>
+            </label>
           </div>
           <div>
             <label class="label">Descripción</label>
@@ -113,7 +117,6 @@ onBeforeUnmount(() => {
 
 const formularioObservacionSchema = yup.object({
   fecha: yup.string().required('*Campo requerido'),
-  asunto: yup.string().required('*Campo requerido'),
   descripcion: yup.string().required('*Campo requerido'),
   estado: yup.string().required('*Campo requerido'),
   responsable: yup.string().required('*Campo requerido'),
