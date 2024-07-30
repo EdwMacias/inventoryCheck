@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/tailwindcss', [
     '@vee-validate/nuxt',
     {
@@ -12,10 +13,13 @@ export default defineNuxtConfig({
       },
     },
   ]],
+
   ssr: true,
+
   pinia: {
     storesDirs: ["./stores/**"]
   },
+
   routeRules: {
     '/': { appMiddleware: ['auth-middleware'] },
     '/login': { appMiddleware: ['login-middleware'] },
@@ -23,13 +27,16 @@ export default defineNuxtConfig({
     '/forgot-password': { appMiddleware: ['login-middleware'] },
     '/inventario/**': { appMiddleware: ['auth-middleware'] }
   },
+
   piniaPersistedstate: {
   },
+
   router: {
     options: {
 
     }
   },
+
   app: {
     head: {
       title: "Chequeo Inventario",
@@ -41,4 +48,5 @@ export default defineNuxtConfig({
 
   plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/swal', '@/plugins/vue-barcode',],
   css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
+  compatibilityDate: '2024-07-30',
 })
