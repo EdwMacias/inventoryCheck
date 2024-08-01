@@ -2,7 +2,6 @@
     <div class="flex flex-col  items-center m-2 p-2">
         <kbd class="kbd">Trabajo en proceso</kbd>
         <div>
-            
         </div>
         <Clock class="en-proceso" />
     </div>
