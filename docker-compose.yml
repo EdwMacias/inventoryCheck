@@ -25,6 +25,13 @@ services:
       - C:\redis:/data
     environment:
       - REDIS_ARGS=--requirepass contraseña_redis
+  queue:
+    build: 
+      context: .\backend
+      dockerfile: Dockerfile
+    entrypoint: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3"]
+    depends_on:
+      - redis
 networks:
   default:
     external: true
