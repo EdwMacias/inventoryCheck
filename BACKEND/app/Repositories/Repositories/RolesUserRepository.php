@@ -78,12 +78,21 @@ class RolesUserRepository implements InterfaceRolesUserRepository
         return UserRole::where('role_id', $role_id)->where('user_id',$user_id)->exists();
     }
     /**
-     * @param string $role_user_id
+     * @param string $user_role_id
      * @param string $user_id
      */
-    public function roleUserIdInUser(string $role_user_id, string $user_id): bool
+    public function roleUserIdInUser(string $user_role_id, string $user_id): bool
     {
-        return UserRole::where('user_role_id', $role_user_id)->where('user_id',$user_id)->exists();
+        return UserRole::where('user_role_id', $user_role_id)->where('user_id',$user_id)->exists();
+    }
+    /**
+     * Summary of updateUserRole
+     * @param string $user_role_id
+     * @param \App\DTOs\RolesDTOs\RoleUserDTO $roleUserDTO
+     * @return bool
+     */
+    public function updateUserRole(string $user_role_id,RoleUserDTO $roleUserDTO):bool {
+        return UserRole::where('user_role_id',$user_role_id)->update($roleUserDTO->toArray());
     }
 
 }

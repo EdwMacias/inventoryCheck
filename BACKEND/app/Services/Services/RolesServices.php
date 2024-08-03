@@ -56,20 +56,32 @@ class RolesServices implements InterfaceRolesServices
             }
 
             $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
-
-            if ($roleUser) {
-                throw new Exception("Este Usuario ya tiene un rol asignado", Response::HTTP_CONFLICT);
-            }
-
             $roleUserDTO = new RoleUserDTO($roleRequestDTO->role_id, $usuarioDTO->user_id);
 
-            $this->_roleUserRepository->save($roleUserDTO);
+            if ($roleUser) {
+                if ($roleUser->user_id == auth()->user()->user_id) {
+                    throw new Exception("No puede modificar sus roles", Response::HTTP_UNAUTHORIZED);
+                }
+                $this->_roleUserRepository->updateUserRole($roleUser->user_role_id, $roleUserDTO);
+            } else {
+                $this->_roleUserRepository->save($roleUserDTO);
+            }
 
             return $responseHandler->setData(true)->setMessages("Rol asignado")->responses();
 
         } catch (Throwable $th) {
+            if ($th->getCode() === '0' || $th->getCode() === 0) {
+                # code...
+                return $responseHandler->handleException($th);
+
+            }
             return $responseHandler->handleException($th, $th->getCode());
         } catch (Exception $ex) {
+            if ($ex->getCode() === '0' || $ex->getCode() === 0) {
+                # code...
+                return $responseHandler->handleException($ex);
+
+            }
             return $responseHandler->handleException($ex, $ex->getCode());
         }
 
@@ -90,11 +102,19 @@ class RolesServices implements InterfaceRolesServices
                 throw new Exception("No tiene permisos para realizar esta acción", Response::HTTP_UNAUTHORIZED);
             }
 
+
+
+            $usuario = $this->_usuarioRepository->getUserByEmail($user_role_id);
+            $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
+
+            $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
+            $user_role_id = $roleUser->user_role_id;
+
             if (!$this->_roleUserRepository->existUserRoleId($user_role_id)) {
                 throw new Exception("El rol asignado no existe", Response::HTTP_NOT_FOUND);
             }
 
-            if ($this->_roleUserRepository->roleUserIdInUser($user_role_id, $user_id)) {
+            if ($roleUser->user_id == auth()->user()->user_id) {
                 throw new Exception("No puedes des-asginar tus roles", Response::HTTP_NOT_FOUND);
             }
 
@@ -148,7 +168,7 @@ class RolesServices implements InterfaceRolesServices
     public function getRolesUser()
     {
         $request = Request::capture();
-        
+
         if (!$this->_roleUserRepository->roleInUser('1', auth()->user()->user_id)) {
             throw new Exception("No tiene permisos para realizar esta acción", Response::HTTP_UNAUTHORIZED);
         }
@@ -168,4 +188,40 @@ class RolesServices implements InterfaceRolesServices
         }
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getRoleUsuarioByEmail($email)
+    {
+        $responseHandler = new ResponseHandler();
+        try {
+
+            $usuario = $this->_usuarioRepository->getUserByEmail($email);
+
+            $usuarioDTO = UsuarioResponseDTO::fromArray($usuario->toArray());
+
+            $roleUser = $this->_roleUserRepository->getRoleUser($usuarioDTO->user_id);
+
+            if (!$roleUser) {
+                return $responseHandler->setData(['name' => null])
+                    ->setMessages('Sin rol asignado')->responses();
+            }
+
+            $roleUserDTO = RoleUserDTO::fromArray($roleUser->toArray());
+
+            $roleUser = $this->_roleUserRepository->getRole($roleUserDTO->role_id);
+
+
+
+            if (!$roleUser) {
+                throw new Exception("Rol no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            return $responseHandler->setData($roleUser->toArray())->setMessages('Rol de usuario encontrado')->responses();
+        } catch (Exception $e) {
+            return $responseHandler->handleException($e);
+        } catch (QueryException $qe) {
+            return $responseHandler->handleException($qe);
+        }
+    }
 }

@@ -52,7 +52,7 @@ class UsuarioServices implements InterfaceUsuarioServices
 
             $usuario = $this->_usuarioRepository->getUserByID($userId);
             $usuarioUpdateDTO = UsuarioUpdateDTO::fromArray($usuario->toArray());
-            
+
             if (!$usuario) {
                 throw new Exception("Usuario no se encuentra registrado", Response::HTTP_NOT_FOUND);
             }
@@ -74,7 +74,7 @@ class UsuarioServices implements InterfaceUsuarioServices
                 }
             }
             $usuarioUpdateDTO = $usuarioUpdateDTO->fromArrayUpdate($usuarioCreateDTO->toArray());
-     
+
             $this->_usuarioRepository->updateUser($usuarioUpdateDTO->user_id, $usuarioUpdateDTO);
 
             return $responseHandler->setData(true)->setMessages("Usuario actualizado")->responses();
@@ -122,6 +122,13 @@ class UsuarioServices implements InterfaceUsuarioServices
     {
         $request = Request::capture();
         try {
+            $sql = 'SELECT
+                    users.*,
+                    roles.name AS role
+                FROM
+                    users
+                LEFT JOIN user_roles ON user_roles.user_id = users.user_id
+                LEFT JOIN roles ON roles.role_id = user_roles.role_id';
 
             $fields = [
                 "name",
@@ -129,11 +136,12 @@ class UsuarioServices implements InterfaceUsuarioServices
                 "last_name",
                 "number_document",
                 "number_telephone",
-                "statu_id"
+                "statu_id",
+                "role"
             ];
 
-            $table = new TablesServerSide("users", $request, $fields);
-            $query = $table->createTable();
+            $table = new TablesServerSide($sql, $request, $fields);
+            $query = $table->crateBySql();
             return $table->getterTable($query);
         } catch (Throwable $th) {
             $response = new ResponseHandler($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -248,7 +256,7 @@ class UsuarioServices implements InterfaceUsuarioServices
     {
         $responseHandler = new ResponseHandler();
         try {
-            
+
             $usuario = $this->_usuarioRepository->getUserByEmail($userId);
 
             if (!$usuario) {

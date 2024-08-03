@@ -42,6 +42,10 @@ class RolesUserController extends Controller
     {
         return $this->_roleService->getRoleUsuario();
     }
+    public function getRoleUsuarioByEmail($id)
+    {
+        return $this->_roleService->getRoleUsuarioByEmail($id);
+    }
 
     public function get(){
         return $this->_roleService->getRolesUser();

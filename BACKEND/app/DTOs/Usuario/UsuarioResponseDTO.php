@@ -15,6 +15,7 @@ class UsuarioResponseDTO
     public $number_telephone;
     public $password;
     public $statu_id;
+    public $role;
 
     public function __construct(
         $user_id,
@@ -63,11 +64,11 @@ class UsuarioResponseDTO
             "name" => $this->name,
             "last_name" => $this->last_name,
             "email" => $this->email,
-            // "document_type_id" => $this->document_type_id,
-            // "number_document" => $this->number_document,
+            "document_type_id" => $this->document_type_id,
+            "number_document" => $this->number_document,
             "gender_id" => $this->gender_id,
-            // "address" => $this->address,
-            // "number_telephone" => $this->number_telephone,
+            "address" => $this->address,
+            "number_telephone" => $this->number_telephone,
             "statu_id" => $this->statu_id,
             // "password" => $this->password,
         ];

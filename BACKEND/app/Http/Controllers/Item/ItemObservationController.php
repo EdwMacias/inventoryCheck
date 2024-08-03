@@ -17,6 +17,7 @@ class ItemObservationController extends Controller
 
     public function __construct(InterfaceItemObservationServices $interfaceItemObservationServices)
     {
+        $this->middleware('auth:api');
         $this->itemObservationServices = $interfaceItemObservationServices;
     }
 
