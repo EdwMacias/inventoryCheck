@@ -5,7 +5,10 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/usuarios">Usuarios</NuxtLink>
+        Usuarios
+      </li>
+      <li>
+        <NuxtLink to="/usuarios">Gestion Usuarios</NuxtLink>
       </li>
       <li>
         {{ capitalizarPrimeraLetra(path) }}

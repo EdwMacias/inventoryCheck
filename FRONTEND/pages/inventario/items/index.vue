@@ -46,10 +46,11 @@
     </div>
     <!-- </div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
-      <ClientOnly>
-        <Item v-for="item in pagination.data" :key="item.item_id" :descripcion="item.description" :image="item.resource" :category_id="item.category_id"
-          :nombre_item="item.name" :itemId="item.item_id" />
-      </ClientOnly>
+      <!-- <ClientOnly -->
+      <Item v-for="item in pagination.data" :key="item.item_id" 
+      :image="item.resource"
+      :category_id="item.category_id" :nombre_item="item.name" :itemId="item.item_id" />
+      <!-- </ClientOnly> -->
     </div>
 
   </div>
@@ -113,6 +114,4 @@ const busqueda = () => {
 
 </script>
 
-<style scoped lang="css">
-
-</style>
+<style scoped lang="css"></style>
