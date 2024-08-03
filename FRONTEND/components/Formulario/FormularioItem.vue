@@ -22,22 +22,22 @@
         </VeeErrorMessage>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3  gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2  gap-2">
       <div>
         <label class="label">
-          <span class="block text-md font-medium leading-6 ">Valor de compra</span>
+          <span class="block text-md font-medium leading-6">Valor de compra</span>
         </label>
-        <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion"
+        <VeeField name="valor_adquisicion" placeholder="$1.000.000" v-model="formulario.valor_adquisicion"
           :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
         <VeeErrorMessage name="valor_adquisicion" class="text-error" />
       </div>
-      <div>
+      <!-- <div>
         <label class="label">
           <span class="block text-md font-medium leading-6 ">codigo de barras</span>
         </label>
         <VueBarcode v-if="barcodeValue" :value="barcodeValue" format="EAN13" tag="svg" class="w-full block" />
         <VueBarcode v-else value="1234567890" tag="svg" class="w-full block"></VueBarcode>
-      </div>
+      </div> -->
       <div>
         <label class="label">
           <span class="block text-md font-medium leading-6 ">Imagen del item</span>
@@ -81,7 +81,6 @@ function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
 
-
 const formularioItemBasicoSchema = yup.object({
   name: yup.string().required('*Campo requerido'),
   serie_lote: yup.string().required('*Campo requerido'),
@@ -98,14 +97,16 @@ const handleFileChange = (event: Event) => {
   }
 };
 
-interface itemBasico { name: string, serie_lote: string, valor_adquisicion: string, resource: any };
+
+interface itemBasico { name: string, serie_lote: string, valor_adquisicion: Number | null, resource: any };
 
 const formulario: Ref<itemBasico> = ref({
   name: '',
   serie_lote: '',
-  valor_adquisicion: '',
+  valor_adquisicion: null,
   resource: null
 });
+
 
 watch(() => formulario.value.serie_lote, (newSerialNumber) => {
   if (!newSerialNumber) {

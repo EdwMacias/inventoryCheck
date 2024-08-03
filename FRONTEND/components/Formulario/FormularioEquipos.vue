@@ -1,7 +1,7 @@
 <template>
 
   <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" v-slot="{ meta, errors }">    
-    <div class="grid :grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
+    <div class="grid grid-cols-2  gap-4 mt-2">
       <div class="card border shadow-lg p-4 ">
         <h2 class="card-title">1. Datos del Equipo y Fabricante</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
@@ -103,7 +103,6 @@
           </div>
         </div>
       </div>
-      <!-- Fotografía del equipo y accesorios -->
       <div class="card border shadow-lg p-4">
         <h2 class="card-title">2. Fotografía del Equipo y Accesorios</h2>
         <div> <!-- Imagen del item -->
@@ -124,13 +123,14 @@
             </div>
           </div>
         </div>
-        <div> <!-- Codigo de barras -->
+        <!-- Codigo de barras -->
+        <!-- <div>
           <label class="label">
             <span class="text-md font-medium leading-6 ">codigo de barras</span>
           </label>
           <VueBarcode v-if="barcodeValue" :value="barcodeValue" format="EAN13" tag="svg" class="w-full block" />
           <VueBarcode v-else value="1234567890" tag="svg" class="w-full block"></VueBarcode>
-        </div>
+        </div> -->
       </div>
       <!-- Características metrológicas del equipo -->
       <div class="card border shadow-lg p-4">

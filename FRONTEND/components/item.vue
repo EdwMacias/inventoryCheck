@@ -17,8 +17,9 @@
             </div>
           </div>
         </dialog>
-        <Observacion />
+        <Observacion :itemId="itemId" />
       <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones</NuxtLink>
+      <button class="btn btn-primary btn-sm">Serial</button>
       </div>
     </div>
     <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />

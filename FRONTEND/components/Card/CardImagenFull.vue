@@ -2,13 +2,11 @@
   <div>
     <input type="checkbox" :checked="modalOpen" @click="toggleModal" :id="idModal" class="modal-toggle" />
     <div class="modal">
-      <div class="modal-box">
-        <div class="">
-          <label :for="idModal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            @click="closeModalBackdrop">✕</label>
+      <div class="modal-box flex flex-col items-center overscroll-none ">
+        <div class="modal-action">
+          <label :for="idModal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModalBackdrop">✕</label>
         </div>
-        <img :src="imagen" alt="Imagen del artículo" class="w-full h-auto"
-          style="max-height: 80vh; object-fit: contain;" />
+        <img :src="imagen" alt="Imagen del artículo" class=""/>
       </div>
       <label class="modal-backdrop" :for="idModal" @click="closeModalBackdrop">Cerrar</label>
     </div>
