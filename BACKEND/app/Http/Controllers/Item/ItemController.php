@@ -19,6 +19,7 @@ class ItemController extends Controller
     public function __construct(InterfaceItemServices $interfaceItemServices)
     {
         $this->itemService = $interfaceItemServices;
+        $this->middleware('auth:api');
     }
 
     /**

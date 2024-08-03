@@ -7,7 +7,7 @@ export const get = async<T>(url: string) => {
         const response = await connection.get(url);
         return response.data as Response<T>;
     } catch (error) {
-        throw new Error(throwError(error));
+        throw new Error(throwError(error)).message;
     }
 }
 
@@ -18,7 +18,7 @@ export const post = async<T>(url: string, data?: {} | string) => {
         const response = await connection.post<Response<T>>(url, data);
         return response.data;
     } catch (error: any) {
-        throw new Error(throwError(error));
+        throw new Error(throwError(error)).message;
     }
 
 }
@@ -28,7 +28,7 @@ export const put = async<T>(url: string, data?: {} | string) => {
         const response = await connection.put<Response<T>>(url, data);
         return response.data;
     } catch (error: any) {
-        throw new Error(throwError(error));
+        throw new Error(throwError(error)).message;
 
     }
 }
@@ -38,7 +38,7 @@ const _delete = async<T>(url: string) => {
         const response = await connection.delete(url);
         return response.data as Response<T>;
     } catch (error) {
-        throw new Error(throwError(error));
+        throw new Error(throwError(error)).message;
     }
 }
 
@@ -51,7 +51,7 @@ export const request = async<T>(method: string, url: string, data?: string | {})
         });
         return response.data as Response<T>;
     } catch (error) {
-        throw new Error(throwError(error));
+        throw new Error(throwError(error)).message;
     }
 }
 

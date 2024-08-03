@@ -9,25 +9,27 @@ use Illuminate\Support\Facades\DB;
 class TablesServerSide
 {
     protected string $table;
+    protected string $sql;
     protected array $campos;
     protected Request $request;
     private int $totalRecords;
     private int $filterRecords;
     private int $drawn;
 
-    public function __construct(string $table, Request $request, array $campos)
+    public function __construct(string $sqlOrTable, Request $request, array $campos)
     {
         $this->campos = $campos;
-        $this->table = $table;
+        $this->table = $sqlOrTable;
         $this->request = $request;
     }
 
-    public function createTable(): Builder
+    public function crateBySql(): Builder
     {
-        $query = DB::table($this->table)->select($this->campos);
+        $query = DB::table(DB::raw("({$this->table}) as sub"))
+            ->select($this->campos);
 
         $this->setTotalRecords($query->count());
-        $this->setDrawn((int)$this->request->input("draw", 1));
+        $this->setDrawn((int) $this->request->input("draw", 1));
 
         if ($this->request->has('search') && $this->request->input('search.value')) {
             $searchValue = $this->request->input('search.value');
@@ -40,8 +42,35 @@ class TablesServerSide
             $query = $this->applyOrder($query);
         }
 
-        $start = (int)$this->request->input('start', 0);
-        $length = (int)$this->request->input('length', 10);
+        $start = (int) $this->request->input('start', 0);
+        $length = (int) $this->request->input('length', 10);
+
+        if ($length != -1) {
+            $query->offset($start)->limit($length);
+        }
+
+        return $query;
+    }
+    public function createTable(): Builder
+    {
+        $query = DB::table($this->table)->select($this->campos);
+
+        $this->setTotalRecords($query->count());
+        $this->setDrawn((int) $this->request->input("draw", 1));
+
+        if ($this->request->has('search') && $this->request->input('search.value')) {
+            $searchValue = $this->request->input('search.value');
+            $query = $this->applySearchFilter($query, $searchValue);
+        }
+
+        $this->setFilterRecords($query->count());
+
+        if ($this->request->has('order')) {
+            $query = $this->applyOrder($query);
+        }
+
+        $start = (int) $this->request->input('start', 0);
+        $length = (int) $this->request->input('length', 10);
 
         if ($length != -1) {
             $query->offset($start)->limit($length);
@@ -94,7 +123,7 @@ class TablesServerSide
         $columns = $this->getColumns();
 
         foreach ($this->request->input('order') as $order) {
-            $columnIndex = (int)$order['column'];
+            $columnIndex = (int) $order['column'];
             $columnName = $columns[$columnIndex]['db'];
             $direction = $order['dir'];
             $query->orderBy($columnName, $direction);

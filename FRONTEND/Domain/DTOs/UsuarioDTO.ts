@@ -7,6 +7,7 @@ export class UserDTO {
     document_type_id;
     number_telephone;
     statu_id;
+    role;
 
     constructor(usuario: usuarioDTO) {
         this.user_id = usuario.user_id;
@@ -16,7 +17,8 @@ export class UserDTO {
         this.address = usuario.address;
         this.document_type_id = usuario.document_type_id;
         this.number_telephone = usuario.number_telephone;
-        this.statu_id = usuario.statu_id
+        this.statu_id = usuario.statu_id;
+        this.role = usuario.role;
     }
 }
 
@@ -29,4 +31,5 @@ interface usuarioDTO {
     document_type_id: string
     number_telephone: string
     statu_id: number
+    role?: string
 }

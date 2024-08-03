@@ -22,6 +22,7 @@ interface InterfaceRolesServices
      * obtener role del usuario
      */
     public function getRoleUsuario();
+    public function getRoleUsuarioByEmail($email);
 
     public function getRolesUser();
 

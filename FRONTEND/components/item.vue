@@ -1,18 +1,20 @@
 <template>
   <div class="card bg-base-100 shadow-xl border overflow-hidden">
     <figure>
-      <img ref="imagen" :src="image" :alt="descripcion" @click="openModal(true)" @error="imageLoadError" class="w-full h-auto object-cover" />
+      <img ref="imagen" :src="image" :alt="nombre_item" @click="openModal(true)" @error="imageLoadError"
+        class="w-full h-auto object-cover" />
     </figure>
     <div class="card-normal">
       <p class="mx-2 mt-1 font-bold">{{ nombre_item }}</p>
-      <p class="mx-2">{{descripcion}}</p>
+      <!-- <p class="mx-2">{{descripcion}}</p> -->
       <div class="card-actions justify-center flex p-2">
         <button class="btn btn-accent btn-sm w-full" @click="showModal">Codigo</button>
         <dialog ref="myModal" class="modal">
           <div class="modal-box">
             <div class="modal-action">
               <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="openModal(false)">x</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  @click="openModal(false)">x</button>
               </form>
             </div>
           </div>
@@ -20,6 +22,9 @@
         <Observacion :itemId="itemId" />
       <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones</NuxtLink>
       <button class="btn btn-primary btn-sm">Serial</button>
+        <Observacion />
+        <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones
+        </NuxtLink>
       </div>
     </div>
     <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />
@@ -42,11 +47,9 @@ const showModal = () => {
   }
 };
 
-const props = defineProps<{
+defineProps<{
   nombre_item: string,
   image: string,
-  descripcion: string,
-  // serial_number: string,
   itemId: string
 }>();
 

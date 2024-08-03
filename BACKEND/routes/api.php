@@ -30,8 +30,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
     Route::get('{id}', [UsuarioController::class, 'getUsuarioId']);
 });
 
-Route::group(['prefix' => 'item'], function () {
-    Route::get('pagination', [ItemController::class, 'pagination']);
+Route::group(['middleware' => 'api','prefix' => 'item'], function () {
+    Route::get('', [ItemController::class, 'pagination']);
 
     Route::group(['prefix' => 'equipo'], function () {
         Route::post('', [ItemController::class, 'createEquipo']);
@@ -48,8 +48,9 @@ Route::group(['prefix' => 'item'], function () {
 });
 
 Route::group(['middleware' => 'api', 'prefix' => 'role'], function () {
-    Route::get('roles', [RolesUserController::class, 'get']);
-    Route::post('assign', [RolesUserController::class, 'assign']);
-    Route::delete('unassign/{id}', [RolesUserController::class, 'unassign']);
-    Route::get('get', [RolesUserController::class, 'getRoleUsuario']);
+    // Route::get('', [RolesUserController::class, 'get']);
+    Route::post('', [RolesUserController::class, 'assign']);
+    Route::delete('{id}', [RolesUserController::class, 'unassign']);
+    Route::get('', [RolesUserController::class, 'getRoleUsuario']);
+    Route::get('{id}', [RolesUserController::class, 'getRoleUsuarioByEmail']);
 });

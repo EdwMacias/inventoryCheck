@@ -58,11 +58,17 @@ interface InterfaceRolesUserRepository
      */
     public function roleInUser(string $role_id, string $user_id): bool;
     /**
-     * @param string $role_user_id
-     * role_user_id para buscar
+     * @param string $user_role_id
+     * user_role_id para buscar
      * @param string $user_id
      */
-    public function roleUserIdInUser(string $role_user_id, string $user_id): bool;
-
+    public function roleUserIdInUser(string $user_role_id, string $user_id): bool;
+    /**
+     * Summary of updateUserRole
+     * @param string $user_role_id
+     * @param \App\DTOs\RolesDTOs\RoleUserDTO $roleUserDTO
+     * @return bool
+     */
+    public function updateUserRole(string $user_role_id,RoleUserDTO $roleUserDTO):bool;
 
 }

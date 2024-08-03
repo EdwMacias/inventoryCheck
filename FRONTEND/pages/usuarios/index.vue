@@ -4,22 +4,58 @@
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
-      <li>Usuarios</li>
+      <li>
+        <NuxtLink to="">Usuarios</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="">Gestion Usuarios</NuxtLink>
+      </li>
     </ul>
   </div>
   <div>
-    <div class="mx-5" >
+    <div class="mx-5 container mx-auto">
       <ClientOnly>
-        <Table :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario"></Table>
+        <Table :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario" @role="getDatosRoleUser"></Table>
       </ClientOnly>
+    </div>
+
+    <div class="drawer drawer-end">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-side">
+        <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-5 ">
+        </ul>
+      </div>
+    </div>
+
+    <input type="checkbox" id="modalFormularioRole" ref="modalRole" class="modal-toggle" />
+
+    <div class="modal" role="dialog">
+      <div class="modal-box">
+        <h2 class="text-2xl font-semibold mb-2 ">Asignación de Rol</h2>
+        <FormularioAsignacionRol :email="emailUserSeleccionado" :role="roleUsuarioSeleccionado" @create="asignarRole" />
+      </div>
+      <label class="modal-backdrop" for="modalFormularioRole"></label>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+const emailUserSeleccionado = ref('');
+const roleUsuarioSeleccionado = ref();
+const modalRole = ref();
+const { $swal } = useNuxtApp();
+
+
+const getDatosRoleUser = (userDTO: UserDTO) => {
+  emailUserSeleccionado.value = userDTO.email;
+  roleUsuarioSeleccionado.value = userDTO.role;
+}
 
 import type { ConfigColumns } from 'datatables.net-dt';
+import { RoleService } from '~/Domain/Client/Services/Roles/role.service';
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import { RoleRequestAssingRoleDTO } from '~/Domain/DTOs/Request/Roles/RoleRequestAssingRoleDTO';
 import type { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
 import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
 import { DatatableStore } from '~/stores/DatatableStore';
@@ -45,6 +81,38 @@ async function statuUsuario(userDTO: UserDTO, table: any) {
   spinnerStore.activeOrInactiveSpinner(true);
   await UsuarioServices.statuUsuario(userDTO)
   DatatableStore().reload();
+}
+
+async function asignarRole(user: UserDTO) {
+  const spinnerStore = SpinnerStore();
+  const roleRequestDTO = new RoleRequestAssingRoleDTO(user);
+
+  try {
+    spinnerStore.activeOrInactiveSpinner(true);
+    const response = await RoleService.assignar(roleRequestDTO)
+
+    spinnerStore.activeOrInactiveSpinner(false);
+    $swal.fire({
+      icon: 'success',
+      text: response.messages[0],
+    }).then((action) => {
+      if (action.dismiss) {
+        modalRole.value.checked = false;
+        DatatableStore().reload();
+      }
+      if (action.isConfirmed) {
+        modalRole.value.checked = false;
+        DatatableStore().reload();
+      }
+    });
+
+  } catch (error: unknown) {
+    spinnerStore.activeOrInactiveSpinner(false);
+    $swal.fire({
+      icon: 'info',
+      text: error as string,
+    });
+  }
 }
 
 </script>
