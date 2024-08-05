@@ -6,7 +6,6 @@
     </figure>
     <div class="card-normal">
       <p class="mx-2 mt-1 font-bold">{{ nombre_item }}</p>
-      <!-- <p class="mx-2">{{descripcion}}</p> -->
       <div class="card-actions justify-center flex p-2">
         <button class="btn btn-accent btn-sm w-full" @click="showModal">Codigo</button>
         <dialog ref="myModal" class="modal">
@@ -19,12 +18,8 @@
             </div>
           </div>
         </dialog>
-        <Observacion :itemId="itemId" />
-      <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones</NuxtLink>
-      <button class="btn btn-primary btn-sm">Serial</button>
-        <Observacion />
-        <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones
-        </NuxtLink>
+        <NuxtLink :to="`/inventario/items/observaciones/${itemId}`" class="btn btn-primary btn-sm">Observaciones</NuxtLink>
+        <button class="btn btn-primary btn-sm">Serial</button>
       </div>
     </div>
     <CardImagenFull :idModal="itemId" :imagen="imagen?.src" :isModalOpen="isModalOpen" @close="openModal" />
@@ -46,6 +41,11 @@ const showModal = () => {
     // myModal.value.showModal();
   }
 };
+
+const showSerial = () => {
+  console.log("Show Serial");
+}
+
 
 defineProps<{
   nombre_item: string,

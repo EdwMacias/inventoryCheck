@@ -1,7 +1,5 @@
 <template>
   <VeeForm :validationSchema="formularioItemBasicoSchema" @submit="onSubmit" v-slot="{ meta, errors }">
-    {{ formulario }}
-    {{ errors }}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <div> <!-- Nombre del item -->
         <label class="label">
@@ -12,7 +10,7 @@
         <VeeErrorMessage name="name" class="text-error animate__animated animate__fadeIn label block">
         </VeeErrorMessage>
       </div>
-      <div> <!-- Serial del item -->
+      <div>
         <label class="label">
           <span class="block text-md font-medium leading-6 ">Serial de Item</span>
         </label>
@@ -27,17 +25,11 @@
         <label class="label">
           <span class="block text-md font-medium leading-6">Valor de compra</span>
         </label>
-        <VeeField name="valor_adquisicion" placeholder="$1.000.000" v-model="formulario.valor_adquisicion"
+        <VeeField name="valor_adquisicion" placeholder="$1.000.000,50" v-model="formulario.valor_adquisicion"
           :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
         <VeeErrorMessage name="valor_adquisicion" class="text-error" />
+        <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion}}</p>
       </div>
-      <!-- <div>
-        <label class="label">
-          <span class="block text-md font-medium leading-6 ">codigo de barras</span>
-        </label>
-        <VueBarcode v-if="barcodeValue" :value="barcodeValue" format="EAN13" tag="svg" class="w-full block" />
-        <VueBarcode v-else value="1234567890" tag="svg" class="w-full block"></VueBarcode>
-      </div> -->
       <div>
         <label class="label">
           <span class="block text-md font-medium leading-6 ">Imagen del item</span>
@@ -67,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter} from 'vue-router';
 
 import swal from 'sweetalert2';
 
@@ -76,6 +69,7 @@ const { setImagen } = useImagen();
 const itemPhoto = ref<HTMLImageElement | null>(null);
 const isModalOpen = ref(false);
 const barcodeValue = ref<string | null>(null);
+const router = useRouter();
 
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
@@ -97,16 +91,25 @@ const handleFileChange = (event: Event) => {
   }
 };
 
+const formatCurrency = (value: number): string => {
+  if (!value || isNaN(value)) {
+    return '$0';
+  }
+  return value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+}
 
-interface itemBasico { name: string, serie_lote: string, valor_adquisicion: Number | null, resource: any };
+const formattedValorAdquisicion = computed(() => {
+  return formatCurrency(parseFloat(formulario.value.valor_adquisicion.toString().replace(/,/g, '')));
+});
+
+interface itemBasico { name: string, serie_lote: string, valor_adquisicion: number, resource: any };
 
 const formulario: Ref<itemBasico> = ref({
   name: '',
   serie_lote: '',
-  valor_adquisicion: null,
+  valor_adquisicion: 0,
   resource: null
 });
-
 
 watch(() => formulario.value.serie_lote, (newSerialNumber) => {
   if (!newSerialNumber) {
@@ -116,7 +119,8 @@ watch(() => formulario.value.serie_lote, (newSerialNumber) => {
   barcodeValue.value = newSerialNumber;
   return;
 });
-barcodeValue.value = formulario.value.serie_lote;
+
+// barcodeValue.value = formulario.value.serie_lote;
 
 
 const onSubmit = (values: any) => {
@@ -135,6 +139,7 @@ const onSubmit = (values: any) => {
   itemBasicoEntity.resource = formulario.value.resource;
   const itemBasicoFormulario = { ...itemBasicoEntity, ...formulario.value };
   emits("callback", itemBasicoFormulario);
+  router.push('/inventario/items');
 }
 
 </script>

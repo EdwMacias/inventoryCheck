@@ -15,7 +15,7 @@
   </div>
   <div id="Pagina" class="mx-2">
     <h3 class="font-semibold text-xl">Historial de calibracion, Verificaciones y mantenimiento de equipos</h3>
-    <Observacion/>    
+    <Observacion />    
   </div>
   <div id="table" class="mx-2">
     tablita

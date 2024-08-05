@@ -22,10 +22,9 @@ export interface EquipoEntity {
   intervalo_medicion?: string | null;
   error_maximo_permitido?: string | null;
   fecha_adquisicion: string;
-  valor_adquisicion?: number | null;
+  valor_adquisicion: number ;
   numero_factura?: string | null;
   frecuencia_verificacion: string;
-  // category_id: number;
   procedimiento_verificacion: string;
   frecuencia_calibracion: string;
   fecha_calibracion_actual?: string | null;

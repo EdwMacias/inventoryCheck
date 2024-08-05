@@ -1,7 +1,7 @@
 <template>
 
   <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" v-slot="{ meta, errors }">    
-    <div class="grid grid-cols-2  gap-4 mt-2">
+    <div class="grid sm:grid-cols-1 md:grid-cols-2  gap-4 mt-2">
       <div class="card border shadow-lg p-4 ">
         <h2 class="card-title">1. Datos del Equipo y Fabricante</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,16 +123,7 @@
             </div>
           </div>
         </div>
-        <!-- Codigo de barras -->
-        <!-- <div>
-          <label class="label">
-            <span class="text-md font-medium leading-6 ">codigo de barras</span>
-          </label>
-          <VueBarcode v-if="barcodeValue" :value="barcodeValue" format="EAN13" tag="svg" class="w-full block" />
-          <VueBarcode v-else value="1234567890" tag="svg" class="w-full block"></VueBarcode>
-        </div> -->
       </div>
-      <!-- Características metrológicas del equipo -->
       <div class="card border shadow-lg p-4">
         <h2 class="card-title">3. Características Metrológicas del Equipo</h2>
         <div class="form-control mb-2">
@@ -183,6 +174,8 @@
             <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion"
               :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="valor_adquisicion" class="text-error" />
+            <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion}}</p>
+
           </div>
           <div>
             <label class="label">telefono de contacto</label>
@@ -334,8 +327,10 @@
 
 <script lang="ts" setup>
 import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
-import swal from 'sweetalert2';
+import { useRouter} from 'vue-router';
 
+import swal from 'sweetalert2';
+const router = useRouter();
 const emits = defineEmits(["callback"]);
 const inputFile = ref();
 const { setImagen } = useImagen();
@@ -346,6 +341,18 @@ const barcodeValue = ref<string | null>(null);
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
+
+const formatCurrency = (value: number): string => {
+  if (!value || isNaN(value)) {
+    return '$0';
+  }
+  return value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+}
+
+const formattedValorAdquisicion = computed(() => {
+  return formatCurrency(parseFloat(formulario.value.valor_adquisicion.toString().replace(/,/g, '')));
+});
+
 
 yup.setLocale({
   mixed: {
@@ -381,10 +388,9 @@ const formulario: Ref<EquipoEntity> = ref({
   intervalo_medicion: '',
   error_maximo_permitido: '',
   fecha_adquisicion: '',
-  valor_adquisicion: null,
+  valor_adquisicion: 0,
   numero_factura: '',
   frecuencia_verificacion: '',
-  // category_id: 0,
   procedimiento_verificacion: '',
   frecuencia_calibracion: '',
   fecha_calibracion_actual: '',
@@ -463,7 +469,7 @@ const onSubmit = (values: any) => {
       confirmButtonText: 'Aceptar',
       reverseButtons: true
     });
-    return;
+    return router.push('/inventario/items');
   }
 
   equipoEntity.resource = formulario.value.resource;

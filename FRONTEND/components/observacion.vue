@@ -117,7 +117,6 @@ const formularioHistorial = ref({
 const formularioObservacion = ref({
   id: route.params.id,
   observacion: '',
-  estado: '',
 });
 
 
@@ -153,14 +152,19 @@ const formularioHistorialSchema = yup.object({
 
 const formularioObservacionSchema = yup.object({
   observacion: yup.string().required('*Campo requerido'),
-  estado: yup.string().required('*Campo requerido'),
 });
 
-const onSubmit = (values: any) => {
+const onSubmit = (values: any): void => {
   console.log(values);
-  router.push({ path: '/' });
-  return;
+  router.push({ path: '/inventario/items' });
 };
+
+// const onSubmit = async (values: any): Promise<void> => {
+//   console.log(values);
+//   Supongamos que hay una operación asíncrona aquí, como una llamada a una API
+//   await someAsyncOperation(values);
+//   router.push({ path: '/inventario/items' });
+// };
 </script>
 
 <style scoped>

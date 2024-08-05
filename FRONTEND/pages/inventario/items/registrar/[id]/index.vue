@@ -11,9 +11,7 @@
         </ul>
     </div>
     <div class="mx-4">
-
         <h2 class="font-semibold text-xl mt-2">Creación de artículos</h2>
-
         <div>
             <label class="label">
                 <span class="block text-md font-medium leading-6 ">Seleccione el registro a crear</span>
@@ -23,18 +21,13 @@
             </select>
         </div>
         <div v-if="categoriaSeleccionada == 0" class="mt-1 text-error animate__animated text-lg  animate__fadeIn">
-            <p>
-                Seleccione un tipo de equipo, por favor.
-            </p>
+            <p>Seleccione un tipo de equipo, por favor.</p>
         </div>
-
         <FormularioEquipos v-if="categoriaSeleccionada == 1" @callback="EquipoService.create" />
         <FormularioItem v-if="categoriaSeleccionada == 2" @callback="itemService.create" />
-
     </div>
 
 </template>
-
 <script setup lang="ts">
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
 import { itemService } from '~/Domain/Client/Services/Items/item.service';
@@ -42,9 +35,7 @@ import { itemService } from '~/Domain/Client/Services/Items/item.service';
 definePageMeta({
     middleware: ['actions-middleware']
 })
-
-
-const categoriaSeleccionada: Ref<number> = ref(1);
+const categoriaSeleccionada: Ref<number> = ref(0);
 const equipo = ref([
     { id: 0, opcion: 'Seleccione' },
     { id: 1, opcion: 'Equipo de pista' },

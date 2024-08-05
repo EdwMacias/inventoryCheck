@@ -5,7 +5,7 @@
 
   </header>
   <main>
-    <Navbar v-if="usuarioStore.conectado">
+    <Navbar v-if="usuarioStore.conectado" >
       <slot></slot>
     </Navbar>
     <div v-else>
@@ -19,4 +19,8 @@ const spinnerStore = SpinnerStore();
 const usuarioStore = UsuarioStore();
 </script>
 
-<style scoped></style>
+<style scoped>
+main {
+  margin-top: 65px; /* Ajusta este valor según la altura de tu Navbar */
+}
+</style>

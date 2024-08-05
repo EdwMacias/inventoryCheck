@@ -1,9 +1,8 @@
 <template>
   <div class="drawer">
     <input id="navbarDraw" type="checkbox" class="drawer-toggle" ref="navbarDraw" />
-
     <div class="drawer-content flex flex-col">
-      <div class="navbar bg-base-100 sticky shadow w-full">
+      <div class="navbar bg-base-100 shadow w-full fixed top-0 left-0 z-20">
         <div class="flex-none ">
           <label for="navbarDraw" aria-label="open sidebar" class="btn btn-square btn-ghost">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -31,7 +30,7 @@
       <slot></slot>
     </div>
 
-    <div class="drawer-side">
+    <div class="drawer-side  z-20">
       <label for="navbarDraw" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu bg-base-100 min-h-full w-80 p-4 text-lg">
         <li @click="closeDrawer">
