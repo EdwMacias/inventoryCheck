@@ -89,7 +89,6 @@ const fetchItems = async (url: string | null = null) => {
 
   const response = await ItemRepository.Pagination(url);
   pagination.value = response;
-  console.log(response);
   SpinnerStore().activeOrInactiveSpinner(false);
 
 };
@@ -103,7 +102,6 @@ const goToPage = async () => {
   if (pageInput.value !== null) {
     const page = pageInput.value;
     const url = `${pagination.value.path}?page=${page}`;
-    console.log(url);
     await fetchItems(url);
   }
 };

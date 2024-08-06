@@ -74,7 +74,7 @@
           </div>
           <div>
             <label class="label">Firma</label>
-            <Signs />
+            <Signs @saveSignature="handleSaveSignature" />
           </div>
           <div>
             <label class="label">Próxima actividad</label>
@@ -94,8 +94,8 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup';
 
 const observation = ref<number>(1);
@@ -111,6 +111,7 @@ const formularioHistorial = ref({
   estado: '',
   responsable: '',
   firma: '',
+  resource: '',
   proxAct: '',
 });
 
@@ -157,6 +158,10 @@ const formularioObservacionSchema = yup.object({
 const onSubmit = (values: any): void => {
   console.log(values);
   router.push({ path: '/inventario/items' });
+};
+
+const handleSaveSignature = (signatureData: string) => {
+  formularioHistorial.value.firma = signatureData;
 };
 
 // const onSubmit = async (values: any): Promise<void> => {
