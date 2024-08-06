@@ -4,7 +4,7 @@
     <LoadingsSpinner v-if="spinnerStore.status"></LoadingsSpinner>
 
   </header>
-  <main>
+  <main :class="{ 'logged-in': usuarioStore.conectado }" >
     <Navbar v-if="usuarioStore.conectado" >
       <slot></slot>
     </Navbar>
@@ -21,6 +21,9 @@ const usuarioStore = UsuarioStore();
 
 <style scoped>
 main {
+  margin-top: 0px; /* Ajusta este valor según la altura de tu Navbar */
+}
+main.logged-in {
   margin-top: 65px; /* Ajusta este valor según la altura de tu Navbar */
 }
 </style>

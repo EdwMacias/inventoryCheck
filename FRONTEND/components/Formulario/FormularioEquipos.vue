@@ -7,97 +7,97 @@
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="label">Nombre equipo</label>
-            <VeeField name="name" v-model="formulario.name"
+            <VeeField name="name" v-model="formulario.name" placeholder="Frenometro"
               :class="`input w-full ${errors.name ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="name" class="text-error" />
           </div>
           <div>
             <label class="label">Fabricante</label>
-            <VeeField name="fabricante" v-model="formulario.fabricante"
+            <VeeField name="fabricante" v-model="formulario.fabricante" placeholder="Caterpillar"
               :class="`input w-full ${errors.fabricante ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="fabricante" class="text-error" />
           </div>
           <div>
             <label class="label">Modelo</label>
-            <VeeField name="modelo" v-model="formulario.modelo"
+            <VeeField name="modelo" v-model="formulario.modelo" placeholder="2013"
               :class="`input w-full ${errors.modelo ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="modelo" class="text-error" />
           </div>
           <div>
             <label class="label">Marca</label>
-            <VeeField name="marca" v-model="formulario.marca"
+            <VeeField name="marca" v-model="formulario.marca" placeholder="Caterpillar"
               :class="`input w-full ${errors.marca ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="marca" class="text-error" />
           </div>
           <div>
             <label class="label">Serial / (serie - lote)</label>
-            <VeeField name="serie_lote" v-model="formulario.serie_lote"
+            <VeeField name="serie_lote" v-model="formulario.serie_lote" placeholder="ABC123"
               :class="`input w-full ${errors.serie_lote ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="serie_lote" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Activo Fijo</label>
-            <VeeField name="activo_fijo" v-model="formulario.activo_fijo"
+            <VeeField name="activo_fijo" v-model="formulario.activo_fijo" placeholder="Maquinaria y equipo"
               :class="`input w-full ${errors.activo_fijo ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="activo_fijo" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Ubicación</label>
-            <VeeField name="ubicacion" v-model="formulario.ubicacion"
+            <VeeField name="ubicacion" v-model="formulario.ubicacion" placeholder="Linea 1"
               :class="`input w-full ${errors.ubicacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="ubicacion" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">FICHA TECNICA(Ubicación)</label>
-            <VeeField name="ficha_tecnica" v-model="formulario.ficha_tecnica"
+            <VeeField name="ficha_tecnica" v-model="formulario.ficha_tecnica" placeholder="Equipo"
               :class="`input w-full ${errors.ficha_tecnica ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="ficha_tecnica" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">MANUAL DE USO(ubicación)</label>
-            <VeeField name="manual" v-model="formulario.manual"
+            <VeeField name="manual" v-model="formulario.manual" placeholder="N.A."
               :class="`input w-full ${errors.manual ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="manual" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Garantia</label>
-            <VeeField name="garantia" v-model="formulario.garantia"
+            <VeeField name="garantia" v-model="formulario.garantia" placeholder="12 meses"
               :class="`input w-full ${errors.garantia ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="garantia" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Instr. de Operación</label>
-            <VeeField name="instruc_operacion" v-model="formulario.instruc_operacion"
+            <VeeField name="instruc_operacion" v-model="formulario.instruc_operacion" placeholder="Según el fabricante"
               :class="`input w-full ${errors.instruc_operacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="instruc_operacion" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Periodicidad de Calibración</label>
-            <VeeField name="periodicidad_calibracion" v-model="formulario.periodicidad_calibracion"
+            <VeeField name="periodicidad_calibracion" v-model="formulario.periodicidad_calibracion" placeholder="ver manual de operaciones"
               :class="`input w-full ${errors.periodicidad_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="periodicidad_calibracion" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Periodicidad de Verificación</label>
-            <VeeField name="periodicidad_verificacion" v-model="formulario.periodicidad_verificacion"
+            <VeeField name="periodicidad_verificacion" v-model="formulario.periodicidad_verificacion" placeholder="Ver manual de operaciones"
               :class="`input w-full ${errors.periodicidad_verificacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="periodicidad_verificacion" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Nombre Proveedor de venta</label>
-            <VeeField name="proveedor" v-model="formulario.proveedor"
+            <VeeField name="proveedor" v-model="formulario.proveedor" placeholder="Proveedor"
               :class="`input w-full ${errors.proveedor ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="proveedor" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">contacto proveedor</label>
-            <VeeField name="contacto_proveedor" v-model="formulario.contacto_proveedor"
+            <VeeField name="contacto_proveedor" v-model="formulario.contacto_proveedor" placeholder="+573101234567"
               :class="`input w-full ${errors.contacto_proveedor ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="contacto_proveedor" class="text-error" />
           </div>
           <div class="form-control ">
             <label class="label">Email de proveedor</label>
-            <VeeField name="email_proveedor" v-model="formulario.email_proveedor"
+            <VeeField name="email_proveedor" v-model="formulario.email_proveedor" placeholder="test@prueba.com"
               :class="`input w-full ${errors.email_proveedor ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="email_proveedor" class="text-error" />
           </div>
@@ -129,31 +129,31 @@
         <div class="form-control mb-2">
           <div>
             <label class="label">Resolución</label>
-            <VeeField name="resolucion" v-model="formulario.resolucion"
+            <VeeField name="resolucion" v-model="formulario.resolucion" placeholder="ABC123"
               :class="`input w-full ${errors.resolucion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="resolucion" class="text-error" />
           </div>
           <div>
             <label class="label">Clase de exactitud</label>
-            <VeeField name="clase_exactitud" v-model="formulario.clase_exactitud"
+            <VeeField name="clase_exactitud" v-model="formulario.clase_exactitud" placeholder="Aplicación"
               :class="`input w-full ${errors.clase_exactitud ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="clase_exactitud" class="text-error" />
           </div>
           <div>
             <label class="label">Rango(s) de medición</label>
-            <VeeField name="rango_medicion" v-model="formulario.rango_medicion"
+            <VeeField name="rango_medicion" v-model="formulario.rango_medicion" placeholder="Aplicación"
               :class="`input w-full ${errors.rango_medicion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="rango_medicion" class="text-error" />
           </div>
           <div>
             <label class="label">Intervalo(s) de medición</label>
-            <VeeField name="intervalo_medicion" v-model="formulario.intervalo_medicion"
+            <VeeField name="intervalo_medicion" v-model="formulario.intervalo_medicion" placeholder="Aplicación"
               :class="`input w-full ${errors.intervalo_medicion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="intervalo_medicion" class="text-error" />
           </div>
           <div>
             <label class="label">Error máximo permitido</label>
-            <VeeField name="error_maximo_permitido" v-model="formulario.error_maximo_permitido"
+            <VeeField name="error_maximo_permitido" v-model="formulario.error_maximo_permitido" placeholder="Aplicación"
               :class="`input w-full ${errors.error_maximo_permitido ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="error_maximo_permitido" class="text-error" />
           </div>
@@ -165,13 +165,13 @@
         <div class="form-control mb-2">
           <div>
             <label class="label">Fecha de Compra</label>
-            <VeeField name="fecha_adquisicion" type="date" v-model="formulario.fecha_adquisicion"
+            <VeeField name="fecha_adquisicion" type="date" v-model="formulario.fecha_adquisicion" placeholder="01/01/2023"
               :class="`input w-full ${errors.fecha_adquisicion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="fecha_adquisicion" class="text-error" />
           </div>
           <div>
             <label class="label">Valor de compra</label>
-            <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion"
+            <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion" placeholder="0"
               :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="valor_adquisicion" class="text-error" />
             <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion}}</p>
@@ -179,7 +179,7 @@
           </div>
           <div>
             <label class="label">telefono de contacto</label>
-            <VeeField name="telefono_proveedor" v-model="formulario.telefono_proveedor"
+            <VeeField name="telefono_proveedor" v-model="formulario.telefono_proveedor" placeholder="+573101234567"
               :class="`input w-full ${errors.telefono_proveedor ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="telefono_proveedor" class="text-error" />
           </div>
@@ -206,25 +206,25 @@
           </div>
           <div>
             <label class="label">Max. incertidumbre/calibración</label>
-            <VeeField name="maxima_incertidumbre_calibracion" v-model="formulario.maxima_incertidumbre_calibracion"
+            <VeeField name="maxima_incertidumbre_calibracion" v-model="formulario.maxima_incertidumbre_calibracion" placeholder="0.1"
               :class="`input w-full ${errors.maxima_incertidumbre_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="maxima_incertidumbre_calibracion" class="text-error" />
           </div>
           <div>
             <label class="label">Proveedor de calibración</label>
-            <VeeField name="proveedor_calibracion" v-model="formulario.proveedor_calibracion"
+            <VeeField name="proveedor_calibracion" v-model="formulario.proveedor_calibracion" placeholder="Empresa de Calibración"
               :class="`input w-full ${errors.proveedor_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="proveedor_calibracion" class="text-error" />
           </div>
           <div>
             <label class="label">telefono de contacto de calibración</label>
-            <VeeField name="contacto_calibracion" v-model="formulario.contacto_calibracion"
+            <VeeField name="contacto_calibracion" v-model="formulario.contacto_calibracion" placeholder=" +573101234567"
               :class="`input w-full ${errors.contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="contacto_calibracion" class="text-error" />
           </div>
           <div></div>
           <label class="label">email de contacto de calibración</label>
-          <VeeField name="email_calibracion" v-model="formulario.email_calibracion"
+          <VeeField name="email_calibracion" v-model="formulario.email_calibracion" placeholder=" example@gmail.com"
             :class="`input w-full ${errors.email_calibracion ? 'input-error' : 'input-bordered'}`" />
           <VeeErrorMessage name="email_calibracion" class="text-error" />
         </div>
@@ -234,19 +234,19 @@
         <div class="form-control mb-2">
           <div>
             <label class="label">Frecuencia de verificación</label>
-            <VeeField name="frecuencia_verificacion" v-model="formulario.frecuencia_verificacion"
+            <VeeField name="frecuencia_verificacion" v-model="formulario.frecuencia_verificacion" placeholder="tiempo en meses"
               :class="`input w-full ${errors.frecuencia_verificacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="frecuencia_verificacion" class="text-error" />
           </div>
           <div>
             <label class="label">Procedimiento de verificación</label>
-            <VeeField name="procedimiento_verificacion" v-model="formulario.procedimiento_verificacion"
+            <VeeField name="procedimiento_verificacion" v-model="formulario.procedimiento_verificacion" placeholder="MANTENIMIENTO"
               :class="`input w-full ${errors.procedimiento_verificacion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="procedimiento_verificacion" class="text-error" />
           </div>
           <div>
             <label class="label">Frecuencia de calibración</label>
-            <VeeField name="frecuencia_calibracion" v-model="formulario.frecuencia_calibracion"
+            <VeeField name="frecuencia_calibracion" v-model="formulario.frecuencia_calibracion" placeholder="Tiempo en meses"
               :class="`input w-full ${errors.frecuencia_calibracion ? 'input-error' : 'input-bordered'}`" />
             <VeeErrorMessage name="frecuencia_calibracion" class="text-error" />
           </div>
