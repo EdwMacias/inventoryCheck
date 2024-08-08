@@ -19,15 +19,6 @@
       </ClientOnly>
     </div>
 
-    <div class="drawer drawer-end">
-      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-side">
-        <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-5 ">
-        </ul>
-      </div>
-    </div>
-
     <input type="checkbox" id="modalFormularioRole" ref="modalRole" class="modal-toggle" />
 
     <div class="modal" role="dialog">

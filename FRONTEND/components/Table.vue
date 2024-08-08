@@ -76,7 +76,7 @@ const emit = defineEmits(["inactivar", 'role'])
 const { $swal } = useNuxtApp();
 
 const props = defineProps<{
-  url: string,
+  url?: string,
   columns: ConfigColumns[],
 }>()
 

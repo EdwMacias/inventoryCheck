@@ -14,17 +14,27 @@
     </ul>
   </div>
   <div id="Pagina" class="mx-2">
-    <h3 class="font-semibold text-xl">Historial de calibracion, Verificaciones y mantenimiento de equipos</h3>
-    <FormularioObservacion />    
+    <h3 class="font-semibold text-xl">Historial de calibracion, Verificaciones y mantenimiento de equipos</h3>   
   </div>
   <div id="table" class="mx-2">
-    tablita
+    <ClientOnly>
+    <Table :columns="columns" ></Table>
+    </ClientOnly>
     </div>
 </div>
 </template>
 
 <script lang="ts" setup>
+import type { ConfigColumns } from 'datatables.net-dt';
 
+const columns: ConfigColumns[] = [
+  { data: 'fecha', title: 'Fecha' },
+  { data: 'asunto', title: 'Asunto' },
+  { data: 'Descripction_Activity', title: 'Descripción de Actividad' },
+  { data: 'state', title: 'Estado' },
+  { data: 'signs', title: 'Firmado' },
+  { data: 'next_activity', title: 'Proxima actividad' },
+];
 </script>
 
 <style>
