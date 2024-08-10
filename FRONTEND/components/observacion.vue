@@ -98,6 +98,10 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup';
 
+const props = defineProps({
+  itemId: String
+});
+
 const observation = ref<number>(1);
 const route = useRoute();
 const router = useRouter();

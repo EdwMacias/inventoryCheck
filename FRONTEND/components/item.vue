@@ -1,11 +1,11 @@
 <template>
   <div class="card bg-base-100 shadow-xl border overflow-hidden">
     <figure>
-      <img ref="imagen" :src="image" :alt="descripcion" @click="openModal(true)" @error="imageLoadError" class="w-full h-auto object-cover" />
+      <img ref="imagen" :src="image" @click="openModal(true)" @error="imageLoadError" class="w-full h-auto object-cover" />
     </figure>
     <div class="card-normal">
       <p class="mx-2 mt-1 font-bold">{{ nombre_item }}</p>
-      <p class="mx-2">{{descripcion}}</p>
+      <p class="mx-2">{{serial_number}}</p>
       <div class="card-actions justify-center flex p-2">
         <button class="btn btn-accent btn-sm w-full" @click="showModal">Codigo</button>
         <dialog ref="myModal" class="modal">
@@ -45,8 +45,7 @@ const showModal = () => {
 const props = defineProps<{
   nombre_item: string,
   image: string,
-  descripcion: string,
-  // serial_number: string,
+  serial_number: string,
   itemId: string
 }>();
 
