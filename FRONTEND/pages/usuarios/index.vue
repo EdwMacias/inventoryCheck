@@ -15,7 +15,7 @@
   <div>
     <div class="mx-5 container mx-auto">
       <ClientOnly>
-        <Table :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario" @role="getDatosRoleUser"></Table>
+        <TableUsuario :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario" @role="getDatosRoleUser"></TableUsuario>
       </ClientOnly>
     </div>
 

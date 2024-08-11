@@ -1,5 +1,5 @@
 <template>
-  <button @click="openModal" class="btn btn-primary btn-sm">Crear</button>
+  <button @click="openModal" class="">Crear</button>
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box">
       <div>
@@ -94,12 +94,11 @@
 </template>
 
 <script setup lang="ts">
-
-import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as yup from 'yup';
 
 const props = defineProps({
-  itemId: String
+  itemId: String,
+  openModal: Function
 });
 
 const observation = ref<number>(1);

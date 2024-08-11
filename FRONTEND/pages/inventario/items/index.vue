@@ -23,15 +23,11 @@
           :class="{ 'btn-active': link.active }" class="join-item btn">
           {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' : link.label }} </button>
       </div>
-
-      <!-- Input de página -->
       <div v-if="!isSearching" class="flex items-center bordered">
         <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#"
           class="input input-bordered w-12 mx-1" />
         <button @click="goToPage" class="btn btn-active"> > </button>
       </div>
-
-      <!-- Barra de búsqueda -->
       <div class="search-box flex-grow">
         <label class="input input-bordered flex items-center w-full">
           <input type="text" class="w-full" v-model="searchQuery" @click="busqueda()" />
@@ -42,9 +38,7 @@
           </svg>
         </label>
       </div>
-
     </div>
-    <!-- </div> -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
         <Item v-for="item in pagination.data" :image="item.resource" :nombre_item="item.name" :serial_number="item.serie_lote" :itemId="item.item_id" />
@@ -84,9 +78,9 @@ onMounted(async () => {
 
 const fetchItems = async (url: string | null = null) => {
   SpinnerStore().activeOrInactiveSpinner(true);
-
   const response = await ItemRepository.Pagination(url);
   pagination.value = response;
+  console.log(pagination.value.data);
   SpinnerStore().activeOrInactiveSpinner(false);
 
 };

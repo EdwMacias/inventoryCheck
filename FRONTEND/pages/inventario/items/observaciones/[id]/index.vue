@@ -18,7 +18,7 @@
   </div>
   <div id="table" class="mx-2">
     <ClientOnly>
-    <Table :columns="columns" ></Table>
+    <TableObservacion :columns="columns"  ></TableObservacion>
     </ClientOnly>
     </div>
 </div>
