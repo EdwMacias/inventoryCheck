@@ -165,13 +165,10 @@ const onSubmit = (values: any) => {
   router.push({ path: '/' });
   return;
 };
-<<<<<<< Updated upstream:FRONTEND/components/observacion.vue
-=======
-
 const handleSaveSignature = (signatureData: string) => {
   formularioHistorial.value.firma = signatureData;
 };
->>>>>>> Stashed changes:FRONTEND/components/Formulario/observacion.vue
+
 </script>
 
 <style scoped>

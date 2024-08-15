@@ -333,8 +333,6 @@
 
 <script lang="ts" setup>
 import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
-<<<<<<< Updated upstream
-=======
 import { useRouter} from 'vue-router';
 
 const props = defineProps({
@@ -351,7 +349,6 @@ const handleCancel = () => {
   router.push(props.link);
 }
 
->>>>>>> Stashed changes
 import swal from 'sweetalert2';
 
 const emits = defineEmits(["callback"]);
