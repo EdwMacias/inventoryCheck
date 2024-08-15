@@ -74,7 +74,6 @@
           <option value="0">Seleccione</option>
           <option value="1">Masculino</option>
           <option value="2">Femenino</option>
-          <option value="3">Helicóptero Apache</option>
         </VeeField>
         <VeeErrorMessage name="gender_id" class="text-error animate__animated  animate__fadeIn"></VeeErrorMessage>
 

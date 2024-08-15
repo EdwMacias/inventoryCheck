@@ -1,7 +1,3 @@
-<style scoped>
-
-</style>
-
 <template>
   <div class="toast toast-top toast-end" style="z-index: 10000;">
     <div v-for="(alerta, index) in alertas" :key="index" :id="'alert-' + index" role="alert" ref="botonesCerrarAlertas"
@@ -17,12 +13,8 @@
     </div>
   </div>
 </template>
-
-
 <script lang="ts" setup>
-
 interface alerta { tipo: string, cabecera: string, mensaje: string }
-
 const iconosAlerta: Record<string, string> = {
   info: 'bi bi-info-circle',
   warning: 'bi bi-exclamation-triangle',

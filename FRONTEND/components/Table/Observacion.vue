@@ -7,8 +7,8 @@
   <div class="">
 
     <div class="flex justify-end mb-2">
-      <NuxtLink class="btn btn-success me-2 text-white" to="crear"><i class="bi bi-plus-circle text-white"></i> Agregar
-      </NuxtLink>
+      <button class="btn btn-success me-2 text-white" ><i class="bi bi-plus-circle text-white"></i> Agregar
+      </button>
       <button class="btn btn-primary" @click="reloadTable">
         <i class="bi bi-arrow-clockwise"></i>Recargar Tabla
       </button>
@@ -76,7 +76,7 @@ const emit = defineEmits(["inactivar", 'role'])
 const { $swal } = useNuxtApp();
 
 const props = defineProps<{
-  url: string,
+  url?: string,
   columns: ConfigColumns[],
 }>()
 

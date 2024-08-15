@@ -1,9 +1,10 @@
 <template>
     <div class="flex flex-col  items-center m-2 p-2">
-        <kbd class="kbd">Trabajo en proceso</kbd>
+        <NuxtLink to="/inventario/items/" class="kbd"><button>Inventario</button></NuxtLink>
+        <NuxtLink to="/usuarios/" class="kbd"><button>Usuarios</button></NuxtLink>
         <div>
+            <Clock class="en-proceso" />
         </div>
-        <Clock class="en-proceso" />
     </div>
 </template>
 <style scoped>
@@ -14,8 +15,6 @@
     justify-content: center;
     align-items: center;
 }
-
-
 .kbd {
     font-size: 3rem;
     padding: 1rem;

@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold mb-4">Observaciones del Item: {{ itemId }}</h1>
-    <img src="/images/LogoEmpresa.png" alt="Logo de la empresa" width="200">
+    <img src="/images/LogoEmpresa.webp" alt="Logo de la empresa" width="200">
     <div class="grid grid-cols-1 gap-4">
       <div v-for="observation in observations" :key="observation.item_observation_id"
         class="card shadow-lg compact bg-base-100">

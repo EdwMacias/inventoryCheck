@@ -1,5 +1,5 @@
 <template>
-  <button @click="openModal" class="btn btn-primary btn-sm">Crear</button>
+  <button @click="openModal" class="">Crear</button>
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box">
       <div>
@@ -74,7 +74,7 @@
           </div>
           <div>
             <label class="label">Firma</label>
-            <Signs />
+            <Signs @saveSignature="handleSaveSignature" />
           </div>
           <div>
             <label class="label">Próxima actividad</label>
@@ -94,9 +94,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup';
+
+const props = defineProps({
+  itemId: String,
+  openModal: Function
+});
 
 const observation = ref<number>(1);
 const route = useRoute();
@@ -111,6 +114,7 @@ const formularioHistorial = ref({
   estado: '',
   responsable: '',
   firma: '',
+  resource: '',
   proxAct: '',
 });
 
@@ -159,12 +163,13 @@ const onSubmit = (values: any): void => {
   router.push({ path: '/inventario/items' });
 };
 
-// const onSubmit = async (values: any): Promise<void> => {
-//   console.log(values);
-//   Supongamos que hay una operación asíncrona aquí, como una llamada a una API
-//   await someAsyncOperation(values);
-//   router.push({ path: '/inventario/items' });
-// };
+const handleSaveSignature = (signatureData: string) => {
+  formularioHistorial.value.firma = signatureData;
+};
+const handleSaveSignature = (signatureData: string) => {
+  formularioHistorial.value.firma = signatureData;
+};
+
 </script>
 
 <style scoped>

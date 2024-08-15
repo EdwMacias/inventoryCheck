@@ -24,6 +24,6 @@ main {
   margin-top: 0px; /* Ajusta este valor según la altura de tu Navbar */
 }
 main.logged-in {
-  margin-top: 65px; /* Ajusta este valor según la altura de tu Navbar */
+  margin-top: 70px; /* Ajusta este valor según la altura de tu Navbar */
 }
 </style>

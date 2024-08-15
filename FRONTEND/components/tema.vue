@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-const themes = ['bumblebee', 'black']; // Temas disponibles
+const themes = ['emerald', 'dracula']; // Temas disponibles
 const currentTheme = ref(themes[0]);
 const isDarkTheme = ref(false);
 
@@ -18,7 +18,7 @@ const isDarkTheme = ref(false);
 const toggleTheme = () => {
   const nextTheme = themes[(themes.indexOf(currentTheme.value) + 1) % themes.length];
   currentTheme.value = nextTheme;
-  isDarkTheme.value = nextTheme === 'black';
+  isDarkTheme.value = nextTheme === 'dracula';
   document.documentElement.setAttribute('data-theme', nextTheme);
 
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -32,7 +32,7 @@ onMounted(() => {
     const savedTheme = window.localStorage.getItem('theme');
     if (savedTheme && themes.includes(savedTheme)) {
       currentTheme.value = savedTheme;
-      isDarkTheme.value = savedTheme === 'black';
+      isDarkTheme.value = savedTheme === 'dracula';
       document.documentElement.setAttribute('data-theme', savedTheme);
     }
   }
