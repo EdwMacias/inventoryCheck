@@ -30,7 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
     Route::get('{id}', [UsuarioController::class, 'getUsuarioId']);
 });
 
-Route::group(['middleware' => 'api','prefix' => 'item'], function () {
+Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
     Route::get('', [ItemController::class, 'pagination']);
 
     Route::group(['prefix' => 'equipo'], function () {
@@ -41,9 +41,12 @@ Route::group(['middleware' => 'api','prefix' => 'item'], function () {
         Route::post('', [ItemController::class, 'store']);
     });
 
-    Route::group(['prefix' => 'observation'], function () {
-        Route::post('', [ItemObservationController::class, 'store']);
-        Route::post('{id}', [ItemObservationController::class, 'update']);
+    Route::group(['prefix' => 'observacion'], function () {
+        Route::group(['prefix' => 'equipo'], function () {
+            Route::post('',[ItemObservationController::class,'createObservacionEquipo']);
+        });
+        // Route::post('', [ItemObservationController::class, 'store']);
+        // Route::post('{id}', [ItemObservationController::class, 'update']);
     });
 });
 

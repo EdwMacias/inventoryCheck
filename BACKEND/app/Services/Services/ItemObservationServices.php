@@ -2,9 +2,15 @@
 
 namespace App\Services\Services;
 
+use App\DTOs\ItemDTOs\EquiposDTOs\EquipoDTO;
+use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
+use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemObservationDTO;
 use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoCreateRequestDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
+use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
@@ -12,8 +18,11 @@ use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Utils\ResponseHandler;
+use App\Utils\Utilidades;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -22,21 +31,20 @@ class ItemObservationServices implements InterfaceItemObservationServices
 {
 
     protected InterfaceUsuarioRepository $usuarioRepository;
-    protected InterfaceItemRepository $itemRepository;
+    protected InterfaceEquipoRespository $_equipoRepository;
     protected InterfaceItemObservationRepository $itemObservationRepository;
     protected InterfaceTypesObservationRepository $typeObservationRepository;
     protected InterfaceResourceRepository $resourceRepository;
 
-
     public function __construct(
         InterfaceItemObservationRepository $interfaceItemObservationRepository,
-        InterfaceItemRepository $interfaceItemRepository,
+        InterfaceEquipoRespository $interfaceEquipoRespository,
         InterfaceUsuarioRepository $interfaceUsuarioRepository,
         InterfaceTypesObservationRepository $interfaceTypesObservationRepository,
         InterfaceResourceRepository $interfaceResourceRepository
     ) {
         $this->usuarioRepository = $interfaceUsuarioRepository;
-        $this->itemRepository = $interfaceItemRepository;
+        $this->_equipoRepository = $interfaceEquipoRespository;
         $this->itemObservationRepository = $interfaceItemObservationRepository;
         $this->typeObservationRepository = $interfaceTypesObservationRepository;
         $this->resourceRepository = $interfaceResourceRepository;
@@ -55,30 +63,30 @@ class ItemObservationServices implements InterfaceItemObservationServices
         $responseHandler = new ResponseHandler();
         try {
             //code...
-            if (!$this->itemRepository->existItemByItemId($itemObservationDTO->item_id)) {
-                return throw new Exception("El item enviado no existe", Response::HTTP_NOT_FOUND);
-            }
+            // if (!$this->itemRepository->existItemByItemId($itemObservationDTO->item_id)) {
+            //     return throw new Exception("El item enviado no existe", Response::HTTP_NOT_FOUND);
+            // }
 
-            if (!$this->typeObservationRepository->existTypeObservationByTypeObservatioId($itemObservationDTO->types_observation_id)) {
-                return throw new Exception("La observación seleccionada no fue encontrada", Response::HTTP_NOT_FOUND);
-            }
+            // if (!$this->typeObservationRepository->existTypeObservationByTypeObservatioId($itemObservationDTO->types_observation_id)) {
+            //     return throw new Exception("La observación seleccionada no fue encontrada", Response::HTTP_NOT_FOUND);
+            // }
 
-            if (!$this->usuarioRepository->userExist($itemObservationDTO->user_id)) {
-                return throw new Exception("El usuario no existe", Response::HTTP_NOT_FOUND);
-            }
+            // if (!$this->usuarioRepository->userExist($itemObservationDTO->user_id)) {
+            //     return throw new Exception("El usuario no existe", Response::HTTP_NOT_FOUND);
+            // }
 
-            $response = $this->itemObservationRepository->create($itemObservationDTO);
+            // $response = $this->itemObservationRepository->create($itemObservationDTO);
 
-            if ($response) {
-                foreach ($resources as $resource) {
-                    $ruta = $resource->store('imagenes', 'public');
-                    $url = asset('storage/' . $ruta);
-                    $resourceDTO = new ResourceDTO($url, null, $itemObservationDTO->item_observation_id);
-                    $this->resourceRepository->create($resourceDTO);
-                }
-            }
+            // if ($response) {
+            //     foreach ($resources as $resource) {
+            //         $ruta = $resource->store('imagenes', 'public');
+            //         $url = asset('storage/' . $ruta);
+            //         $resourceDTO = new ResourceDTO($url, null, $itemObservationDTO->item_observation_id);
+            //         $this->resourceRepository->create($resourceDTO);
+            //     }
+            // }
 
-            return $responseHandler->setData($response)->setMessages("Observación Creada")->responses();
+            return $responseHandler->setData(null)->setMessages("Observación Creada")->responses();
 
         } catch (Throwable $th) {
             return $responseHandler->handleException($th);
@@ -123,9 +131,9 @@ class ItemObservationServices implements InterfaceItemObservationServices
         $responseHandler = new ResponseHandler();
         try {
 
-            if (!$this->itemRepository->existItemByItemId($itemId)) {
-                return throw new Exception("El item buscado no existe", Response::HTTP_NOT_FOUND);
-            }
+            // if (!$this->itemRepository->existItemByItemId($itemId)) {
+            //     return throw new Exception("El item buscado no existe", Response::HTTP_NOT_FOUND);
+            // }
 
             $response = $this->itemObservationRepository->getAllObservationByItemId($itemId);
 
@@ -178,6 +186,52 @@ class ItemObservationServices implements InterfaceItemObservationServices
             return $responseHandler->handleException($th);
         } catch (QueryException $qe) {
             return $responseHandler->handleException($qe);
+        }
+    }
+    /**
+     * Summary of createObservacionEquipo
+     * @param \App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoCreateRequestDTO $equiposCreateRequestDTO
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createObservacionEquipo(ObservacionEquipoCreateRequestDTO $observacionEquipoCreateRequestDTO): JsonResponse
+    {
+        // return true;
+        $responseHandler = new ResponseHandler();
+        try {
+
+            $equipo = $this->_equipoRepository->getEquipoByEquipoID($observacionEquipoCreateRequestDTO->equipo_id);
+
+            if (!$equipo) {
+                throw new Exception("Equipo no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            $equipoDTO = new EquipoDTO($equipo);
+            $date = Utilidades::sanitizeString(date("Y-m-d H:i:s"));
+            $nombreEquipo = Utilidades::sanitizeString($equipoDTO->name);
+
+            $ruta = $observacionEquipoCreateRequestDTO->firma_responsable->store("imagenes/firmas/observacion/equipo/$nombreEquipo/$date",'public');
+            $observacionEquipoCreateRequestDTO->firma_responsable = asset("storage/$ruta");
+            $itemObservacion = $this->itemObservationRepository->createObservacionEquipo($observacionEquipoCreateRequestDTO->toArray());
+
+            $pathResource = [];
+
+            foreach ($observacionEquipoCreateRequestDTO->resource as $resource) {
+                $ruta = $resource->store('imagenes/observacion/equipos', 'public');
+                $url = asset("storage/$ruta");
+                $resourcesDTO = new ResourceDTO($url, $equipoDTO->item_id, null);
+                // $pathResource[] = $resourcesDTO->toArray();
+            }
+
+            $observacionEquipoCreateRequestDTO->resource = $pathResource;
+
+            $itemObservacionDTO = new ObservacionEquipoDTO($itemObservacion);
+            // $itemObservacionDTO
+            $this->resourceRepository->createRecords($pathResource);
+
+            $responseHandler->setData($observacionEquipoCreateRequestDTO)->setMessages('Creado');
+            return $responseHandler->responses();
+        } catch (Exception $e) {
+            return $responseHandler->handleException($e);
         }
     }
 }

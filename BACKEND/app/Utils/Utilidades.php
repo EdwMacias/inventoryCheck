@@ -14,4 +14,13 @@ class Utilidades
     {
         return password_verify($password, $passwordHash);
     }
+
+    public static function sanitizeString($string) {
+        // Eliminar acentos y convertir en una cadena sin caracteres especiales
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+        // Reemplazar cualquier carácter que no sea alfanumérico por un guion bajo
+        $string = preg_replace('/[^a-zA-Z0-9]/', '', $string);
+        return strtolower(trim($string));
+    }
+    
 }

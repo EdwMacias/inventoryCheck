@@ -19,4 +19,13 @@ class ResourceRepository implements InterfaceResourceRepository
         $resourceModel = new ResourceModel($resource->toArray());
         return $resourceModel->save();
     }
+    /**
+     * Summary of createRecords
+     * @param array $resources
+     * @return bool
+     */
+    public function createRecords(array $resources)
+    {
+        return ResourceModel::insert($resources);
+    }
 }

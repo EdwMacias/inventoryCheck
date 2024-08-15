@@ -49,4 +49,10 @@ interface InterfaceItemObservationRepository
      * id del item a buscar
      */
     public function getAllObservationByItemId(string $itemId): array;
+    /**
+     * Summary of createObservacionEquipo
+     * @param array $observacionEquipo
+     * @return \App\Models\Inventory\Observaciones\EquipoObservacion|\Illuminate\Database\Eloquent\Model
+     */
+    public function createObservacionEquipo(array $observacionEquipo);
 }

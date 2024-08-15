@@ -5,6 +5,7 @@ namespace App\Repositories\Repositories;
 use App\DTOs\ItemDTOs\ItemObservationDTO;
 use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
 use App\Models\Inventory\ItemObservation;
+use App\Models\Inventory\Observaciones\EquipoObservacion;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 
 class ItemObservationRepository implements InterfaceItemObservationRepository
@@ -39,7 +40,7 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
      * id de la observacion a buscar
      * @return ItemObservation
      */
-    public function getObservationByObservationId(string $observationId) : ItemObservation
+    public function getObservationByObservationId(string $observationId): ItemObservation
     {
         return ItemObservation::find($observationId);
     }
@@ -66,5 +67,14 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
     public function exitsObservationByObservationId(string $observationId)
     {
         return ItemObservation::find($observationId)->exists();
+    }
+    /**
+     * Summary of createObservacionEquipo
+     * @param array $observacionEquipo
+     * @return EquipoObservacion|\Illuminate\Database\Eloquent\Model
+     */
+    public function createObservacionEquipo(array $observacionEquipo)
+    {
+        return EquipoObservacion::create($observacionEquipo);
     }
 }
