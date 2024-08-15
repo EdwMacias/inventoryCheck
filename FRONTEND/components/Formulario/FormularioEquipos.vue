@@ -324,8 +324,7 @@
       </div>
     </div>
     <div class="flex gap-2 grid grid-cols-2 mt-2">
-      <NuxtLink to="/inventario/items" class="btn btn-neutral mb-2">Cancelar</NuxtLink>
-      <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
+     <ButtonSaveUndo :to="props.link" @save="handleSave" @cancel="handleCancel" />
     </div>
 
   </VeeForm>
@@ -334,6 +333,25 @@
 
 <script lang="ts" setup>
 import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
+<<<<<<< Updated upstream
+=======
+import { useRouter} from 'vue-router';
+
+const props = defineProps({
+  link: {
+    type: String,
+    default: '/inventario/items'
+  }
+})
+
+const handleSave = () => {
+  emits("callback", formulario.value);
+}
+const handleCancel = () => {
+  router.push(props.link);
+}
+
+>>>>>>> Stashed changes
 import swal from 'sweetalert2';
 
 const emits = defineEmits(["callback"]);
