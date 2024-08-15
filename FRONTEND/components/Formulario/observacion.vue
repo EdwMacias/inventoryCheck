@@ -166,13 +166,10 @@ const onSubmit = (values: any): void => {
 const handleSaveSignature = (signatureData: string) => {
   formularioHistorial.value.firma = signatureData;
 };
+const handleSaveSignature = (signatureData: string) => {
+  formularioHistorial.value.firma = signatureData;
+};
 
-// const onSubmit = async (values: any): Promise<void> => {
-//   console.log(values);
-//   Supongamos que hay una operación asíncrona aquí, como una llamada a una API
-//   await someAsyncOperation(values);
-//   router.push({ path: '/inventario/items' });
-// };
 </script>
 
 <style scoped>
