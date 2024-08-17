@@ -1,6 +1,5 @@
 <template>
-  <button @click="openModal" class="">Crear</button>
-  <div v-if="isModalOpen" class="modal modal-open">
+  <div v-if="isOpen" class="modal modal-open">
     <div class="modal-box">
       <div>
         <h3>Tipo de observación</h3>
@@ -74,7 +73,7 @@
           </div>
           <div>
             <label class="label">Firma</label>
-            <Signs @saveSignature="handleSaveSignature" />
+            <Signs ref="signaturePadRef" @saveSignature="handleSignature"/>
           </div>
           <div>
             <label class="label">Próxima actividad</label>
@@ -84,7 +83,7 @@
           </div>
           <div>
             <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Agregar</button>
-            <button @click="closeModal" class="btn btn-ghost">Cancelar</button>
+            <button @click="emitClose" class="btn btn-ghost">Cancelar</button>
           </div>
           <div v-if="errors">{{ errors }}</div>
         </VeeForm>
@@ -95,12 +94,13 @@
 
 <script setup lang="ts">
 import * as yup from 'yup';
-
 const props = defineProps({
   itemId: String,
-  openModal: Function
+  openModal: Function,
+  isOpen: Boolean
 });
 
+const signaturePadRef = ref(null);
 const observation = ref<number>(1);
 const route = useRoute();
 const router = useRouter();
@@ -118,6 +118,11 @@ const formularioHistorial = ref({
   proxAct: '',
 });
 
+const emit = defineEmits(['close']);
+
+const emitClose = () => {
+  emit('close');
+};
 const formularioObservacion = ref({
   id: route.params.id,
   observacion: '',
@@ -158,17 +163,32 @@ const formularioObservacionSchema = yup.object({
   observacion: yup.string().required('*Campo requerido'),
 });
 
+const handleSignature = (signatureData: string) => {
+  if (signatureData) {
+    const blob = base64ToBlob(signatureData, 'image/png');
+    console.log('Firma recibida como Blob:', blob);
+  } else {
+    console.log('No se capturó firma.');
+  }
+};
 const onSubmit = (values: any): void => {
-  console.log(values);
+  // Validar el formulario y procesar los datos
+  console.log('Datos del formulario:', values);
+  const signaturePad = signaturePadRef.value;
+  if (signaturePad) {
+    const { isEmpty, data } = signaturePad.saveSignature();
+    if (!isEmpty) {
+      console.log('Firma capturada:', data);
+      // Aquí puedes hacer algo con la firma capturada (enviar a un servidor, etc.)
+    } else {
+      console.log('No se capturó firma.');
+    }
+  }
+
+  // Redirigir o procesar los datos del formulario
   router.push({ path: '/inventario/items' });
 };
 
-const handleSaveSignature = (signatureData: string) => {
-  formularioHistorial.value.firma = signatureData;
-};
-const handleSaveSignature = (signatureData: string) => {
-  formularioHistorial.value.firma = signatureData;
-};
 
 </script>
 

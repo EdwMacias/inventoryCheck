@@ -1,4 +1,4 @@
- <template>
+<template>
   <div id="app">
     <VueSignaturePad height="100px" ref="signaturePad" class="border rounded-xl" />
     <div>
@@ -22,7 +22,7 @@ const undo = () => {
 const save = () => {
   const { isEmpty, data } = signaturePad.value.saveSignature();
   if (!isEmpty) {
-    const base64Data = data; // data is already in base64 format
+    const base64Data = data; // data is already en base64 format
     emits('saveSignature', base64Data);
   } else {
     emits('saveSignature', '');
