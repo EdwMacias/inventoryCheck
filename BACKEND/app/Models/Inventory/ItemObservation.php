@@ -15,7 +15,6 @@ class ItemObservation extends Model
     protected $primaryKey = "item_observation_id";
 
     protected $fillable = [
-        'observation',
         'item_id',
         'user_id',
         'types_observation_id',

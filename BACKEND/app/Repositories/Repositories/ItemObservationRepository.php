@@ -10,19 +10,10 @@ use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 
 class ItemObservationRepository implements InterfaceItemObservationRepository
 {
-    /**
-     *
-     * @param \App\DTOs\ItemDTOs\ItemObservationDTO $itemObservationDTO
-     * datos para crear el item
-     * @return bool
-     * la respuesta seran: 
-     *  true : creo,
-     *  false : no creo
-     */
-    public function create(ItemObservationDTO $itemCreateObservationDTO): bool
+
+    public function create(array $datos)
     {
-        $observationItem = new ItemObservation($itemCreateObservationDTO->toArray());
-        return $observationItem->save();
+        return ItemObservation::create($datos);
     }
 
     /**

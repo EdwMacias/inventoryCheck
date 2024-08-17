@@ -7,6 +7,8 @@ use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemObservationDTO;
 use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionCreateDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoCreateRequestDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
@@ -198,6 +200,8 @@ class ItemObservationServices implements InterfaceItemObservationServices
         // return true;
         $responseHandler = new ResponseHandler();
         try {
+            $observacionCreateDTO = new ObservacionCreateDTO();
+            $observacionCreateDTO->user_id = auth()->user()->getAuthIdentifier();
 
             $equipo = $this->_equipoRepository->getEquipoByEquipoID($observacionEquipoCreateRequestDTO->equipo_id);
 
@@ -206,29 +210,35 @@ class ItemObservationServices implements InterfaceItemObservationServices
             }
 
             $equipoDTO = new EquipoDTO($equipo);
+            $observacionCreateDTO->item_id = $equipoDTO->item_id;
+
             $date = Utilidades::sanitizeString(date("Y-m-d H:i:s"));
             $nombreEquipo = Utilidades::sanitizeString($equipoDTO->name);
 
-            $ruta = $observacionEquipoCreateRequestDTO->firma_responsable->store("imagenes/firmas/observacion/equipo/$nombreEquipo/$date",'public');
+            $ruta = $observacionEquipoCreateRequestDTO->firma_responsable->store("imagenes/firmas/observacion/equipo/$nombreEquipo/$date", 'public');
             $observacionEquipoCreateRequestDTO->firma_responsable = asset("storage/$ruta");
             $itemObservacion = $this->itemObservationRepository->createObservacionEquipo($observacionEquipoCreateRequestDTO->toArray());
+            $itemObservacionDTO = new ObservacionEquipoDTO($itemObservacion);
 
             $pathResource = [];
+
+            $observacionCreateDTO->types_observation_id = 4;
+
+            $observacionDTO = new ObservacionDTO($this->itemObservationRepository->create($observacionCreateDTO->toArray()));
 
             foreach ($observacionEquipoCreateRequestDTO->resource as $resource) {
                 $ruta = $resource->store('imagenes/observacion/equipos', 'public');
                 $url = asset("storage/$ruta");
-                $resourcesDTO = new ResourceDTO($url, $equipoDTO->item_id, null);
-                // $pathResource[] = $resourcesDTO->toArray();
+                $resourcesDTO = new ResourceDTO($url, null, $observacionDTO->item_observation_id);
+                $pathResource[] = $resourcesDTO->toArray();
             }
 
             $observacionEquipoCreateRequestDTO->resource = $pathResource;
 
-            $itemObservacionDTO = new ObservacionEquipoDTO($itemObservacion);
             // $itemObservacionDTO
             $this->resourceRepository->createRecords($pathResource);
 
-            $responseHandler->setData($observacionEquipoCreateRequestDTO)->setMessages('Creado');
+            $responseHandler->setData($itemObservacionDTO)->setMessages('Observacion Creada Correctamente');
             return $responseHandler->responses();
         } catch (Exception $e) {
             return $responseHandler->handleException($e);

@@ -8,7 +8,7 @@ use App\Models\Inventory\ItemObservation;
 
 interface InterfaceItemObservationRepository
 {
-     /**
+    /**
      *
      * @param string $observationId
      * id de la observacion a buscar
@@ -23,17 +23,18 @@ interface InterfaceItemObservationRepository
      * id de la observacion a buscar
      * @return ItemObservation
      */
-    public function getObservationByObservationId(string $observationId) : ItemObservation;
+    public function getObservationByObservationId(string $observationId): ItemObservation;
     /**
+     * Crea una nueva observación de ítem.
+     * 
+     * Este método recibe un array de datos y utiliza el modelo `ItemObservation`
+     * para crear una nueva entrada en la base de datos con dichos datos.
      *
-     * @param \App\DTOs\ItemDTOs\ItemObservationDTO $itemObservationDTO
-     * datos para crear el item
-     * @return bool
-     * la respuesta seran: 
-     *  true : creo,
-     *  false : no creo
+     * @param array $datos Los datos necesarios para crear una nueva observación de ítem.
+     * @return ItemObservation|\Illuminate\Database\Eloquent\Model La instancia del modelo 
+     * `ItemObservation` recién creada o una instancia del modelo de Eloquent.
      */
-    public function create(ItemObservationDTO $itemObservationDTO): bool;
+    public function create(array $datos);
     /**
      *
      * @param string $observationId
