@@ -174,16 +174,6 @@ const handleSignature = (signatureData: string) => {
 const onSubmit = (values: any): void => {
   // Validar el formulario y procesar los datos
   console.log('Datos del formulario:', values);
-  const signaturePad = signaturePadRef.value;
-  if (signaturePad) {
-    const { isEmpty, data } = signaturePad.saveSignature();
-    if (!isEmpty) {
-      console.log('Firma capturada:', data);
-      // Aquí puedes hacer algo con la firma capturada (enviar a un servidor, etc.)
-    } else {
-      console.log('No se capturó firma.');
-    }
-  }
 
   // Redirigir o procesar los datos del formulario
   router.push({ path: '/inventario/items' });
