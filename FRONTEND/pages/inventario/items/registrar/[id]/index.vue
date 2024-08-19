@@ -25,7 +25,7 @@
         </div>
         <FormularioEquipos v-if="categoriaSeleccionada == 1" @callback="EquipoService.create" />
         <FormularioItem v-if="categoriaSeleccionada == 2" @callback="itemService.create" />
-        <ButtonScroll/>
+        <!-- <ButtonScroll/> -->
     </div>
 
 </template>

@@ -317,7 +317,7 @@
       </div>
     </div>
     <div class="flex gap-2 grid grid-cols-2 mt-2">
-     <ButtonSaveUndo :to="props.link" @save="handleSave" @cancel="handleCancel" />
+     <ButtonOptions :to="props.link" @save="handleSave" @cancel="handleCancel" />
     </div>
 
   </VeeForm>

@@ -2,7 +2,6 @@
   <div class="card bg-base-100 shadow-xl border overflow-hidden">
     <figure>
       <img ref="imagen" :src="image" @click="openModal(true)" @error="imageLoadError" class="w-full h-auto object-cover " />
-      <img ref="imagen" :src="image" @click="openModal(true)" @error="imageLoadError" class="w-full h-auto object-cover " />
     </figure>
     <div class="card-normal">
       <p class="mx-2 mt-1 font-bold flex justify-center">{{ nombre_item }}</p>

@@ -1,7 +1,6 @@
 <template>
-    <NuxtLink :to="link" class="btn btn-outline btn-circle fixed-button" @click="handleCancel">Cancelar</NuxtLink>
-    <button type="submit" class="btn btn-outline btn-circle fixed-button" @click="handleSave">Guardar</button>
-
+    <NuxtLink to="/" class="btn btn-outline btn-circle fixed-button" @click="handleCancel"><SvgCancel/></NuxtLink>
+    <button type="submit" class="btn btn-outline btn-circle fixed-button" @click="handleSave"><SvgSave/></button>
 </template>
 
 <script lang="ts" setup>

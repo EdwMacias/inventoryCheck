@@ -50,10 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-2 grid grid-cols-2 mt-2">
-      <NuxtLink to="/inventario/items" class="btn btn-neutral mb-2">Cancelar</NuxtLink>
-      <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Guardar</button>
-    </div>
+    <ButtonOptions @save="handleSave" @cancel="handleCancel" >Registrar</ButtonOptions>
   </VeeForm>
 
 </template>
@@ -70,6 +67,20 @@ const itemPhoto = ref<HTMLImageElement | null>(null);
 const isModalOpen = ref(false);
 const barcodeValue = ref<string | null>(null);
 const router = useRouter();
+
+const props = defineProps({
+  link: {
+    type: String,
+    default: '/inventario/items'
+  }
+})
+
+const handleSave = () => {
+  onSubmit(formulario.value);
+}
+const handleCancel = () => {
+  router.push(props.link);
+}
 
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
