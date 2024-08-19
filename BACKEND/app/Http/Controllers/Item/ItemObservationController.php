@@ -68,6 +68,11 @@ class ItemObservationController extends Controller
         return $this->itemObservationServices->update($id, $itemObservationUpdateDto);
     }
 
+    public function getObservacionesEquipo($itemId){
+        return $this->itemObservationServices->getEquipoObservaciones($itemId);
+        // return $itemId;
+    }
+
     /**
      * Remove the specified resource from storage.
      */

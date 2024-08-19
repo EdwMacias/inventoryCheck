@@ -35,7 +35,7 @@ class EquipoRespository implements InterfaceEquipoRespository
      * @param array $equipo
      * @return bool|mixed
      */
-    public function update(string $equipo_id,array $equipo)
+    public function update(string $equipo_id, array $equipo)
     {
         return Equipo::find($equipo_id)->update($equipo);
     }
@@ -44,7 +44,23 @@ class EquipoRespository implements InterfaceEquipoRespository
      * @param string $equipo_id
      * @return Equipo|Equipo[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
-    public function getEquipoByEquipoID(string $equipo_id){
+    public function getEquipoByEquipoID(string $equipo_id)
+    {
         return Equipo::find($equipo_id);
+    }
+    /**
+     * Recupera un registro del modelo `Equipo` basado en el `item_id` proporcionado.
+     *
+     * Este método busca en la tabla `Equipo` un registro donde el `item_id` coincida con el `$itemId`
+     * proporcionado y devuelve el primer resultado encontrado.
+     * 
+     * @param string $itemId El ID del ítem para buscar el equipo.
+     * 
+     * @return Equipo|object|\Illuminate\Database\Eloquent\Model|null El modelo `Equipo` encontrado,
+     * un objeto genérico, o `null` si no se encuentra ningún registro.
+     */
+    public function getEquipoByItemID(string $itemId)
+    {
+        return Equipo::where('item_id', $itemId)->first();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory;
 
+use App\Models\Storage\ResourceModel;
 use App\Utils\Sanizacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +55,15 @@ class Equipo extends Model
         'cond_transporte',
         'cond_otras'
     ];
+
+    public function resources()
+    {
+        return $this->hasMany(ResourceModel::class, 'item_id',"item_id");
+    }
+
+    public function observaciones(){
+        return $this->belongsTo(ItemObservation::class,'item_id','item_id')->with("resources");
+    }
     public function setItemIdAttribute($value)
     {
         $this->attributes['item_id'] = Sanizacion::cleanInput($value);

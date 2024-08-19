@@ -56,4 +56,16 @@ interface InterfaceItemObservationRepository
      * @return \App\Models\Inventory\Observaciones\EquipoObservacion|\Illuminate\Database\Eloquent\Model
      */
     public function createObservacionEquipo(array $observacionEquipo);
+    /**
+     * Recupera un constructor de consultas para el modelo `EquipoObservacion`, filtrado por `equipo_id`.
+     *
+     * Este método construye una consulta para seleccionar registros de la tabla `EquipoObservacion`
+     * donde el `equipo_id` coincide con el `$equipoId` proporcionado.
+     * 
+     * @param int|string $equipoId El ID del equipo para filtrar las observaciones.
+     * @param array|null $campos (opcional) Un arreglo de columnas específicas a seleccionar.
+     * 
+     * @return  \Illuminate\Database\Eloquent\Builder constructor de consultas para personalización adicional.
+     */
+    public function getTableEquipoObservacionByEquipoId($equipoId);
 }

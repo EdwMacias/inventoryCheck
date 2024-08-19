@@ -30,4 +30,16 @@ interface InterfaceEquipoRespository
      */
     public function getEquipoByEquipoID(string $equipo_id);
 
+    /**
+     * Recupera un registro del modelo `Equipo` basado en el `item_id` proporcionado.
+     *
+     * Este método busca en la tabla `Equipo` un registro donde el `item_id` coincida con el `$itemId`
+     * proporcionado y devuelve el primer resultado encontrado.
+     * 
+     * @param string $itemId El ID del ítem para buscar el equipo.
+     * 
+     * @return \App\Models\Inventory\Equipo|object|\Illuminate\Database\Eloquent\Model|null El modelo `Equipo` encontrado,
+     * un objeto genérico, o `null` si no se encuentra ningún registro.
+     */
+    public function getEquipoByItemID(string $itemId);
 }

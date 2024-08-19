@@ -46,4 +46,6 @@ interface InterfaceItemObservationServices
    */
   public function createObservacionEquipo(ObservacionEquipoCreateRequestDTO $equiposCreateRequestDTO): JsonResponse;
 
+  public function getEquipoObservaciones($itemID);
+
 }

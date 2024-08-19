@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory;
 
+use App\Models\Storage\ResourceModel;
 use App\Utils\Sanizacion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,9 @@ class ItemObservation extends Model
     public function setObservationAttribute($value)
     {
         $this->attributes['observation'] = Sanizacion::cleanInput($value);
+    }
+    public function resources(){
+        return $this->hasMany(ResourceModel::class,'item_observation_id','item_observation_id');
     }
 
     public function hasBeenFiveMinutesSinceCreation(): bool

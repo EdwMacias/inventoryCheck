@@ -24,5 +24,8 @@ class Item extends Model
         'created_at',
         'updated_at'
     ];
-
+    public function equipo()
+    {
+        return $this->hasMany(Equipo::class, 'item_id');
+    }
 }

@@ -2,27 +2,28 @@
 
 namespace App\Services\Services;
 
+use App\Custom\Http\Request;
+use App\DTOs\Datatable\DatatableDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquipoDTO;
-use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
-use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemObservationDTO;
 use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionCreateDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoCreateRequestDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ObservacionEquipoTableDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
+use App\Models\Inventory\Observaciones\EquipoObservacion;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
-use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
-use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -243,5 +244,65 @@ class ItemObservationServices implements InterfaceItemObservationServices
         } catch (Exception $e) {
             return $responseHandler->handleException($e);
         }
+    }
+    public function getEquipoObservaciones($itemID)
+    {
+        $responseHandler = new ResponseHandler();
+        $datatableDTO = new DatatableDTO();
+        $request = Request::capture();
+        $observaciones = new EquipoObservacion();
+
+        $equipo = $this->_equipoRepository->getEquipoByItemID($itemID);
+
+        if (!$equipo) {
+            $responseHandler->setMessages("Equipo no encontrado")->setStatus(Response::HTTP_NOT_FOUND)->responses();
+        }
+
+        $equipoDTO = new EquipoDTO($equipo);
+
+        $query = $this->itemObservationRepository->getTableEquipoObservacionByEquipoId($equipoDTO->equipo_id);
+
+        $draw = intval($request->input('draw', 1));
+        $searchValue = $request->input('search.value', null);
+
+        $datatableDTO->recordsTotal = $query->count();
+        $datatableDTO->draw = $draw;
+        $columns = $query->getConnection()->getSchemaBuilder()->getColumnListing($observaciones->getTable());
+
+        if ($searchValue) {
+            $query->where(function (Builder $q) use ($searchValue, $columns) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'like', "%$searchValue%");
+                }
+            });
+        }
+
+        $datatableDTO->recordsFiltered = $query->count();
+
+        if ($request->input('order')) {
+            # code...
+            foreach ($request->input('order') as $order) {
+                $columnIndex = $order['column'];
+                $columnName = $columns[$columnIndex] ?? null;
+                $direction = $order['dir'];
+
+                if ($columnName) {
+                    $query->orderBy($columnName, $direction);
+                }
+            }
+        }
+
+        $start = $request->input('start', 0);
+        $length = $request->input('length', 10);
+
+        if ($length != -1) {
+            $query->offset($start)->limit($length);
+        }
+
+        $datatableDTO->data = $query->get()->transform(function ($observaciones) {
+            return new ObservacionEquipoTableDTO($observaciones);
+        });
+
+        return Response()->json($datatableDTO);
     }
 }
