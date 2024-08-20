@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Item\ItemObservationController;
+use App\Http\Controllers\Pqrs\PqrsController;
 use App\Http\Controllers\Role\RolesUserController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Authentication\AuthController;
@@ -43,8 +44,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
 
     Route::group(['prefix' => 'observacion'], function () {
         Route::group(['prefix' => 'equipo'], function () {
-            Route::post('',[ItemObservationController::class,'createObservacionEquipo']);
-            Route::get('{id}',[ItemObservationController::class,'getObservacionesEquipo']);
+            Route::post('', [ItemObservationController::class, 'createObservacionEquipo']);
+            Route::get('{id}', [ItemObservationController::class, 'getObservacionesEquipo']);
         });
     });
 });
@@ -55,4 +56,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'role'], function () {
     Route::delete('{id}', [RolesUserController::class, 'unassign']);
     Route::get('', [RolesUserController::class, 'getRoleUsuario']);
     Route::get('{id}', [RolesUserController::class, 'getRoleUsuarioByEmail']);
+});
+
+Route::group(["prefix" => "pqrs"], function () {
+    Route::post('', [PqrsController::class, 'store']);
+    Route::get('', [PqrsController::class, 'show']);
 });
