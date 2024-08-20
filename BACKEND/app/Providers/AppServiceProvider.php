@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\InterfaceGenderRepository;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
+use App\Repositories\Interfaces\InterfacePqrsRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 use App\Repositories\Interfaces\InterfaceTemporaryCode;
@@ -18,6 +19,7 @@ use App\Repositories\Repositories\GenderRepository;
 use App\Repositories\Repositories\ItemBasicoRepository;
 use App\Repositories\Repositories\ItemObservationRepository;
 use App\Repositories\Repositories\ItemRepository;
+use App\Repositories\Repositories\PqrsRepository;
 use App\Repositories\Repositories\ResourceRepository;
 use App\Repositories\Repositories\RolesUserRepository;
 use App\Repositories\Repositories\TemporaryCodeRepository;
@@ -26,11 +28,13 @@ use App\Repositories\Repositories\TypesObservationRepository;
 use App\Repositories\Repositories\UsuarioRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Services\Interfaces\InterfaceItemServices;
+use App\Services\Interfaces\InterfacePqrsServices;
 use App\Services\Interfaces\InterfaceRolesServices;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
 use App\Services\Services\ItemObservationServices;
 use App\Services\Services\ItemServices;
+use App\Services\Services\PqrsServices;
 use App\Services\Services\RolesServices;
 use App\Services\Services\TemporaryCodeServices;
 use App\Services\Services\UsuarioServices;
@@ -55,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceTypesObservationRepository::class, TypesObservationRepository::class);
         $this->app->bind(InterfaceEquipoRespository::class, EquipoRespository::class);
         $this->app->bind(InterfaceItemBasicoRepository::class, ItemBasicoRepository::class);
+        $this->app->bind(InterfacePqrsRepository::class, PqrsRepository::class);
 
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);
@@ -62,6 +67,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceItemServices::class, ItemServices::class);
         $this->app->bind(InterfaceItemObservationServices::class, ItemObservationServices::class);
         $this->app->bind(InterfaceRolesServices::class, RolesServices::class);
+        $this->app->bind(InterfacePqrsServices::class, PqrsServices::class);
     }
 
     /**
