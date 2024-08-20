@@ -6,9 +6,22 @@
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Nombre del Item</span>
           </label>
-          <VeeField name="name" type="text" placeholder="Articulo" v-model="formularioPQRS.name"
+          <VeeField name="name" type="select" placeholder="Articulo" v-model="formularioPQRS.name"
             :class="`input w-full mt-1 ${errors.name ? 'input-error' : 'input-bordered'}`" />
           <VeeErrorMessage name="name" class="text-error animate__animated animate__fadeIn label block">
+          </VeeErrorMessage>
+        </div>
+        <div>
+          <label class="label">
+            <span class="block text-md font-medium leading-6 ">Opcion</span>
+          </label>
+          <VeeField name="opcion" type="select" v-model="formularioPQRS.option" :class="`select w-full mt-1 ${errors.opcion ? 'select-error' : 'select-bordered'}`" />
+          <option value="0">Seleccione</option>
+          <option value="1">Queja</option>
+          <option value="2">Reclamo</option>
+          <option value="3">Sugerencia</option>
+          <option value="4">Felicitaciones</option>
+          <VeeErrorMessage name="opcion" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
         </div>
         <div>
@@ -18,14 +31,6 @@
           <VeeField name="descriptionPQRS" type="text-area" placeholder="Descripción" v-model="formularioPQRS.descriptionPQRS"
             :class="`input w-full mt-1 ${errors.descriptionPQRS ? 'input-error' : 'input-bordered'}`" />
           <VeeErrorMessage name="descriptionPQRS" class="text-error animate__animated animate__fadeIn label block">
-          </VeeErrorMessage>
-        </div>
-        <div>
-          <label class="label">
-            <span class="block text-md font-medium leading-6 ">Opciones</span>
-          </label>
-          <VeeField name="opcion" type="number" v-model="formularioPQRS.option" :class="`input w-full mt-1 ${errors.opcion ? 'input-error' : 'input-bordered'}`" />
-          <VeeErrorMessage name="opcion" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
         </div>
           <ButtonOptions  @save="handleSave" @cancel="handleCancel" >Registrar</ButtonOptions>
