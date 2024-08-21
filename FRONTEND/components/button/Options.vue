@@ -2,13 +2,11 @@
   <div >
     <label @click="optionsDeploy" class="btn btn-outline rounded-xl fixed-button text-2xl "> + </label>
     <div v-if="despliegue" class="button-container">
-      <transition-group name="list" tag="div" class="button-container">
       <button v-for="(option, index) in despliegue ? options : []" :key="option.id" :class="option.class" 
               :style="getButtonPosition(index)" @click="handleOptionClick(option.name)">
         <component :is="option.svg" />
         <span class="tooltiptext">{{ option.name }}</span>
       </button>
-    </transition-group>   
     </div>
   </div>
 </template>

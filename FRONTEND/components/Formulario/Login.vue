@@ -3,7 +3,7 @@
     <div class="flex justify-center">
       <Tema class="w-32 md:my-4 my-2" /> 
     </div>
-    <h2 class="text-2xl font-semibold mb-2 ">Iniciar Sesión</h2>
+    <h2 class="text-2xl font-semibold mb-2 text-center ">Iniciar Sesión</h2>
     <VeeForm v-slot="{ handleSubmit, resetForm }" :validation-schema="formulario" as="div">
       <form @submit="handleSubmit($event, onSubmit)">
 
@@ -38,7 +38,7 @@
             </span>
           </nuxtLink>
         </div>
-        <button type="submit" class="btn mt-2 w-full btn-primary" :disabled="disableButton">
+        <button type="submit" class="btn mt-2 w-full btn-secondary" :disabled="disableButton">
           Iniciar Sesión
         </button>
       </form>

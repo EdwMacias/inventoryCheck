@@ -1,12 +1,12 @@
 <template>
   <div v-if="isOpen" class="modal modal-open">
     <div class="modal-box">
-      <VeeForm :validationSchema="validacionFormularioPQRS" @submit="onSubmit" v-slot="{ meta, errors }">
+      <VeeForm :validationSchema="validacionFormularioPQRS" @submit="onSubmit" v-slot="{resetForm, meta, errors }">
         <div> <!-- Nombre del item -->
           <label class="label">
-            <span class="block text-md font-medium leading-6 ">Nombre del Item</span>
+            <span class="block text-md font-medium leading-6 ">Formato de PQRS</span>
           </label>
-          <VeeField name="name" type="select" placeholder="Articulo" v-model="formularioPQRS.name"
+          <VeeField name="name" type="select" placeholder="Nombre (Opcional)" v-model="formularioPQRS.name"
             :class="`input w-full mt-1 ${errors.name ? 'input-error' : 'input-bordered'}`" />
           <VeeErrorMessage name="name" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
@@ -15,12 +15,12 @@
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Opcion</span>
           </label>
-          <VeeField name="opcion" type="select" v-model="formularioPQRS.option" :class="`select w-full mt-1 ${errors.opcion ? 'select-error' : 'select-bordered'}`" />
-          <option value="0">Seleccione</option>
-          <option value="1">Queja</option>
-          <option value="2">Reclamo</option>
-          <option value="3">Sugerencia</option>
-          <option value="4">Felicitaciones</option>
+          <VeeField name="opcion" as="select" v-model="formularioPQRS.option" :class="`select w-full mt-1 ${errors.opcion ? 'select-error' : 'select-bordered'}`" >
+          <option value="0" disabled>Seleccione</option>
+          <option value="1">Petición</option>
+          <option value="2">Queja</option>
+          <option value="3">Mejora</option>
+          </VeeField>
           <VeeErrorMessage name="opcion" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
         </div>
@@ -28,12 +28,13 @@
           <label class="label">
             <span class="block text-md font-medium leading-6 ">Descripción</span>
           </label>
-          <VeeField name="descriptionPQRS" type="text-area" placeholder="Descripción" v-model="formularioPQRS.descriptionPQRS"
-            :class="`input w-full mt-1 ${errors.descriptionPQRS ? 'input-error' : 'input-bordered'}`" />
+          <VeeField name="descriptionPQRS" as="textarea" placeholder="Por favor, redacte su petición, queja o recurso de manera respetuosa, clara y concisa sin exceder los 500 caracteres" v-model="formularioPQRS.descriptionPQRS"
+          :class="`textarea w-full mt-1 ${errors.descriptionPQRS ? 'textarea-error' : 'textarea-bordered'}`" />
+          <p class=" text-sm text-gray-500">{{ remainingCharacters }} caracteres restantes</p>
           <VeeErrorMessage name="descriptionPQRS" class="text-error animate__animated animate__fadeIn label block">
           </VeeErrorMessage>
         </div>
-          <ButtonOptions  @save="handleSave" @cancel="handleCancel" >Registrar</ButtonOptions>
+          <ButtonOptions class="mt-5" @save="() => handleSave(resetForm)" @cancel="handleCancel" ></ButtonOptions>
       </VeeForm>
     </div>
   </div>
@@ -41,9 +42,15 @@
 
 <script lang="ts" setup>
 import swal from 'sweetalert2';
+import type { FormContext } from 'vee-validate';
+
 const router = useRouter();
-const emits = defineEmits(["callback"]);
+const emits = defineEmits(["callback", "close"]);
 const isModalOpen = ref(false);
+
+const remainingCharacters = computed(() => {
+  return 500 - formularioPQRS.value.descriptionPQRS.length;
+});
 
 const props = defineProps({
   isOpen: Boolean,
@@ -51,17 +58,32 @@ const props = defineProps({
     type: String,
     default: '/'
   },
-  
+});
+
+const handleEsc = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    handleCancel();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleEsc);
 });
 
 interface PQRS { name?: string | null , option: number, descriptionPQRS: string };
 
-const handleSave = () => {
+const handleSave = (resetForm: FormContext['resetForm']) => {
+  console.log(formularioPQRS.value);
   onSubmit(formularioPQRS.value);
+  
+  setTimeout(() => {
+    emits('close');
+  }, 500);
+  resetForm();
 }
 const handleCancel = () => {
-  router.push(props.link);
-}
+  emits('close');
+};
 
 const formularioPQRS: Ref<PQRS> = ref({
   name: '',
@@ -71,7 +93,8 @@ const formularioPQRS: Ref<PQRS> = ref({
 
 const validacionFormularioPQRS = yup.object({
   opcion: yup.number().required('*Campo requerido'),
-  descriptionPQRS: yup.string().required('*Campo requerido'),
+  descriptionPQRS: yup.string().max(500, 'La descripción no puede exceder los 500 caracteres')
+  .required('*Campo requerido'),
 })
 
 
