@@ -1,9 +1,8 @@
-import type { PqrsRequest } from "~/Domain/Models/Api/Request/pqrs.Request";
+import type { PqrsRequest } from "~/Domain/Models/Api/Request/pqrs.request";
 import { POST_PQRS_CREATE, GET_PQRS } from "~/Infrastructure/Connections/endpoints.connection"
 import { http } from "~/Infrastructure/http/http"
 
-export const ItemRepository = {
-
+export const PqrsRepository = {
     Create: async (pqrsRequest: PqrsRequest) => {
         const response = await http.post<PqrsRequest>(POST_PQRS_CREATE, toFormData(pqrsRequest));
         return response;
