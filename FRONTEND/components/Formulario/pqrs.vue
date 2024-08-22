@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isOpen" class="modal modal-open">
-    <div class="modal-box">
+  <div v-if="isOpen" class="modal modal-open" @click.self="handleCancel">
+    <div class="modal-box" @click.stop>
       <VeeForm :validationSchema="validacionFormularioPQRS" @submit="onSubmit" v-slot="{resetForm, meta, errors }">
         <div> <!-- Nombre del item -->
           <label class="label">
@@ -73,9 +73,8 @@ onMounted(() => {
 interface PQRS { name?: string | null , option: number, descriptionPQRS: string };
 
 const handleSave = (resetForm: FormContext['resetForm']) => {
-  console.log(formularioPQRS.value);
-  onSubmit(formularioPQRS.value);
-  
+  const formValues = { ...formularioPQRS.value };
+  onSubmit(formValues);
   setTimeout(() => {
     emits('close');
   }, 500);
@@ -97,14 +96,13 @@ const validacionFormularioPQRS = yup.object({
   .required('*Campo requerido'),
 })
 
-
 const onSubmit = (values: any) => {
   const pqrsEntity = values;
   if (formularioPQRS.value.descriptionPQRS == null) {
     swal.fire({
       icon: 'error',
-      title: "Falta Descripcion",
-      text: "Solo es necesario el tipo de llamado de atención y la descripción, rellene los campos.",
+      title: "Falta información",
+      text: "Solo es necesario el tipo de opción y la descripción, rellene los campos.",
       showCancelButton: false,
       confirmButtonText: 'Aceptar',
       reverseButtons: true

@@ -1,11 +1,11 @@
 <template>
   <div class="hero bg-base-200 min-h-screen">
-    <div class=" hero-content flex flex-col-reverse sm:flex-row ">
-      <div class="">
+    <div class=" hero-content flex flex-col-reverse lg:flex-row items-center justify-center">
+      <div class="w-full lg:min-w-[500px] text-center">
         <button class="btn btn-ghost mb-1"> 
           <Tema  />
         </button>
-        <div class="card bg-base-100 max-w-md shrink-0 shadow-2xl">
+        <div class="card bg-base-200 shadow-2xl">
           <div class="stats shadow">
             <div class="stat">
             <label for= "buzon" class="stat-title">Buzón PQRS</label>
@@ -16,8 +16,8 @@
         </div>
       </div>
       <div> 
-        <p class="py-6">
-          <img src="/images/LogoEmpresa.webp" alt="Logo Cedac" class="rounded-xl"></img>
+        <p class="pt-8">
+          <img src="/images/LogoEmpresa.webp" alt="Logo Cedac" class="rounded-xl w-full"></img>
         </p>
       </div>
     </div>
@@ -25,6 +25,7 @@
   <FormularioPqrs :is-open="isModalOpen" @close="isModalOpen = false" />
 </template>
 <script setup lang="ts">
+import { PqrsRepository } from '~/Infrastructure/Repositories/pqrs/pqrs.repository';
 definePageMeta({
   path: '/login',
 })
