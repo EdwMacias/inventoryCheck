@@ -1,7 +1,6 @@
 <template>
   <div class="md:py-6 py-2 px-10">
     <div class="flex justify-center">
-      <Tema class="w-32 md:my-4 my-2" /> 
     </div>
     <h2 class="text-2xl font-semibold mb-2 text-center ">Iniciar Sesión</h2>
     <VeeForm v-slot="{ handleSubmit, resetForm }" :validation-schema="formulario" as="div">
