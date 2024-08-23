@@ -22,10 +22,10 @@
       </div>
     </div>
   </div>
-  <FormularioPqrs :is-open="isModalOpen" @close="isModalOpen = false" />
+  <FormularioPqrs :is-open="isModalOpen" @close="isModalOpen = false" @callback="PqrsService.create" />
 </template>
 <script setup lang="ts">
-import { PqrsRepository } from '~/Infrastructure/Repositories/pqrs/pqrs.repository';
+import { PqrsService } from '~/Domain/Client/Services/pqrs/pqrs.service';
 definePageMeta({
   path: '/login',
 })

@@ -7,9 +7,7 @@ export const PqrsService = {
     create: async (pqrsEntity: Pqrs) => {
         const pqrsRequestDTO = new PqrsRequestCreateDTO(pqrsEntity);
         const pqrsRequest = dtoToObject<PqrsRequest>(pqrsRequestDTO);
-        const response = await PqrsRepository.Create(pqrsRequest);
-        console.log(response);
-        
+        const response = await PqrsRepository.Create(pqrsRequest);        
         return true;
     },
 }
