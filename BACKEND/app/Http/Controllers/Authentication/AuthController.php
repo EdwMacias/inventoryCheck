@@ -30,6 +30,7 @@ class AuthController extends Controller
         $loginRequestDto = LoginRequestDTO::fromArray($loginRequest->all());
 
         $usuario = $this->usuarioRepository->getUserByEmail($loginRequestDto->email);
+        // return $usuario;
 
         if (!$usuario) {
             return $responseHandler
