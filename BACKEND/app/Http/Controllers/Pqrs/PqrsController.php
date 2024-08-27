@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Pqrs;
 use App\DTOs\PqrsDTOs\Request\PqrsRequestCreateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pqrs\PqrsRequestCreate;
-use App\Repositories\Interfaces\InterfacePqrsRepository;
 use App\Services\Interfaces\InterfacePqrsServices;
-use Illuminate\Http\Request;
 
 class PqrsController extends Controller
 {

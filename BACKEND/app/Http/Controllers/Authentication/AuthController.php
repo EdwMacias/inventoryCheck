@@ -30,6 +30,7 @@ class AuthController extends Controller
         $loginRequestDto = LoginRequestDTO::fromArray($loginRequest->all());
 
         $usuario = $this->usuarioRepository->getUserByEmail($loginRequestDto->email);
+        // return $usuario;
 
         if (!$usuario) {
             return $responseHandler
@@ -38,8 +39,9 @@ class AuthController extends Controller
                 ->setStatus(Response::HTTP_NOT_FOUND)->responses();
         }
 
-        $isPassword = Utilidades::VerificarPassword(strtolower($loginRequestDto->password), $usuario->password);
-
+        $isPassword = Utilidades::VerificarPassword($loginRequestDto->password, $usuario->password);
+        // return $isPassword;
+        // return response()->json($loginRequestDto);
         if (!$isPassword) {
             return $responseHandler
                 ->setMessages("Credenciales Incorrectas")

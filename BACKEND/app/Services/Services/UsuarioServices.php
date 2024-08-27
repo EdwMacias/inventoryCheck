@@ -160,13 +160,13 @@ class UsuarioServices implements InterfaceUsuarioServices
 
         try {
 
-            $usuario = $this->_usuarioRepository->getUserByEmail($usuario["email"]);
+            $usuarioModel = $this->_usuarioRepository->getUserByEmail($usuario["email"]);
 
-            if (!$usuario) {
+            if (!$usuarioModel) {
                 throw new Exception("Usuario no encontrado", Response::HTTP_NOT_FOUND);
             }
 
-            $usuarioUpdateDto = UsuarioUpdateDTO::fromArray($usuario->toArray());
+            $usuarioUpdateDto = UsuarioUpdateDTO::fromArray($usuarioModel->toArray());
 
             $code = $this->_temporaryCodeRepository->temporaryCodeValidWhitUser($code, $usuarioUpdateDto->user_id);
 
@@ -176,8 +176,8 @@ class UsuarioServices implements InterfaceUsuarioServices
 
             $code->is_used = true;
             $code->save();
-
-            $usuarioUpdateDto->password = Utilidades::EncriptarPassword($usuarioUpdateDto->password);
+            // $password = $usuario["password"];
+            $usuarioUpdateDto->password = Utilidades::EncriptarPassword($usuario["password"]);
 
             $this->_usuarioRepository->updateUser($usuarioUpdateDto->user_id, $usuarioUpdateDto);
             $this->_temporaryCodeRepository->cleanTemporaryCode($usuarioUpdateDto->user_id);
