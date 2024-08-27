@@ -13,21 +13,19 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8000
-    ports:
-      - 8000:8000
     depends_on:
       - redis
     volumes:
-      - C:\imagenes:/app/storage/app/public/imagenes
+      - ~/imagenes:/app/storage/app/public/imagenes
   redis: 
     image: redis/redis-stack-server:7.2.0-v10
     volumes:
-      - C:\redis:/data
+      - ~/redis:/data
     environment:
-      - REDIS_ARGS=--requirepass contraseña_redis
+      - REDIS_ARGS=--requirepass Callofdutybo2#
   queue:
     build: 
-      context: .\backend
+      context: ./BACKEND
       dockerfile: Dockerfile
     entrypoint: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3"]
     depends_on:

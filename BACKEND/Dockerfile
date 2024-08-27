@@ -13,6 +13,7 @@ COPY composer.* ./
 COPY . .
 RUN composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 RUN php artisan storage:link
+
 # Crear directorios para supervisord
 RUN mkdir -p /var/log/supervisor
 

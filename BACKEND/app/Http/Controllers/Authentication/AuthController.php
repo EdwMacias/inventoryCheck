@@ -38,7 +38,7 @@ class AuthController extends Controller
                 ->setStatus(Response::HTTP_NOT_FOUND)->responses();
         }
 
-        $isPassword = Utilidades::VerificarPassword(strtolower($loginRequestDto->password), $usuario->password);
+        $isPassword = Utilidades::VerificarPassword($loginRequestDto->password, $usuario->password);
 
         if (!$isPassword) {
             return $responseHandler
