@@ -65,7 +65,7 @@ const inputFile = ref();
 const { setImagen } = useImagen();
 const itemPhoto = ref<HTMLImageElement | null>(null);
 const isModalOpen = ref(false);
-const barcodeValue = ref<string | null>(null);
+// const barcodeValue = ref<string | null>(null);
 const router = useRouter();
 
 const props = defineProps({
@@ -76,7 +76,6 @@ const props = defineProps({
 })
 
 const handleSave = () => {
-  onSubmit(formulario.value);
 }
 const handleCancel = () => {
   router.push(props.link);
@@ -122,14 +121,14 @@ const formulario: Ref<itemBasico> = ref({
   resource: null
 });
 
-watch(() => formulario.value.serie_lote, (newSerialNumber) => {
-  if (!newSerialNumber) {
-    barcodeValue.value = null;
-    return;
-  }
-  barcodeValue.value = newSerialNumber;
-  return;
-});
+// watch(() => formulario.value.serie_lote, (newSerialNumber) => {
+//   if (!newSerialNumber) {
+//     barcodeValue.value = null;
+//     return;
+//   }
+//   barcodeValue.value = newSerialNumber;
+//   return;
+// });
 
 // barcodeValue.value = formulario.value.serie_lote;
 
