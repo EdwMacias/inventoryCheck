@@ -2,8 +2,6 @@
     <div class="flex flex-col  items-center m-2 p-2">
         <NuxtLink to="/inventario/items/" class="kbd"><button>Inventario</button></NuxtLink>
         <NuxtLink to="/usuarios/" class="kbd"><button>Usuarios</button></NuxtLink>
-        <ImageUploader @files-selected="handleFiles" />
-
         <div>
             <Clock class="en-proceso" />
         </div>
