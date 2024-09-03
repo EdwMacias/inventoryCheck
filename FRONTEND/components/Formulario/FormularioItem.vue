@@ -1,39 +1,41 @@
 <template>
+  <div class="card border shadow-lg p-4 mt-2 ">
   <VeeForm :validationSchema="formularioItemBasicoSchema" @submit="onSubmit" v-slot="{ meta, errors }">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <div>
         <label class="label">
-          <span class="block text-md font-medium leading-6">Nombre del Item</span>
+          <span class="block text-sm">Nombre del Item</span>
         </label>
-        <VeeField name="name" type="text" placeholder="Articulo" v-model="formulario.name" :class="`input w-full mt-1 ${errors.name ? 'input-error' : 'input-bordered'}`" />
+        <VeeField name="name" type="text" placeholder="Articulo" v-model="formulario.name" :class="`input input-sm w-full mt-1 ${errors.name ? 'input-error' : 'input-bordered'}`" />
         <VeeErrorMessage name="name" class="text-error animate__animated animate__fadeIn label block"></VeeErrorMessage>
       </div>
       <div>
         <label class="label">
-          <span class="block text-md font-medium leading-6">Serial de Item</span>
+          <span class="block text-sm ">Serial de Item</span>
         </label>
-        <VeeField name="serie_lote" type="text" placeholder="AH1234" v-model="formulario.serie_lote" :class="`input uppercase w-full mt-1 ${errors.serie_lote ? 'input-error' : 'input-bordered'}`"/>
+        <VeeField name="serie_lote" type="text" placeholder="AH1234" v-model="formulario.serie_lote" :class="`input input-sm uppercase w-full mt-1 ${errors.serie_lote ? 'input-error' : 'input-bordered'}`"/>
         <VeeErrorMessage name="serie_lote" class="text-error animate__animated animate__fadeIn label block"></VeeErrorMessage>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <div>
         <label class="label">
-          <span class="block text-md font-medium leading-6">Valor de compra</span>
+          <span class="block text-sm">Valor de compra</span>
         </label>
         <VeeField name="valor_adquisicion" placeholder="$1.000.000,50" v-model="formulario.valor_adquisicion" :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`"/>
         <VeeErrorMessage name="valor_adquisicion" class="text-error" />
         <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion }}</p>
       </div>
-      <div>
+      <div class="">
         <label class="label">
-          <span class="block text-md font-medium leading-6">Imagen del item</span>
+          <span class="block text-sm">Imagen del item</span>
         </label>
         <ImageUploader @files-selected="handleFilesSelected" />
       </div>
     </div>
     <ButtonOptions @save="handleSave" @cancel="handleCancel">Registrar</ButtonOptions>
   </VeeForm>
+  </div>
 </template>
 
 <script lang="ts" setup>

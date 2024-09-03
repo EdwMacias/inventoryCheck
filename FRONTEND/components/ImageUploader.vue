@@ -11,11 +11,11 @@
         </div>
       </div>
     </div>
-    <div class="swap swap-flip mt-4" :class="{ 'swap-active': selectedFiles.length > 0 }">
+    <!-- <div class="swap swap-flip mt-4" :class="{ 'swap-active': selectedFiles.length > 0 }">
       <button v-if="selectedFiles.length > 0" @click="emitFiles" class="btn btn-sm btn-outline btn-success swap-on">Subir
       </button>
       <div class="swap-off"></div>
-    </div>
+    </div> -->
     <input type="checkbox" id="image-modal" class="modal-toggle" />
     <div class="modal modal-bottom sm:modal-middle">
       <div class="modal-box relative max-w-screen-lg max-h-screen">
