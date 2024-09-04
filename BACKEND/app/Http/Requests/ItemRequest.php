@@ -27,7 +27,8 @@ class ItemRequest extends FormRequest
             'serie_lote' => 'required|string|max:100',
             'valor_adquisicion' => 'required|string',
             'category_id' => 'required|string',
-            'resource' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'resource' => 'required|array',
+            'resource.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

@@ -7,8 +7,8 @@ import { http } from "~/Infrastructure/http/http"
 
 export const ItemRepository = {
 
-    Create: async (itemBasicoRequest: ItemBasicoRequest) => {
-        const response = await http.post<ItemBasicoRequest>(POST_ITEM_CREATE, toFormData(itemBasicoRequest));
+    Create: async (formData: FormData) => {
+        const response = await http.post<ItemBasicoRequest>(POST_ITEM_CREATE, formData);
         return response;
     },
     Pagination: async (url: string | null = null)  => {

@@ -31,7 +31,8 @@ class ItemController extends Controller
     public function store(ItemRequest $itemCreacionRequest)
     {
         $itemCreateDto = new ItemBasicoCreateRequestDTO($itemCreacionRequest->all());
-        return $this->itemService->create($itemCreateDto, $itemCreacionRequest->file("resource"));
+        
+        return $this->itemService->create($itemCreateDto);
     }
 
     /**
