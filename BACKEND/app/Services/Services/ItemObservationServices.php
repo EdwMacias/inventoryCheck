@@ -252,11 +252,12 @@ class ItemObservationServices implements InterfaceItemObservationServices
         $request = Request::capture();
         $observaciones = new EquipoObservacion();
 
-        $equipo = $this->_equipoRepository->getEquipoByItemID($itemID);
-
-        if (!$equipo) {
-            $responseHandler->setMessages("Equipo no encontrado")->setStatus(Response::HTTP_NOT_FOUND)->responses();
+        // return response()->json($this->_equipoRepository->equipoExistByItemID($itemID));
+        if (!$this->_equipoRepository->equipoExistByItemID($itemID)) {
+            return $responseHandler->setMessages("Equipo no encontrado")->setData($datatableDTO)->setStatus(Response::HTTP_NOT_FOUND)->responses();
         }
+
+        $equipo = $this->_equipoRepository->getEquipoByItemID($itemID);
 
         $equipoDTO = new EquipoDTO($equipo);
 

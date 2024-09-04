@@ -23,4 +23,8 @@
 </style>
 
 <script setup lang="ts">
+function handleFiles(files: File[]) {
+  console.log(files);
+  // Aquí puedes manejar los archivos, subirlos al servidor, etc.
+}
 </script>

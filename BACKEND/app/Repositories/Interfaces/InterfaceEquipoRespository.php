@@ -29,7 +29,12 @@ interface InterfaceEquipoRespository
      * @return \App\Models\Inventory\Equipo|\App\Models\Inventory\Equipo[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function getEquipoByEquipoID(string $equipo_id);
-
+    /**
+     * Summary of equipoExistByItemID
+     * @param string $itemId
+     * @return bool
+     */
+    public function equipoExistByItemID(string $itemId);
     /**
      * Recupera un registro del modelo `Equipo` basado en el `item_id` proporcionado.
      *

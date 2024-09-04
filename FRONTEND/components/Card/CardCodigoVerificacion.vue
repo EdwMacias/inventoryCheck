@@ -33,11 +33,16 @@ const schemaCodigo = yup.object({
 });
 
 async function onSubmit(value: any) {
-
   const passwordStore = useRecoveryPasswordStore();
   const spinnerStore = SpinnerStore();
   const alertaStore = AlertaStore();
-  const code: number = value.code;
+  
+  // Mantén el código como una cadena de texto para la validación
+  const codeString: string = value.code;
+
+  // Si es necesario, conviértelo a número justo antes de enviarlo
+  const code: number = parseInt(codeString, 10);
+
   spinnerStore.activeOrInactiveSpinner(true);
   const email = passwordStore.email;
 
@@ -59,30 +64,29 @@ async function onSubmit(value: any) {
           return location.reload();
         }
         return location.reload();
-      })
+      });
     }
-    // passwordStore.setCode(code);
     spinnerStore.activeOrInactiveSpinner(false);
 
     swal.fire({
       icon: 'success',
       title: "Notificación",
-      text: 'Codigo Validado Correctamente',
+      text: 'Código Validado Correctamente',
       showCancelButton: false,
       confirmButtonText: 'Confirmar',
       reverseButtons: true
     }).then(button => {
       if (button.isConfirmed) {
-        return emit("confirmar", true)
+        return emit("confirmar", true);
       }
-    })
+    });
   } catch (error: any) {
     alertaStore.emitNotificacion({ mensaje: error.response.data.messages, tipo: 'warning', cabecera: 'Notificación' });
   }
   spinnerStore.activeOrInactiveSpinner(false);
-
-
 }
+
+
 </script>
 
 <style></style>

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="breadcrumbs text-lg mx-5">
+    <div class="breadcrumbs text-sm mx-2">
       <ul>
         <li>
           <NuxtLink to="/">Inicio</NuxtLink>
@@ -10,26 +10,23 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-row items-center justify-between mb-2 
-        rounded-xl p-4 bg-base-100 bordered gap-2 busqueda">
-      <!-- Botón de agregar artículo -->
-      <NuxtLink class="btn btn-active btn-neutral sm:inline-flex" to="registrar/crear">
-        <span class="hidden sm:inline">Agregar artículo</span>
+    <div class="flex flex-row items-center justify-between m-2 rounded-xl bg-base-100 bordered gap-2 busqueda">
+      <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="registrar/crear">
+        <span class="hidden sm:inline">Agregar</span>
         <span class="inline sm:hidden">+</span>
       </NuxtLink>
 
       <div v-if="!isSearching" class="join">
         <button v-for="link in pagination.links" :key="link.label" :disabled="!link.url" @click="changePage(link.url)"
-          :class="{ 'btn-active': link.active }" class="join-item btn">
+          :class="{ 'btn-active': link.active }" class="join-item btn btn-sm">
           {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' : link.label }} </button>
       </div>
       <div v-if="!isSearching" class="flex items-center bordered">
-        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#"
-          class="input input-bordered w-12 mx-1" />
-        <button @click="goToPage" class="btn btn-active"> > </button>
+        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#" class="input input-sm input-bordered w-12 mx-1" />
+        <button @click="goToPage" class="btn btn-sm btn-active"> > </button>
       </div>
       <div class="search-box flex-grow">
-        <label class="input input-bordered flex items-center w-full">
+        <label class="input input-sm input-bordered flex items-center w-full">
           <input type="text" class="w-full" v-model="searchQuery" @click="busqueda()" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
             <path fill-rule="evenodd"

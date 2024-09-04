@@ -1,5 +1,5 @@
 <template>
-    <div class="breadcrumbs text-lg mx-5">
+    <div class="breadcrumbs text-sm mx-2">
         <ul>
             <li>
                 <NuxtLink to="/">Inicio</NuxtLink>
@@ -14,13 +14,13 @@
         <h2 class="font-semibold text-xl mt-2">Creación de artículos</h2>
         <div>
             <label class="label">
-                <span class="block text-md font-medium leading-6 ">Seleccione el registro a crear</span>
+                <span class="block text-sm font-medium ">Seleccione el registro a crear</span>
             </label>
-            <select v-model="categoriaSeleccionada" class="select w-full max-w-xs text-base select-bordered">
+            <select v-model="categoriaSeleccionada" class="select select-sm select-bordered">
                 <option v-for="equipo in equipo" :key="equipo.id" :value="equipo.id">{{ equipo.opcion }}</option>
             </select>
         </div>
-        <div v-if="categoriaSeleccionada == 0" class="mt-1 text-error animate__animated text-lg  animate__fadeIn">
+        <div v-if="categoriaSeleccionada == 0" class="mt-1 text-error animate__animated text-sm  animate__fadeIn">
             <p>Seleccione un tipo de equipo, por favor.</p>
         </div>
         <FormularioEquipos v-if="categoriaSeleccionada == 1" @callback="EquipoService.create" />

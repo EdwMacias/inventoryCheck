@@ -49,6 +49,14 @@ class EquipoRespository implements InterfaceEquipoRespository
         return Equipo::find($equipo_id);
     }
     /**
+     * Summary of equipoExistByItemID
+     * @param string $itemId
+     * @return bool
+     */
+    public function equipoExistByItemID(string $itemId){
+        return Equipo::where('item_id', $itemId)->exists();
+    }
+    /**
      * Recupera un registro del modelo `Equipo` basado en el `item_id` proporcionado.
      *
      * Este método busca en la tabla `Equipo` un registro donde el `item_id` coincida con el `$itemId`
@@ -61,6 +69,13 @@ class EquipoRespository implements InterfaceEquipoRespository
      */
     public function getEquipoByItemID(string $itemId)
     {
+        // return Equipo::where('item_id', $itemId)->exists();
+        // if (!Equipo::where('item_id', $itemId)->exists()) {
+        // return null;
+        // } else {
         return Equipo::where('item_id', $itemId)->first();
+
+        // }
+
     }
 }

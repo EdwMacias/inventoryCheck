@@ -56,13 +56,23 @@ class Equipo extends Model
         'cond_otras'
     ];
 
-    public function resources()
+    public function resource()
     {
-        return $this->hasMany(ResourceModel::class, 'item_id',"item_id");
+        return $this->hasMany(
+            ResourceModel::class,
+            'item_id',
+            'item_id'
+        );
     }
 
-    public function observaciones(){
-        return $this->belongsTo(ItemObservation::class,'item_id','item_id')->with("resources");
+    public function resources()
+    {
+        return $this->hasMany(ResourceModel::class, 'item_id', "item_id");
+    }
+
+    public function observaciones()
+    {
+        return $this->belongsTo(ItemObservation::class, 'item_id', 'item_id')->with("resources");
     }
     public function setItemIdAttribute($value)
     {

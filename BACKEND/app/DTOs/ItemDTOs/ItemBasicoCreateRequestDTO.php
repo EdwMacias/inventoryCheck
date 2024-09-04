@@ -11,13 +11,18 @@ class ItemBasicoCreateRequestDTO
     public $valor_adquisicion;
     public $category_id;
 
+    /**
+     * @var array<\Illuminate\Http\UploadedFile>
+     */
+    public array $resource;
+
     public function __construct(array $itemBasico)
     {
-        // $this->item_basico_id = $itemBasico['item_basico_id'] ?? null;
         $this->name = $itemBasico["name"];
         $this->serie_lote = $itemBasico["serie_lote"];
         $this->valor_adquisicion = $itemBasico["valor_adquisicion"];
-        $this->category_id = $itemBasico["category_id"];
+        $this->category_id = 2;
+        $this->resource = $itemBasico["resource"];
     }
 
     public function toArray()

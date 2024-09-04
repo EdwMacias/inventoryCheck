@@ -16,10 +16,8 @@ interface InterfaceItemServices
      * Servicio para crear un item
      * @param \App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO $itemCreateDTO
      * DTO para crear el item
-     * @param mixed $resource
-     * recurso del item para crear
      */
-    public function create(ItemBasicoCreateRequestDTO $itemBasicoCreateRequestDTO, array|UploadedFile|null $resource): JsonResponse;
+    public function create(ItemBasicoCreateRequestDTO $itemBasicoCreateRequestDTO): JsonResponse;
     /**
      * Lista los items en paginación
      */

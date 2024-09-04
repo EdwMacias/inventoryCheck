@@ -20,12 +20,24 @@ class Item extends Model
     ];
 
     protected $hidden = [
-        'category_id',
         'created_at',
         'updated_at'
     ];
     public function equipo()
     {
-        return $this->hasMany(Equipo::class, 'item_id');
+        return $this->belongsTo(
+            Equipo::class,
+            'item_id',
+            'item_id',
+        )->with(['resource']);
     }
+    public function itemBasico()
+    {
+        return $this->belongsTo(
+            ItemBasico::class,
+            'item_id',
+            'item_id',
+        )->with(['resource']);
+    }
+
 }

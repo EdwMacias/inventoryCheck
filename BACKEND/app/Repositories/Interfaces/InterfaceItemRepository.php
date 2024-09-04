@@ -6,7 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface InterfaceItemRepository
 {
-    public function create(ItemCreateDTO $item): bool;
+    public function create(array $item);
     public function update($id, array $item);
     public function delete($id);
     public function inactivate($id);

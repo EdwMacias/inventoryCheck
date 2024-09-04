@@ -22,16 +22,10 @@ class ItemRepository implements InterfaceItemRepository
         return $itemModel->save();
     }
 
-    /**
-     *
-     * @param ItemCreateDTO $item
-     * @return bool
-     */
-    public function create(ItemCreateDTO $item): bool
+
+    public function create(array $item)
     {
-        $itemModel = new Item($item->toArray());
-        $itemModel->statu_id = 1;
-        return $itemModel->save();
+        return Item::create($item);
     }
 
     /**
@@ -94,6 +88,7 @@ class ItemRepository implements InterfaceItemRepository
 
     public function paginationItems(string $perPage, string $page): LengthAwarePaginator
     {
-        return ItemView::orderBy('created_at', 'asc')->paginate($perPage, ['*'], 'page', $page);
+        return Item::orderBy('created_at', 'asc')->with(["equipo", "itemBasico"])->paginate($perPage, ['*'], 'page', $page);
+        // return ItemView::orderBy('created_at', 'asc')->paginate($perPage, ['*'], 'page', $page);
     }
 }
