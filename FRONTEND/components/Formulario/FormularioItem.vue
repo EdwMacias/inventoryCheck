@@ -42,23 +42,20 @@
     </VeeForm>
   </div>
 </template>
-
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import swal from 'sweetalert2';
 import { ref, computed } from 'vue';
 import * as yup from 'yup';
 import { FormularioCreateItemBasicoDTO, type FormularioItemBasicoDTO } from '~/Domain/DTOs/Request/Items/FormularioCreateItemBasicoDTO';
-
-// const emits = defineEmits(['callback']);
+const spinnerStore = SpinnerStore();
+spinnerStore.activeOrInactiveSpinner(false);
 
 const emits = defineEmits<{
   (event: 'callback', payload: FormularioCreateItemBasicoDTO): void;
 }>();
 
-
 const router = useRouter();
-
 const props = defineProps({
   link: {
     type: String,
@@ -76,7 +73,7 @@ const formulario = ref<FormularioItemBasicoDTO>({
   name: '',
   serie_lote: '',
   valor_adquisicion: 0,
-  images: [], // Para almacenar las imágenes seleccionadas
+  images: [],
 });
 
 const handleSave = () => { };
@@ -85,12 +82,8 @@ const handleCancel = () => {
   router.push(props.link);
 };
 
-// Función que maneja la selección de archivos desde el componente ImageUploader
 const handleFilesSelected = (files: any) => {
-  // files[0];
   formulario.value.images = files;
-  console.log(formulario.value.images);
-
 };
 
 const formatCurrency = (value: number): string => {
@@ -104,8 +97,8 @@ const formattedValorAdquisicion = computed(() => {
   return formatCurrency(parseFloat(formulario.value.valor_adquisicion.toString().replace(/,/g, '')));
 });
 
-const onSubmit = (values: any) => {
-
+const onSubmit = async (values: any) => {
+  spinnerStore.activeOrInactiveSpinner(true);
   if (!formulario.value.images) {
     swal.fire({
       icon: 'error',
@@ -117,14 +110,27 @@ const onSubmit = (values: any) => {
     });
     return;
   }
+  try {
+   const formularioCreateItemBasicoDTO = new FormularioCreateItemBasicoDTO(values);
+   formularioCreateItemBasicoDTO.images = formulario.value.images.map(file => file);
 
-  const formularioCreateItemBasicoDTO = new FormularioCreateItemBasicoDTO(values);
-  formularioCreateItemBasicoDTO.images = formulario.value.images.map(file => file);
-
-  console.log(formularioCreateItemBasicoDTO);
-
-  // Emitir el evento de callback con la entidad combinada
-  emits('callback', formularioCreateItemBasicoDTO);
-
+   if (true) {
+     await emitNotificaciones({
+       tipo: 'success',
+       cabecera: 'Éxito',
+       mensaje: 'Imagen subida correctamente. Redirigiendo al inventario...',
+      });
+      spinnerStore.activeOrInactiveSpinner(false);
+      emits('callback', formularioCreateItemBasicoDTO);
+      router.push('/inventario/items');
+    }
+  } catch (error) {
+    spinnerStore.activeOrInactiveSpinner(false);
+    await emitNotificaciones({
+      tipo: 'error',
+      cabecera: 'Error',
+      mensaje: 'Ocurrió un error durante la subida de la imagen. Por favor, inténtelo más tarde.',
+    });
+  }
 };
 </script>
