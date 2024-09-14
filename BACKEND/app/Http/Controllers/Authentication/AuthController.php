@@ -40,8 +40,7 @@ class AuthController extends Controller
         }
 
         $isPassword = Utilidades::VerificarPassword($loginRequestDto->password, $usuario->password);
-        // return $isPassword;
-        // return response()->json($loginRequestDto);
+
         if (!$isPassword) {
             return $responseHandler
                 ->setMessages("Credenciales Incorrectas")

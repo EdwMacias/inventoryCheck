@@ -12,7 +12,12 @@ WORKDIR /app/
 COPY composer.* ./
 COPY . .
 RUN composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+# Cambiar propietario del directorio de la aplicación a www-data
+RUN chown -R www-data:www-data /app/storage
+RUN chmod 777 -R /app/storage
+
 RUN php artisan storage:link
+
 # Crear directorios para supervisord
 RUN mkdir -p /var/log/supervisor
 
