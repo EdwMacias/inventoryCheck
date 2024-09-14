@@ -27,7 +27,7 @@ class ItemObservationCreateRequest extends FormRequest
             'item_id' => 'required|string',
             'user_id' => 'required|string',
             'types_observation_id' => 'required|string',
-            'resource' => 'required',
+            'resource' => 'required|array',
             'resource.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }

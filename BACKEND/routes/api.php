@@ -47,6 +47,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
             Route::post('', [ItemObservationController::class, 'createObservacionEquipo']);
             Route::get('{id}', [ItemObservationController::class, 'getObservacionesEquipo']);
         });
+        Route::group(['prefix' => 'basico'], function () {
+            Route::post('', [ItemObservationController::class, 'createObservacionItemBasico']);
+            Route::get('{id}', [ItemObservationController::class, 'getObservacionItemBasico']);
+        });
     });
 });
 

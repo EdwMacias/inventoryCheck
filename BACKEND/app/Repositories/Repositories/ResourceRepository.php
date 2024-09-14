@@ -26,6 +26,14 @@ class ResourceRepository implements InterfaceResourceRepository
      */
     public function createRecords(array $resources)
     {
+        $now = now(); // Obtén la fecha y hora actual
+        $resources = array_map(function ($registro) use ($now) {
+            if (is_array($registro)) {
+                $registro['created_at'] = $now;
+                $registro['updated_at'] = $now;
+            }
+            return $registro;
+        }, $resources);
         return ResourceModel::insert($resources);
     }
 }
