@@ -98,8 +98,9 @@ class ItemServices implements InterfaceItemServices
 
             $perPage = $request->input('perPage', 10);
             $page = $request->input('page', 1);
+            $search = $request->input('search', '');
 
-            $items = $this->itemRepository->paginationItems($perPage, $page);
+            $items = $this->itemRepository->paginationItems($perPage, $page, $search);
 
             $items->getCollection()->transform(function ($item) {
                 return ItemViewPaginationDTO::fromModel($item);

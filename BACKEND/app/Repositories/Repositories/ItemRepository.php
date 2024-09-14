@@ -6,6 +6,7 @@ use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\Models\Inventory\Item;
 use App\Models\Views\ItemView;
 use App\Repositories\Interfaces\InterfaceItemRepository;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ItemRepository implements InterfaceItemRepository
@@ -86,9 +87,29 @@ class ItemRepository implements InterfaceItemRepository
         return Item::where('item_id', $itemId)->exists();
     }
 
-    public function paginationItems(string $perPage, string $page): LengthAwarePaginator
+    public function paginationItems(string $perPage, string $page, string $searchTerm = ''): LengthAwarePaginator
     {
-        return Item::orderBy('created_at', 'asc')->with(["equipo", "itemBasico"])->paginate($perPage, ['*'], 'page', $page);
-        // return ItemView::orderBy('created_at', 'asc')->paginate($perPage, ['*'], 'page', $page);
+        // Iniciar la consulta base
+        $query = Item::orderBy('created_at', 'asc')
+            ->with(['equipo', 'itemBasico']);
+
+        // Si el término de búsqueda no está vacío
+        if (!empty($searchTerm)) {
+            $query->where(function (Builder $q) use ($searchTerm) {
+                // Buscar en el modelo Item
+                $q->orWhereHas('equipo', function (Builder $q) use ($searchTerm) {
+                    // Buscar en la relación equipo
+                    $q->where('serie_lote', 'like', "%$searchTerm%")
+                        ->orWhere('name', 'like', "%$searchTerm%");
+                })
+                    ->orWhereHas('itemBasico', function (Builder $q) use ($searchTerm) {
+                        // Buscar en la relación itemBasico
+                        $q->where('serie_lote', 'like', "%$searchTerm%")
+                            ->orWhere('name', 'like', "%$searchTerm%");
+                    });
+            });
+        }
+
+        return $query->paginate($perPage, ['*'], 'page', $page);
     }
 }
