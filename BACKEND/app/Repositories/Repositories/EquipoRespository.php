@@ -53,7 +53,8 @@ class EquipoRespository implements InterfaceEquipoRespository
      * @param string $itemId
      * @return bool
      */
-    public function equipoExistByItemID(string $itemId){
+    public function equipoExistByItemID(string $itemId)
+    {
         return Equipo::where('item_id', $itemId)->exists();
     }
     /**
@@ -69,13 +70,12 @@ class EquipoRespository implements InterfaceEquipoRespository
      */
     public function getEquipoByItemID(string $itemId)
     {
-        // return Equipo::where('item_id', $itemId)->exists();
-        // if (!Equipo::where('item_id', $itemId)->exists()) {
-        // return null;
-        // } else {
         return Equipo::where('item_id', $itemId)->first();
-
-        // }
-
     }
+
+    public function equipoExistBySerialLote(string $serialLote)
+    {
+        return Equipo::where('serie_lote', $serialLote)->exists();
+    }
+
 }

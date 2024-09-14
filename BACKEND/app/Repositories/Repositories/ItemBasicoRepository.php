@@ -40,4 +40,9 @@ class ItemBasicoRepository implements InterfaceItemBasicoRepository
     {
         return ItemBasicoObservacion::create($datos);
     }
+
+    public function itemBasicoExistBySerialLote(string $serialLote)
+    {
+        return ItemBasico::where('serie_lote', $serialLote)->exists();
+    }
 }

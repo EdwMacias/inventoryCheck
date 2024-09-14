@@ -39,4 +39,11 @@ interface InterfaceItemBasicoRepository
      * - `\Illuminate\Database\Eloquent\Model`: El modelo base de Eloquent que contiene el nuevo registro.
      */
     public function createObservacion(array $datos);
+
+    /**
+     * Summary of itemBasicoExistBySerialLote
+     * @param string $serialLote
+     * @return bool
+     */
+    public function itemBasicoExistBySerialLote(string $serialLote);
 }

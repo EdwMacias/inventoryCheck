@@ -21,6 +21,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemServices implements InterfaceItemServices
 {
@@ -59,6 +60,15 @@ class ItemServices implements InterfaceItemServices
 
             $itemBasicoCreateDTO = new ItemBasicoCreateDTO($itemBasicoCreateRequestDTO->toArray());
             $itemBasicoCreateDTO->item_id = $itemCreateDTO->item_id;
+
+            if (
+                $this->equipoRespository->equipoExistBySerialLote($itemBasicoCreateDTO->serie_lote) ||
+                $this->itemBasicoRepository->itemBasicoExistBySerialLote($itemBasicoCreateDTO->serie_lote)
+            ) {
+                return $responseHandler->setMessages("El serial que intenta registrar ya fue registrado")
+                    ->setStatus(Response::HTTP_CONFLICT)->responses();
+            }
+            ;
 
             $pathResource = [];
             $nombre = Utilidades::sanitizeString($itemBasicoCreateDTO->name);
@@ -134,17 +144,25 @@ class ItemServices implements InterfaceItemServices
                 $url = 'storage/' . asset($ruta);
             }
 
+
             $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
             $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
 
-
-            $this->itemRepository->create($itemCreateDTO->toArray());
+            if (
+                $this->equipoRespository->equipoExistBySerialLote($equipoCreateDTO->serie_lote) ||
+                $this->itemBasicoRepository->itemBasicoExistBySerialLote($equipoCreateDTO->serie_lote)
+            ) {
+                return $responseHandler->setMessages("El serial que intenta registrar ya fue registrado")
+                    ->setStatus(Response::HTTP_CONFLICT)->responses();
+            }
+            ;
 
             if ($resource) {
                 $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
-                $this->resourceRepository->create($resourceDTO);
             }
 
+            $this->itemRepository->create($itemCreateDTO->toArray());
+            $this->resourceRepository->create($resourceDTO);
             $this->equipoRespository->create($equipoCreateDTO->toArray());
 
             return $responseHandler->setData($equipoCreateDTO->toArray())

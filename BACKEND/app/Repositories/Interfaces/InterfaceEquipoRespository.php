@@ -47,4 +47,10 @@ interface InterfaceEquipoRespository
      * un objeto genérico, o `null` si no se encuentra ningún registro.
      */
     public function getEquipoByItemID(string $itemId);
+    /**
+     * Summary of equipoExistBySerialLote
+     * @param string $serialLote
+     * @return bool
+     */
+    public function equipoExistBySerialLote(string $serialLote);
 }
