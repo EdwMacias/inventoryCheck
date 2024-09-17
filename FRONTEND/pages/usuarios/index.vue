@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-sm mx-2">
+  <div class="breadcrumbs  mx-2 mt-20 text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -12,22 +12,20 @@
       </li>
     </ul>
   </div>
-  <div>
-    <div class="mx-5 container mx-auto">
-      <ClientOnly>
-        <TableUsuario :url="GET_USUARIOS_ALL" :columns="columns" @inactivar="statuUsuario" @role="getDatosRoleUser"></TableUsuario>
-      </ClientOnly>
+  <ClientOnly>
+    <div class="bg-base-100 container mx-auto p-2 rounded-lg mt-10">
+      <TableUsuario @inactivar="statuUsuario" @role="getDatosRoleUser"></TableUsuario>
     </div>
+  </ClientOnly>
 
-    <input type="checkbox" id="modalFormularioRole" ref="modalRole" class="modal-toggle" />
+  <input type="checkbox" id="modalFormularioRole" ref="modalRole" class="modal-toggle" />
 
-    <div class="modal" role="dialog">
-      <div class="modal-box">
-        <h2 class="text-2xl font-semibold mb-2 ">Asignación de Rol</h2>
-        <FormularioAsignacionRol :email="emailUserSeleccionado" :role="roleUsuarioSeleccionado" @create="asignarRole" />
-      </div>
-      <label class="modal-backdrop" for="modalFormularioRole"></label>
+  <div class="modal" role="dialog">
+    <div class="modal-box">
+      <h2 class="text-2xl font-semibold mb-2 ">Asignación de Rol</h2>
+      <FormularioAsignacionRol :email="emailUserSeleccionado" :role="roleUsuarioSeleccionado" @create="asignarRole" />
     </div>
+    <label class="modal-backdrop" for="modalFormularioRole"></label>
   </div>
 </template>
 
@@ -51,21 +49,6 @@ import type { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
 import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
 import { DatatableStore } from '~/stores/DatatableStore';
 
-const columns: ConfigColumns[] = [
-  { data: 'name', title: 'Nombre' },
-  { data: 'last_name', title: 'Apellido' },
-  { data: 'email', title: 'Correo Electronico' },
-  { data: 'number_document', title: 'Número Documento' },
-  { data: 'number_telephone', title: 'Célular' },
-  {
-    data: null,
-    render: '#user-action',
-    title: 'Acciones',
-    responsivePriority: 1,
-    searchable: false,
-    orderable: false
-  }
-];
 
 async function statuUsuario(userDTO: UserDTO, table: any) {
   const spinnerStore = SpinnerStore();

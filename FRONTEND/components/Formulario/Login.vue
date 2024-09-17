@@ -1,32 +1,30 @@
 <template>
   <div class="md:py-6 py-2 px-10">
-    <div class="flex justify-center">
-    </div>
     <h2 class="text-2xl font-semibold mb-2 text-center ">Iniciar Sesión</h2>
     <VeeForm v-slot="{ handleSubmit, resetForm }" :validation-schema="formulario" as="div">
       <form @submit="handleSubmit($event, onSubmit)">
 
-        <div class="form-control w-full mt-4">
+        <div class="form-control w-full mb-2">
           <label class="label">
-            <span class='label-text text-base-content'>Correo Electronico</span>
+            <span class='label-text text-base-content'>Correo Electronico * </span>
           </label>
-          <VeeField class="input  input-bordered w-full" placeholder="Correo Electronico" name="email"
+          <VeeField class="input  input-bordered w-full" placeholder="usuario@correo.com" name="email"
             :v-bind="login.email" v-model="login.email" />
+          <VeeErrorMessage name="email" class="text-right text-error animate__animated  animate__fadeIn">
+          </VeeErrorMessage>
         </div>
 
-        <VeeErrorMessage name="email" class="text-center text-error mt-8 animate__animated  animate__fadeIn">
-        </VeeErrorMessage>
         <!-- {/* Password Input */} -->
-        <div class='form-control w-full mt-4'>
+        <div class='form-control w-full mb-2'>
           <label class="label">
-            <span class='label-text text-base-content'>Contraseña</span>
+            <span class='label-text text-base-content'>Contraseña *</span>
           </label>
-          <VeeField type="password" class="input  input-bordered w-full" placeholder="password" name="password"
+          <VeeField type="password" class="input  input-bordered w-full" placeholder="**********" name="password"
             autocomplete="password" v-model="login.password" />
+          <VeeErrorMessage name="password" class="text-right  text-error animate__animated  animate__fadeIn">
+          </VeeErrorMessage>
         </div>
 
-        <VeeErrorMessage name="password" class="text-center text-error mt-8 animate__animated  animate__fadeIn">
-        </VeeErrorMessage>
 
         <!-- {/* Forgot Password Link */} -->
         <div class="text-right text-primary">

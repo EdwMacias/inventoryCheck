@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-20">
     <FormularioObservacion/>
   </div>
 </template>

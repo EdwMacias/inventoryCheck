@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="mt-20">
     <div class="breadcrumbs text-sm mx-2">
       <ul>
         <li>
@@ -22,7 +22,8 @@
           {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' : link.label }} </button>
       </div>
       <div v-if="!isSearching" class="flex items-center bordered">
-        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#" class="input input-sm input-bordered w-12 mx-1" />
+        <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#"
+          class="input input-sm input-bordered w-12 mx-1" />
         <button @click="goToPage" class="btn btn-sm btn-active"> > </button>
       </div>
       <div class="search-box flex-grow">
@@ -38,7 +39,8 @@
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
-        <Item v-for="item in pagination.data" :image="item.resource" :nombre_item="item.name" :serial_number="item.serie_lote" :itemId="item.item_id" />
+        <Item v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
+          :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id" />
       </ClientOnly>
     </div>
 

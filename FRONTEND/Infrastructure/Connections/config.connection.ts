@@ -1,1 +1,1 @@
-export const baseURL = "https://api.inventariocedac.online/api/";
+export const baseURL = "http://localhost:8000/api/";

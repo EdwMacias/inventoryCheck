@@ -1,17 +1,19 @@
 <template>
-  <header>
-    <Alertas></Alertas>
-    <LoadingsSpinner v-if="spinnerStore.status"></LoadingsSpinner>
+  <div class="">
+    <header>
+      <Alertas></Alertas>
+      <LoadingsSpinner v-if="spinnerStore.status"></LoadingsSpinner>
+    </header>
+    <main class="min-h-screen bg-base-200">
 
-  </header>
-  <main :class="{ 'logged-in': usuarioStore.conectado }" >
-    <Navbar v-if="usuarioStore.conectado" >
-      <slot></slot>
-    </Navbar>
-    <div v-else>
-      <slot></slot>
-    </div>
-  </main>
+      <Navbar v-if="usuarioStore.conectado">
+        <slot></slot>
+      </Navbar>
+
+      <slot v-else></slot>
+
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -20,10 +22,5 @@ const usuarioStore = UsuarioStore();
 </script>
 
 <style scoped>
-main {
-  margin-top: 0px; /* Ajusta este valor según la altura de tu Navbar */
-}
-main.logged-in {
-  margin-top: 70px; /* Ajusta este valor según la altura de tu Navbar */
-}
+
 </style>

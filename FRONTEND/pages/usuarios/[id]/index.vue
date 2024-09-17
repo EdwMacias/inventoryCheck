@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-lg mx-5">
+  <div class="breadcrumbs text-lg mx-5 mt-20">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -11,11 +11,11 @@
         <NuxtLink to="/usuarios">Gestion Usuarios</NuxtLink>
       </li>
       <li>
-        {{ capitalizarPrimeraLetra(path) }}
+        path
       </li>
     </ul>
   </div>
-  <div class="lg:container lg:mx-auto p-5">
+  <div class="lg:container lg:mx-auto text-lg">
     <FormularioRegistro></FormularioRegistro>
   </div>
 </template>
