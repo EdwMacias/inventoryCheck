@@ -1,6 +1,6 @@
 <template>
   <div class="mt-20">
-    <div class="breadcrumbs text-sm mx-2">
+    <div class="breadcrumbs text-lg mx-2">
       <ul>
         <li>
           <NuxtLink to="/">Inicio</NuxtLink>
@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-row items-center justify-between m-2 rounded-xl bg-base-100 bordered gap-2 busqueda">
+    <div class="flex flex-row items-center justify-between m-2 rounded-xl  bordered gap-2 busqueda">
       <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="registrar/crear">
         <span class="hidden sm:inline">Agregar</span>
         <span class="inline sm:hidden">+</span>

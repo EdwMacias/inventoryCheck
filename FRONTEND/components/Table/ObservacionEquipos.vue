@@ -2,22 +2,20 @@
 @import 'datatables.net-dt';
 </style>
 <template>
-  <div id="Pagina" class="mx-2">
-    <h3 class="font-semibold text-xl">Historial de calibracion, Verificaciones y mantenimiento de equipos</h3>
-  </div>
-  <div class="flex justify-end mx-2">
-    <button class="btn btn-success me-2 text-white" @click="isModalOpen = true"><i
-        class="bi bi-plus-circle text-white"></i> Agregar
-    </button>
-    <button class="btn btn-primary" @click="reloadTable">
+
+  <div class="flex justify-end">
+    <NuxtLink to="crear" class="btn btn-success me-1" @click="isModalOpen = true"><i class="bi bi-plus-circle"></i> Agregar
+    </NuxtLink>
+    <button class="btn btn-neutral" @click="reloadTable">
       <i class="bi bi-arrow-clockwise"></i>Recargar Tabla
     </button>
   </div>
-  <div class="mx-2">
-    <DataTable ref="table" class="table table-zebra" :columns="columns" :options="options">
-    </DataTable>
-  </div>
-  <FormularioObservacion :is-open="isModalOpen" @close="isModalOpen = false" />
+
+  <DataTable ref="table" class="table table-zebra" :columns="columns" :options="options">
+  </DataTable>
+
+  <!-- <FormularioObservacion :is-open="isModalOpen" @close="isModalOpen = false" /> -->
+
 </template>
 
 <script lang="ts" setup>
@@ -45,7 +43,7 @@ const settingRequest: any = {
   headers: {
     Authorization: 'Bearer ' + UsuarioRepository.getToken(),
   },
-  
+
   error: async (err: any) => {
     console.log(err);
   },
@@ -60,6 +58,16 @@ const settingRequest: any = {
 };
 
 const columns: ConfigColumns[] = [
+  {
+    data: null,
+    title: '#',
+    render: (data, type, row, meta) => {
+      // `meta.row` te da el índice de la fila (0-based)
+      return meta.row + 1;
+    },
+    searchable: false, // Deshabilitar la búsqueda en esta columna si es necesario
+    orderable: false, // Deshabilitar el ordenamiento en esta columna si es necesario
+  },
   { data: 'fecha', title: 'Fecha' },
   { data: 'asunto', title: 'Asunto' },
   { data: 'actividad', title: 'Descripción' },
@@ -71,7 +79,7 @@ const columns: ConfigColumns[] = [
 const options: Config = {
   responsive: true,
   serverSide: true,
-  select: true,
+  select: false,
   processing: true,
   language: language,
   ajax: settingRequest

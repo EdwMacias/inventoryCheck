@@ -51,10 +51,39 @@ import { DatatableStore } from '~/stores/DatatableStore';
 
 
 async function statuUsuario(userDTO: UserDTO, table: any) {
-  const spinnerStore = SpinnerStore();
-  spinnerStore.activeOrInactiveSpinner(true);
-  await UsuarioServices.statuUsuario(userDTO)
-  DatatableStore().reload();
+
+
+  const nombreUsuario = userDTO.name + " " + userDTO.last_name;
+
+  let message = userDTO.statu_id == 1 ? {
+    title: 'Inactivación de Usuario',
+    text: 'Se inactivará el usuario: ' + capitalizeFirstLetter(nombreUsuario)
+  } : {
+    title: 'Activación de Usuario',
+    text: 'Se activará el usuario: ' + capitalizeFirstLetter(nombreUsuario)
+  }
+
+  const response = await $swal.fire({
+    icon: 'warning',
+    title: message.title,
+    text: message.text,
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then(button => {
+    if (button.isConfirmed) {
+      return true;
+    }
+  })
+
+  if (response) {
+    const spinnerStore = SpinnerStore();
+    spinnerStore.activeOrInactiveSpinner(true);
+    await UsuarioServices.statuUsuario(userDTO)
+    DatatableStore().reload();
+  }
+
 }
 
 async function asignarRole(user: UserDTO) {
@@ -87,6 +116,22 @@ async function asignarRole(user: UserDTO) {
       text: error as string,
     });
   }
+}
+
+// const capitalizeFirstLetter = (text: string) => {
+//   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+// }
+
+// Función para capitalizar la primera letra de cada palabra en el nombre completo
+const capitalizeFullName = (name: string, lastName: string) => {
+  return `${capitalizeFirstLetter(name)} ${capitalizeFirstLetter(lastName)}`;
+}
+
+const capitalizeFirstLetter = (text: string) => {
+  return text
+    .split(' ') // Divide el texto en palabras
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitaliza la primera letra de cada palabra
+    .join(' '); // Une las palabras de nuevo en una cadena
 }
 
 </script>

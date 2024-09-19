@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VueSignaturePad height="100px" ref="signaturePad" class="border rounded-xl" />
+    <VueSignaturePad height="100px"  ref="signaturePad" class="border rounded-xl" />
     <div>
       <label @click="save">Save</label>
       <label @click="undo">Undo</label>

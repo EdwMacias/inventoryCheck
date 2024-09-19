@@ -9,14 +9,16 @@
           <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
         </li>
         <li>
-          Observaciones
+          Observación Equipo 
         </li>
       </ul>
     </div>
-  
-    <div id="table" class="mx-2">
+    <!-- <div class="mx-5"> -->
+    <!-- </div> -->
+    <h3 class="font-semibold text-lg  mx-5">Historial del Equipo</h3>
+    <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
       <ClientOnly>
-        <TableObservacion></TableObservacion>
+        <TableObservacionEquipos></TableObservacionEquipos>
       </ClientOnly>
     </div>
   </div>

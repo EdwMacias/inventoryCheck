@@ -74,7 +74,17 @@ export function toFormData(object: any) {
   const formData = new FormData();
   for (const key in object) {
     if (object.hasOwnProperty(key)) {
-      formData.append(key, object[key]);
+
+      if (Array.isArray(object[key])) {
+        object[key].forEach((value, index) => {
+          if (value instanceof File) {
+            formData.append(`${key}[${index}]`, value); // Agrega cada valor del array con la clave en formato 'key[]'
+          }
+        });
+      } else {
+        formData.append(key, object[key]);
+      }
+
     }
   }
   return formData;
