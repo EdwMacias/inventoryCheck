@@ -17,7 +17,7 @@ class ObservacionEquipoCreateRequestDTO
     public array $resource;
     public function __construct(array $observacionEquipoCreate)
     {
-        $this->observacion_equipo_id = uuid_create();
+        // $this->observacion_equipo_id = uuid_create();
         $this->equipo_id = $observacionEquipoCreate['equipo_id'];
         $this->fecha = $observacionEquipoCreate['fecha'];
         $this->asunto = $observacionEquipoCreate['asunto'];
@@ -31,7 +31,7 @@ class ObservacionEquipoCreateRequestDTO
     public function toArray(): array
     {
         return [
-            "observacion_equipo_id" => $this->observacion_equipo_id,
+            // "observacion_equipo_id" => $this->observacion_equipo_id,
             "equipo_id" => $this->equipo_id,
             "fecha" => $this->fecha,
             "asunto" => $this->asunto,

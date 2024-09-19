@@ -6,6 +6,7 @@ use App\DTOs\ResourceDTOs\ResourcesResponseDTO;
 class ItemViewPaginationDTO
 {
     public string $item_id;
+    public int $id;
     public string $name;
     public string $serie_lote;
     public string $category_id;
@@ -24,6 +25,7 @@ class ItemViewPaginationDTO
 
         if ($item->equipo) {
             $this->name = $item->equipo->name;
+            $this->id = $item->equipo->equipo_id;
             $this->resource = (!empty($item->equipo->resource) && isset($item->equipo->resource[0])) ? url($item->equipo->resource[0]->resource) : null;
             foreach ($item->equipo->resource ?? [] as $resource) {
                 $this->resources[] = new ResourcesResponseDTO($resource);
@@ -31,6 +33,7 @@ class ItemViewPaginationDTO
             $this->serie_lote = $item->equipo->serie_lote;
         } else {
             $this->name = $item->itemBasico->name;
+            $this->id = $item->itemBasico->item_basico_id;
             $this->resource = (!empty($item->itemBasico->resource) && isset($item->itemBasico->resource[0])) ? url($item->itemBasico->resource[0]->resource) : null;
             foreach ($item->itemBasico->resource ?? [] as $resource) {
                 $this->resources[] = new ResourcesResponseDTO($resource);

@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class EquipoObservacion extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
     protected $primaryKey = 'observacion_equipo_id';
     protected $table = 'observaciones_equipos';
     protected $fillable = [
-        'observacion_equipo_id',
+        // 'observacion_equipo_id',
         'equipo_id',
         'fecha',
         'asunto',
