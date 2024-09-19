@@ -1,14 +1,14 @@
 export interface FormularioItemBasicoDTO {
     name: string;
     serie_lote: string;
-    valor_adquisicion: number;
+    valor_adquisicion: string;
     images: File[]; // Asumiendo que las imágenes serán de tipo File
 }
 
 export class FormularioCreateItemBasicoDTO implements FormularioItemBasicoDTO {
     name: string;
     serie_lote: string;
-    valor_adquisicion: number;
+    valor_adquisicion: string;
     images: File[];
 
     constructor(formulario: FormularioItemBasicoDTO) {

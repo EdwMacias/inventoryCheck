@@ -1,32 +1,32 @@
 <template>
-  <div id="app">
-    <VueSignaturePad height="100px"  ref="signaturePad" class="border rounded-xl" />
-    <div>
-      <label @click="save">Save</label>
-      <label @click="undo">Undo</label>
-    </div>
-  </div>
+  <!-- <div id="app"> -->
+    <!-- <VueSignaturePad height="100px"  ref="signaturePad" class="border rounded-xl" /> -->
+    <!-- <div> -->
+      <!-- <label @click="save">Save</label> -->
+      <!-- <label @click="undo">Undo</label> -->
+    <!-- </div> -->
+  <!-- </div> -->
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { VueSignaturePad } from 'vue-signature-pad';
+// import { VueSignaturePad } from 'vue-signature-pad';
 const emits = defineEmits(['saveSignature']);
 
 const signaturePad = ref(null);
 
-const undo = () => {
-  signaturePad.value.undoSignature();
-};
+// const undo = () => {
+//   signaturePad.value.undoSignature();
+// };
 
-const save = () => {
-  const { isEmpty, data } = signaturePad.value.saveSignature();
-  if (!isEmpty) {
-    const base64Data = data; // data is already en base64 format
-    emits('saveSignature', base64Data);
-  } else {
-    emits('saveSignature', '');
-  }
-};
+// const save = () => {
+//   const { isEmpty, data } = signaturePad.value.saveSignature();
+//   if (!isEmpty) {
+//     const base64Data = data; // data is already en base64 format
+//     emits('saveSignature', base64Data);
+//   } else {
+//     emits('saveSignature', '');
+//   }
+// };
 </script>
 

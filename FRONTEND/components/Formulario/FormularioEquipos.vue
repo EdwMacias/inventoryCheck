@@ -497,7 +497,7 @@ const onSubmit = (values: any) => {
   equipoEntity.resource = formulario.value.resource;
 
   const equipoFormulario = { ...equipoEntity, ...formulario.value };
-  emits("callback", equipoFormulario);
+  return emits("callback", equipoFormulario);
 }
 
 watch(() => formulario.value.serie_lote, (newSerialNumber) => {

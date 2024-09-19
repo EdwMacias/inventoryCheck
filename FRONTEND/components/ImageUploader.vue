@@ -1,38 +1,51 @@
 <template>
-  <div>
-    <input class="file-input file-input-sm file-input-bordered" type="file" multiple @change="handleFileChange" />
-    <div v-if="previewImages.length" class="grid grid-cols-2 gap-4 mt-4">
-      <div v-for="(image, index) in previewImages" :key="index" class="card card-compact w-52 bg-base-100 shadow-xl">
-        <figure>
-          <img @click="openModal(image)" :src="image" alt="Preview Image"
-            class="object-cover w-full h-32 cursor-pointer" />
-        </figure>
-        <div class="card-body">
-          <button @click="removeImage(index)" class="btn btn-outline btn-error">Eliminar</button>
-        </div>
-      </div>
-    </div>
+  <!-- <div class=""> -->
+  <input class="file-input  file-input-bordered w-full mb-2" type="file" multiple @change="handleFileChange" />
+  <p>Has seleccionado <strong>{{ previewImages.length }}</strong> fotos</p>
+  <div v-if="previewImages.length"
+    class="grid grid:cols-1 md:grid-cols-4 lg:grid-cols-6 gap-1 md:gap-4 lg:gap-6 border-dashed border-2 border-indigo-600 rounded-lg p-2 animate__animated animate__fadeIn">
+    <div v-for="(image, index) in previewImages" :key="index"
+      class="card bg-base-100 w-50 rounded shadow-lg border animate__animated animate__fadeIn">
+      <figure>
+        <img @click="openModal(image)" :src="image" alt="Preview Image"
+          class="object-cover h-40 w-full cursor-pointer" />
+      </figure>
 
-    <input type="checkbox" id="image-modal" class="modal-toggle" />
-    <div class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box relative max-w-screen-lg max-h-screen">
-        <label for="image-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-        <img :src="currentImage ?? ''" alt="Image Preview" class="w-full h-full object-contain" />
+      <div class="absolute top-0 right-0 cursor-pointer">
+        <button type="button" class="btn btn-neutral rounded-full me-2 mt-2" @click="removeImage(index)">
+          <i class="bi bi-trash "></i>
+        </button>
       </div>
-      <label for="image-modal" class="modal-backdrop"></label>
     </div>
   </div>
+
+  <input type="checkbox" id="image-modal" class="modal-toggle" />
+  <div class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box relative max-w-screen-lg max-h-screen">
+      <label for="image-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+      <img :src="currentImage ?? ''" alt="Image Preview" class="w-full h-full object-contain" />
+    </div>
+    <label for="image-modal" class="modal-backdrop"></label>
+  </div>
+  <!-- </div> -->
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+// import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const emit = defineEmits(['files-selected']);
+import 'animate.css';
+// const emit = defineEmits(['files-selected']);
+// const emit = defineEmits(['files-selected']);
+const emit = defineEmits<{
+  (event: 'files-selected', payload: File[]): void
+}>();
+
 const selectedFiles = ref<File[]>([]);
 const previewImages = ref<string[]>([]);
 const currentImage = ref<string | null>(null);
 
 const handleFileChange = (event: Event) => {
+
   const target = event.target as HTMLInputElement;
   const files = target.files;
 
@@ -49,6 +62,8 @@ const handleFileChange = (event: Event) => {
     };
     reader.readAsDataURL(file);
   });
+
+  target.value = '';  // Esto limpia el input para permitir seleccionar los mismos
 
   emit("files-selected", selectedFiles.value)
 

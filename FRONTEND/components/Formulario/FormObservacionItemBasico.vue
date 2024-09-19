@@ -7,6 +7,8 @@
       <button type="submit" class="btn btn-primary" :disabled="!meta.valid">Agregar</button>
       <button class="btn btn-ghost">Cancelar</button>
     </VeeForm>
+
+    
   </div>
 </template>
 

@@ -23,7 +23,28 @@ export class EquipoObservacionCreateDTO implements IEquipoObservacionDTO {
         this.resource = equipoObservacion?.resource || [];
     }
 
-    toFormData() {
-        return toFormData(this);
+    toFormData(): FormData {
+        const formData = new FormData();
+        const fields: Record<string, any> = { ...this };
+
+        Object.keys(fields).forEach(key => {
+            const value = fields[key];
+
+            if (value && value !== '' && value !== '0') {
+                if (value instanceof File) {
+                    formData.append(key, value);
+                } else if (Array.isArray(value)) {
+                    value.forEach((file, index) => {
+                        if (file instanceof File) {
+                            formData.append(`${key}[${index}]`, file);
+                        }
+                    });
+                } else {
+                    formData.append(key, String(value));
+                }
+            }
+        });
+
+        return formData;
     }
 }
