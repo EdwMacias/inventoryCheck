@@ -40,7 +40,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
         <Item v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
-          :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id" />
+          :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id"
+          :identificador="item.id" />
       </ClientOnly>
     </div>
 

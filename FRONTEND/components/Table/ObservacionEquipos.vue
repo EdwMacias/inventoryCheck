@@ -11,7 +11,7 @@
     </button>
   </div>
 
-  <DataTable ref="table" class="table table-zebra" :columns="columns" :options="options">
+  <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options">
   </DataTable>
 
   <!-- <FormularioObservacion :is-open="isModalOpen" @close="isModalOpen = false" /> -->
@@ -49,38 +49,35 @@ const settingRequest: any = {
   },
   beforeSend: function () {
     const spinner = SpinnerStore();
-    // spinner.activeOrInactiveSpinner(true);
+    spinner.activeOrInactiveSpinner(true);
   },
   complete: function () {
     const spinner = SpinnerStore();
-    // spinner.activeOrInactiveSpinner(false);
+    spinner.activeOrInactiveSpinner(false);
   }
 };
 
 const columns: ConfigColumns[] = [
-  {
+{
     data: null,
     title: '#',
-    render: (data, type, row, meta) => {
-      // `meta.row` te da el índice de la fila (0-based)
-      return meta.row + 1;
-    },
-    searchable: false, // Deshabilitar la búsqueda en esta columna si es necesario
-    orderable: false, // Deshabilitar el ordenamiento en esta columna si es necesario
+    render: (data, type, row, meta) => meta.row + 1,
+    searchable: false,
+    orderable: false,
+    width: '10px', // Controla el ancho de la columna
   },
-  { data: 'fecha', title: 'Fecha' },
-  { data: 'asunto', title: 'Asunto' },
-  { data: 'actividad', title: 'Descripción' },
-  { data: 'estado', title: 'Estado' },
-  // { data: 'firma_responsable', title: 'Firmado' },
-  { data: 'proxima_actividad', title: 'Proxima actividad' },
+  { data: 'fecha', title: 'Fecha', width: '200px' },
+  { data: 'asunto', title: 'Asunto', width: '200px' },
+  { data: 'actividad', title: 'Descripción', width: '400px' },
+  { data: 'estado', title: 'Estado', width: '100px' },
+  { data: 'proxima_actividad', title: 'Proxima actividad', width: '150px' },
 ];
 
 const options: Config = {
   responsive: true,
   serverSide: true,
   select: false,
-  processing: true,
+  processing: false,
   language: language,
   ajax: settingRequest
 };

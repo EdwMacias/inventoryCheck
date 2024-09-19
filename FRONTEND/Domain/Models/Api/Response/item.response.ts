@@ -4,5 +4,7 @@ export interface ItemResponse {
     description: string,
     serie_lote: string,
     resource: string,
-    category_id: string
+    resources: string[],
+    category_id: string,
+    id: number
 }

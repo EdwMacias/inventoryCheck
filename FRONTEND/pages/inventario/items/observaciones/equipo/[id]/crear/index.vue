@@ -25,11 +25,37 @@
 
 <script lang="ts" setup>
 import type { EquipoObservacionCreateDTO } from '~/Domain/DTOs/Observaciones/Equipos/EquipoObservacionCreateDTO';
+import { EquipoObservacionRepository } from '~/Infrastructure/Repositories/Observation/Equipo/EquipoObservacion.repository';
 
 const route = useRoute();
+const router = useRouter();
+const { $swal } = useNuxtApp()
 
-const crearObservacion = (equipoObservacionCreateDTO: EquipoObservacionCreateDTO) => {
-  console.log(equipoObservacionCreateDTO);
+
+const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCreateDTO) => {
+  let selectItem = localStorage.getItem('item-select');
+
+  if (selectItem) {
+
+    const item: { itemId: string, identificador: number } = JSON.parse(selectItem);
+    if (route.params.id !== item.itemId) {
+      $swal.fire({
+        title: "Error de información",
+        text: "Ha ocurrido un error inesperado. Por favor vuelva a intentarlo lamentamos el inconveniente",
+        showCancelButton: false,
+      });
+
+      return router.push('/inventario/items');
+
+    }
+
+    equipoObservacionCreateDTO.equipoId = item.identificador;
+    
+    const response = await EquipoObservacionRepository.create(equipoObservacionCreateDTO.toFormData());
+
+    return router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
+  }
+
 }
 
 </script>

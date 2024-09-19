@@ -1,4 +1,5 @@
 export interface IEquipoObservacionDTO {
+    equipoId: undefined | number;
     fecha: string;
     asunto: string;
     actividad: string;

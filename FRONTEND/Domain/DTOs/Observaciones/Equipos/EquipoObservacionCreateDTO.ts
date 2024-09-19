@@ -3,6 +3,7 @@ import type { IEquipoObservacionDTO } from "./IEquipoObservacionDTO";
 
 export class EquipoObservacionCreateDTO implements IEquipoObservacionDTO {
 
+    equipoId: number | undefined;
     fecha: string;
     asunto: string;
     actividad: string;
@@ -13,6 +14,7 @@ export class EquipoObservacionCreateDTO implements IEquipoObservacionDTO {
     resource: File[];
 
     constructor(equipoObservacion: IEquipoObservacionDTO | null) {
+        this.equipoId = equipoObservacion?.equipoId || undefined;
         this.fecha = equipoObservacion?.fecha || new Date().toISOString().split('T')[0];
         this.asunto = equipoObservacion?.asunto || '';
         this.actividad = equipoObservacion?.actividad || '';
@@ -25,24 +27,26 @@ export class EquipoObservacionCreateDTO implements IEquipoObservacionDTO {
 
     toFormData(): FormData {
         const formData = new FormData();
-        const fields: Record<string, any> = { ...this };
+        // const fields: Record<string, any> = { ...this };
+        if (this.equipoId) {
+            formData.append('equipo_id', String(this.equipoId));
+        }
+        formData.append('fecha', this.fecha);
+        formData.append('asunto', this.asunto);
+        formData.append('estado', this.estado);
+        formData.append('responsable', this.responsable);
+        formData.append('proxima_actividad', this.proximaActividad);
 
-        Object.keys(fields).forEach(key => {
-            const value = fields[key];
+        // if (this.actividad != '0') {
+        formData.append('actividad', this.actividad);
+        // }
 
-            if (value && value !== '' && value !== '0') {
-                if (value instanceof File) {
-                    formData.append(key, value);
-                } else if (Array.isArray(value)) {
-                    value.forEach((file, index) => {
-                        if (file instanceof File) {
-                            formData.append(`${key}[${index}]`, file);
-                        }
-                    });
-                } else {
-                    formData.append(key, String(value));
-                }
-            }
+        if (this.firmaResponsable) {
+            formData.append('firma_responsable', this.firmaResponsable);
+        }
+
+        this.resource.forEach((element, index) => {
+            formData.append(`resource[${index}]`, element);
         });
 
         return formData;

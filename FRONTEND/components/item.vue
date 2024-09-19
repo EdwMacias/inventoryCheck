@@ -7,9 +7,9 @@
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
           <li v-if="category == '1'">
-            <NuxtLink v-if="category == '1'" :to="`/inventario/items/observaciones/equipo/${itemId}`" class="">
+            <a v-if="category == '1'" @click="pushRoute(itemId, identificador)" class="">
               >Historial Observacion Equipo
-            </NuxtLink>
+            </a>
           </li>
           <li v-if="category == '1'"><a>>Crear Observacion Equipo</a></li>
           <li v-if="category == '2'"> <a>>Historial Item Oficina</a>
@@ -56,11 +56,23 @@ defineProps<{
   image: string,
   serialNumber: string,
   itemId: string,
-  category: string
+  category: string,
+  identificador: number
 }>();
 
 function imageLoadError(event: Event) {
   if (imagen.value) imagen.value.src = defaultImage;
+}
+
+const pushRoute = (itemId: string, id: number) => {
+  const router = useRouter();
+
+  localStorage.setItem('item-select', JSON.stringify({
+    itemId: itemId,
+    identificador: id,
+  }))
+
+  return router.push(`/inventario/items/observaciones/equipo/${itemId}`)
 }
 </script>
 
