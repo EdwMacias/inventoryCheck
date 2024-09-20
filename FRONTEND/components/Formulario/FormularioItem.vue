@@ -13,13 +13,26 @@
       </div>
       <div>
         <label class="label">
-          <span class="block text-md ">Serial *</span>
+          <span class="block text-md ">Sección:</span>
         </label>
-        <VeeField name="serie_lote" type="text" placeholder="ccdd33edd" v-model="formulario.serie_lote"
-          :class="`input w-full  ${errors.serie_lote ? 'input-error' : 'input-bordered'}`" />
-        <VeeErrorMessage name="serie_lote" class="text-error animate__animated animate__fadeIn label block">
+        <VeeField name="seccion" as="select" type="select" placeholder="Seccion" v-model="formulario.seccion"
+          :class="`select w-full  ${errors.serie_lote ? 'select-error' : 'select-bordered'}  select-bordered`" >
+          <option value="" default></option>
+          <option value="SGSS">SG-SST</option>
+          <option value="SECR">Recepción</option>
+          <option value="ARCH">Archivo</option>
+          <option value="GERE">Gerencia</option>
+          <option value="PORT">Porteria</option>
+          <option value="CONT">Contratista</option>
+          <option value="CAFT">Cafeteria</option>
+          <option value="ACCO">Contabilidad</option>
+          <option value="SIST">Sistemas</option>
+          <option value="OPT">Operativo</option>
+        </VeeField>
+        <VeeErrorMessage name="seccion" class="select-error animate__animated animate__fadeIn label block">
         </VeeErrorMessage>
       </div>
+
       <div class="mb-2">
         <label class="label">
           <span class="block text-md">Precio Adquirido *</span>
@@ -30,7 +43,6 @@
         <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion }}</p>
       </div>
     </div>
-
     <div class="mb-2">
       <label class="label">
         <span class="block text-md">Fotos Item *</span>
@@ -67,13 +79,13 @@ const props = defineProps({
 
 const formularioItemBasicoSchema = yup.object({
   name: yup.string().required('Campo requerido *'),
-  serie_lote: yup.string().required('Campo requerido *'),
+  seccion: yup.string().required('Campo requerido *'),
   valor_adquisicion: yup.string().required('Campo requerido *'),
 });
 
 const formulario = ref<FormularioItemBasicoDTO>({
   name: '',
-  serie_lote: '',
+  seccion: '',
   valor_adquisicion: '',
   images: [],
 });
@@ -87,13 +99,6 @@ const handleCancel = () => {
 const handleFilesSelected = (files: any) => {
   formulario.value.images = files;
 };
-
-// const formatCurrency = (value: number): string => {
-//   if (!value) {
-//     return '$0';
-//   }
-//   return value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-// };
 
 const formattedValorAdquisicion = computed(() => {
   const value = formulario.value.valor_adquisicion;
@@ -120,7 +125,7 @@ const onSubmit = async (values: any) => {
     });
     return;
   }
-
+console.log(values)
   const formularioCreateItemBasicoDTO = new FormularioCreateItemBasicoDTO(values);
   formularioCreateItemBasicoDTO.images = formulario.value.images.map(file => file);
 
