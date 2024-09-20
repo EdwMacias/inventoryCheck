@@ -1,17 +1,22 @@
 <template>
-  <div>
-    <input type="checkbox" :checked="modalOpen" @click="toggleModal" :id="idModal" class="modal-toggle" />
-    <div class="modal">
-      <div class="modal-box flex flex-col items-center overscroll-none ">
-        <div class="modal-action">
-          <label :for="idModal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModalBackdrop">✕</label>
-        </div>
-        <img :src="imagen" alt="Imagen del artículo" class=""/>
-      </div>
-      <label class="modal-backdrop" :for="idModal" @click="closeModalBackdrop">Cerrar</label>
-    </div>
-  </div>
+  <!-- <div> -->
+  <input type="checkbox" :checked="modalOpen" @click="toggleModal" :id="idModal" class="modal-toggle" />
+  <div class="modal bg-base-200">
+    <!-- <div class="moda "> -->
+    <div class="modal-box w-11/12 max-w-7xl bg-base-200 ">
 
+      <label :for="idModal" class="btn btn-neutral btn-circle absolute right-0 top-0 mx-5 mt-5"
+        @click="closeModalBackdrop" style="z-index: 200;">✕</label>
+      <div class="card ">
+        <div class="card-body">
+          <figure>
+            <img :src="imagen" class="rounded-lg"alt="Imagen del artículo" />
+          </figure>
+        </div>
+      </div>
+    </div>
+    <label class="modal-backdrop" :for="idModal" @click="closeModalBackdrop">Cerrar</label>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +26,7 @@ const emit = defineEmits(["close"]);
 
 const props = defineProps<{
   isModalOpen: boolean
-  idModal : string
+  idModal: string
   imagen: string | undefined
 }>();
 
@@ -47,12 +52,4 @@ function preventDoubleClick(event: MouseEvent) {
 }
 </script>
 
-<style scoped>
-.modal-box {
-  /* Ajusta el tamaño de la caja de la modal según sea necesario */
-  max-height: 80vh; /* Altura máxima */
-  max-width: 80vw; /* Anchura máxima */
-  /* Agrega más estilos según sea necesario */
-}
-/* Agrega tus estilos personalizados aquí si es necesario */
-</style>
+<style scoped></style>

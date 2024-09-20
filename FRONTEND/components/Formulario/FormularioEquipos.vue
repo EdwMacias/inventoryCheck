@@ -1,488 +1,538 @@
 <template>
+  <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" @invalid-submit="invalidSubmit"
+    v-slot="{ meta, errors }">
+    <div role="tablist" class="tabs tabs-lifted overflow-x-auto">.
+      <input type="radio" name="my_tabs_2" role="tab" class="tab " aria-label="Equipo*" :checked="isTabActive == '1'"
+        @click="isTabActive = '1'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-2">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-2 lg:gap-3 xl:grid-cols-4 ">
+          <!-- {{errors}} -->
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Nombre*</label>
+              <VeeField name="equipo.name" v-model="formulario.name" placeholder="Frenometro"
+                :class="`input w-full ${errors['equipo.name'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.name" class="text-error mx-2 text-sm " />
+          </div>
 
-  <VeeForm :validationSchema="formularioEquipoSchema" @submit="onSubmit" v-slot="{ meta, errors }">
-    <div class="grid sm:grid-cols-1 md:grid-cols-2  gap-4 mt-2">
-      <div class="card border shadow-lg p-4 ">
-        <h2 class="card-title">1. Datos del Equipo y Fabricante</h2>
-        <div class="grid grid-cols-1 gap-2">
           <div>
-            <label class="label">Nombre *</label>
-            <VeeField name="name" v-model="formulario.name" placeholder="Frenometro"
-              :class="`input input-sm w-full ${errors.name ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="name" class="text-error" />
+            <div class="form-control w-full">
+              <label class="label">Fabricante*</label>
+              <VeeField name="equipo.fabricante" v-model="formulario.fabricante" placeholder="Caterpillar"
+                :class="`input  w-full ${errors['equipo.fabricante'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.fabricante" class="text-error mx-2 text-sm " />
           </div>
+
           <div>
-            <label class="label">Fabricante *</label>
-            <VeeField name="fabricante" v-model="formulario.fabricante" placeholder="Caterpillar"
-              :class="`input input-sm w-full ${errors.fabricante ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="fabricante" class="text-error" />
+            <div class="form-control w-full">
+              <label class="label">Modelo*</label>
+              <VeeField name="equipo.modelo" v-model="formulario.modelo" placeholder="2013"
+                :class="`input  w-full ${errors['equipo.modelo'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.modelo" class="text-error mx-2 text-sm " />
           </div>
+
           <div>
-            <label class="label">Modelo *</label>
-            <VeeField name="modelo" v-model="formulario.modelo" placeholder="2013"
-              :class="`input input-sm w-full ${errors.modelo ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="modelo" class="text-error" />
+            <div class="form-control w-full">
+              <label class="label">Marca*</label>
+              <VeeField name="equipo.marca" v-model="formulario.marca" placeholder="Caterpillar"
+                :class="`input w-full ${errors['equipo.marca'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.marca" class="text-error mx-2 text-sm " />
           </div>
+
           <div>
-            <label class="label">Marca *</label>
-            <VeeField name="marca" v-model="formulario.marca" placeholder="Caterpillar"
-              :class="`input input-sm w-full ${errors.marca ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="marca" class="text-error" />
+            <div class="form-control w-full">
+              <label class="label">Serial*</label>
+              <VeeField name="equipo.serie_lote" v-model="formulario.serie_lote" placeholder="ABC123"
+                :class="`input  w-full ${errors['equipo.serie_lote'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.serie_lote" class="text-error mx-2 text-sm" />
           </div>
+
           <div>
-            <label class="label">Serial *</label>
-            <VeeField name="serie_lote" v-model="formulario.serie_lote" placeholder="ABC123"
-              :class="`input input-sm w-full ${errors.serie_lote ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="serie_lote" class="text-error" />
+            <div class="form-control w-full ">
+              <label class="label">Activo Fijo*</label>
+              <VeeField name="equipo.activo_fijo" v-model="formulario.activo_fijo" placeholder="Maquinaria y equipo"
+                :class="`input  w-full ${errors['equipo.activo_fijo'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.activo_fijo" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Activo Fijo *</label>
-            <VeeField name="activo_fijo" v-model="formulario.activo_fijo" placeholder="Maquinaria y equipo"
-              :class="`input input-sm w-full ${errors.activo_fijo ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="activo_fijo" class="text-error" />
+
+
+          <div class="form-control w-full ">
+            <label class="label">Ubicación*</label>
+            <VeeField name="equipo.ubicacion" v-model="formulario.ubicacion" placeholder="Linea 1"
+              :class="`input  w-full ${errors['equipo.ubicacion'] ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="equipo.ubicacion" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Ubicación *</label>
-            <VeeField name="ubicacion" v-model="formulario.ubicacion" placeholder="Linea 1"
-              :class="`input input-sm w-full ${errors.ubicacion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="ubicacion" class="text-error" />
+
+          <div class="form-control w-full ">
+            <label class="label">Ficha Tecnica*</label>
+            <VeeField name="equipo.ficha_tecnica" v-model="formulario.ficha_tecnica" placeholder="Equipo"
+              :class="`input  w-full ${errors['equipo.ficha_tecnica'] ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="equipo.ficha_tecnica" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Ficha Tecnica(Ubicación) *</label>
-            <VeeField name="ficha_tecnica" v-model="formulario.ficha_tecnica" placeholder="Equipo"
-              :class="`input input-sm w-full ${errors.ficha_tecnica ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="ficha_tecnica" class="text-error" />
+
+          <div class="form-control w-full ">
+            <label class="label">Manual*</label>
+            <VeeField name="equipo.manual" v-model="formulario.manual" placeholder="N.A."
+              :class="`input  w-full ${errors['equipo.manual'] ? 'input-error' : 'input-bordered'}`" />
+            <VeeErrorMessage name="equipo.manual" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Manual de Uso(ubicación) *</label>
-            <VeeField name="manual" v-model="formulario.manual" placeholder="N.A."
-              :class="`input input-sm w-full ${errors.manual ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="manual" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Garantia*</label>
+              <VeeField name="equipo.garantia" v-model="formulario.garantia" placeholder="12 meses"
+                :class="`input  w-full ${errors['equipo.garantia'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.garantia" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Garantia *</label>
-            <VeeField name="garantia" v-model="formulario.garantia" placeholder="12 meses"
-              :class="`input input-sm w-full ${errors.garantia ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="garantia" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Instr. de Operación*</label>
+              <VeeField name="equipo.instruc_operacion" v-model="formulario.instruc_operacion"
+                placeholder="Según el fabricante"
+                :class="`input  w-full ${errors['equipo.instruc_operacion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.instruc_operacion" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Instr. de Operación *</label>
-            <VeeField name="instruc_operacion" v-model="formulario.instruc_operacion" placeholder="Según el fabricante"
-              :class="`input input-sm w-full ${errors.instruc_operacion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="instruc_operacion" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Tiempo de Calibración*</label>
+              <VeeField name="equipo.periodicidad_calibracion" v-model="formulario.periodicidad_calibracion"
+                placeholder="ver manual de operaciones"
+                :class="`input  w-full ${errors['equipo.periodicidad_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.periodicidad_calibracion" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Periodicidad de Calibración *</label>
-            <VeeField name="periodicidad_calibracion" v-model="formulario.periodicidad_calibracion"
-              placeholder="ver manual de operaciones"
-              :class="`input input-sm w-full ${errors.periodicidad_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="periodicidad_calibracion" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Periodicidad de Verificación*</label>
+              <VeeField name="equipo.periodicidad_verificacion" v-model="formulario.periodicidad_verificacion"
+                placeholder="Ver manual de operaciones"
+                :class="`input  w-full ${errors['equipo.periodicidad_verificacion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.periodicidad_verificacion" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Periodicidad de Verificación *</label>
-            <VeeField name="periodicidad_verificacion" v-model="formulario.periodicidad_verificacion"
-              placeholder="Ver manual de operaciones"
-              :class="`input input-sm w-full ${errors.periodicidad_verificacion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="periodicidad_verificacion" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Nombre Proveedor de venta*</label>
+              <VeeField name="equipo.proveedor" v-model="formulario.proveedor" placeholder="Proveedor"
+                :class="`input  w-full ${errors['equipo.proveedor'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.proveedor" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Nombre Proveedor de venta *</label>
-            <VeeField name="proveedor" v-model="formulario.proveedor" placeholder="Proveedor"
-              :class="`input input-sm w-full ${errors.proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="proveedor" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Telefono Contacto del Proveedor*</label>
+              <VeeField name="equipo.contacto_proveedor" v-model="formulario.contacto_proveedor"
+                placeholder="+573101234567"
+                :class="`input  w-full ${errors['equipo.contacto_proveedor'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.contacto_proveedor" class="text-error mx-2 text-sm" />
           </div>
-          <div class="form-control ">
-            <label class="label">Telefono Contacto del Proveedor *</label>
-            <VeeField name="contacto_proveedor" v-model="formulario.contacto_proveedor" placeholder="+573101234567"
-              :class="`input input-sm w-full ${errors.contacto_proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="contacto_proveedor" class="text-error" />
-          </div>
-          <div class="form-control ">
-            <label class="label">Correo Electronico del Proveedor *</label>
-            <VeeField name="email_proveedor" v-model="formulario.email_proveedor" placeholder="test@prueba.com"
-              :class="`input input-sm w-full ${errors.email_proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="email_proveedor" class="text-error" />
+
+          <div>
+            <div class="form-control w-full ">
+              <label class="label">Correo Electronico del Proveedor*</label>
+              <VeeField name="equipo.email_proveedor" v-model="formulario.email_proveedor" placeholder="test@prueba.com"
+                :class="`input  w-full ${errors['equipo.email_proveedor'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="equipo.email_proveedor" class="text-error mx-2 text-sm" />
           </div>
         </div>
       </div>
-      <div class="card border shadow-lg p-4" >
-        <h2 class="card-title">2. Fotografía del Equipo y Accesorios</h2>
-        <div> <!-- Imagen del item -->
-          <label class="label">
-            <span class="block text-md font-medium leading-6 ">Fotografias *</span>
-          </label>
-          <input type="file" ref="inputFile" class="file-input file-input-sm file-input-bordered w-full" name="resource"
-            @change="handleFileChange" />
-          <div class="card card-compact w-full border mt-2">
-            <div class="card-body">
-              <figure class="mt-2">
-                <img ref="itemPhoto" @click="openModal(true)" height="200" width="auto"
-                  src="https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg"
-                  alt="Imagen del articulo" class="object-scale-down h-200 " />
-              </figure>
-              <CardImagenFull idModal="modal-imagen" :isModalOpen="isModalOpen" :imagen="itemPhoto?.src"
-                @close="openModal"></CardImagenFull>
+
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Fotografias*"
+        :checked="isTabActive == '2'" @click="isTabActive = '2'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-200 rounded-box  p-5">
+        <input type="file" ref="inputFile" class="file-input file-input-bordered mb-2 w-full" name="resource"
+          @change="handleFileChange" />
+        <div class="w-full">
+
+          <div class="card border-dashed border-2 border-indigo-600 max-w-lg p-2">
+            <figure>
+              <img ref="itemPhoto" @click="openModal(true)" class="w-full max-w-xs"
+                src="https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg"
+                alt="Imagen del articulo " />
+            </figure>
+          </div>
+
+          <CardImagenFull idModal="modal-imagen" :isModalOpen="isModalOpen" :imagen="itemPhoto?.src" @close="openModal">
+          </CardImagenFull>
+        </div>
+      </div>
+
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Caracteristicas"
+        :checked="isTabActive == '3'" @click="isTabActive = '3'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-2 lg:gap-2 ">
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Resolución</label>
+              <VeeField name="caracteristica.resolucion" v-model="formulario.resolucion" placeholder="ABC123"
+                :class="`input  w-full ${errors['caracteristica.resolucion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="caracteristica.resolucion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Clase de exactitud</label>
+              <VeeField name="caracteristica.clase_exactitud" v-model="formulario.clase_exactitud"
+                placeholder="Aplicación"
+                :class="`input  w-full ${errors['caracteristica.clase_exactitud'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="caracteristica.clase_exactitud" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Rango(s) de medición</label>
+              <VeeField name="caracteristica.rango_medicion" v-model="formulario.rango_medicion"
+                placeholder="Aplicación"
+                :class="`input  w-full ${errors['caracteristica.rango_medicion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="caracteristica.rango_medicion" class="text-error mx-2 text-sm" />
+
+          </div>
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Intervalo(s) de medición</label>
+              <VeeField name="caracteristica.intervalo_medicion" v-model="formulario.intervalo_medicion"
+                placeholder="Aplicación"
+                :class="`input  w-full ${errors['caracteristica.intervalo_medicion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="caracteristica.intervalo_medicion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div class="form-control w-full">
+              <label class="label">Error máximo permitido</label>
+              <VeeField name="caracteristica.error_maximo_permitido" v-model="formulario.error_maximo_permitido"
+                placeholder="Aplicación"
+                :class="`input  w-full ${errors['caracteristica.error_maximo_permitido'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="caracteristica.error_maximo_permitido" class="text-error mx-2 text-sm" />
+          </div>
+        </div>
+      </div>
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Adquisición*"
+        :checked="isTabActive == '4'" @click="isTabActive = '4'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-2 lg:gap-2 ">
+          <div>
+            <div>
+              <label class="label">Fecha de Compra*</label>
+              <VeeField name="adquisicion.fecha_adquisicion" type="date" v-model="formulario.fecha_adquisicion"
+                placeholder="01/01/2023"
+                :class="`input  w-full ${errors['adquisicion.fecha_adquisicion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="adquisicion.fecha_adquisicion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Precio de Compra*</label>
+              <VeeField name="adquisicion.valor_adquisicion" v-model="formulario.valor_adquisicion" placeholder="0"
+                :class="`input  w-full ${errors['adquisicion.valor_adquisicion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="adquisicion.valor_adquisicion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Telefono Proovedor</label>
+              <input name="email_proveedor" v-model="formulario.contacto_proveedor"
+                placeholder="Telefono Proporcionado por el proovedor" class="input  w-full" disabled />
+            </div>
+            <VeeErrorMessage name="adquisicion.telefono_proveedor" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Email Proovedor</label>
+              <input name="email_proveedor" v-model="formulario.email_proveedor"
+                placeholder="Correo Proporcionado por el proovedor" class="input  w-full" disabled />
             </div>
           </div>
         </div>
       </div>
-      <div class="card border shadow-lg p-4">
-        <h2 class="card-title">3. Características Metrológicas del Equipo</h2>
-        <div class="form-control mb-2">
-          <div>
-            <label class="label">Resolución</label>
-            <VeeField name="resolucion" v-model="formulario.resolucion" placeholder="ABC123"
-              :class="`input input-sm w-full ${errors.resolucion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="resolucion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Clase de exactitud</label>
-            <VeeField name="clase_exactitud" v-model="formulario.clase_exactitud" placeholder="Aplicación"
-              :class="`input input-sm w-full ${errors.clase_exactitud ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="clase_exactitud" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Rango(s) de medición</label>
-            <VeeField name="rango_medicion" v-model="formulario.rango_medicion" placeholder="Aplicación"
-              :class="`input input-sm w-full ${errors.rango_medicion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="rango_medicion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Intervalo(s) de medición</label>
-            <VeeField name="intervalo_medicion" v-model="formulario.intervalo_medicion" placeholder="Aplicación"
-              :class="`input input-sm w-full ${errors.intervalo_medicion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="intervalo_medicion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Error máximo permitido</label>
-            <VeeField name="error_maximo_permitido" v-model="formulario.error_maximo_permitido" placeholder="Aplicación"
-              :class="`input input-sm w-full ${errors.error_maximo_permitido ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="error_maximo_permitido" class="text-error" />
-          </div>
-        </div>
-      </div>
-      <!-- Datos de adquisición del equipo -->
-      <div class="card border shadow-lg p-4">
-        <h2 class="card-title">4. Datos de Adquisición del Equipo</h2>
-        <div class="form-control mb-2">
-          <div>
-            <label class="label">Fecha de Compra *</label>
-            <VeeField name="fecha_adquisicion" type="date" v-model="formulario.fecha_adquisicion"
-              placeholder="01/01/2023"
-              :class="`input input-sm w-full ${errors.fecha_adquisicion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="fecha_adquisicion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Precio de Compra *</label>
-            <VeeField name="valor_adquisicion" v-model="formulario.valor_adquisicion" placeholder="0"
-              :class="`input input-sm w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="valor_adquisicion" class="text-error" />
-            <p class="text-sm text-gray-500 mt-2">*Vista previa del valor: {{ formattedValorAdquisicion }}</p>
 
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Calibración*" :checked="isTabActive == '5'"
+        @click="isTabActive = '5'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-2 lg:gap-2 ">
+
+          <div>
+            <div>
+              <label class="label">Fecha de calibración actual</label>
+              <VeeField name="calibracion.fecha_calibracion_actual" type="date"
+                v-model="formulario.fecha_calibracion_actual"
+                :class="`input  w-full ${errors['calibracion.fecha_calibracion_actual'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.fecha_calibracion_actual" class="text-error mx-2 text-sm" />
           </div>
           <div>
-            <label class="label">Telefono de Contacto *</label>
-            <VeeField name="telefono_proveedor" v-model="formulario.telefono_proveedor" placeholder="+573101234567"
-              :class="`input input-sm w-full ${errors.telefono_proveedor ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="telefono_proveedor" class="text-error" />
+            <div>
+              <label class="label">Fecha próxima a calibrar</label>
+              <VeeField name="calibracion.fecha_proxima_calibracion" type="date"
+                v-model="formulario.fecha_proxima_calibracion"
+                :class="`input  w-full ${errors['calibracion.fecha_proxima_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.fecha_proxima_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
-            <label class="label">Email de Contacto</label>
-            <input name="email_proveedor" v-model="formulario.email_proveedor" class="input input-sm w-full" disabled />
+            <div>
+              <label class="label">Max. incertidumbre/calibración</label>
+              <VeeField name="calibracion.maxima_incertidumbre_calibracion"
+                v-model="formulario.maxima_incertidumbre_calibracion" placeholder="0.1"
+                :class="`input  w-full ${errors['calibracion.maxima_incertidumbre_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.maxima_incertidumbre_calibracion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Proveedor de calibración</label>
+              <VeeField name="calibracion.proveedor_calibracion" v-model="formulario.proveedor_calibracion"
+                placeholder="Empresa de Calibración"
+                :class="`input  w-full ${errors['calibracion.proveedor_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.proveedor_calibracion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Telefono del Calibrador</label>
+              <VeeField name="calibracion.contacto_calibracion" v-model="formulario.contacto_calibracion"
+                placeholder=" +573101234567"
+                :class="`input  w-full ${errors['calibracion.contacto_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.contacto_calibracion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Correo Electronico del Calibrador</label>
+              <VeeField name="calibracion.email_calibracion" v-model="formulario.email_calibracion"
+                placeholder=" example@gmail.com"
+                :class="`input  w-full ${errors['calibracion.email_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.email_calibracion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Frecuencia de Verificación*</label>
+              <VeeField name="calibracion.frecuencia_verificacion" v-model="formulario.frecuencia_verificacion"
+                placeholder="tiempo en meses"
+                :class="`input  w-full ${errors['calibracion.frecuencia_verificacion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.frecuencia_verificacion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Procedimiento de Verificación*</label>
+              <VeeField name="calibracion.procedimiento_verificacion" v-model="formulario.procedimiento_verificacion"
+                placeholder="MANTENIMIENTO"
+                :class="`input  w-full ${errors['calibracion.procedimiento_verificacion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.procedimiento_verificacion" class="text-error mx-2 text-sm" />
+          </div>
+          <div>
+            <div>
+              <label class="label">Frecuencia de Calibración*</label>
+              <VeeField name="calibracion.frecuencia_calibracion" v-model="formulario.frecuencia_calibracion"
+                placeholder="Tiempo en meses"
+                :class="`input  w-full ${errors['calibracion.frecuencia_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+            </div>
+            <VeeErrorMessage name="calibracion.frecuencia_calibracion" class="text-error mx-2 text-sm" />
           </div>
         </div>
       </div>
-      <div class="card border shadow-lg p-4">
-        <h2 class="card-title">5. Datos de Calibración del Equipo</h2>
-        <div class="form-control mb-2">
-          <div>
-            <label class="label">Fecha de calibración actual</label>
-            <VeeField name="fecha_calibracion_actual" type="date" v-model="formulario.fecha_calibracion_actual"
-              :class="`input input-sm w-full ${errors.fecha_calibracion_actual ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="fecha_calibracion_actual" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Fecha próxima a calibrar</label>
-            <VeeField name="fecha_proxima_calibracion" type="date" v-model="formulario.fecha_proxima_calibracion"
-              :class="`input input-sm w-full ${errors.fecha_proxima_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="fecha_proxima_calibracion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Max. incertidumbre/calibración</label>
-            <VeeField name="maxima_incertidumbre_calibracion" v-model="formulario.maxima_incertidumbre_calibracion"
-              placeholder="0.1"
-              :class="`input input-sm w-full ${errors.maxima_incertidumbre_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="maxima_incertidumbre_calibracion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Proveedor de calibración</label>
-            <VeeField name="proveedor_calibracion" v-model="formulario.proveedor_calibracion"
-              placeholder="Empresa de Calibración"
-              :class="`input input-sm w-full ${errors.proveedor_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="proveedor_calibracion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">telefono de contacto de calibración</label>
-            <VeeField name="contacto_calibracion" v-model="formulario.contacto_calibracion" placeholder=" +573101234567"
-              :class="`input input-sm w-full ${errors.contacto_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="contacto_calibracion" class="text-error" />
-          </div>
-          <div></div>
-          <label class="label">email de contacto de calibración</label>
-          <VeeField name="email_calibracion" v-model="formulario.email_calibracion" placeholder=" example@gmail.com"
-            :class="`input input-sm w-full ${errors.email_calibracion ? 'input-error' : 'input-bordered'}`" />
-          <VeeErrorMessage name="email_calibracion" class="text-error" />
-        </div>
-      </div>
-      <div class="card border shadow-lg p-4">
-        <h2 class="card-title">6. Control de Equipos</h2>
-        <div class="form-control mb-2">
-          <div>
-            <label class="label">Frecuencia de verificación</label>
-            <VeeField name="frecuencia_verificacion" v-model="formulario.frecuencia_verificacion"
-              placeholder="tiempo en meses"
-              :class="`input input-sm w-full ${errors.frecuencia_verificacion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="frecuencia_verificacion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Procedimiento de verificación</label>
-            <VeeField name="procedimiento_verificacion" v-model="formulario.procedimiento_verificacion"
-              placeholder="MANTENIMIENTO"
-              :class="`input input-sm w-full ${errors.procedimiento_verificacion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="procedimiento_verificacion" class="text-error" />
-          </div>
-          <div>
-            <label class="label">Frecuencia de calibración</label>
-            <VeeField name="frecuencia_calibracion" v-model="formulario.frecuencia_calibracion"
-              placeholder="Tiempo en meses"
-              :class="`input input-sm w-full ${errors.frecuencia_calibracion ? 'input-error' : 'input-bordered'}`" />
-            <VeeErrorMessage name="frecuencia_calibracion" class="text-error" />
-          </div>
-        </div>
-      </div>
-      <div class="card border shadow-lg p-4">
-        <h2 class="card-title">7. Condiciones de uso</h2>
-        <div class="form-control mb-2">
+
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Condiciones" :checked="isTabActive == '6'"
+        @click="isTabActive = '6'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-4 lg:gap-4 ">
           <div>
             <label class="label">
-              <span class="block text-sm">Condición Eléctrica <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm">Condición Eléctrica </span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_electrica" v-model="formulario.cond_electrica"
                 class="checkbox checkbox-sm" />
-              <label for="cond_electrica" class="ml-2">Aplicado</label>
+              <label for="cond_electrica" class="ml-2">{{ formulario.cond_electrica == true ? 'Aplicado' :
+                'No Aplicado' }}</label>
             </div>
           </div>
-          <div>
+          <div class="form-control w-full">
             <label class="label">
-              <span class="block text-sm ">Condición Mecánica <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm ">Condición Mecánica</span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_mecanica" v-model="formulario.cond_mecanica"
                 class="checkbox checkbox-sm" />
-              <label for="cond_mecanica" class="ml-2">Aplicado</label>
+              <label for="cond_mecanica" class="ml-2">
+                {{ formulario.cond_mecanica == true ? 'Aplicado' :
+                  'No Aplicado' }}
+              </label>
             </div>
           </div>
-          <div>
+          <div class="form-control w-full">
             <label class="label">
-              <span class="block text-sm">Condición de Seguridad <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm">Condición de Seguridad </span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_seguridad" v-model="formulario.cond_seguridad"
                 class="checkbox checkbox-sm" />
-              <label for="cond_seguridad" class="ml-2">Aplicado</label>
+              <label for="cond_seguridad" class="ml-2"> {{ formulario.cond_seguridad == true ? 'Aplicado' :
+                'No Aplicado' }}</label>
             </div>
           </div>
-          <div>
+          <div class="form-control w-full">
             <label class="label">
-              <span class="block text-sm">Condiciones Ambientales <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm">Condiciones Ambientales </span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_ambientales" v-model="formulario.cond_ambientales"
                 class="checkbox checkbox-sm" />
-              <label for="cond_ambientales" class="ml-2">Aplicado</label>
+              <label for="cond_ambientales" class="ml-2"> {{ formulario.cond_ambientales == true ? 'Aplicado' :
+                'No Aplicado' }}</label>
             </div>
           </div>
-          <div>
+          <div class="form-control w-full">
             <label class="label">
-              <span class="block text-sm">Condiciones de Transporte <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm">Condiciones de Transporte </span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_transporte" v-model="formulario.cond_transporte"
                 class="checkbox checkbox-sm" />
-              <label for="cond_transporte" class="ml-2">Aplicado</label>
+              <label for="cond_transporte" class="ml-2"> {{ formulario.cond_transporte == true ? 'Aplicado' :
+                'No Aplicado' }}</label>
             </div>
           </div>
-          <div>
+          <div class="form-control w-full">
             <label class="label">
-              <span class="block text-sm">Otras Condiciones <b>(por defecto: NO APLICA)</b></span>
+              <span class="block text-sm">Otras Condiciones </span>
             </label>
             <div class="flex items-center">
               <input type="checkbox" id="cond_otras" v-model="formulario.cond_otras" class="checkbox checkbox-sm" />
-              <label for="cond_otras" class="ml-2">Aplicado</label>
+              <label for="cond_otras" class="ml-2"> {{ formulario.cond_otras == true ? 'Aplicado' :
+                'No Aplicado' }}</label>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex gap-2 grid grid-cols-2 mt-2">
-      <ButtonOptions :to="props.link" @save="handleSave" @cancel="handleCancel" />
-    </div>
 
+    </div>
+    <ButtonOptions @cancel="handleCancel" />
   </VeeForm>
 </template>
 
 
 <script lang="ts" setup>
-import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
-import { useRouter } from 'vue-router';
+import { EquipoEntityClass, type EquipoEntity } from '~/Domain/Models/Entities/equipo';
 
-const props = defineProps({
-  link: {
-    type: String,
-    default: '/inventario/items'
-  }
-})
-
-const handleSave = () => {
-  emits("callback", formulario.value);
-}
-const handleCancel = () => {
-  router.push(props.link);
-}
+const handleCancel = () => router.push('/inventario/items');
+const isTabActive: Ref<string> = ref('1');
 
 import swal from 'sweetalert2';
 const router = useRouter();
-const emits = defineEmits(["callback"]);
+
+const emits = defineEmits<{
+  (event : 'callback',payload : EquipoEntity) : void
+}>();
+
 const inputFile = ref();
 const { setImagen } = useImagen();
 const itemPhoto = ref<HTMLImageElement | null>(null);
 const isModalOpen = ref(false);
-const barcodeValue = ref<string | null>(null);
 
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
 
-const formatCurrency = (value: number): string => {
-  if (!value || isNaN(value)) {
-    return '$0';
-  }
-  return value.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-}
-
-const formattedValorAdquisicion = computed(() => {
-  return formatCurrency(parseFloat(formulario.value.valor_adquisicion.toString().replace(/,/g, '')));
-});
-
-
-yup.setLocale({
-  mixed: {
-    default: "*llenar campo"
-  },
-  number: {
-    moreThan: "Seleccione una opcion valida"
-  },
-});
-
-const formulario: Ref<EquipoEntity> = ref({
-  name: '',
-  fabricante: '',
-  modelo: '',
-  resource: null,
-  marca: '',
-  serie_lote: '',
-  activo_fijo: '',
-  ubicacion: '',
-  ficha_tecnica: '',
-  manual: '',
-  garantia: '',
-  instruc_operacion: '',
-  periodicidad_calibracion: '',
-  periodicidad_verificacion: '',
-  proveedor: '',
-  contacto_proveedor: '',
-  telefono_proveedor: '',
-  email_proveedor: '',
-  resolucion: '',
-  clase_exactitud: '',
-  rango_medicion: '',
-  intervalo_medicion: '',
-  error_maximo_permitido: '',
-  fecha_adquisicion: '',
-  valor_adquisicion: 0,
-  numero_factura: '',
-  frecuencia_verificacion: '',
-  procedimiento_verificacion: '',
-  frecuencia_calibracion: '',
-  fecha_calibracion_actual: '',
-  fecha_proxima_calibracion: '',
-  maxima_incertidumbre_calibracion: '',
-  proveedor_calibracion: '',
-  contacto_calibracion: '',
-  email_calibracion: '',
-  telefono_calibracion: '',
-  cond_electrica: false,
-  cond_mecanica: false,
-  cond_seguridad: false,
-  cond_ambientales: false,
-  cond_transporte: false,
-  cond_otras: false
-});
+const formulario: Ref<EquipoEntity> = ref(new EquipoEntityClass(null));
 
 const formularioEquipoSchema = yup.object({
-  name: yup.string().required('Campo requerido *'),
-  fabricante: yup.string().required('Campo requerido *'),
-  modelo: yup.string().required('Campo requerido *'),
-  marca: yup.string().required('Campo requerido *'),
-  serie_lote: yup.string().required('Campo requerido *'),
-  activo_fijo: yup.string().required('Campo requerido *'),
-  ubicacion: yup.string().required('Campo requerido *'),
-  ficha_tecnica: yup.string().required('Campo requerido *'),
-  manual: yup.string().required('Campo requerido *'),
-  garantia: yup.string().required('Campo requerido *'),
-  instruc_operacion: yup.string().required('Campo requerido *'),
-  periodicidad_calibracion: yup.string().required('Campo requerido *'),
-  periodicidad_verificacion: yup.string().required('Campo requerido *'),
-  proveedor: yup.string().required('Campo requerido *'),
-  contacto_proveedor: yup.string().required('Campo requerido *'),
-  telefono_proveedor: yup.string().required('Campo requerido *'),
-  email_proveedor: yup.string().required('Campo requerido *').email(),
-  resolucion: yup.string().nullable(),
-  clase_exactitud: yup.string().nullable(),
-  rango_medicion: yup.string().nullable(),
-  intervalo_medicion: yup.string().nullable(),
-  error_maximo_permitido: yup.string().nullable(),
-  fecha_adquisicion: yup.date().required('Campo requerido *'),
-  valor_adquisicion: yup.number().nullable(),
-  numero_factura: yup.string().nullable(),
-  frecuencia_verificacion: yup.string().required('Campo requerido *'),
-  procedimiento_verificacion: yup.string().required('Campo requerido *'),
-  frecuencia_calibracion: yup.string().required('Campo requerido *'),
-  fecha_calibracion_actual: yup.date().nullable(),
-  fecha_proxima_calibracion: yup.date().nullable(),
-  maxima_incertidumbre_calibracion: yup.string().nullable(),
-  proveedor_calibracion: yup.string().nullable(),
-  contacto_calibracion: yup.string().nullable(),
-  email_calibracion: yup.string().nullable().email(),
-  telefono_calibracion: yup.string().nullable(),
-  // resource: yup.mixed().required('Campo requerido *')
+  equipo: yup.object().shape({
+    name: yup.string().required('Este campo es requerido*'),
+    fabricante: yup.string().required('Este campo es requerido*'),
+    modelo: yup.string().required('Este campo es requerido*'),
+    marca: yup.string().required('Este campo es requerido*'),
+    serie_lote: yup.string().required('Este campo es requerido*'),
+    activo_fijo: yup.string().required('Este campo es requerido*'),
+    ubicacion: yup.string().required('Este campo es requerido*'),
+    ficha_tecnica: yup.string().required('Este campo es requerido*'),
+    manual: yup.string().required('Este campo es requerido*'),
+    garantia: yup.string().required('Este campo es requerido*'),
+    instruc_operacion: yup.string().required('Este campo es requerido*'),
+    periodicidad_calibracion: yup.string().required('Este campo es requerido*'),
+    periodicidad_verificacion: yup.string().required('Este campo es requerido*'),
+    proveedor: yup.string().required('Este campo es requerido*'),
+    contacto_proveedor: yup.string().required('Este campo es requerido*').matches(/^\d+$/, 'Solo se permiten números'),
+    // telefono_proveedor: yup.string().required('Este campo es requerido*').matches(/^\d+$/, 'Solo se permiten números'),
+    email_proveedor: yup.string().required('Este campo es requerido*').email(),
+    // name: yup.string().required('Este campo es requerido*'),
+  }),
+  caracteristica: yup.object().shape({
+    resolucion: yup.string().nullable(),
+    clase_exactitud: yup.string().nullable(),
+    rango_medicion: yup.string().nullable(),
+    intervalo_medicion: yup.string().nullable(),
+    error_maximo_permitido: yup.string().nullable(),
+  }),
+  adquisicion: yup.object().shape({
+    fecha_adquisicion: yup.string()
+      .required('Este campo es requerido*')
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        'Debe ser una fecha en formato YYYY-MM-DD'
+      ),
+    valor_adquisicion: yup
+      .string()
+      .required('Este campo es requerido* ')
+      .matches(/^\d+$/, 'Solo se permiten números'),
+  }),
+  numero_factura: yup.string().nullable().matches(/^\d+$/, 'Solo se permiten números'),
+  calibracion: yup.object().shape({
+    frecuencia_verificacion: yup.string().required('Este campo es requerido*'),
+    procedimiento_verificacion: yup.string().required('Este campo es requerido*'),
+    frecuencia_calibracion: yup.string().required('Este campo es requerido*'),
+    fecha_calibracion_actual: yup.string()
+      .nullable()
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        'Debe ser una fecha en formato DD-MM-YYYY'
+      ),
+    fecha_proxima_calibracion: yup.string()
+      .nullable()
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        'Debe ser una fecha en formato DD-MM-YYYY'
+      ),
+    maxima_incertidumbre_calibracion: yup.string().nullable(),
+    proveedor_calibracion: yup.string().nullable(),
+    contacto_calibracion: yup.string().nullable().matches(/^\d+$/, 'Solo se permiten números'),
+    email_calibracion: yup.string().nullable().email(),
+    telefono_calibracion: yup.string().nullable().matches(/^\d+$/, 'Solo se permiten números'),
+  }),
+
 });
 
 const handleFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
-  if (file != undefined) {
+  if (file) {
     formulario.value.resource = file;
-    if (itemPhoto.value != undefined) {
-      setImagen(file, itemPhoto);
-    }
+    setImagen(file, itemPhoto);
   }
 };
 
 
 const onSubmit = (values: any) => {
-  const equipoEntity = values;
-  if (formulario.value.resource == null) {
+  if (!formulario.value.resource) {
     swal.fire({
       icon: 'error',
       title: "Falta recurso imagen",
@@ -491,24 +541,34 @@ const onSubmit = (values: any) => {
       confirmButtonText: 'Aceptar',
       reverseButtons: true
     });
-    return router.push('/inventario/items');
-  }
 
-  equipoEntity.resource = formulario.value.resource;
-
-  const equipoFormulario = { ...equipoEntity, ...formulario.value };
-  return emits("callback", equipoFormulario);
-}
-
-watch(() => formulario.value.serie_lote, (newSerialNumber) => {
-  if (!newSerialNumber) {
-    barcodeValue.value = null;
+    isTabActive.value = '2';
     return;
   }
-  barcodeValue.value = newSerialNumber;
-  return;
-});
-barcodeValue.value = formulario.value.serie_lote;
+  
+  const form = formulario.value;
 
+  return emits("callback", form);
+}
+function containsTerm(data: Record<string, unknown>, term: string): boolean {
+  return Object.keys(data).some(key => key.includes(term));
+}
+
+
+const tabMapping: Record<string, string> = {
+  equipo: '1',
+  caracteristica: '3',
+  adquisicion: '4',
+  calibracion: '5'
+};
+
+const invalidSubmit = (values: any) => {
+  for (const [key, tab] of Object.entries(tabMapping)) {
+    if (containsTerm(values.errors, key)) {
+      isTabActive.value = tab;
+      return;
+    }
+  }
+}
 
 </script>

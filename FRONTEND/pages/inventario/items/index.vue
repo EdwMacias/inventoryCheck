@@ -10,25 +10,28 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-row items-center justify-between m-2 rounded-xl  bordered gap-2 busqueda">
+    <div class="flex flex-row bordered gap-2 mx-5">
+
       <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="registrar/crear">
-        <span class="hidden sm:inline">Agregar</span>
+        <span class="hidden sm:inline"> + Registrar Item</span>
         <span class="inline sm:hidden">+</span>
       </NuxtLink>
 
-      <div v-if="!isSearching" class="join">
+      <div class="join">
         <button v-for="link in pagination.links" :key="link.label" :disabled="!link.url" @click="changePage(link.url)"
           :class="{ 'btn-active': link.active }" class="join-item btn btn-sm">
           {{ link.label == "pagination.previous" ? '<' : link.label == 'pagination.next' ? '>' : link.label }} </button>
       </div>
-      <div v-if="!isSearching" class="flex items-center bordered">
+
+      <div class="flex items-center bordered">
         <input type="text" v-model="pageInput" @keydown.enter="goToPage" placeholder="#"
           class="input input-sm input-bordered w-12 mx-1" />
         <button @click="goToPage" class="btn btn-sm btn-active"> > </button>
       </div>
+
       <div class="search-box flex-grow">
         <label class="input input-sm input-bordered flex items-center w-full">
-          <input type="text" class="w-full" v-model="searchQuery" @click="busqueda()" />
+          <input type="text" class="w-full" v-model="searchQuery" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
             <path fill-rule="evenodd"
               d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -37,8 +40,10 @@
         </label>
       </div>
     </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
+        <p v-if="pagination.data.length == 0">No Se Han Encontrado Registros</p>
         <Item v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
           :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id"
           :identificador="item.id" />
@@ -73,6 +78,8 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
 const pageInput = ref<number | null>(null);
 
 onMounted(async () => {
+  localStorage.removeItem('item-select')
+
   await fetchItems();
 });
 
@@ -80,13 +87,11 @@ const fetchItems = async (url: string | null = null) => {
   SpinnerStore().activeOrInactiveSpinner(true);
   const response = await ItemRepository.Pagination(url);
   pagination.value = response;
-  console.log(pagination.value.data);
+  // console.log(pagination.value.data);
   SpinnerStore().activeOrInactiveSpinner(false);
-
 };
 
 const changePage = async (url: string | null) => {
-  pagination.value.data.length = 0;
   await fetchItems(url);
 };
 

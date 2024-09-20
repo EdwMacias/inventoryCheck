@@ -39,6 +39,9 @@ const isModalOpen = ref(false);
 const openModal = () => {
   isModalOpen.value = true;
 };
+onMounted(()=>{
+  // UsuarioStore().clearStore();
+})
 
 
 </script>

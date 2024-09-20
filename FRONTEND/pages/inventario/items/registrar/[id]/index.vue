@@ -1,5 +1,5 @@
 <template>
-    <div class="breadcrumbs text-sm mx-2 mt-20">
+    <div class="breadcrumbs text-lg mx-2 mt-20">
         <ul>
             <li>
                 <NuxtLink to="/">Inicio</NuxtLink>
@@ -7,27 +7,29 @@
             <li>
                 <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
             </li>
-            <li>Crear Item</li>
+            <li>Crear</li>
         </ul>
     </div>
-    <div class="container mx-auto mx-5 ">
-        <h2 class="font-semibold text-xl mt-2">Creación de artículos</h2>
+
+    <div class="container mx-auto  ">
         <div class="mb-2">
             <label class="label">
                 <span class="block text-sm font-medium ">Seleccione el registro a crear</span>
             </label>
-            <select v-model="categoriaSeleccionada" class="select select-sm select-bordered">
-                <option v-for="equipo in equipo" :key="equipo.id" :value="equipo.id">{{ equipo.opcion }}</option>
+            <select v-model="categoriaSeleccionada" class="select select-bordered">
+                <option value="0" disabled>Seleccione</option>
+                <option value="1">Equipo de pista</option>
+                <option value="2">Administrativo</option>
             </select>
         </div>
-        <div v-if="categoriaSeleccionada == 0" class="mt-1 text-error animate__animated text-sm  animate__fadeIn">
-            <p>Seleccione un tipo de equipo, por favor.</p>
+
+        <div v-if="categoriaSeleccionada == '1'" class="bg-base-100 p-1 rounded-lg">
+            <FormularioEquipos @callback="crearEquipo" />
         </div>
-        <FormularioEquipos v-if="categoriaSeleccionada == 1" @callback="crearEquipo" />
-        <div v-if="categoriaSeleccionada == 2" class="bg-base-100 p-5 rounded">
+        <div v-if="categoriaSeleccionada == '2'" class="bg-base-100 p-5 rounded-lg">
             <FormularioItem @callback="crearItemBasico" />
         </div>
-        <!-- <ButtonScroll/> -->
+
     </div>
 
 </template>
@@ -74,12 +76,7 @@ const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateIt
     }
 }
 
-const categoriaSeleccionada: Ref<number> = ref(0);
-const equipo = ref([
-    { id: 0, opcion: 'Seleccione' },
-    { id: 1, opcion: 'Equipo de pista' },
-    { id: 2, opcion: 'Administrativo' },
-]);
+const categoriaSeleccionada: Ref<string> = ref('1');
 </script>
 
 <style scoped></style>

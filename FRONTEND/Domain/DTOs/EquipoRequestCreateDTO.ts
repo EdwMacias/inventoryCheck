@@ -1,6 +1,7 @@
 import type { EquipoRequestCreate } from "../Models/Api/Request/equipo.request";
+import type { EquipoEntity } from "../Models/Entities/equipo";
 
-export class EquipoRequestCreateDTO implements EquipoRequestCreate {
+export class EquipoRequestCreateDTO implements EquipoEntity {
     name: string;
     fabricante: string;
     modelo: string;
@@ -24,7 +25,7 @@ export class EquipoRequestCreateDTO implements EquipoRequestCreate {
     intervalo_medicion?: string | null;
     error_maximo_permitido?: string | null;
     fecha_adquisicion: string;
-    valor_adquisicion?: number | null;
+    valor_adquisicion: string;
     numero_factura?: string | null;
     frecuencia_verificacion: string;
     category_id: number;
