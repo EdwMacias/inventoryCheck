@@ -70,7 +70,7 @@ const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateIt
         await emitNotificaciones({
             tipo: 'success',
             cabecera: 'Éxito',
-            mensaje: 'Imagen subida correctamente. Redirigiendo al inventario...',
+            mensaje: 'Item de Oficina Creado Exitosamente',
         });
         return router.push('/inventario/items');
     }

@@ -62,7 +62,7 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
         this.periodicidad_verificacion = data.periodicidad_verificacion;
         this.proveedor = data.proveedor;
         this.contacto_proveedor = data.contacto_proveedor;
-        this.telefono_proveedor = data.telefono_proveedor;
+        this.telefono_proveedor = data.contacto_proveedor;
         this.email_proveedor = data.email_proveedor;
         this.resolucion = data.resolucion;
         this.clase_exactitud = data.clase_exactitud;
@@ -90,5 +90,17 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
         this.cond_ambientales = data.cond_ambientales;
         this.cond_transporte = data.cond_transporte;
         this.cond_otras = data.cond_otras;
+    }
+
+    toFormData(): FormData {
+        const formData = new FormData();
+
+        Object.entries(this).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                formData.append(key, value);
+            }
+        });
+
+        return formData;
     }
 }

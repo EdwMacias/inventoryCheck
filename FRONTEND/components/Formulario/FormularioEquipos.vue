@@ -255,7 +255,7 @@
           </div>
           <div>
             <div>
-              <label class="label">Email Proovedor</label>
+              <label class="label">Correo Electronico Proovedor</label>
               <input name="email_proveedor" v-model="formulario.email_proveedor"
                 placeholder="Correo Proporcionado por el proovedor" class="input  w-full" disabled />
             </div>
@@ -263,8 +263,8 @@
         </div>
       </div>
 
-      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Calibración*" :checked="isTabActive == '5'"
-        @click="isTabActive = '5'" />
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Calibración*"
+        :checked="isTabActive == '5'" @click="isTabActive = '5'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-2 lg:gap-2 ">
 
@@ -442,7 +442,7 @@ import swal from 'sweetalert2';
 const router = useRouter();
 
 const emits = defineEmits<{
-  (event : 'callback',payload : EquipoEntity) : void
+  (event: 'callback', payload: EquipoEntity): void
 }>();
 
 const inputFile = ref();
@@ -534,7 +534,7 @@ const handleFileChange = (event: Event) => {
 const onSubmit = (values: any) => {
   if (!formulario.value.resource) {
     swal.fire({
-      icon: 'error',
+      icon: 'info',
       title: "Falta recurso imagen",
       text: "Hubo un error por favor incluya la imagen.",
       showCancelButton: false,
@@ -545,7 +545,7 @@ const onSubmit = (values: any) => {
     isTabActive.value = '2';
     return;
   }
-  
+
   const form = formulario.value;
 
   return emits("callback", form);
@@ -566,6 +566,14 @@ const invalidSubmit = (values: any) => {
   for (const [key, tab] of Object.entries(tabMapping)) {
     if (containsTerm(values.errors, key)) {
       isTabActive.value = tab;
+      swal.fire({
+        icon: 'info',
+        title: "Campos no diligenciados",
+        text: "Rellene todos los campos obligatorios.",
+        showCancelButton: false,
+        confirmButtonText: 'Aceptar',
+        reverseButtons: true
+      });
       return;
     }
   }

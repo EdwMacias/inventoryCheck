@@ -4,8 +4,8 @@ import { POST_EQUIPO_CREATE } from "~/Infrastructure/Connections/endpoints.conne
 import { http } from "~/Infrastructure/http/http";
 
 export const EquipoRepository = {
-    create: async (equipoCreateRequest: EquipoRequestCreate) => {
-        const response = await http.post<EquipoRequestCreateDTO>(POST_EQUIPO_CREATE, toFormData(equipoCreateRequest));
+    create: async (equipoCreateRequest: FormData) => {
+        const response = await http.post<EquipoRequestCreateDTO>(POST_EQUIPO_CREATE, equipoCreateRequest);
         return response;
     }
 
