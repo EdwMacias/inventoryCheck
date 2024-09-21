@@ -1,3 +1,15 @@
+
+export interface componentes {
+  [key: string]: any; // Esto permite claves dinámicas con tipo any
+  serial: string
+  nombre: string
+  marca: string
+  modelo: string
+  cantidad: string
+  unidad: string
+  cuidados: string
+}
+
 export interface EquipoEntity {
   name: string;
   fabricante: string;
@@ -41,9 +53,10 @@ export interface EquipoEntity {
   cond_ambientales: boolean;
   cond_transporte: boolean;
   cond_otras: boolean;
+  componentes: componentes[]
 }
 
-export class EquipoEntityClass {
+export class EquipoEntityClass implements EquipoEntity {
   name: string;
   fabricante: string;
   modelo: string;
@@ -86,6 +99,7 @@ export class EquipoEntityClass {
   cond_ambientales: boolean;
   cond_transporte: boolean;
   cond_otras: boolean;
+  componentes: componentes[];
 
   constructor(equipo: Partial<EquipoEntity | null>) {
     this.name = equipo?.name || '';
@@ -130,5 +144,14 @@ export class EquipoEntityClass {
     this.cond_ambientales = equipo?.cond_ambientales !== undefined ? equipo?.cond_ambientales : false;
     this.cond_transporte = equipo?.cond_transporte !== undefined ? equipo?.cond_transporte : false;
     this.cond_otras = equipo?.cond_otras !== undefined ? equipo?.cond_otras : false;
+    this.componentes = equipo?.componentes || [{
+      cantidad: '',
+      serial: '',
+      cuidados: '',
+      marca: '',
+      modelo: '',
+      nombre: '',
+      unidad: '',
+    }];
   }
 }

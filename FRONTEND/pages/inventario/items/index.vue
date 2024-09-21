@@ -12,7 +12,7 @@
     </div>
     <div class="flex flex-row bordered gap-2 mx-5">
 
-      <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="registrar/crear">
+      <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="/inventario/items/registrar/crear">
         <span class="hidden sm:inline"> + Registrar Item</span>
         <span class="inline sm:hidden">+</span>
       </NuxtLink>

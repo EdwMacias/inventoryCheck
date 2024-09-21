@@ -1,5 +1,6 @@
+import { array, object } from "yup";
 import type { EquipoRequestCreate } from "../Models/Api/Request/equipo.request";
-import type { EquipoEntity } from "../Models/Entities/equipo";
+import type { componentes, EquipoEntity } from "../Models/Entities/equipo";
 
 export class EquipoRequestCreateDTO implements EquipoEntity {
     name: string;
@@ -45,6 +46,7 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
     cond_ambientales: boolean;
     cond_transporte: boolean;
     cond_otras: boolean;
+    componentes: componentes[];
 
     constructor(data: any) {
         this.name = data.name;
@@ -90,13 +92,27 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
         this.cond_ambientales = data.cond_ambientales;
         this.cond_transporte = data.cond_transporte;
         this.cond_otras = data.cond_otras;
+        this.componentes = data.componentes;
     }
 
     toFormData(): FormData {
         const formData = new FormData();
 
         Object.entries(this).forEach(([key, value]) => {
-            if (value !== null && value !== undefined && value !== '') {
+            if (Array.isArray(value)) {
+                value.forEach((component: componentes, index: number) => {
+                    let espacio = 0;
+                    if (component.nombre != '' && component.unidad != '') {
+                        Object.keys(component).forEach((prop) => {
+                            if (component[prop] == '') {
+                                component[prop] = null;
+                            }
+                        });
+                        formData.append(`${key}[${espacio}]`, JSON.stringify(component));
+                        espacio++;
+                    }
+                });
+            } else if (value !== '' && value !== null && value !== undefined) {
                 formData.append(key, value);
             }
         });

@@ -224,6 +224,7 @@
           </div>
         </div>
       </div>
+
       <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Adquisición*"
         :checked="isTabActive == '4'" @click="isTabActive = '4'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
@@ -274,8 +275,8 @@
               <VeeField name="calibracion.fecha_calibracion_actual" type="date"
                 v-model="formulario.fecha_calibracion_actual"
                 :class="`input  w-full ${errors['calibracion.fecha_calibracion_actual'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.fecha_calibracion_actual" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.fecha_calibracion_actual" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -283,8 +284,8 @@
               <VeeField name="calibracion.fecha_proxima_calibracion" type="date"
                 v-model="formulario.fecha_proxima_calibracion"
                 :class="`input  w-full ${errors['calibracion.fecha_proxima_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.fecha_proxima_calibracion" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.fecha_proxima_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -292,8 +293,8 @@
               <VeeField name="calibracion.maxima_incertidumbre_calibracion"
                 v-model="formulario.maxima_incertidumbre_calibracion" placeholder="0.1"
                 :class="`input  w-full ${errors['calibracion.maxima_incertidumbre_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.maxima_incertidumbre_calibracion" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.maxima_incertidumbre_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -301,8 +302,8 @@
               <VeeField name="calibracion.proveedor_calibracion" v-model="formulario.proveedor_calibracion"
                 placeholder="Empresa de Calibración"
                 :class="`input  w-full ${errors['calibracion.proveedor_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.proveedor_calibracion" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.proveedor_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -310,8 +311,8 @@
               <VeeField name="calibracion.contacto_calibracion" v-model="formulario.contacto_calibracion"
                 placeholder=" +573101234567"
                 :class="`input  w-full ${errors['calibracion.contacto_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.contacto_calibracion" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.contacto_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -319,8 +320,8 @@
               <VeeField name="calibracion.email_calibracion" v-model="formulario.email_calibracion"
                 placeholder=" example@gmail.com"
                 :class="`input  w-full ${errors['calibracion.email_calibracion'] ? 'input-error' : 'input-bordered'}`" />
+              <VeeErrorMessage name="calibracion.email_calibracion" class="text-error mx-2 text-sm" />
             </div>
-            <VeeErrorMessage name="calibracion.email_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -352,8 +353,81 @@
         </div>
       </div>
 
-      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Condiciones" :checked="isTabActive == '6'"
-        @click="isTabActive = '6'" />
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Componentes*"
+        :checked="isTabActive == '6'" @click="isTabActive = '6'" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="overflow-x-auto">
+          <div class="flex justify-end mb-2">
+            <button type="button" class="  btn btn-sm btn-neutral rounded-full" @click="addComponent">Agregar +</button>
+          </div>
+          <table class="table table-zebra table-sm">
+            <thead>
+              <tr>
+                <th>Serial</th>
+                <th>Nombre*</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Cantidad*</th>
+                <th>Unidad</th>
+                <th>Cuidados</th>
+                <th>Quitar</th>
+              </tr>
+            </thead>
+            <tbody class="">
+              <tr v-for="(x, index) in formulario.componentes.length">
+                <td>
+                  <VeeField :name="`componentes[${index}].serial`" v-model="formulario.componentes[index].serial"
+                    placeholder="Serial"
+                    :class="`input input-sm w-full ${errors[`componentes[${index}].serial`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].serial`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].nombre`" v-model="formulario.componentes[index].nombre"
+                    placeholder="Nombre*"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].nombre`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].nombre`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].marca`" v-model="formulario.componentes[index].marca"
+                    placeholder="Marca"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].marca`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].marca`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].modelo`" v-model="formulario.componentes[index].modelo"
+                    placeholder="Modelo"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].modelo`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].modelo`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].cantidad`" v-model="formulario.componentes[index].cantidad"
+                    placeholder="Cantidad*"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].cantidad`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].cantidad`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].unidad`" v-model="formulario.componentes[index].unidad"
+                    placeholder="Unidad"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].unidad`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].unidad`" class="text-error mx-2 text-sm" />
+                </td>
+                <td>
+                  <VeeField :name="`componentes[${index}].cuidados`" v-model="formulario.componentes[index].cuidados"
+                    placeholder="Cuidados"
+                    :class="`input input-sm  w-full ${errors[`componentes[${index}].cuidados`] ? 'input-error' : 'input-bordered'}`" />
+                  <VeeErrorMessage :name="`componentes[${index}].cuidados`" class="text-error mx-2 text-sm" />
+                </td>
+                <td><button type="button" class="btn btn-sm btn-neutral rounded-full"
+                    :disabled="formulario.componentes.length <= 1" @click="deleteComponent(index)">-</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Condiciones" :checked="isTabActive == '7'"
+        @click="isTabActive = '7'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-4 lg:gap-4 ">
           <div>
@@ -434,16 +508,31 @@
 
 <script lang="ts" setup>
 import { EquipoEntityClass, type EquipoEntity } from '~/Domain/Models/Entities/equipo';
-
 const handleCancel = () => router.push('/inventario/items');
 const isTabActive: Ref<string> = ref('1');
-
-import swal from 'sweetalert2';
+const { $swal } = useNuxtApp()
 const router = useRouter();
 
 const emits = defineEmits<{
   (event: 'callback', payload: EquipoEntity): void
 }>();
+
+const addComponent = () => {
+  formulario.value.componentes.push({
+    serial: '',
+    cantidad: '',
+    cuidados: '',
+    marca: '',
+    modelo: '',
+    nombre: '',
+    unidad: ''
+  })
+}
+const deleteComponent = (index: number) => {
+  if (formulario.value.componentes.length > 1) {
+    formulario.value.componentes.splice(index, 1);
+  }
+}
 
 const inputFile = ref();
 const { setImagen } = useImagen();
@@ -473,9 +562,7 @@ const formularioEquipoSchema = yup.object({
     periodicidad_verificacion: yup.string().required('Este campo es requerido*'),
     proveedor: yup.string().required('Este campo es requerido*'),
     contacto_proveedor: yup.string().required('Este campo es requerido*').matches(/^\d+$/, 'Solo se permiten números'),
-    // telefono_proveedor: yup.string().required('Este campo es requerido*').matches(/^\d+$/, 'Solo se permiten números'),
     email_proveedor: yup.string().required('Este campo es requerido*').email(),
-    // name: yup.string().required('Este campo es requerido*'),
   }),
   caracteristica: yup.object().shape({
     resolucion: yup.string().nullable(),
@@ -519,6 +606,20 @@ const formularioEquipoSchema = yup.object({
     email_calibracion: yup.string().nullable().email(),
     telefono_calibracion: yup.string().nullable().matches(/^\d+$/, 'Solo se permiten números'),
   }),
+  componentes: yup.array().of(
+    yup.object({
+      serial: yup.string().nullable(),
+      nombre: yup.string().required('El nombre es requerido*'),
+      marca: yup.string().nullable(),
+      modelo: yup.string().nullable(),
+      cantidad: yup.string()
+        .matches(/^\d+$/, 'La cantidad solo puede contener números*')
+        .required('La Cantidad es requerida*')
+        .test('no-cero', 'La Cantidad no puede ser 0*', value => value !== '0'),
+      unidad: yup.string().nullable(),
+      cuidados: yup.string().nullable(),
+    })
+  ),
 
 });
 
@@ -533,7 +634,7 @@ const handleFileChange = (event: Event) => {
 
 const onSubmit = (values: any) => {
   if (!formulario.value.resource) {
-    swal.fire({
+    $swal.fire({
       icon: 'info',
       title: "Falta recurso imagen",
       text: "Hubo un error por favor incluya la imagen.",
@@ -550,23 +651,31 @@ const onSubmit = (values: any) => {
 
   return emits("callback", form);
 }
+function containsComponent(data: Record<string, unknown>, term: string): boolean {
+  const regex = new RegExp(`^${term}\\[\\d+\\]`);
+  return Object.keys(data).some(key => regex.test(key));
+}
+
 function containsTerm(data: Record<string, unknown>, term: string): boolean {
   return Object.keys(data).some(key => key.includes(term));
 }
 
-
 const tabMapping: Record<string, string> = {
   equipo: '1',
+  fotografias: '2',
   caracteristica: '3',
   adquisicion: '4',
-  calibracion: '5'
+  calibracion: '5',
+  componentes: '6',
+  condiciones: '7',
 };
 
 const invalidSubmit = (values: any) => {
   for (const [key, tab] of Object.entries(tabMapping)) {
-    if (containsTerm(values.errors, key)) {
+
+    if (containsTerm(values.errors, key) || containsComponent(values.errors, key)) {
       isTabActive.value = tab;
-      swal.fire({
+      $swal.fire({
         icon: 'info',
         title: "Campos no diligenciados",
         text: "Rellene todos los campos obligatorios.",

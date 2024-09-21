@@ -6,8 +6,7 @@ export const EquipoService = {
     create: async (equipoEntity: EquipoEntity) => {
         const equipoCreateRequestDTO = new EquipoRequestCreateDTO(equipoEntity);
         const equipoResponse = await EquipoRepository.create(equipoCreateRequestDTO.toFormData());
-        console.log(equipoResponse);
-        return true;
+        return equipoResponse;
     }
 
 }

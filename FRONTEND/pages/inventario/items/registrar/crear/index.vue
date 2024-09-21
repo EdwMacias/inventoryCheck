@@ -11,7 +11,7 @@
         </ul>
     </div>
 
-    <div class="container mx-auto  ">
+    <div class="mx-5">
         <div class="mb-2">
             <label class="label">
                 <span class="block text-sm font-medium ">Seleccione el registro a crear</span>
@@ -42,7 +42,7 @@ const spinnerStore = SpinnerStore();
 const router = useRouter();
 
 definePageMeta({
-    middleware: ['actions-middleware']
+    // middleware: ['actions-middleware']
 })
 
 const crearEquipo = async (equipoEntity: EquipoEntity) => {
