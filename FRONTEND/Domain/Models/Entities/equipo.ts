@@ -145,7 +145,7 @@ export class EquipoEntityClass implements EquipoEntity {
     this.cond_transporte = equipo?.cond_transporte !== undefined ? equipo?.cond_transporte : false;
     this.cond_otras = equipo?.cond_otras !== undefined ? equipo?.cond_otras : false;
     this.componentes = equipo?.componentes || [{
-      cantidad: '',
+      cantidad: '0',
       serial: '',
       cuidados: '',
       marca: '',

@@ -275,8 +275,8 @@
               <VeeField name="calibracion.fecha_calibracion_actual" type="date"
                 v-model="formulario.fecha_calibracion_actual"
                 :class="`input  w-full ${errors['calibracion.fecha_calibracion_actual'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.fecha_calibracion_actual" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.fecha_calibracion_actual" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -284,8 +284,8 @@
               <VeeField name="calibracion.fecha_proxima_calibracion" type="date"
                 v-model="formulario.fecha_proxima_calibracion"
                 :class="`input  w-full ${errors['calibracion.fecha_proxima_calibracion'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.fecha_proxima_calibracion" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.fecha_proxima_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -293,8 +293,8 @@
               <VeeField name="calibracion.maxima_incertidumbre_calibracion"
                 v-model="formulario.maxima_incertidumbre_calibracion" placeholder="0.1"
                 :class="`input  w-full ${errors['calibracion.maxima_incertidumbre_calibracion'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.maxima_incertidumbre_calibracion" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.maxima_incertidumbre_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -302,8 +302,8 @@
               <VeeField name="calibracion.proveedor_calibracion" v-model="formulario.proveedor_calibracion"
                 placeholder="Empresa de Calibración"
                 :class="`input  w-full ${errors['calibracion.proveedor_calibracion'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.proveedor_calibracion" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.proveedor_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -311,8 +311,8 @@
               <VeeField name="calibracion.contacto_calibracion" v-model="formulario.contacto_calibracion"
                 placeholder=" +573101234567"
                 :class="`input  w-full ${errors['calibracion.contacto_calibracion'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.contacto_calibracion" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.contacto_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -320,8 +320,8 @@
               <VeeField name="calibracion.email_calibracion" v-model="formulario.email_calibracion"
                 placeholder=" example@gmail.com"
                 :class="`input  w-full ${errors['calibracion.email_calibracion'] ? 'input-error' : 'input-bordered'}`" />
-              <VeeErrorMessage name="calibracion.email_calibracion" class="text-error mx-2 text-sm" />
             </div>
+            <VeeErrorMessage name="calibracion.email_calibracion" class="text-error mx-2 text-sm" />
           </div>
           <div>
             <div>
@@ -425,7 +425,7 @@
           </table>
         </div>
       </div>
-      
+
       <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Condiciones" :checked="isTabActive == '7'"
         @click="isTabActive = '7'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
@@ -520,7 +520,7 @@ const emits = defineEmits<{
 const addComponent = () => {
   formulario.value.componentes.push({
     serial: '',
-    cantidad: '',
+    cantidad: '0',
     cuidados: '',
     marca: '',
     modelo: '',
