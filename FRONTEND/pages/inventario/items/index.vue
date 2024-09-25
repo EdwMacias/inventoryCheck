@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-row bordered gap-2 mx-5">
+    <div class="flex flex-row bordered  mx-2">
 
       <NuxtLink class="btn btn-active btn-sm btn-neutral sm:inline-flex" to="/inventario/items/registrar/crear">
         <span class="hidden sm:inline"> + Registrar Item</span>
@@ -44,9 +44,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
       <ClientOnly>
         <p v-if="pagination.data.length == 0">No Se Han Encontrado Registros</p>
-        <Item v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
-          :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id"
-          :identificador="item.id" />
+        <Item v-for="item in pagination.data" :image="item.resource" :images="item.resources" :nombre-item="item.name" :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id" :identificador="item.id" />
       </ClientOnly>
     </div>
 
@@ -87,7 +85,7 @@ const fetchItems = async (url: string | null = null) => {
   SpinnerStore().activeOrInactiveSpinner(true);
   const response = await ItemRepository.Pagination(url);
   pagination.value = response;
-  // console.log(pagination.value.data);
+  console.log(pagination.value.data);
   SpinnerStore().activeOrInactiveSpinner(false);
 };
 
