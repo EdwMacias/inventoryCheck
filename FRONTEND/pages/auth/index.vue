@@ -22,7 +22,7 @@
       </div>
       <div>
         <p class="pt-8">
-          <img src="/images/LogoEmpresa.webp" alt="Logo Cedac" class="rounded-xl w-full"></img>
+          <NuxtImg src="/images/LogoEmpresa.webp" alt="Logo Cedac" class="rounded-xl w-full"></NuxtImg>
         </p>
       </div>
     </div>

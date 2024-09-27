@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         ErrorMessage: 'VeeErrorMessage',
       },
     },
-  ], '@vueuse/nuxt'],
+  ], '@vueuse/nuxt', '@nuxt/image'],
 
   ssr: true,
 
