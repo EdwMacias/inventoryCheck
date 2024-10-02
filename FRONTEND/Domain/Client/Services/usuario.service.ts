@@ -3,6 +3,7 @@ import type { UserDTO } from "~/Domain/DTOs/UsuarioDTO";
 import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.model";
 import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario";
 import { AuthenticationRepository } from "~/Infrastructure/Repositories/Authentication/authentication.repository";
+import { RolesRepository } from "~/Infrastructure/Repositories/Roles/role.repository";
 import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario.repository";
 
 export const UsuarioServices = {
@@ -19,7 +20,9 @@ export const UsuarioServices = {
             UsuarioRepository.setExpire(exp)
         }
         const usuario = await AuthenticationRepository.me();
-        UsuarioRepository.saveUsuario(usuario.data)
+        const roleResponse = await RolesRepository.getRoleUser();
+        UsuarioRepository.saveUsuario(usuario.data);
+        UsuarioRepository.setRoleUser(roleResponse.data.name);
         UsuarioRepository.saveEstadoConectado(true);
 
         return;

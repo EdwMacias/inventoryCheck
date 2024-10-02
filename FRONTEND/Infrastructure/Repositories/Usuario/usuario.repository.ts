@@ -80,5 +80,9 @@ export const UsuarioRepository = {
     inactivarUsuario: async (email: string) => {
         const response = await http.put<boolean>(buildURLWithId(PUT_USUARIO_INACTIVAR, email));
         return response;
+    },
+    setRoleUser: (role: string) => {
+        const usuarioStore = UsuarioStore();
+        usuarioStore.userRole = role;
     }
 }

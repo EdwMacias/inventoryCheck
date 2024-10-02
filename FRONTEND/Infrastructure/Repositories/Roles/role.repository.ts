@@ -1,5 +1,5 @@
 import type { RoleRequestAssingRole } from "~/Domain/Models/Api/Request/Role/RoleRequestAssingRole";
-import { GET_ROLE_USER_BY_EMAIL, POST_ASIGNACION_ROLE_USER } from "~/Infrastructure/Connections/endpoints.connection";
+import { GET_ROLE_USER, GET_ROLE_USER_BY_EMAIL, POST_ASIGNACION_ROLE_USER } from "~/Infrastructure/Connections/endpoints.connection";
 import { http } from "~/Infrastructure/http/http"
 
 interface ResponseRoleUser {
@@ -14,6 +14,10 @@ export const RolesRepository = {
 
     assignarRole: async (roleRequestAssingRole: RoleRequestAssingRole) => {
         const response = await http.post<boolean>(POST_ASIGNACION_ROLE_USER, toFormData(roleRequestAssingRole));
+        return response;
+    },
+    getRoleUser: async () => {
+        const response = await http.get<{ name: string }>(GET_ROLE_USER);
         return response;
     }
 }
