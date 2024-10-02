@@ -17,17 +17,21 @@
           <span class="hidden lg:inline"> + Registrar Item</span>
           <span class="inline sm:inline">+</span>
         </NuxtLink>
-        <label class="input input-md input-bordered flex items-center mx-1">
-          <input type="text" class="w-full" placeholder="Serial/Nombre Item" v-model="searchQuery" />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
-            <path fill-rule="evenodd"
-              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-              clip-rule="evenodd" />
-          </svg>
-        </label>
-        <button class="btn btn-neutral btn-md mx-1" @click="busqueda">
-          Buscar
-        </button>
+        <form id="formsearch-item" class="join mx-3" @submit.prevent="busqueda">
+          <label class="input input-md input-bordered flex join-item items-center ">
+            <input type="text" class="w-full" placeholder="Serial/Nombre Item" v-model="searchQuery" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+              <path fill-rule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clip-rule="evenodd" />
+            </svg>
+
+          </label>
+          <button class="btn btn-neutral btn-md join-item" type="submit">
+            Buscar
+          </button>
+        </form>
+
       </div>
 
       <!-- </div> -->
@@ -119,6 +123,7 @@ const fetchItems = async (url: string | null = null) => {
   loading.value = false;
   // SpinnerStore().activeOrInactiveSpinner(false);
 };
+const searchBefore: Ref<boolean> = ref(false);
 
 const changePage = async (url: string | null) => {
   await fetchItems(url);
@@ -132,15 +137,25 @@ const goToPage = async () => {
   }
 };
 
+watch(searchQuery, async (newSearch, oldSearch) => {
+  if (newSearch == '' && searchBefore.value) {
+    await fetchItems();
+    searchBefore.value = false;
+  }
+});
+
 const busqueda = async () => {
+  if (searchQuery.value == '') {
+    return;
+  }
   SpinnerStore().activeOrInactiveSpinner(true);
   loading.value = true;
   const response = await ItemRepository.PaginationBySearch(searchQuery.value);
   pagination.value = response;
   pagination.value.links = pagination.value.links.slice(1, -1);
+  searchBefore.value = true;
   loading.value = false;
   SpinnerStore().activeOrInactiveSpinner(false);
-  // isSearching.value = !isSearching.value;
 };
 
 </script>

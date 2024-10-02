@@ -68,7 +68,12 @@ const props = defineProps({
 const formularioItemBasicoSchema = yup.object({
   name: yup.string().required('Campo requerido *'),
   serie_lote: yup.string().required('Campo requerido *'),
-  valor_adquisicion: yup.string().required('Campo requerido *'),
+  valor_adquisicion: yup
+    .string()
+    .required('Campo requerido *')
+    .test('is-numeric', 'Debe ser un número', (value: any) => {
+      return value !== undefined && !isNaN(value);
+    }),
 });
 
 const formulario = ref<FormularioItemBasicoDTO>({
@@ -109,7 +114,7 @@ const formattedValorAdquisicion = computed(() => {
 
 
 const onSubmit = async (values: any) => {
-  if (!formulario.value.images) {
+  if (formulario.value.images.length == 0) {
     swal.fire({
       icon: 'warning',
       title: 'Falta Cargar Imagenes',

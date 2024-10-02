@@ -7,17 +7,17 @@
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
           <li v-if="category == '1'">
-            <a v-if="category == '1'" @click="pushRoute(itemId, identificador)">
+            <a v-if="category == '1'" @click="pushRoute(itemId, identificador, category)">
               Historial Observacion Equipo
             </a>
           </li>
           <li v-if="category == '1'"><a>Crear Observacion Equipo</a></li>
-          <li v-if="category == '2'"> <a>Historial Item Oficina</a>
+          <li v-if="category == '2'"><a @click="pushRoute(itemId, identificador, category)">Historial Item Oficina</a>
           </li>
         </ul>
       </details>
     </div>
-    
+
     <div class="card-body p-0">
       <div @click="openModal(true)" class="cursor-pointer">
         <NuxtImg v-if="imagenValida" :src="image" style="width: 100%; height: 200px;object-fit: cover"
@@ -72,15 +72,18 @@ function setDefaultImage(event: Event | string) {
   imagenValida.value = false;
 }
 
-const pushRoute = (itemId: string, id: number) => {
+const pushRoute = (itemId: string, id: number, category: string) => {
   const router = useRouter();
 
   localStorage.setItem('item-select', JSON.stringify({
     itemId: itemId,
     identificador: id,
   }))
-
-  return router.push(`/inventario/items/observaciones/equipo/${itemId}`)
+  if (category == '1') {
+    return router.push(`/inventario/items/observaciones/equipo/${itemId}/`)
+  } else {
+    return router.push(`/inventario/items/observaciones/oficina/${itemId}/`)
+  }
 }
 </script>
 

@@ -50,10 +50,14 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
     }
 
     equipoObservacionCreateDTO.equipoId = item.identificador;
-    
-    const response = await EquipoObservacionRepository.create(equipoObservacionCreateDTO.toFormData());
+    try {
+      const response = await EquipoObservacionRepository.create(equipoObservacionCreateDTO.toFormData());
+      return router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
+      
+    } catch (error) {
+      
+    }
 
-    return router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
   }
 
 }

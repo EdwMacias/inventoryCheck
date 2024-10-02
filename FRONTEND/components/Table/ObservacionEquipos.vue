@@ -4,7 +4,7 @@
 <template>
 
   <div class="flex justify-end">
-    <NuxtLink to="crear" class="btn btn-success me-1" @click="isModalOpen = true"><i class="bi bi-plus-circle"></i> Agregar
+    <NuxtLink to="crear" class="btn btn-success me-1"><i class="bi bi-plus-circle"></i> Agregar
     </NuxtLink>
     <button class="btn btn-neutral" @click="reloadTable">
       <i class="bi bi-arrow-clockwise"></i>Recargar Tabla
@@ -84,37 +84,12 @@ const options: Config = {
 
 const table = ref(); // This variable is used in the `ref` attribute for the component
 
-const editClick = (id: any) => {
-  return navigateTo("editar?id=" + id.email)
-}
 
-
-function inactive(id: any) {
-  let title = id.statu_id == 1 ? 'Inactivacion de Usuario' : 'Activación de Usuario';
-  const userDTO = new UserDTO(id);
-  $swal.fire({
-    icon: 'warning',
-    title: title,
-    text: 'Seguro que quiere inactivar el usuario?',
-    showCancelButton: true,
-    confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar',
-    reverseButtons: true
-  }).then(button => {
-    if (button.isConfirmed) {
-      emit("inactivar", userDTO, table)
-    }
-  })
-}
 
 const reloadTable = () => {
   if (table.value && table.value.dt) {
     table.value.dt.draw();
   }
-}
-const buttonRole = (data: any) => {
-  const userDTO = new UserDTO(data);
-  return emit('role', userDTO);
 }
 
 DatatableStore().reload = reloadTable;

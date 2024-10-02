@@ -83,7 +83,7 @@
         <label class="label">
           <span class='block text-sm font-medium leading-6 '>Número de Celular</span>
         </label>
-        <VeeField type="text" placeholder="" v-model="formulario.number_telephone"
+        <VeeField type="text" placeholder="+57321315####" v-model="formulario.number_telephone"
           :class="`input w-full mt-1 ${errors.number_telephone ? 'input-error' : 'input-bordered'}`"
           name="number_telephone">
         </VeeField>
@@ -171,6 +171,7 @@ const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
     }
   } catch (error) {
     console.error(error)
+    spinnerStore.activeOrInactiveSpinner(false);
     return;
   }
   alertaStore.emitNotificacion({ cabecera: 'Notificación', mensaje: mensaje, tipo: 'success' });

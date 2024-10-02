@@ -40,6 +40,7 @@ import type { FormularioCreateItemBasicoDTO } from '~/Domain/DTOs/Request/Items/
 import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
 const spinnerStore = SpinnerStore();
 const router = useRouter();
+const { $swal } = useNuxtApp()
 
 definePageMeta({
     // middleware: ['actions-middleware']
@@ -47,33 +48,63 @@ definePageMeta({
 
 const crearEquipo = async (equipoEntity: EquipoEntity) => {
     spinnerStore.status = true;
-    const response = await EquipoService.create(equipoEntity);
-    spinnerStore.status = false;
+    try {
+        const response = await EquipoService.create(equipoEntity);
+        spinnerStore.status = false;
 
-    if (response) {
-        await emitNotificaciones({
-            tipo: 'success',
-            cabecera: 'Éxito',
-            mensaje: 'Equipo Creado Con Exito',
-        });
-        return router.push('/inventario/items');
+        if (response) {
+            await $swal.fire({
+                title: 'Equipo Creado',
+                text: 'El Equipo Fue Creado Con Exito',
+                icon: 'success'
+            }).then(value => {
+                if (value.dismiss) {
+                    return router.push('/inventario/items');
+                }
+                if (value.isConfirmed) {
+                    return router.push('/inventario/items');
+                }
+            })
+            // await emitNotificaciones({
+            //     tipo: 'success',
+            //     cabecera: 'Éxito',
+            //     mensaje: 'Equipo Creado Con Exito',
+            // });
+            // return router.push('/inventario/items');
+        }
+    } catch (error) {
+        // return;
+        spinnerStore.status = false;
+
     }
+
 }
 
 
 const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateItemBasicoDTO) => {
     spinnerStore.status = true;
-    const response = await itemService.create(formularioCreateItemBasicoDTO);
-    spinnerStore.status = false;
+    try {
+        const response = await itemService.create(formularioCreateItemBasicoDTO);
+        spinnerStore.status = false;
 
-    if (response) {
-        await emitNotificaciones({
-            tipo: 'success',
-            cabecera: 'Éxito',
-            mensaje: 'Item de Oficina Creado Exitosamente',
-        });
-        return router.push('/inventario/items');
+        if (response) {
+            await $swal.fire({
+                title: 'Item Oficina Creado',
+                text: 'El Item Oficina Fue Creado Con Exito',
+                icon: 'success'
+            }).then(value => {
+                if (value.dismiss) {
+                    return router.push('/inventario/items');
+                }
+                if (value.isConfirmed) {
+                    return router.push('/inventario/items');
+                }
+            })
+        }
+    } catch (error) {
+        spinnerStore.status = false;
     }
+
 }
 
 const categoriaSeleccionada: Ref<string> = ref('1');

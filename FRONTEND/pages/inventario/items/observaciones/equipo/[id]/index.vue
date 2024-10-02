@@ -9,7 +9,7 @@
           <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
         </li>
         <li>
-          Observación Equipo 
+          Observación Equipo
         </li>
       </ul>
     </div>
@@ -25,6 +25,10 @@
 </template>
 
 <script lang="ts" setup>
+
+definePageMeta({
+  middleware: ['redirect-trailing-slash']
+})
 
 </script>
 

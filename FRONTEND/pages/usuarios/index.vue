@@ -30,6 +30,9 @@
 </template>
 
 <script lang="ts" setup>
+definePageMeta({
+  middleware: ['redirect-trailing-slash']
+})
 const emailUserSeleccionado = ref('');
 const roleUsuarioSeleccionado = ref();
 const modalRole = ref();

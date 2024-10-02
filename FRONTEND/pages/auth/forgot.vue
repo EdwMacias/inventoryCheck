@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-base-200 flex">
+  <div class="min-h-screen bg-base-200 hero">
 
-    <nuxtLink to="/login" class="btn btn-primary mx-2 mt-2 absolute top-0 left-0">
+    <NuxtLink to="/login" class="btn btn-primary mx-2 mt-2 absolute top-0 left-0">
       <i class="bi bi-box-arrow-left"></i> Regresar al inicio de sesion
-    </nuxtLink>
+    </NuxtLink>
 
     <div class="container mx-auto mt-20">
       <div class="card max-w-3xl lg:card-side mx-auto bg-base-100 shadow-xl">
