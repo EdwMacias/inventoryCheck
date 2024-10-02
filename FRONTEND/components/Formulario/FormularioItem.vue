@@ -71,8 +71,16 @@ const formularioItemBasicoSchema = yup.object({
   valor_adquisicion: yup
     .string()
     .required('Campo requerido *')
+    .matches(/^(?![.,])[\d.,]*$/, 'Debe ser un número válido') // No debe comenzar con punto o coma
     .test('is-numeric', 'Debe ser un número', (value: any) => {
-      return value !== undefined && !isNaN(value);
+      // Verifica que el valor no sea undefined
+      if (value === undefined) return false;
+
+      // Reemplaza las comas por puntos para tratar el valor como número
+      const normalizedValue = value.replace(/,/g, '.');
+
+      // Verifica si el valor normalizado es un número y no es negativo
+      return !isNaN(normalizedValue) && !isNaN(parseFloat(normalizedValue)) && parseFloat(normalizedValue) >= 0;
     }),
 });
 
