@@ -16,7 +16,7 @@ export const UsuarioStore = defineStore({
     usuario: undefined,
     token: undefined,
     expire: 0,
-    userRole: 'ADMINISTRADOR',
+    userRole: 'USUARIO',
   }),
   actions: {
     setUsuario(usuario: UsuarioEntity) {

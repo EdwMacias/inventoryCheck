@@ -46,7 +46,7 @@
             Inicio
           </NuxtLink>
         </li>
-        <li>
+        <li v-if="userRole === 'SUPERADMINISTRADOR'">
           <NuxtLink to="/usuarios/" @click="closeDrawer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path
@@ -102,6 +102,10 @@
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import { UsuarioStore } from '~/stores/UsuarioStore';
+const usuarioStore = UsuarioStore();
+const userRole = usuarioStore.userRole;
+console.log(userRole);
 const { width } = useWindowSize();
 
 const screenSm = computed(() => {
