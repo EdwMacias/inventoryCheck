@@ -30,5 +30,4 @@ function handleFiles(files: File[]) {
 import { UsuarioStore } from '~/stores/UsuarioStore';
 const usuarioStore = UsuarioStore();
 const userRole = usuarioStore.userRole;
-console.log(userRole);
 </script>

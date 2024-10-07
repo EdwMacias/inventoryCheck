@@ -36,7 +36,6 @@ definePageMeta({
 })
 const emailUserSeleccionado = ref('');
 const roleUsuarioSeleccionado = ref();
-console.log(roleUsuarioSeleccionado);
 const modalRole = ref();
 const { $swal } = useNuxtApp();
 

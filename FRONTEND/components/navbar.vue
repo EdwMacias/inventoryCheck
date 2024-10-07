@@ -105,7 +105,6 @@ import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import { UsuarioStore } from '~/stores/UsuarioStore';
 const usuarioStore = UsuarioStore();
 const userRole = usuarioStore.userRole;
-console.log(userRole);
 const { width } = useWindowSize();
 
 const screenSm = computed(() => {
