@@ -1,4 +1,4 @@
-import { SerialCodeRepository } from "~/Infrastructure/Repositories/SerialCodes/SerialCodes.repository";
+import { SerialCodeRepository } from "~/Infrastructure/Repositories/SerialCodes/serialCodes.repository";
 
 export interface FormularioItemBasicoDTO {
     name: string;
