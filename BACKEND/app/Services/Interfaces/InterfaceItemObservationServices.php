@@ -24,4 +24,6 @@ interface InterfaceItemObservationServices
 
   public function createObservacionItemBasico(ItemBasicoObservacionRequestDTO $itemBasicoRequestDTO): ResponseDTO;
 
+  public function getObservacionItemOficinaByItemId($itemID);
+
 }

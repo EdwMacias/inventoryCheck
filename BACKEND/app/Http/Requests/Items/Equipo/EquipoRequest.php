@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Items\Equipo;
 
+use App\Rules\ComponentesEquipoDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EquipoRequest extends FormRequest
@@ -66,6 +67,8 @@ class EquipoRequest extends FormRequest
             'cond_transporte' => 'required|bool',
             'cond_otras' => 'required|bool',
             'resource' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'componentes' => 'array|nullable',
+            'componentes.*' => ['required', new ComponentesEquipoDTO()]
         ];
     }
 

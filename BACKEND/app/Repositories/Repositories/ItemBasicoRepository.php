@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Repositories\Repositories;
+use App\DTOs\ItemDTOs\Basico\ItemBasicoDTO;
 use App\Models\Inventory\ItemBasico;
 use App\Models\Inventory\Observaciones\ItemBasicoObservacion;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
+use DB;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class ItemBasicoRepository implements InterfaceItemBasicoRepository
@@ -13,10 +16,12 @@ class ItemBasicoRepository implements InterfaceItemBasicoRepository
      * @param array $itemBasico
      * Datos del item basico a crear
      */
-    public function create(array $itemBasico)
+    public function create(array $itemBasico, $prefix = null)
     {
-        $itemBasico = new ItemBasico($itemBasico);
-        return $itemBasico->save();
+        $itemBasico = ItemBasico::create($itemBasico);
+        $itemBasicoDTO = new ItemBasicoDTO($itemBasico);
+        $itemBasico->serie_lote = $this->generateAutoIncrementCode($prefix, $itemBasicoDTO->itemBasicoId);
+        return $itemBasico;
     }
 
     public function getItemBasicoByItemId(string $itemId)
@@ -38,11 +43,61 @@ class ItemBasicoRepository implements InterfaceItemBasicoRepository
      */
     public function createObservacion(array $datos)
     {
-        return ItemBasicoObservacion::create($datos);
+        $itemBasico = ItemBasicoObservacion::create($datos);
+        return $itemBasico;
     }
 
     public function itemBasicoExistBySerialLote(string $serialLote)
     {
         return ItemBasico::where('serie_lote', $serialLote)->exists();
+    }
+
+
+    /**
+     * Genera un código autoincremental basado en un prefijo dado con bloqueo pesimista.
+     * 
+     * Usa el bloqueo pesimista para evitar duplicación de códigos en situaciones concurrentes.
+     * 
+     * @param string $prefix El prefijo para el código (por ejemplo, 'SST', 'CCT').
+     * 
+     * @throws \Exception Si ocurre un error en la consulta o en la generación del código.
+     * 
+     * @return string El nuevo código generado (por ejemplo, 'SST00002', 'CCT00003').
+     */
+    private function generateAutoIncrementCode(string $prefix, string $id): string
+    {
+        return DB::transaction(function () use ($prefix, $id) {
+            try {
+                // Bloquea los registros coincidentes con el prefijo dado
+                $lastCode = ItemBasico::where('serie_lote', 'like', "$prefix%")
+                    ->lockForUpdate()->orderBy('serie_lote', 'desc')->get('serie_lote')->first() // Bloqueo pesimista
+                ;
+                // $lastCode = json_encode($lastCode);
+                // throw new Exception("Error al generar el código autoincremental: {$lastCode}");
+
+                // Si no hay ningún código previo con el prefijo, iniciamos desde 1
+                if (!$lastCode) {
+                    $newNumber = 1;
+                } else {
+                    // Extrae el número del último código (ejemplo: 'SST00001' -> 00001)
+                    $lastNumber = intval(substr($lastCode->serie_lote, strlen($prefix)));
+                    // Incrementa el número
+                    $newNumber = $lastNumber + 1;
+                }
+
+                // Formatea el nuevo número con ceros a la izquierda (ejemplo: 1 -> '00001')
+                $newCode = $prefix . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+
+                // Inserta el nuevo código en la tabla
+                ItemBasico::find($id)->update(['serie_lote' => $newCode]);
+
+                // Retorna el nuevo código generado
+                return $newCode;
+
+            } catch (Exception $e) {
+                // Lanza una excepción en caso de error
+                throw new Exception("Error al generar el código autoincremental: {$e->getMessage()}");
+            }
+        });
     }
 }

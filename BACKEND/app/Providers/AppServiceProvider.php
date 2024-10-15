@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfacePqrsRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceRolesUserRepository;
+use App\Repositories\Interfaces\InterfacesSerialCodesRepository;
 use App\Repositories\Interfaces\InterfaceTemporaryCode;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
@@ -22,6 +23,7 @@ use App\Repositories\Repositories\ItemRepository;
 use App\Repositories\Repositories\PqrsRepository;
 use App\Repositories\Repositories\ResourceRepository;
 use App\Repositories\Repositories\RolesUserRepository;
+use App\Repositories\Repositories\SerialCodeRepository;
 use App\Repositories\Repositories\TemporaryCodeRepository;
 use App\Repositories\Repositories\TypeDocumentRepository;
 use App\Repositories\Repositories\TypesObservationRepository;
@@ -60,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceEquipoRespository::class, EquipoRespository::class);
         $this->app->bind(InterfaceItemBasicoRepository::class, ItemBasicoRepository::class);
         $this->app->bind(InterfacePqrsRepository::class, PqrsRepository::class);
+        $this->app->bind(InterfacesSerialCodesRepository::class, SerialCodeRepository::class);
 
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);

@@ -73,4 +73,11 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
     {
         return EquipoObservacion::with(["equipo"])->where("equipo_id", $equipoId);
     }
+
+    public function getTableOficinaObservacionByItemBasicoId($itemBasicoId)
+    {
+        // return EquipoObservacion::with(["equipo"])->where("equipo_id", $equipoId);
+
+    }
+
 }

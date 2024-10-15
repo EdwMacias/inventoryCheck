@@ -67,6 +67,7 @@ class ItemController extends Controller
         ]);
 
         $equipoCreateRequestDTO = EquiposCreateRequestDTO::fromArray($equipoRequest->all());
+        // return response()->json($equipoCreateRequestDTO);
         return $this->itemService->createEquipo($equipoCreateRequestDTO, $equipoRequest->file("resource"));
     }
 }

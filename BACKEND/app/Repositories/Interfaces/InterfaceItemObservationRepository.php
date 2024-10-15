@@ -68,4 +68,5 @@ interface InterfaceItemObservationRepository
      * @return  \Illuminate\Database\Eloquent\Builder constructor de consultas para personalización adicional.
      */
     public function getTableEquipoObservacionByEquipoId($equipoId);
+    public function getTableOficinaObservacionByItemBasicoId($itemBasicoId);
 }

@@ -83,8 +83,10 @@ import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 
+const searchBefore: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(true);
 const searchQuery = ref('');
+const pageInput = ref<number | null>(null);
 const pagination = ref<PaginationResponse<ItemResponse>>({
   current_page: 0,
   data: [],
@@ -100,30 +102,51 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
   to: 0,
   total: 0,
 });
-const pageInput = ref<number | null>(null);
 
-onMounted(async () => {
-  localStorage.removeItem('item-select')
-  // SpinnerStore().activeOrInactiveSpinner(true);
-  const response = await ItemRepository.Pagination();
-  pagination.value = response;
-  pagination.value.links = pagination.value.links.slice(1, -1);
-  loading.value = false;
-  await nextTick();
-  // SpinnerStore().activeOrInactiveSpinner(false);
 
-});
 
 const fetchItems = async (url: string | null = null) => {
-  // SpinnerStore().activeOrInactiveSpinner(true);
+  // Activamos el spinner
   loading.value = true;
-  const response = await ItemRepository.Pagination(url);
-  pagination.value = response;
-  pagination.value.links = pagination.value.links.slice(1, -1);
-  loading.value = false;
-  // SpinnerStore().activeOrInactiveSpinner(false);
+
+  try {
+    const response = await ItemRepository.Pagination(url);
+    let { links, prev_page_url, next_page_url } = response;
+
+    pagination.value = response;
+
+    // Eliminamos el primer y último enlace de paginación
+    links = links.slice(1, -1);
+
+    // Si hay un valor en searchQuery, agregamos el parámetro de búsqueda
+    if (searchQuery.value) {
+      const appendSearchQuery = (url: string) => `${url}&search=${searchQuery.value}`;
+
+      // Modificamos los links de paginación
+      links = links.map(link => {
+        if (link.url) link.url = appendSearchQuery(link.url);
+        return link;
+      });
+
+      // Modificamos prev y next page URL si existen
+      if (prev_page_url) {
+        pagination.value.prev_page_url = appendSearchQuery(prev_page_url);
+      }
+      if (next_page_url) {
+        pagination.value.next_page_url = appendSearchQuery(next_page_url);
+      }
+    }
+
+    pagination.value.links = links;
+
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    // Aquí podrías manejar el error, mostrar mensajes de error, etc.
+  } finally {
+    // Desactivamos el spinner
+    loading.value = false;
+  }
 };
-const searchBefore: Ref<boolean> = ref(false);
 
 const changePage = async (url: string | null) => {
   await fetchItems(url);
@@ -145,19 +168,63 @@ watch(searchQuery, async (newSearch, oldSearch) => {
 });
 
 const busqueda = async () => {
-  if (searchQuery.value == '') {
-    return;
-  }
+  // Si la búsqueda está vacía, salimos inmediatamente
+  if (!searchQuery.value) return;
+
+  // Activamos el spinner y el estado de carga
   SpinnerStore().activeOrInactiveSpinner(true);
   loading.value = true;
-  const response = await ItemRepository.PaginationBySearch(searchQuery.value);
-  pagination.value = response;
-  pagination.value.links = pagination.value.links.slice(1, -1);
-  searchBefore.value = true;
-  loading.value = false;
-  SpinnerStore().activeOrInactiveSpinner(false);
+
+  try {
+    // Realizamos la búsqueda
+    const response = await ItemRepository.PaginationBySearch(searchQuery.value);
+    let { links, prev_page_url, next_page_url } = response;
+
+    // Actualizamos la paginación
+    pagination.value = response;
+
+    // Eliminamos el primer y último enlace de la paginación
+    links = links.slice(1, -1);
+
+    // Función auxiliar para agregar el parámetro de búsqueda a las URLs
+    const appendSearchQuery = (url: string) => `${url}&search=${searchQuery.value}`;
+
+    // Modificamos los links de paginación con el parámetro de búsqueda
+    links = links.map(link => {
+      if (link.url) link.url = appendSearchQuery(link.url);
+      return link;
+    });
+
+    // Modificamos prev y next page URL si existen
+    if (prev_page_url) {
+      pagination.value.prev_page_url = appendSearchQuery(prev_page_url);
+    }
+    if (next_page_url) {
+      pagination.value.next_page_url = appendSearchQuery(next_page_url);
+    }
+
+    // Marcamos que la búsqueda ha sido realizada
+    searchBefore.value = true;
+
+    pagination.value.links = links;
+    // Log para depuración
+    console.log(pagination.value);
+
+  } catch (error) {
+    // Manejamos cualquier error que ocurra durante la búsqueda
+    console.error('Error en la búsqueda:', error);
+  } finally {
+    // Desactivamos el estado de carga y el spinner siempre al final
+    loading.value = false;
+    SpinnerStore().activeOrInactiveSpinner(false);
+  }
 };
 
+onMounted(async () => {
+  localStorage.removeItem('item-select')
+  await fetchItems(null);
+  await nextTick();
+});
 </script>
 
 <style scoped lang="css"></style>

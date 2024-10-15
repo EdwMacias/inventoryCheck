@@ -23,9 +23,7 @@ export class ItemOficinaObservacionDTO implements ObservacionRequestItem {
         formData.append('fecha', this.fecha);
         formData.append('observacion', this.observacion);
 
-        if (this.tipoObservacionId != '0') {
-            formData.append('tipoObservacionId', this.tipoObservacionId);
-        }
+        formData.append('tipoObservacionId', '4');
 
         if (this.resources && this.resources.length > 0) {
             this.resources.forEach((file, index) => {

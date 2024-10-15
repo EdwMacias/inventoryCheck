@@ -15,6 +15,7 @@ class ItemBasicoObservacion extends Model
         "observacion_item_basico_id",
         "item_basico_id",
         "fecha",
-        "descripcion"
+        "descripcion",
+        "user_id"
     ];
 }

@@ -27,6 +27,7 @@ use App\Repositories\Interfaces\InterfaceItemObservationRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Repositories\ItemBasicoRepository;
 use App\Services\Interfaces\InterfaceItemObservationServices;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
@@ -225,4 +226,67 @@ class ItemObservationServices implements InterfaceItemObservationServices
 
         return new ResponseDTO("Se creo exitosamente la observacion", $itemBasicoObservacionResponseDTO);
     }
+
+    public function getObservacionItemOficinaByItemId($itemID)
+    {
+        $responseHandler = new ResponseHandler();
+        $datatableDTO = new DatatableDTO();
+        $request = Request::capture();
+        $observaciones = new EquipoObservacion();
+
+        // return response()->json($this->_equipoRepository->equipoExistByItemID($itemID));
+        if (!$this->itemBasicoRepository->getItemBasicoByItemId($itemID)) {
+            return $responseHandler->setMessages("Equipo no encontrado")->setData($datatableDTO)->setStatus(Response::HTTP_NOT_FOUND)->responses();
+        }
+
+        $equipo = $this->itemBasicoRepository->getItemBasicoByItemId($itemID);
+
+        $equipoDTO = new EquipoDTO($equipo);
+
+        $query = $this->itemObservationRepository->getTableEquipoObservacionByEquipoId($equipoDTO->equipo_id);
+
+        $draw = intval($request->input('draw', 1));
+        $searchValue = $request->input('search.value', null);
+
+        $datatableDTO->recordsTotal = $query->count();
+        $datatableDTO->draw = $draw;
+        $columns = $query->getConnection()->getSchemaBuilder()->getColumnListing($observaciones->getTable());
+
+        if ($searchValue) {
+            $query->where(function (Builder $q) use ($searchValue, $columns) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'like', "%$searchValue%");
+                }
+            });
+        }
+
+        $datatableDTO->recordsFiltered = $query->count();
+
+        if ($request->input('order')) {
+            # code...
+            foreach ($request->input('order') as $order) {
+                $columnIndex = $order['column'];
+                $columnName = $columns[$columnIndex] ?? null;
+                $direction = $order['dir'];
+
+                if ($columnName) {
+                    $query->orderBy($columnName, $direction);
+                }
+            }
+        }
+
+        $start = $request->input('start', 0);
+        $length = $request->input('length', 10);
+
+        if ($length != -1) {
+            $query->offset($start)->limit($length);
+        }
+
+        $datatableDTO->data = $query->get()->transform(function ($observaciones) {
+            return new ObservacionEquipoTableDTO($observaciones);
+        });
+
+        return Response()->json($datatableDTO);
+    }
+
 }

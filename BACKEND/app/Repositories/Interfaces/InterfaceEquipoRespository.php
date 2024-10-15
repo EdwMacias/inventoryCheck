@@ -53,4 +53,6 @@ interface InterfaceEquipoRespository
      * @return bool
      */
     public function equipoExistBySerialLote(string $serialLote);
+
+    public function createComponentesEquipo(array $datos);
 }

@@ -93,6 +93,9 @@ class ItemRepository implements InterfaceItemRepository
         $query = Item::orderBy('created_at', 'asc')
             ->with(['equipo', 'itemBasico']);
 
+        $query->orWhereHas('equipo')
+            ->orWhereHas('itemBasico');
+
         // Si el término de búsqueda no está vacío
         if (!empty($searchTerm)) {
             $query->where(function (Builder $q) use ($searchTerm) {

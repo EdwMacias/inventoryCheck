@@ -20,7 +20,7 @@
 
     <div class="card-body p-0">
       <div @click="openModal(true)" class="cursor-pointer">
-        <NuxtImg v-if="imagenValida" :src="image" style="width: 100%; height: 200px;object-fit: cover"
+        <NuxtImg v-if="imagenValida" :src="image ?? '/images/defaultimage.webp' " style="width: 100%; height: 200px;object-fit: cover"
           @error="setDefaultImage" />
         <NuxtImg v-else src="/images/defaultimage.webp" ref="imagen"
           style="width: 100%; height: 200px; object-fit: cover" />
@@ -54,7 +54,7 @@ function openModal(valor: boolean) {
 
 defineProps<{
   nombreItem: string,
-  image: string,
+  image: any,
   // images: Array<{resource: string}>,
   serialNumber: string,
   itemId: string,

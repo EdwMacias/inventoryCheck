@@ -39,9 +39,17 @@ class ItemObservationController extends Controller
     public function createObservacionItemBasico(ObservacionItemBasicoRequest $observacionItemBasicoRequest)
     {
         $itemBasicoRequestDTO = new ItemBasicoObservacionRequestDTO($observacionItemBasicoRequest);
-        
+
         $responseDTO = $this->itemObservationServices->createObservacionItemBasico($itemBasicoRequestDTO);
- 
+
+        return response()->json($responseDTO, $responseDTO->status);
+    }
+    public function getObservacionItemBasico($id)
+    {
+        // $itemBasicoRequestDTO = new ItemBasicoObservacionRequestDTO($id);
+
+        $responseDTO = $this->itemObservationServices->getObservacionItemOficinaByItemId($id);
+
         return response()->json($responseDTO, $responseDTO->status);
     }
 }

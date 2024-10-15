@@ -8,11 +8,13 @@ use App\DTOs\ItemDTOs\ItemBasicoCreateDTO;
 use App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ComponenteEquipoDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceResourceRepository;
+use App\Repositories\Interfaces\InterfacesSerialCodesRepository;
 use App\Services\Interfaces\InterfaceItemServices;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
@@ -30,17 +32,19 @@ class ItemServices implements InterfaceItemServices
     protected InterfaceResourceRepository $resourceRepository;
     protected InterfaceEquipoRespository $equipoRespository;
     protected InterfaceItemBasicoRepository $itemBasicoRepository;
-
+    protected InterfacesSerialCodesRepository $serialCodesRepository;
     public function __construct(
         InterfaceItemRepository $interfaceItemRepository,
         InterfaceResourceRepository $interfaceResourceRepository,
         InterfaceEquipoRespository $interfaceEquiposRespository,
-        InterfaceItemBasicoRepository $interfaceItemBasicoRepository
+        InterfaceItemBasicoRepository $interfaceItemBasicoRepository,
+        InterfacesSerialCodesRepository $interfacesSerialCodesRepository,
     ) {
         $this->resourceRepository = $interfaceResourceRepository;
         $this->itemRepository = $interfaceItemRepository;
         $this->equipoRespository = $interfaceEquiposRespository;
         $this->itemBasicoRepository = $interfaceItemBasicoRepository;
+        $this->serialCodesRepository = $interfacesSerialCodesRepository;
     }
     /**
      * Crea un item.
@@ -61,14 +65,11 @@ class ItemServices implements InterfaceItemServices
             $itemBasicoCreateDTO = new ItemBasicoCreateDTO($itemBasicoCreateRequestDTO->toArray());
             $itemBasicoCreateDTO->item_id = $itemCreateDTO->item_id;
 
-            if (
-                $this->equipoRespository->equipoExistBySerialLote($itemBasicoCreateDTO->serie_lote) ||
-                $this->itemBasicoRepository->itemBasicoExistBySerialLote($itemBasicoCreateDTO->serie_lote)
-            ) {
-                return $responseHandler->setMessages("El serial que intenta registrar ya fue registrado")
-                    ->setStatus(Response::HTTP_CONFLICT)->responses();
+
+            if (!$this->serialCodesRepository->codeExistByCode($itemBasicoCreateDTO->serie_lote)) {
+                return $responseHandler->setMessages("El tipo de codigo a registar no existe: {$itemBasicoCreateDTO->serie_lote} ")
+                    ->setStatus(Response::HTTP_NOT_FOUND)->responses();
             }
-            ;
 
             $pathResource = [];
             $nombre = Utilidades::sanitizeString($itemBasicoCreateDTO->name);
@@ -78,11 +79,16 @@ class ItemServices implements InterfaceItemServices
                 $pathResource[] = $resourcesDTO->toArray();
             }
 
+
+            $prefixSerielote = $itemBasicoCreateDTO->serie_lote;
+            $itemBasicoCreateDTO->serie_lote = null;
+            $itemCreateDTO->category_id = 2;
+
             $this->itemRepository->create($itemCreateDTO->toArray());
             $this->resourceRepository->createRecords($pathResource);
-            $this->itemBasicoRepository->create($itemBasicoCreateDTO->toArray());
+            $itemBasico = $this->itemBasicoRepository->create($itemBasicoCreateDTO->toArray(), $prefixSerielote);
 
-            return $responseHandler->setData($itemBasicoCreateDTO->toArray())
+            return $responseHandler->setData($itemBasico)
                 ->setMessages("Item Basico Creado Exitosamente")
                 ->setStatus(200)
                 ->responses();
@@ -155,15 +161,22 @@ class ItemServices implements InterfaceItemServices
                 return $responseHandler->setMessages("El serial que intenta registrar ya fue registrado")
                     ->setStatus(Response::HTTP_CONFLICT)->responses();
             }
-            ;
 
             if ($resource) {
                 $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
             }
 
+            $componentesEquipoDTO = array_map(function (ComponenteEquipoDTO $componenteEquipoDTO) use ($itemCreateDTO) {
+                $componenteEquipoDTO->itemId = $itemCreateDTO->item_id;
+                return $componenteEquipoDTO->toArray();
+            }, $equiposCreateRequestDTO->componentes);
+
+
+
             $this->itemRepository->create($itemCreateDTO->toArray());
             $this->resourceRepository->create($resourceDTO);
             $this->equipoRespository->create($equipoCreateDTO->toArray());
+            $this->equipoRespository->createComponentesEquipo($componentesEquipoDTO);
 
             return $responseHandler->setData($equipoCreateDTO->toArray())
                 ->setMessages("Equipo Creado Exitosamente")

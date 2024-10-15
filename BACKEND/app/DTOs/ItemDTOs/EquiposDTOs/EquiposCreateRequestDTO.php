@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DTOs\ItemDTOs\EquiposDTOs;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ComponenteEquipoDTO;
 
 class EquiposCreateRequestDTO
 {
@@ -46,6 +47,10 @@ class EquiposCreateRequestDTO
     public bool $cond_seguridad;
     public bool $cond_transporte;
     public bool $cond_otras;
+    /**
+     * @var array<ComponenteEquipoDTO>
+     */
+    public array $componentes;
 
     public function __construct(
         string $name,
@@ -90,6 +95,7 @@ class EquiposCreateRequestDTO
         bool $cond_seguridad,
         bool $cond_transporte,
         bool $cond_otras,
+        array $componentes,
     ) {
         $this->name = $name;
         $this->fabricante = $fabricante;
@@ -133,6 +139,9 @@ class EquiposCreateRequestDTO
         $this->cond_seguridad = $cond_seguridad;
         $this->cond_transporte = $cond_transporte;
         $this->cond_otras = $cond_otras;
+        foreach ($componentes as $componente) {
+            $this->componentes[] = new ComponenteEquipoDTO(json_decode($componente));
+        }
     }
 
     public static function fromArray(array $data): self
@@ -180,6 +189,7 @@ class EquiposCreateRequestDTO
             $data['cond_seguridad'] ?? null,
             $data['cond_transporte'] ?? null,
             $data['cond_otras'] ?? null,
+            $data['componentes'] ?? [],
         );
     }
 

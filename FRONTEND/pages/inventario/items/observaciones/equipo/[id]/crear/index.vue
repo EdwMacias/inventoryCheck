@@ -34,7 +34,7 @@ const { $swal } = useNuxtApp()
 
 const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCreateDTO) => {
   let selectItem = localStorage.getItem('item-select');
-
+  
   if (selectItem) {
 
     const item: { itemId: string, identificador: number } = JSON.parse(selectItem);

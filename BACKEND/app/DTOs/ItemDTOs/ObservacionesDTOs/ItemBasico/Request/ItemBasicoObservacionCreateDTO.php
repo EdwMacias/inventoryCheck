@@ -9,7 +9,7 @@ class ItemBasicoObservacionCreateDTO
     public $itemBasicoId;
     public $fecha;
     public $descripcion;
-
+    public $userId;
 
     public function __construct(ItemBasicoObservacionRequestDTO $itemBasicoRequestDTO)
     {
@@ -17,6 +17,7 @@ class ItemBasicoObservacionCreateDTO
         $this->itemBasicoId = $itemBasicoRequestDTO->itemBasicoId ?? null;
         $this->descripcion = $itemBasicoRequestDTO->descripcion ?? null;
         $this->fecha = Utilidades::normalizeFecha($itemBasicoRequestDTO->fecha) ?? null;
+        $this->userId = $itemBasicoRequestDTO->userId ?? auth()->user()->getAuthIdentifier();
     }
 
     public function toArray()
@@ -26,6 +27,7 @@ class ItemBasicoObservacionCreateDTO
             "item_basico_id" => $this->itemBasicoId,
             "fecha" => $this->fecha,
             "descripcion" => $this->descripcion,
+            "user_id" => $this->userId,
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repositories\Repositories;
 
 use App\Models\Inventory\Equipo;
+use App\Models\Inventory\EquipoComponentes;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 
 class EquipoRespository implements InterfaceEquipoRespository
@@ -78,4 +79,19 @@ class EquipoRespository implements InterfaceEquipoRespository
         return Equipo::where('serie_lote', $serialLote)->exists();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function createComponentesEquipo(array $datos)
+    {
+        $now = now(); // Obtén la fecha y hora actual
+        $datos = array_map(function ($registro) use ($now) {
+            if (is_array($registro)) {
+                $registro['created_at'] = $now;
+                $registro['updated_at'] = $now;
+            }
+            return $registro;
+        }, $datos);
+        return EquipoComponentes::insert($datos);
+    }
 }

@@ -6,8 +6,8 @@ import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.resposit
 
 export const itemService = {
     create: async (formularioCreateItemBasicoDTO: FormularioCreateItemBasicoDTO) => {
-        const itemBasicoRequestDTO = new ItemBasicoRequestCreateDTO(formularioCreateItemBasicoDTO);
-        const response = await ItemRepository.Create(itemBasicoRequestDTO.toFormData());
+        // const itemBasicoRequestDTO = new ItemBasicoRequestCreateDTO(formularioCreateItemBasicoDTO);
+        const response = await ItemRepository.Create(formularioCreateItemBasicoDTO.toFormData());
         return true;
     },
 }
