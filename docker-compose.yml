@@ -21,8 +21,6 @@ services:
     image: redis/redis-stack-server:7.2.0-v10
     volumes:
       - ~/redis:/data
-    ports:
-      - 6379:6379
     environment:
       - REDIS_ARGS=--requirepass Callofdutybo2#
   queue:
