@@ -71,6 +71,12 @@ class SerialCodesSeeder extends Seeder
                     'nombre' => 'CONTABILIDAD',
                     'codigo' => 'ACCO'
                 ],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                    'nombre' => 'PISTA',
+                    'codigo' => 'PIST'
+                ]
             ]
         );
     }
