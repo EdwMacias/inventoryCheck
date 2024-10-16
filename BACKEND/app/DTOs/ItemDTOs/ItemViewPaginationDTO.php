@@ -9,8 +9,10 @@ class ItemViewPaginationDTO
     public string $item_id;
     public int $id;
     public string $name;
-    public string $serie_lote;
+    public string $serial;
     public string $category_id;
+    public $cantidad;
+    public $unidad;
     public ?string $resource; // Puede ser null si no hay recurso
     /**
      * @var array<ResourcesResponseDTO>
@@ -42,7 +44,7 @@ class ItemViewPaginationDTO
         else {
             $this->name = 'No existe';
             $this->id = 0;
-            $this->serie_lote = '';
+            $this->serial = '';
             $this->resource = null;
         }
     }
@@ -55,7 +57,9 @@ class ItemViewPaginationDTO
     {
         $this->name = $equipo->name;
         $this->id = $equipo->equipo_id;
-        $this->serie_lote = $equipo->serie_lote;
+        $this->serial = $equipo->serie_lote;
+        $this->cantidad = 1;
+        $this->unidad = 'UNI';
         $this->resource = (!empty($equipo->resource) && isset($equipo->resource[0])) ? url($equipo->resource[0]->resource) : null;
         // Convertimos la colección a array antes de pasarla
         $this->mapResources($equipo->resource);
@@ -69,7 +73,9 @@ class ItemViewPaginationDTO
     {
         $this->name = $itemBasico->name;
         $this->id = $itemBasico->item_basico_id;
-        $this->serie_lote = $itemBasico->serie_lote;
+        $this->serial = $itemBasico->serie_lote;
+        $this->cantidad = intval($itemBasico->cantidad ?? '1');
+        $this->unidad = $itemBasico->uniades->codigo ?? 'UNI';
         $this->resource = (!empty($itemBasico->resource) && isset($itemBasico->resource[0])) ? url($itemBasico->resource[0]->resource) : null;
         // Convertimos la colección a array antes de pasarla
         $this->mapResources($itemBasico->resource);

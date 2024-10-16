@@ -2,6 +2,7 @@
 
 namespace App\Services\Services;
 
+use App\DTOs\ItemDTOs\Basico\ItemBasicoDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemBasicoCreateDTO;
@@ -81,14 +82,14 @@ class ItemServices implements InterfaceItemServices
 
 
             $prefixSerielote = $itemBasicoCreateDTO->serie_lote;
-            $itemBasicoCreateDTO->serie_lote = null;
-            $itemCreateDTO->category_id = 2;
+            // $itemBasicoCreateDTO->serie_lote = null;
 
             $this->itemRepository->create($itemCreateDTO->toArray());
             $this->resourceRepository->createRecords($pathResource);
+
             $itemBasico = $this->itemBasicoRepository->create($itemBasicoCreateDTO->toArray(), $prefixSerielote);
 
-            return $responseHandler->setData($itemBasico)
+            return $responseHandler->setData(new ItemBasicoDTO($itemBasico ?? null))
                 ->setMessages("Item Basico Creado Exitosamente")
                 ->setStatus(200)
                 ->responses();

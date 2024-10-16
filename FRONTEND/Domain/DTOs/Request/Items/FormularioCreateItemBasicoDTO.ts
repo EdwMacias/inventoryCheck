@@ -12,6 +12,8 @@ export class FormularioCreateItemBasicoDTO implements FormularioItemBasicoDTO {
     serie_lote: string;
     categoriaItem: string;
     valor_adquisicion: string;
+    unidadId: string;
+    cantidad: string;
     images: File[];
 
     constructor(formulario: FormularioItemBasicoDTO | null) {
@@ -20,6 +22,8 @@ export class FormularioCreateItemBasicoDTO implements FormularioItemBasicoDTO {
         this.valor_adquisicion = formulario?.valor_adquisicion ?? '';
         this.images = formulario?.images ?? [];
         this.categoriaItem = '0';
+        this.unidadId = '0';
+        this.cantidad = '';
 
     }
 
@@ -29,10 +33,11 @@ export class FormularioCreateItemBasicoDTO implements FormularioItemBasicoDTO {
         const formData = new FormData();
 
         formData.append('name', this.name);
-        formData.append('category_id', '2');
+        // formData.append('category_id', '2');
         formData.append('serie_lote', SerialCodeRepository.getCodeById(this.serie_lote) ?? '');
         formData.append('valor_adquisicion', this.valor_adquisicion.toString());
-
+        formData.append('unidadId', this.unidadId);
+        formData.append('cantidad', this.cantidad);
         this.images.forEach((image, index) => {
             formData.append(`resource[${index}]`, image);
         });

@@ -10,6 +10,8 @@ class ItemBasicoCreateDTO
     public $name;
     public $serie_lote;
     public $valor_adquisicion;
+    public $cantidad;
+    public $unidadId;
     public $status_id;
     // public $category_id;
 
@@ -18,6 +20,8 @@ class ItemBasicoCreateDTO
         $this->name = $itemBasico["name"];
         $this->serie_lote = $itemBasico["serie_lote"];
         $this->valor_adquisicion = $itemBasico["valor_adquisicion"];
+        $this->cantidad = $itemBasico["cantidad"];
+        $this->unidadId = $itemBasico["unidad_id"];
         $this->item_id = $itemBasico["item_id"] ?? null;
         $this->status_id = 1;
     }
@@ -26,10 +30,12 @@ class ItemBasicoCreateDTO
     {
         return [
             "name" => $this->name,
-            "serie_lote" => $this->serie_lote,
+            // "serie_lote" => $this->serie_lote,
             "valor_adquisicion" => $this->valor_adquisicion,
             "item_id" => $this->item_id,
-            "status_id" => $this->status_id
+            "unidad_id" => $this->unidadId,
+            "cantidad" => $this->cantidad,
+            // "status_id" => $this->status_id
         ];
     }
 

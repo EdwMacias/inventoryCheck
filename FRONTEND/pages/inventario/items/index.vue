@@ -71,8 +71,8 @@
 
       <p v-if="!loading && pagination.data.length == 0">No Se Han Encontrado Registros</p>
       <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
-        :serial-number="item.serie_lote" :item-id="item.item_id" :category="item.category_id"
-        :identificador="item.id" />
+        :serial-number="item.serial" :item-id="item.item_id" :category="item.category_id" :identificador="item.id"
+        :cantidad="item.cantidad"  :unidad="item.unidad" />
     </div>
 
   </div>
@@ -104,11 +104,12 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
 });
 
 
+const usuarioStore = UsuarioStore();
 
 const fetchItems = async (url: string | null = null) => {
   // Activamos el spinner
   loading.value = true;
-
+  if (!usuarioStore.conectado)  return;
   try {
     const response = await ItemRepository.Pagination(url);
     let { links, prev_page_url, next_page_url } = response;

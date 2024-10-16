@@ -20,8 +20,8 @@
 
     <div class="card-body p-0">
       <div @click="openModal(true)" class="cursor-pointer">
-        <NuxtImg v-if="imagenValida" :src="image ?? '/images/defaultimage.webp' " style="width: 100%; height: 200px;object-fit: cover"
-          @error="setDefaultImage" />
+        <NuxtImg v-if="imagenValida" :src="image ?? '/images/defaultimage.webp'"
+          style="width: 100%; height: 200px;object-fit: cover" @error="setDefaultImage" />
         <NuxtImg v-else src="/images/defaultimage.webp" ref="imagen"
           style="width: 100%; height: 200px; object-fit: cover" />
       </div>
@@ -30,8 +30,16 @@
     <p class="text-lg mx-2">{{ nombreItem }}</p>
     <div class="card-actions p-2">
       <span
-        class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
         {{ category == '1' ? 'Equipo' : 'Oficina' }}
+      </span>
+      <span
+        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+        {{ serialNumber }}
+      </span>
+      <span
+        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+        {{ cantidad }} {{ unidad }}
       </span>
     </div>
 
@@ -59,7 +67,9 @@ defineProps<{
   serialNumber: string,
   itemId: string,
   category: string,
-  identificador: number
+  identificador: number,
+  cantidad: number,
+  unidad: string
 }>();
 
 // currentImage.value = props.image;

@@ -9,6 +9,8 @@ class ItemBasicoCreateRequestDTO
     public $name;
     public $serie_lote;
     public $valor_adquisicion;
+    public $unidadId;
+    public $cantidad;
     public $category_id;
 
     /**
@@ -21,6 +23,8 @@ class ItemBasicoCreateRequestDTO
         $this->name = $itemBasico["name"];
         $this->serie_lote = $itemBasico["serie_lote"];
         $this->valor_adquisicion = $itemBasico["valor_adquisicion"];
+        $this->unidadId = $itemBasico["unidadId"];
+        $this->cantidad = $itemBasico["cantidad"];
         $this->category_id = 2;
         $this->resource = $itemBasico["resource"];
     }
@@ -30,9 +34,11 @@ class ItemBasicoCreateRequestDTO
         return [
             // "item_basico_id" => $this->item_basico_id,
             "name" => $this->name,
+            "cantidad" => $this->cantidad,
+            "unidad_id" => $this->unidadId,
             "serie_lote" => $this->serie_lote,
             "valor_adquisicion" => $this->valor_adquisicion,
-            "category_id" => $this->category_id
+            "category_id" => 2
         ];
     }
 

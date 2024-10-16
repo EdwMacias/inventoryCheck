@@ -7,7 +7,7 @@
     <main class="min-h-screen bg-base-200">
 
       <Navbar v-if="usuarioStore.conectado">
-        <slot></slot>
+        <slot v-if="usuarioStore.conectado"></slot>
       </Navbar>
 
       <slot v-else></slot>

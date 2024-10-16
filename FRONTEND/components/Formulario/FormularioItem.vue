@@ -1,6 +1,7 @@
 <template>
   <VeeForm :validationSchema="formularioItemBasicoSchema" @submit="onSubmit" v-slot="{ meta, errors }">
-    <div class="grid grid-cols-1 md:grid-cols-1 gap-1 mb-1">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
       <div>
         <label class="label">
           <span class="block text-md">Nombre del Item *</span>
@@ -15,7 +16,7 @@
           <span class="block text-md ">Categoria Item *</span>
         </label>
         <VeeField name="categoriaItem" v-model="formulario.serie_lote"
-          :class="`select  w-full mt-1 ${errors.gender_id ? 'select-error' : 'select-bordered'}`" as="select">
+          :class="`select  w-full  ${errors.gender_id ? 'select-error' : 'select-bordered'}`" as="select">
           <option value="0" disabled>Seleccione</option>
           <option value="1">SST</option>
           <option value="2">SECRETARÍA</option>
@@ -30,17 +31,46 @@
         <VeeErrorMessage name="categoriaItem" class="text-error text-sm animate__animated  animate__fadeIn">
         </VeeErrorMessage>
       </div>
-      <div class="mb-2">
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+      <div>
         <label class="label">
-          <span class="block text-md">Precio Adquirido *</span>
+          <span class="block text-md">Cantidad *</span>
         </label>
-        <VeeField name="valor_adquisicion" autocomplete="off" placeholder="$1.000.000,50"
-          v-model="formulario.valor_adquisicion"
-          :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
-        <p class="text-sm mx-2 text-gray-500 mt-2">{{ formattedValorAdquisicion }}</p>
-        <VeeErrorMessage name="valor_adquisicion"
-          class="text-error text-sm animate__animated animate__fadeIn label block" />
+        <VeeField name="cantidad" autocomplete="off" type="text" placeholder="0" v-model="formulario.cantidad"
+          :class="`input w-full  ${errors.cantidad ? 'input-error' : 'input-bordered'}`" />
+        <VeeErrorMessage name="cantidad" class="text-error text-sm animate__animated animate__fadeIn label block">
+        </VeeErrorMessage>
       </div>
+      <div>
+        <label class="label">
+          <span class="block text-md ">Unidad *</span>
+        </label>
+        <VeeField name="unidad" v-model="formulario.unidadId"
+          :class="`select  w-full ${errors.gender_id ? 'select-error' : 'select-bordered'}`" as="select">
+          <option value="0" disabled>Seleccione</option>
+          <option value="1">Metros</option>
+          <option value="2">Galón</option>
+          <option value="3">Pulgadas</option>
+          <option value="4">Unidades</option>
+        </VeeField>
+        <VeeErrorMessage name="unidad" class="text-error text-sm animate__animated  animate__fadeIn">
+        </VeeErrorMessage>
+      </div>
+    </div>
+
+
+    <div class="mb-2">
+      <label class="label">
+        <span class="block text-md">Precio Adquirido *</span>
+      </label>
+      <VeeField name="valor_adquisicion" autocomplete="off" placeholder="$1.000.000,50"
+        v-model="formulario.valor_adquisicion"
+        :class="`input w-full ${errors.valor_adquisicion ? 'input-error' : 'input-bordered'}`" />
+      <p class="text-sm mx-2 text-gray-500 mt-2">{{ formattedValorAdquisicion }}</p>
+      <VeeErrorMessage name="valor_adquisicion"
+        class="text-error text-sm animate__animated animate__fadeIn label block" />
     </div>
 
     <div class="mb-2">
@@ -68,6 +98,7 @@ spinnerStore.activeOrInactiveSpinner(false);
 const emits = defineEmits<{
   (event: 'callback', payload: FormularioCreateItemBasicoDTO): void;
 }>();
+const formulario = ref(new FormularioCreateItemBasicoDTO(null));
 
 const router = useRouter();
 const props = defineProps({
@@ -84,6 +115,10 @@ const formularioItemBasicoSchema = yup.object({
     .mixed()
     .oneOf(['1', '2', '3', '4', '5', '6', '7', '8', '9'], 'Debe seleccionar una opción valida')
     .required('Este campo es obligatorio *'),
+  unidad: yup
+    .mixed()
+    .oneOf(['1', '2', '3', '4'], 'Debe seleccionar una opción valida')
+    .required('Este campo es obligatorio *'),
   valor_adquisicion: yup
     .string()
     .required('Este campo es obligatorio *')
@@ -98,9 +133,22 @@ const formularioItemBasicoSchema = yup.object({
       // Verifica si el valor normalizado es un número y no es negativo
       return !isNaN(normalizedValue) && !isNaN(parseFloat(normalizedValue)) && parseFloat(normalizedValue) >= 0;
     }),
+  cantidad: yup
+    .string()
+    .required('Este campo es obligatorio *')
+    .matches(/^\d+$/, 'Debe ser un número entero válido') // Solo permite dígitos, no puntos ni comas
+    .test('is-integer', 'Debe ser un número entero positivo', (value: any) => {
+      // Verifica que el valor no sea undefined
+      if (value === undefined) return false;
+
+      // Convierte el valor a número
+      const numberValue = parseInt(value, 10);
+
+      // Verifica si es un número entero positivo
+      return Number.isInteger(numberValue) && numberValue >= 0;
+    }),
 });
 
-const formulario = ref(new FormularioCreateItemBasicoDTO(null));
 
 const handleSave = () => { };
 
