@@ -2,7 +2,7 @@ export interface ItemResponse {
     item_id: string,
     name: string,
     description: string,
-    serial: string,
+    serie_lote: string,
     resource: string,
     resources: string[],
     category_id: string,

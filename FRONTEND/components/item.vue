@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-base-100 w-50 shadow-lg m-0 p-0">
+  <div class="card bg-base-100 w-50 shadow-lg m-0 p-0" >
     <div class="absolute top-0 right-0 cursor-pointer">
       <button v-if="showDeleteButton" class="btn btn-error me-2 text-lg rounded-full mt-1"
         @click.prevent="clickButtonDelete(itemId)">
@@ -21,8 +21,6 @@
           </li>
         </ul>
       </details>
-
-
     </div>
 
     <div class="card-body p-0">
@@ -55,6 +53,7 @@
     <CardImagenFull v-else :title="itemName" :idModal="itemId" imagen="/images/defaultimage.webp"
       :isModalOpen="isModalOpen" @close="openModal" />
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -80,7 +79,7 @@ defineProps<{
   identifier: number,          // identificador
   quantity: number,            // cantidad
   unit: string,                // unidad
-  showDeleteButton?: boolean   // btnDelete
+  showDeleteButton?: boolean,   // btnDelete
 }>();
 
 // currentImage.value = props.image;
