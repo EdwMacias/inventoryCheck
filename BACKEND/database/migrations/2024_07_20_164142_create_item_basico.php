@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->index('item_id', strtolower('IItemBas_Item'));
 
             $table->string('name');
-            $table->string('serie_lote');
+            $table->string('serie_lote')->nullable();
             $table->string('valor_adquisicion');
 
             $table->foreign('item_id', strtolower('FItemBas_Item'))->references('item_id')->on('items')

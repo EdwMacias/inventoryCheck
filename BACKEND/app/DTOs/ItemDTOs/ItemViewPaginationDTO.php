@@ -75,7 +75,7 @@ class ItemViewPaginationDTO
         $this->id = $itemBasico->item_basico_id;
         $this->serial = $itemBasico->serie_lote ?? 'Sin serial';
         $this->cantidad = intval($itemBasico->cantidad ?? '1');
-        $this->unidad = $itemBasico->uniades->codigo ?? 'UNI';
+        $this->unidad = $itemBasico->unidades->codigo ?? 'UNI';
         $this->resource = (!empty($itemBasico->resource) && isset($itemBasico->resource[0])) ? url($itemBasico->resource[0]->resource) : null;
         // Convertimos la colección a array antes de pasarla
         $this->mapResources($itemBasico->resource);
