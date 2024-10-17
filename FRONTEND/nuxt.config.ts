@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Chequeo Inventario",
+      title: "INVENTARIO-CEDAC",
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo.ico' }],

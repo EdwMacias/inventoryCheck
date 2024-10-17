@@ -21,6 +21,6 @@ class ItemBasicoObservacionResponseDTO
         $this->descripcion = $itemBasicoObservacion->descripcion;
         $this->createdAt = $itemBasicoObservacion->created_at;
         $this->updatedAt = $itemBasicoObservacion->updated_at;
-        $this->imagenes = $itemBasicoObservacion->resources ?? [];
+        // $this->imagenes = $itemBasicoObservacion->oficina->observaciones->resources ?? [];
     }
 }

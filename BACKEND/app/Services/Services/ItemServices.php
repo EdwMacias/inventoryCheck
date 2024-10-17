@@ -189,7 +189,5 @@ class ItemServices implements InterfaceItemServices
         } catch (QueryException $qe) {
             return $responseHandler->handleException($qe);
         }
-
-
     }
 }

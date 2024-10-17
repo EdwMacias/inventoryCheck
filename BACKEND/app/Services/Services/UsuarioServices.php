@@ -121,14 +121,17 @@ class UsuarioServices implements InterfaceUsuarioServices
     public function obtenerUsuarios()
     {
         $request = Request::capture();
+        $userId = auth()->user()->getAuthIdentifier();
+
         try {
-            $sql = 'SELECT
+            $sql = "SELECT
                     users.*,
                     roles.name AS role
                 FROM
                     users
                 LEFT JOIN user_roles ON user_roles.user_id = users.user_id
-                LEFT JOIN roles ON roles.role_id = user_roles.role_id';
+                LEFT JOIN roles ON roles.role_id = user_roles.role_id
+                WHERE users.user_id <> $userId";
 
             $fields = [
                 "name",

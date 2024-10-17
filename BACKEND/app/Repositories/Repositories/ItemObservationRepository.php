@@ -4,9 +4,12 @@ namespace App\Repositories\Repositories;
 
 use App\DTOs\ItemDTOs\ItemObservationDTO;
 use App\DTOs\ItemDTOs\ItemObservationUpdateDTO;
+use App\Models\Inventory\ItemBasico;
 use App\Models\Inventory\ItemObservation;
 use App\Models\Inventory\Observaciones\EquipoObservacion;
+use App\Models\Inventory\Observaciones\ItemBasicoObservacion;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemObservationRepository implements InterfaceItemObservationRepository
 {
@@ -74,9 +77,24 @@ class ItemObservationRepository implements InterfaceItemObservationRepository
         return EquipoObservacion::with(["equipo"])->where("equipo_id", $equipoId);
     }
 
-    public function getTableOficinaObservacionByItemBasicoId($itemBasicoId)
+    public function getItemBasicoId($itemId)
     {
-        // return EquipoObservacion::with(["equipo"])->where("equipo_id", $equipoId);
+        try {
+            // Obtener el primer registro que coincida con el item_id y devolver solo el campo item_basico_id
+            $itemBasico = ItemBasico::where("item_id", $itemId)->get('item_basico_id')->first();
+
+            if (!$itemBasico) {
+                # code... 
+                throw new \Exception("No sé encontro el item", Response::HTTP_NOT_FOUND);
+
+            }
+            return $itemBasico;
+            // Retorna el item_basico_id o null si no se encuentra
+
+        } catch (\Exception $e) {
+            // Lanza una excepción en caso de error durante la consulta
+            throw new \Exception("Error al buscar el item básico: {$e->getMessage()}", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
     }
 

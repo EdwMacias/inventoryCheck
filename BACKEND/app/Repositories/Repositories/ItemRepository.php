@@ -8,6 +8,7 @@ use App\Models\Views\ItemView;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemRepository implements InterfaceItemRepository
 {
@@ -35,8 +36,18 @@ class ItemRepository implements InterfaceItemRepository
      */
     public function delete($id)
     {
-        $itemModel = Item::on()->find($id);
-        return $itemModel->delete();
+        try {
+            $item = Item::find($id);
+
+            if (!$item) {
+                throw new \Exception("Item no encontrado", Response::HTTP_NOT_FOUND);
+            }
+
+            return $item->delete();
+
+        } catch (\Exception $e) {
+            throw new \Exception("Error al eliminar item : {$e->getMessage()}", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

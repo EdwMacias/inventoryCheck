@@ -68,5 +68,16 @@ interface InterfaceItemObservationRepository
      * @return  \Illuminate\Database\Eloquent\Builder constructor de consultas para personalización adicional.
      */
     public function getTableEquipoObservacionByEquipoId($equipoId);
-    public function getTableOficinaObservacionByItemBasicoId($itemBasicoId);
+    /**
+     * Obtiene el ID básico de un item a partir de su ID.
+     *
+     * Este método busca en la tabla `ItemBasico` el `item_basico_id` correspondiente al `item_id` proporcionado.
+     * 
+     * @param int|string $itemId El identificador del item, puede ser numérico o alfanumérico.
+     * 
+     * @throws \Exception Lanza una excepción si ocurre un error al realizar la consulta.
+     * 
+     * @return mixed|null Retorna el valor del `item_basico_id` o `null` si no se encuentra.
+     */
+    public function getItemBasicoId($itemId);
 }

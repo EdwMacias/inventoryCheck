@@ -37,4 +37,9 @@ class ItemBasico extends Model
             'unidad_id',
         );
     }
+
+    public function observaciones()
+    {
+        return $this->belongsTo(ItemObservation::class, 'item_id', 'item_id')->with("resources");
+    }
 }

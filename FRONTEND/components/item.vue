@@ -1,21 +1,28 @@
 <template>
   <div class="card bg-base-100 w-50 shadow-lg m-0 p-0">
     <div class="absolute top-0 right-0 cursor-pointer">
+      <button v-if="showDeleteButton" class="btn btn-error me-2 text-lg rounded-full mt-1"
+        @click.prevent="clickButtonDelete(itemId)">
+        <i class="bi bi-trash3"></i>
+      </button>
       <details class="dropdown dropdown-end ">
+
         <summary class="btn btn-neutral me-2 rounded-full mt-1">
           <i class="bi bi-three-dots-vertical text-lg"></i>
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
           <li v-if="category == '1'">
-            <a v-if="category == '1'" @click="pushRoute(itemId, identificador, category)">
+            <a v-if="category == '1'" @click="pushRoute(itemId, identifier, category)">
               Historial Observacion Equipo
             </a>
           </li>
           <li v-if="category == '1'"><a>Crear Observacion Equipo</a></li>
-          <li v-if="category == '2'"><a @click="pushRoute(itemId, identificador, category)">Historial Item Oficina</a>
+          <li v-if="category == '2'"><a @click="pushRoute(itemId, identifier, category)">Historial Item Oficina</a>
           </li>
         </ul>
       </details>
+
+
     </div>
 
     <div class="card-body p-0">
@@ -27,7 +34,7 @@
       </div>
     </div>
     <div class="divider m-0"></div>
-    <p class="text-lg mx-2">{{ nombreItem }}</p>
+    <p class="text-lg mx-2">{{ itemName }}</p>
     <div class="card-actions p-2">
       <span
         class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
@@ -35,17 +42,17 @@
       </span>
       <span
         class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        {{ serialNumber }}
+        {{ serial }}
       </span>
       <span
         class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        {{ cantidad }} {{ unidad }}
+        {{ quantity }} {{ unit }}
       </span>
     </div>
 
-    <CardImagenFull v-if="imagenValida" :title="nombreItem" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
+    <CardImagenFull v-if="imagenValida" :title="itemName" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
       @close="openModal" />
-    <CardImagenFull v-else :title="nombreItem" :idModal="itemId" imagen="/images/defaultimage.webp"
+    <CardImagenFull v-else :title="itemName" :idModal="itemId" imagen="/images/defaultimage.webp"
       :isModalOpen="isModalOpen" @close="openModal" />
   </div>
 </template>
@@ -55,21 +62,25 @@
 const imagenValida: Ref<boolean> = ref(true);
 const isModalOpen = ref(false);
 const imagen: Ref<HTMLImageElement | null> = ref(null);
+const emits = defineEmits<{
+  (event: "clickDeleteButton", payload: string): void
+}>();
 
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
 
 defineProps<{
-  nombreItem: string,
+  itemName: string,            // nombreItem
   image: any,
-  // images: Array<{resource: string}>,
-  serialNumber: string,
+  // imageList: Array<{resource: string}>,  // images (si se usa)
+  serial: string,              // serialNumber
   itemId: string,
   category: string,
-  identificador: number,
-  cantidad: number,
-  unidad: string
+  identifier: number,          // identificador
+  quantity: number,            // cantidad
+  unit: string,                // unidad
+  showDeleteButton?: boolean   // btnDelete
 }>();
 
 // currentImage.value = props.image;
@@ -95,6 +106,12 @@ const pushRoute = (itemId: string, id: number, category: string) => {
     return router.push(`/inventario/items/observaciones/oficina/${itemId}/`)
   }
 }
+
+function clickButtonDelete(itemId: string) {
+  return emits("clickDeleteButton", itemId);
+}
+
+
 </script>
 
 <style scoped>

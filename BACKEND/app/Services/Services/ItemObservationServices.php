@@ -21,6 +21,7 @@ use App\DTOs\ResourceDTOs\ResourceDTO;
 use App\DTOs\ResourceDTOs\ResourcesResponseDTO;
 use App\DTOs\ResponsesDTO\ResponseDTO;
 use App\Models\Inventory\Observaciones\EquipoObservacion;
+use App\Models\Inventory\Observaciones\ItemBasicoObservacion;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemObservationRepository;
@@ -232,18 +233,16 @@ class ItemObservationServices implements InterfaceItemObservationServices
         $responseHandler = new ResponseHandler();
         $datatableDTO = new DatatableDTO();
         $request = Request::capture();
-        $observaciones = new EquipoObservacion();
+        $observaciones = new ItemBasicoObservacion();
 
         // return response()->json($this->_equipoRepository->equipoExistByItemID($itemID));
-        if (!$this->itemBasicoRepository->getItemBasicoByItemId($itemID)) {
-            return $responseHandler->setMessages("Equipo no encontrado")->setData($datatableDTO)->setStatus(Response::HTTP_NOT_FOUND)->responses();
+        $itemBasico = $this->itemBasicoRepository->getItemBasicoByItemId($itemID);
+
+        if (!$itemBasico) {
+            return $responseHandler->setMessages("Item no encontrado")->setData($datatableDTO)->setStatus(Response::HTTP_NOT_FOUND)->responses();
         }
 
-        $equipo = $this->itemBasicoRepository->getItemBasicoByItemId($itemID);
-
-        $equipoDTO = new EquipoDTO($equipo);
-
-        $query = $this->itemObservationRepository->getTableEquipoObservacionByEquipoId($equipoDTO->equipo_id);
+        $query = ItemBasicoObservacion::where('item_basico_id', $itemBasico->item_basico_id);
 
         $draw = intval($request->input('draw', 1));
         $searchValue = $request->input('search.value', null);
@@ -283,10 +282,10 @@ class ItemObservationServices implements InterfaceItemObservationServices
         }
 
         $datatableDTO->data = $query->get()->transform(function ($observaciones) {
-            return new ObservacionEquipoTableDTO($observaciones);
+            return new ItemBasicoObservacionResponseDTO($observaciones);
         });
 
-        return Response()->json($datatableDTO);
+        return $datatableDTO;
     }
 
 }

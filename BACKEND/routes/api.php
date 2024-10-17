@@ -33,6 +33,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
 
 Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
     Route::get('', [ItemController::class, 'pagination']);
+    Route::delete('{id}', [ItemController::class, 'destroy']);
 
     Route::group(['prefix' => 'equipo'], function () {
         Route::post('', [ItemController::class, 'createEquipo']);

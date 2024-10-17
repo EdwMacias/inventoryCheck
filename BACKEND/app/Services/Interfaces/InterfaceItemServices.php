@@ -24,4 +24,7 @@ interface InterfaceItemServices
     public function listItemPagination(): JsonResponse;
 
     public function createEquipo(EquiposCreateRequestDTO $equiposCreateRequestDTO, array|UploadedFile|null $resource);
+
+
+
 }

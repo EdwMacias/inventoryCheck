@@ -9,7 +9,7 @@ class ItemViewPaginationDTO
     public string $item_id;
     public int $id;
     public string $name;
-    public string $serial;
+    public  $serial;
     public string $category_id;
     public $cantidad;
     public $unidad;
@@ -57,7 +57,7 @@ class ItemViewPaginationDTO
     {
         $this->name = $equipo->name;
         $this->id = $equipo->equipo_id;
-        $this->serial = $equipo->serie_lote;
+        $this->serial = $equipo->serie_lote ?? 'Sin serial';
         $this->cantidad = 1;
         $this->unidad = 'UNI';
         $this->resource = (!empty($equipo->resource) && isset($equipo->resource[0])) ? url($equipo->resource[0]->resource) : null;
@@ -73,7 +73,7 @@ class ItemViewPaginationDTO
     {
         $this->name = $itemBasico->name;
         $this->id = $itemBasico->item_basico_id;
-        $this->serial = $itemBasico->serie_lote;
+        $this->serial = $itemBasico->serie_lote ?? 'Sin serial';
         $this->cantidad = intval($itemBasico->cantidad ?? '1');
         $this->unidad = $itemBasico->uniades->codigo ?? 'UNI';
         $this->resource = (!empty($itemBasico->resource) && isset($itemBasico->resource[0])) ? url($itemBasico->resource[0]->resource) : null;

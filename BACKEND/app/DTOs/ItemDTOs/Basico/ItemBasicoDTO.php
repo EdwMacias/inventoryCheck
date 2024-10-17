@@ -24,7 +24,7 @@ class ItemBasicoDTO
         $this->serial = $itemBasico->serie_lote ?? null;
         $this->valor = $itemBasico->valor_adquisicion ?? null;
         $this->cantidad = $itemBasico->cantidad ?? null;
-        $this->unidad = new UnidadDTO($itemBasico->unidades ?? null);
+        $this->unidad = $itemBasico->unidades ? new UnidadDTO($itemBasico->unidades ?? null) : null;
         $this->createdAt = $itemBasico->created_at ?? null;
         $this->updatedAt = $itemBasico->updated_at ?? null;
     }

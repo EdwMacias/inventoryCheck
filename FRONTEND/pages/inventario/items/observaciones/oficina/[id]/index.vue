@@ -17,7 +17,10 @@
   <h3 class="font-semibold text-lg  mx-5">Historial de observacion Item Oficina</h3>
 
   <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
-    <TableObservacionItemOficina></TableObservacionItemOficina>
+    <ClientOnly>
+      
+      <TableObservacionItemOficina></TableObservacionItemOficina>
+    </ClientOnly>
   </div>
 
 </template>

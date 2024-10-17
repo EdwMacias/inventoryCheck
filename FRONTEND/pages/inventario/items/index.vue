@@ -11,7 +11,6 @@
       </ul>
     </div>
     <div class="flex">
-      <!-- <div class="sm:flex"> -->
       <div class="flex flex-grow mx-4 ">
         <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" to="/inventario/items/registrar/crear">
           <span class="hidden lg:inline"> + Registrar Item</span>
@@ -31,10 +30,7 @@
             Buscar
           </button>
         </form>
-
       </div>
-
-      <!-- </div> -->
 
       <div class="justify-end mx-5 ">
         <div class="join space-x-2">
@@ -63,16 +59,18 @@
 
 
     <div class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5">
-      <!-- <LoadingsLoader v-if="loading"></LoadingsLoader> -->
       <div v-if="loading" class="col-span-full flex flex-col items-center justify-center h-64">
         <p class="mb-4">Cargando...</p>
         <LoadingsLoader />
       </div>
 
       <p v-if="!loading && pagination.data.length == 0">No Se Han Encontrado Registros</p>
-      <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource" :nombre-item="item.name"
-        :serial-number="item.serial" :item-id="item.item_id" :category="item.category_id" :identificador="item.id"
-        :cantidad="item.cantidad"  :unidad="item.unidad" />
+      <ClientOnly>
+        <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource" :item-name="item.name"
+          :serial="item.serial" :item-id="item.item_id" :category="item.category_id" :identifier="item.id"
+          :quantity="item.cantidad" :unit="item.unidad"
+          :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem" />
+      </ClientOnly>
     </div>
 
   </div>
@@ -82,11 +80,15 @@
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
-
+const usuarioStore = UsuarioStore();
+const spinnerStore = SpinnerStore();
 const searchBefore: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(true);
 const searchQuery = ref('');
 const pageInput = ref<number | null>(null);
+const { $swal } = useNuxtApp()
+
+
 const pagination = ref<PaginationResponse<ItemResponse>>({
   current_page: 0,
   data: [],
@@ -104,12 +106,10 @@ const pagination = ref<PaginationResponse<ItemResponse>>({
 });
 
 
-const usuarioStore = UsuarioStore();
 
 const fetchItems = async (url: string | null = null) => {
   // Activamos el spinner
-  loading.value = true;
-  if (!usuarioStore.conectado)  return;
+  if (!usuarioStore.conectado) return;
   try {
     const response = await ItemRepository.Pagination(url);
     let { links, prev_page_url, next_page_url } = response;
@@ -145,12 +145,13 @@ const fetchItems = async (url: string | null = null) => {
     // Aquí podrías manejar el error, mostrar mensajes de error, etc.
   } finally {
     // Desactivamos el spinner
-    loading.value = false;
   }
 };
 
 const changePage = async (url: string | null) => {
+  loading.value = true;
   await fetchItems(url);
+  loading.value = false;
 };
 
 const goToPage = async () => {
@@ -221,10 +222,50 @@ const busqueda = async () => {
   }
 };
 
+async function deleteItem(itemId: string) {
+  console.log(itemId);
+
+  // Mostrar un cuadro de diálogo de confirmación usando SweetAlert2
+  const response = await $swal.fire({
+    title: '¿Estás seguro?',
+    text: 'No podrás revertir esta acción.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, eliminarlo',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    return result.isConfirmed
+  });
+
+  if (!response) return;
+
+
+  loading.value = true;
+  try {
+    await ItemRepository.Delete(itemId);
+    await fetchItems();
+
+    $swal.fire(
+      'Eliminado!',
+      'El ítem ha sido eliminado.',
+      'success'
+    );
+  } catch (e) {
+    console.error('Error eliminando item:', e);
+  }
+  loading.value = false;
+
+}
+
+
 onMounted(async () => {
+  loading.value = true;
   localStorage.removeItem('item-select')
   await fetchItems(null);
   await nextTick();
+  loading.value = false;
 });
 </script>
 

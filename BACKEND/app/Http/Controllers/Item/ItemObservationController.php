@@ -48,8 +48,8 @@ class ItemObservationController extends Controller
     {
         // $itemBasicoRequestDTO = new ItemBasicoObservacionRequestDTO($id);
 
-        $responseDTO = $this->itemObservationServices->getObservacionItemOficinaByItemId($id);
+        $dataTableDTO = $this->itemObservationServices->getObservacionItemOficinaByItemId($id);
 
-        return response()->json($responseDTO, $responseDTO->status);
+        return response()->json($dataTableDTO);
     }
 }
