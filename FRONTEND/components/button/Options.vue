@@ -2,7 +2,7 @@
   <!-- <div > -->
   <label @click="optionsDeploy" class="btn btn-neutral  rounded-full fixed-button text-2xl "> + </label>
 
-  <div v-if="despliegue" class="button-container">
+  <div :class="['button-container', { 'hidden': !despliegue }]">
     <button type="submit" class="btn btn-success rounded-full option-button  tooltip" style="bottom: 50px;left: 10%;"
       @click="handleSave">
       <svg xmlns="http://www.w3.org/2000/svg" width="2em" viewBox="0 0 24 24">
@@ -31,8 +31,14 @@ const despliegue: Ref<boolean> = ref(false)
 
 const emit = defineEmits(['save', 'cancel'])
 
-const handleSave = () => emit('save', true)
-const handleCancel = () => emit('cancel', true)
+const handleSave = () => {
+  emit('save', true)
+  optionsDeploy();
+}
+const handleCancel = () => {
+  optionsDeploy();
+  emit('cancel', true)
+}
 const optionsDeploy = () => despliegue.value = !despliegue.value;
 
 </script>
@@ -52,7 +58,9 @@ const optionsDeploy = () => despliegue.value = !despliegue.value;
   bottom: 30px;
   z-index: 200;
 }
-
+.hidden {
+  display: none;
+}
 .option-button {
   position: absolute;
   z-index: 200;

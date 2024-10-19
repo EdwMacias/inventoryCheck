@@ -1,6 +1,4 @@
 <template>
-  <h1 class="card-title">¿Olvidaste tu contraseña?</h1>
-  <p class="mb-2 text-xs">Por favor, ingrese el correo electrónico que utilizó para registrarse.</p>
   <VeeForm v-slot="{ handleSubmit, resetForm }" :validationSchema="schemaCorreo" as="div">
     <form @submit="handleSubmit($event, onSubmit)" method="post" id="correoContraseña">
       <VeeField name="email" type="email" v-slot="{ field, meta }">
@@ -24,46 +22,18 @@
 </template>
 
 <script lang="ts" setup>
-import swal from 'sweetalert2';
 
-import { RecoveryPasswordServices } from '~/Domain/Client/Services/recovery/password/recovery.password.services';
-
-const emit = defineEmits(["nextstep"])
-
-async function onSubmit(values: any) {
-
-  const spinnerStore = SpinnerStore();
-  const alertaStore = AlertaStore();
-  const passwordStore = useRecoveryPasswordStore();
-  const email: string = values.email;
-  spinnerStore.activeOrInactiveSpinner(true);
-
-  try {
-    await RecoveryPasswordServices.CodeTemporaryRecovery(email);
-    passwordStore.setEmail(email);
-    spinnerStore.activeOrInactiveSpinner(false);
-    swal.fire({
-      icon: 'success',
-      title: "Notificación",
-      text: 'Recibira un codigo a su correo.',
-      showCancelButton: false,
-      confirmButtonText: 'Confirmar',
-      reverseButtons: true
-    }).then(button => {
-      if (button.isConfirmed) {
-        return emit("nextstep")
-      }
-    })
-  } catch (error: any) {
-    alertaStore.emitNotificacion({ mensaje: error.response.data.messages, tipo: 'warning', cabecera: 'Notificación' });
-  }
-  spinnerStore.activeOrInactiveSpinner(false);
-
-
-}
+const emits = defineEmits<{
+  (event: "callback", payload: string): void
+}>();
 const schemaCorreo = yup.object({
   email: yup.string().required().email()
 });
+
+async function onSubmit(values: any) {
+  const email = values.email;
+  return emits("callback", email);
+}
 
 
 

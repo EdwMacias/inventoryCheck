@@ -223,8 +223,6 @@ const busqueda = async () => {
 };
 
 async function deleteItem(itemId: string) {
-  console.log(itemId);
-
   // Mostrar un cuadro de diálogo de confirmación usando SweetAlert2
   const response = await $swal.fire({
     title: '¿Estás seguro?',

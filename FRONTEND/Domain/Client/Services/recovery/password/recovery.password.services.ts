@@ -13,7 +13,7 @@ export const RecoveryPasswordServices = {
         return response;
     },
 
-    ValidationCodeRecovery: async (email: string, code: number) => {
+    ValidationCodeRecovery: async (email: string, code: string) => {
         let response = await PasswordRepository.ValidateCodeTemporary(email, code);
         return response;
     }

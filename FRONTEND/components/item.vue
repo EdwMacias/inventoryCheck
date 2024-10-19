@@ -50,7 +50,7 @@
       </span>
     </div>
 
-    <CardImagenFull v-if="imagenValida" :title="itemName" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
+    <CardImagenFull v-if="imagenValida" :title="serial" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
       @close="openModal" />
     <CardImagenFull v-else :title="itemName" :idModal="itemId" imagen="/images/defaultimage.webp"
       :isModalOpen="isModalOpen" @close="openModal" />

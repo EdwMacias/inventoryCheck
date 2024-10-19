@@ -1,49 +1,47 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+
 const props = defineProps<{
   fields: number;
 }>();
 
-const data: any = ref([]);
+const data: any = ref(Array(props.fields).fill('')); // Inicializa con un array vacío para cada campo
 const firstInputEl: any = ref(null);
 const emit = defineEmits(['update:modelValue']);
 
 watch(
-  () => data,
+  () => data.value,
   (newVal: any) => {
-    if (
-      newVal.value != '' &&
-      newVal.value.length === props.fields &&
-      !newVal.value.includes('')
-    ) {
-      emit('update:modelValue', Number(newVal.value.join('')));
+    const joinedValue = newVal.join('');
+    if (joinedValue.length === props.fields && !joinedValue.includes('')) {
+      // Emitir el valor como una cadena para preservar los ceros iniciales
+      console.log(joinedValue);
+      
+      emit('update:modelValue', joinedValue);
     } else {
-      emit('update:modelValue', null);
+      emit('update:modelValue', joinedValue);
     }
   },
   { deep: true }
 );
 
-const handleOtpInput = (e : any) => {
+const handleOtpInput = (e: any) => {
   if (e.data && e.target.nextElementSibling) {
     e.target.nextElementSibling.focus();
-  } else if (e.data == null && e.target.previousElementSibling) {
+  } else if (!e.data && e.target.previousElementSibling) {
     e.target.previousElementSibling.focus();
   }
 };
 
 const handlePaste = (e: any) => {
-  const pasteData = e.clipboardData.getData('text');
-  let nextEl = firstInputEl.value[0].nextElementSibling;
-  for (let i = 1; i < pasteData.length; i++) {
-    if (nextEl) {
+  const pasteData = e.clipboardData.getData('text').slice(0, props.fields); // Limita el número de caracteres pegados
+  const inputs = firstInputEl.value; // Acceder a todos los elementos de input
+  for (let i = 0; i < pasteData.length; i++) {
+    if (inputs[i]) {
       data.value[i] = pasteData[i];
-      nextEl = nextEl.nextElementSibling;
     }
   }
 };
 
-// 123456
 </script>
 
 <template>

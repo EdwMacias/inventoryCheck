@@ -8,7 +8,7 @@ import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario
 
 export const UsuarioServices = {
 
-    Login: async (credenciales: LoginRequest) => {
+    Login: async (credenciales: FormData) => {
         const response = await AuthenticationRepository.getToken(credenciales);
 
         let { data } = response;

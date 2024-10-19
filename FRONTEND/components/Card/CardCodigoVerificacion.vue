@@ -1,89 +1,34 @@
 <template>
-  <div>
-    <h2 class="card-title">Código de Verificación</h2>
-    <p class="mt-2 text-sm mb-6">A su correo debió llegar un código. Por favor, digite el código.</p>
+  <VeeForm @submit="onSubmit" :validation-schema="schemaCodigo">
+    <VeeField name="code" class="mb-5" v-slot="{ handleChange }">
+      <FormularioOtpRecuperacionPassword @update:modelValue="handleChange" />
+    </VeeField>
 
-    <VeeForm @submit="onSubmit" :validation-schema="schemaCodigo">
-      <VeeField name="code"  class="mb-5" v-slot="{ handleChange }">
-        <FormularioOtpRecuperacionPassword @update:modelValue="handleChange" />
-      </VeeField>
-
-      <VeeErrorMessage name="code" class=" p-25
+    <VeeErrorMessage name="code" class=" p-25
                   text-error animate__animated  animate__fadeIn">
-      </VeeErrorMessage>
+    </VeeErrorMessage>
 
-      <div class="card-actions justify-end mt-5">
-        <button type="submit" class="btn btn-primary">Confirmar</button>
-      </div>
-    </VeeForm>
-  </div>
+    <div class="card-actions justify-end mt-5">
+      <button type="submit" class="btn btn-primary">Confirmar</button>
+    </div>
+  </VeeForm>
 </template>
 
 <script lang="ts" setup>
-import swal from 'sweetalert2';
-import { RecoveryPasswordServices } from '~/Domain/Client/Services/recovery/password/recovery.password.services';
 
-
-const emit = defineEmits(["reenviarCodigo", "confirmar"]);
+const emits = defineEmits<{
+  (event: "callback", payload: string): void
+}>();
 
 const schemaCodigo = yup.object({
   code: yup.string()
     .required('El código es requerido')
-    .matches(/^\d{6}$/, 'El código debe tener exactamente 6 dígitos, no se permiten letras')
+    .matches(/^\d{6}$/, 'El código debe tener exactamente 6 dígitos y solo números positivos')
 });
 
+
 async function onSubmit(value: any) {
-  const passwordStore = useRecoveryPasswordStore();
-  const spinnerStore = SpinnerStore();
-  const alertaStore = AlertaStore();
-  
-  // Mantén el código como una cadena de texto para la validación
-  const codeString: string = value.code;
-
-  // Si es necesario, conviértelo a número justo antes de enviarlo
-  const code: number = parseInt(codeString, 10);
-
-  spinnerStore.activeOrInactiveSpinner(true);
-  const email = passwordStore.email;
-
-  try {
-    let response;
-    if (email) {
-      response = await RecoveryPasswordServices.ValidationCodeRecovery(email, code);
-      passwordStore.setCode(response.data.codigo_autenticacion);
-    } else {
-      return swal.fire({
-        icon: 'error',
-        title: "Notificación error",
-        text: "Hubo un error por favor recargue la pagina y vuelva a intentar",
-        showCancelButton: false,
-        confirmButtonText: 'Confirmar',
-        reverseButtons: true
-      }).then(button => {
-        if (button.isConfirmed) {
-          return location.reload();
-        }
-        return location.reload();
-      });
-    }
-    spinnerStore.activeOrInactiveSpinner(false);
-
-    swal.fire({
-      icon: 'success',
-      title: "Notificación",
-      text: 'Código Validado Correctamente',
-      showCancelButton: false,
-      confirmButtonText: 'Confirmar',
-      reverseButtons: true
-    }).then(button => {
-      if (button.isConfirmed) {
-        return emit("confirmar", true);
-      }
-    });
-  } catch (error: any) {
-    alertaStore.emitNotificacion({ mensaje: error.response.data.messages, tipo: 'warning', cabecera: 'Notificación' });
-  }
-  spinnerStore.activeOrInactiveSpinner(false);
+  emits("callback",value.code);
 }
 
 

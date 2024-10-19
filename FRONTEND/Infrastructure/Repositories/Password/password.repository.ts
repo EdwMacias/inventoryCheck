@@ -7,7 +7,7 @@ export const PasswordRepository = {
         const response = await http.get<null>('recovery/code/temporary/' + email);
         return response;
     },
-    ValidateCodeTemporary: async (email: string, codigo: number) => {
+    ValidateCodeTemporary: async (email: string, codigo: string) => {
         const response = await http.get<CodePasswordRespose>(`recovery/password/code/authenticacion?email=${email}&codigo=${codigo}`);
         return response;
     },

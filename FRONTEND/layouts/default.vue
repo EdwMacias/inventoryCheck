@@ -2,16 +2,13 @@
   <div class="">
     <header>
       <Alertas></Alertas>
-      <LoadingsSpinner v-if="spinnerStore.status"></LoadingsSpinner>
+      <LoadingsSpinner :show-spinner="spinnerStore.status"></LoadingsSpinner>
     </header>
     <main class="min-h-screen bg-base-200">
-
-      <Navbar v-if="usuarioStore.conectado">
-        <slot v-if="usuarioStore.conectado"></slot>
+      <slot v-if="!usuarioStore.conectado"></slot>
+      <Navbar v-else>
+        <slot></slot>
       </Navbar>
-
-      <slot v-else></slot>
-
     </main>
   </div>
 </template>

@@ -6,7 +6,7 @@ import { http } from "../../http/http";
 
 
 export const AuthenticationRepository = {
-    getToken: async (credenciales: LoginRequest) => {
+    getToken: async (credenciales: FormData) => {
         const response = await http.post<loginResponse>(POST_LOGIN_USUARIO, credenciales);
         return response;
     },
