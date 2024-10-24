@@ -1,4 +1,5 @@
 <template>
+  <NuxtImg src="/images/entrycedac.jpg" class="absolute top-0 left-0 w-full min-h-screen lg:min-h-full object-cover"/>
   <div class="hero bg-base-200 min-h-screen">
     <div class=" hero-content flex flex-col-reverse lg:flex-row items-center justify-center">
       <div class="w-full lg:min-w-[500px]">
@@ -30,7 +31,6 @@
       </div>
     </div>
   </div>
-
   <input type="checkbox" id="modalpqrs" class="modal-toggle" :checked="false" />
   <div class="modal" role="dialog">
     <div class="modal-box">
@@ -119,4 +119,11 @@ const crearPqrs = async (formulario: PqrsEntity) => {
 }
 
 </script>
-<style></style>
+<style scoped>
+.bg-gradient-light {
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(0,0,0,0.2));
+}
+.bg-gradient-dark {
+  background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(255,255,255,0.2));
+}
+</style>
