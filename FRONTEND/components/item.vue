@@ -17,8 +17,8 @@
             </a>
           </li>
           <li v-if="category == '1'"><a>Crear Observacion Equipo</a></li>
-          <li v-if="category == '2'"><a @click="pushRoute(itemId, identifier, category)">Historial Item Oficina</a>
-          </li>
+          <li v-if="category == '2'"><a @click="pushRoute(itemId, identifier, category)">Historial Item Oficina</a></li>
+          <li><a @click="openCV(true)" >Hoja de vida</a></li>
         </ul>
       </details>
     </div>
@@ -29,6 +29,9 @@
           style="width: 100%; height: 200px;object-fit: cover" @error="setDefaultImage" />
         <NuxtImg v-else src="/images/defaultimage.webp" ref="imagen"
           style="width: 100%; height: 200px; object-fit: cover" />
+      </div>
+      <div v-if="isCvOpen" class="cursor-pointer">
+        <CvItem :isCvOpen="isCvOpen" :idCv="itemId"  />
       </div>
     </div>
     <div class="divider m-0"></div>
@@ -43,9 +46,7 @@
         {{ serial }}
       </span>
       <span
-        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        {{ quantity }} {{ unit }}
-      </span>
+        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ quantity }} {{ unit }}</span>
     </div>
 
     <CardImagenFull v-if="imagenValida" :title="serial" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
@@ -57,9 +58,9 @@
 </template>
 
 <script setup lang="ts">
-
 const imagenValida: Ref<boolean> = ref(true);
 const isModalOpen = ref(false);
+const isCvOpen = ref(false);
 const imagen: Ref<HTMLImageElement | null> = ref(null);
 const emits = defineEmits<{
   (event: "clickDeleteButton", payload: string): void
@@ -68,6 +69,12 @@ const emits = defineEmits<{
 function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
+
+function openCV(valor: boolean) {
+  isCvOpen.value = valor;
+}
+
+
 
 defineProps<{
   itemName: string,            // nombreItem
