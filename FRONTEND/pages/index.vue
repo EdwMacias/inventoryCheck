@@ -2,6 +2,7 @@
     <div class="flex flex-col  items-center m-2 p-2 mt-20">
         <NuxtLink to="/inventario/items/" class="kbd"><button>Inventario</button></NuxtLink>
         <NuxtLink to="/usuarios/" class="kbd" v-if="userRole === 'SUPERADMINISTRADOR'"><button>Usuarios</button></NuxtLink>
+        <NuxtLink to="/terceros/" class="kbd"><button>Terceros</button></NuxtLink>
       
     </div>
 </template>

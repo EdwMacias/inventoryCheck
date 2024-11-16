@@ -2,7 +2,7 @@
 
     <table class="table">
       <thead>
-        <tr>
+        <tr class="text-center text-lg">
           <th>Imagen</th>
           <th>Item</th>
           <th>Serial</th>
