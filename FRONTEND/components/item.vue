@@ -1,24 +1,19 @@
 <template>
-  <div class="card bg-base-100 w-50 shadow-lg m-0 p-0" >
+  <div class="card bg-base-100 w-50 shadow-lg m-0 p-0">
     <div class="absolute top-0 right-0 cursor-pointer">
       <button v-if="showDeleteButton" class="btn btn-error me-2 text-lg rounded-full mt-1"
         @click.prevent="clickButtonDelete(itemId)">
         <i class="bi bi-trash3"></i>
       </button>
       <details class="dropdown dropdown-end ">
-
         <summary class="btn btn-neutral me-2 rounded-full mt-1">
           <i class="bi bi-three-dots-vertical text-lg"></i>
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
-          <li v-if="category == '1'">
-            <a v-if="category == '1'" @click="pushRoute(itemId, identifier, category)">
-              Historial Observacion Equipo
-            </a>
+          <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
           </li>
-          <li v-if="category == '1'"><a>Crear Observacion Equipo</a></li>
-          <li v-if="category == '2'"><a @click="pushRoute(itemId, identifier, category)">Historial Item Oficina</a>
-          </li>
+          <!-- <li v-if="showAddRepair"><a @click="clickAddRepair(itemId)"> Historial Repuestos </a>
+          </li> -->
         </ul>
       </details>
     </div>
@@ -62,7 +57,9 @@ const imagenValida: Ref<boolean> = ref(true);
 const isModalOpen = ref(false);
 const imagen: Ref<HTMLImageElement | null> = ref(null);
 const emits = defineEmits<{
-  (event: "clickDeleteButton", payload: string): void
+  (event: "clickDeleteButton", payload: string): void,
+  (event: "clickObservaciones", payload: { itemId: string, identifier: number, category: string }): void
+  (event: "clickAddRepair", payload: string): void
 }>();
 
 function openModal(valor: boolean) {
@@ -80,6 +77,7 @@ defineProps<{
   quantity: number,            // cantidad
   unit: string,                // unidad
   showDeleteButton?: boolean,   // btnDelete
+  showAddRepair?: boolean
 }>();
 
 // currentImage.value = props.image;
@@ -92,23 +90,18 @@ function setDefaultImage(event: Event | string) {
   imagenValida.value = false;
 }
 
-const pushRoute = (itemId: string, id: number, category: string) => {
-  const router = useRouter();
-
-  localStorage.setItem('item-select', JSON.stringify({
-    itemId: itemId,
-    identificador: id,
-  }))
-  if (category == '1') {
-    return router.push(`/inventario/items/observaciones/equipo/${itemId}/`)
-  } else {
-    return router.push(`/inventario/items/observaciones/oficina/${itemId}/`)
-  }
+const pushRoute = (datos: { itemId: string, identifier: number, category: string }) => {
+  return emits("clickObservaciones", datos)
 }
 
 function clickButtonDelete(itemId: string) {
   return emits("clickDeleteButton", itemId);
 }
+
+function clickAddRepair(itemId: string) {
+  return emits("clickAddRepair", itemId);
+}
+
 
 
 </script>

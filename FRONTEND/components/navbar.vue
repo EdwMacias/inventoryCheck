@@ -20,7 +20,7 @@
         </div>
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal">
-            <li v-if="screenSm">
+            <li :class="[{ 'hidden': !screenSm }]">
               <Tema />
             </li>
           </ul>
@@ -79,7 +79,7 @@
               Opciones
             </summary>
             <ul>
-              <li v-if="!screenSm">
+              <li :class="[{ 'hidden': screenSm }]">
                 <Tema />
               </li>
               <li>

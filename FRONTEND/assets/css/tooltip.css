@@ -1,0 +1,28 @@
+.option-button {
+    position: absolute;
+    z-index: 200;
+}
+
+.tooltip .tooltiptext {
+    /* Si el tooltip debe estar a la izquierda, ajusta el left */
+    left: -100px;
+    /* Ajusta según la distancia que quieras respecto al botón */
+    top: 50%;
+    transform: translateY(-50%);
+    visibility: hidden;
+    width: 80px;
+    background-color: oklch(var(--n));
+    color: oklch(var(--sc));
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

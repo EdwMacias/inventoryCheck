@@ -58,7 +58,8 @@
     </div>
 
     <!--Espacio de items-->
-    <div :class="statusView ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5' : 'gap-4 mt-2 p-5'">
+    <div
+      :class="statusView ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5' : 'gap-4 mt-2 p-5'">
       <div v-if="loading" class="col-span-full flex flex-col items-center justify-center h-64">
         <p class="mb-4">Cargando...</p>
         <LoadingsLoader />
@@ -66,26 +67,42 @@
 
       <p v-if="!loading && pagination.data.length == 0">No Se Han Encontrado Registros</p>
       <ClientOnly>
-        <Item v-if="!loading && statusView" v-for="item in pagination.data" :image="item.resource" :item-name="item.name" :serial="item.serie_lote" :item-id="item.item_id" :category="item.category_id" :identifier="item.id" :quantity="item.cantidad" :unit="item.unidad" :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem" />
-        <ListItem v-else-if="!loading && !statusView" :data="pagination.data" :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem" ></ListItem>
-        </ClientOnly>
-        <!--Boton flotante para cambiar estilo de vista-->
-        <div class="fixed-button">
-          <label class="btn btn-outline btn-circle swap swap-rotate ">
-            <input type="checkbox" @change="statusView = !statusView">
-            <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.616 20q-.691 0-1.153-.462T3 18.384V7.616q0-.691.463-1.153T4.615 6h2.958l1.366-1.485q.217-.242.527-.379Q9.777 4 10.125 4h3.75q.348 0 .659.137q.31.136.527.379L16.428 6h2.958q.69 0 1.153.463T21 7.616v10.769q0 .69-.462 1.153T19.385 20zm0-1h14.769q.269 0 .442-.173t.173-.442V7.615q0-.269-.173-.442T19.385 7h-3.397l-1.844-2H9.856L8.012 7H4.615q-.269 0-.442.173T4 7.616v10.769q0 .269.173.442t.443.173m3.692-2.385h7.538q.243 0 .354-.217q.112-.217-.03-.429l-2.02-2.713q-.13-.162-.323-.162q-.192 0-.323.162l-2.292 2.898l-1.427-1.725q-.131-.142-.314-.142q-.182 0-.313.161l-1.154 1.521q-.162.212-.05.429q.112.218.354.218"/></svg>
-            <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M5 13h14v-2H5m-2 6h14v-2H3m4-8v2h14V7"/></svg>
-          </label>
-        </div>
+        <Item v-if="!loading && statusView" v-for="item in pagination.data" :image="item.resource"
+          :item-name="item.name" :serial="item.serial" :item-id="item.item_id" :category="item.category_id"
+          :identifier="item.id" :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
+          :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem"
+          @click-observaciones="pushRoute" @click-add-repair="pushRepair" />
+
+        <ListItem v-if="!loading && !statusView" :data="pagination.data"
+          :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem">
+        </ListItem>
+
+      </ClientOnly>
+      <!--Boton flotante para cambiar estilo de vista-->
+      <div class="fixed-button">
+        <label class="btn btn-outline btn-circle swap swap-rotate ">
+          <input type="checkbox" @change="statusView = !statusView">
+          <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+            viewBox="0 0 24 24">
+            <path fill="currentColor"
+              d="M4.616 20q-.691 0-1.153-.462T3 18.384V7.616q0-.691.463-1.153T4.615 6h2.958l1.366-1.485q.217-.242.527-.379Q9.777 4 10.125 4h3.75q.348 0 .659.137q.31.136.527.379L16.428 6h2.958q.69 0 1.153.463T21 7.616v10.769q0 .69-.462 1.153T19.385 20zm0-1h14.769q.269 0 .442-.173t.173-.442V7.615q0-.269-.173-.442T19.385 7h-3.397l-1.844-2H9.856L8.012 7H4.615q-.269 0-.442.173T4 7.616v10.769q0 .269.173.442t.443.173m3.692-2.385h7.538q.243 0 .354-.217q.112-.217-.03-.429l-2.02-2.713q-.13-.162-.323-.162q-.192 0-.323.162l-2.292 2.898l-1.427-1.725q-.131-.142-.314-.142q-.182 0-.313.161l-1.154 1.521q-.162.212-.05.429q.112.218.354.218" />
+          </svg>
+          <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+            viewBox="0 0 24 24">
+            <path fill="currentColor" d="M5 13h14v-2H5m-2 6h14v-2H3m4-8v2h14V7" />
+          </svg>
+        </label>
+      </div>
+
     </div>
   </div>
 </template>
 
 <style scoped lang="css">
 .fixed-button {
-  position:fixed;
+  position: fixed;
   left: 10px;
-  bottom:50px;
+  bottom: 50px;
   z-index: 200;
   height: 1em;
 }
@@ -268,6 +285,26 @@ async function deleteItem(itemId: string) {
 
 }
 
+const pushRoute = (datos: { itemId: string, identifier: number, category: string }) => {
+  let path = "/inventario/items/observaciones";
+  const { itemId, identifier, category } = datos;
+  const router = useRouter();
+
+  localStorage.setItem('item-select', JSON.stringify({
+    itemId: itemId,
+    identificador: identifier,
+  }))
+
+  path += category == '1' ? `/equipo/${itemId}/` : `/oficina/${itemId}/`;
+
+  return router.push(path)
+}
+
+const pushRepair = (itemId: string) => {
+  let path = "/inventario/items/registrar/equipo/refaccion/" + itemId;
+  const router = useRouter();
+  return router.push(path)
+}
 
 onMounted(async () => {
   loading.value = true;
@@ -277,4 +314,3 @@ onMounted(async () => {
   loading.value = false;
 });
 </script>
-

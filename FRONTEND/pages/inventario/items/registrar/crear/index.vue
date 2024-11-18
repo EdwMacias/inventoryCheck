@@ -23,10 +23,10 @@
             </select>
         </div>
 
-        <div v-if="categoriaSeleccionada == '1'" class="bg-base-100 p-1 rounded-lg">
+        <div :class="[{ 'hidden': categoriaSeleccionada == '2' }]" class="bg-base-100 p-1 rounded-lg">
             <FormularioEquipos @callback="crearEquipo" />
         </div>
-        <div v-if="categoriaSeleccionada == '2'" class="bg-base-100 p-5 rounded-lg">
+        <div :class="[{ 'hidden': categoriaSeleccionada == '1' }]" class="bg-base-100 p-5 rounded-lg">
             <FormularioItem @callback="crearItemBasico" />
         </div>
 

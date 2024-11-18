@@ -1,5 +1,4 @@
 <template>
-  <!-- <div > -->
   <label @click="optionsDeploy" class="btn btn-neutral  rounded-full fixed-button text-2xl "> + </label>
 
   <div :class="['button-container', { 'hidden': !despliegue }]">
@@ -43,7 +42,10 @@ const optionsDeploy = () => despliegue.value = !despliegue.value;
 
 </script>
 
-<style scoped>
+<style lang="css" scoped>
+
+@import '@/assets/css/tooltip.css';
+
 .fixed-button {
   position: fixed;
   right: 20px;
@@ -58,35 +60,11 @@ const optionsDeploy = () => despliegue.value = !despliegue.value;
   bottom: 30px;
   z-index: 200;
 }
-.hidden {
-  display: none;
-}
+
 .option-button {
   position: absolute;
   z-index: 200;
 }
 
-.tooltip .tooltiptext {
-  /* Si el tooltip debe estar a la izquierda, ajusta el left */
-  left: -100px;
-  /* Ajusta según la distancia que quieras respecto al botón */
-  top: 50%;
-  transform: translateY(-50%);
-  visibility: hidden;
-  width: 80px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 200;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
 
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
 </style>

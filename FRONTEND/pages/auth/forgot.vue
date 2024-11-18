@@ -14,28 +14,26 @@
           <li :class="stepClasses('step_password')">Cambio Contraseña</li>
         </ul>
 
-        <div class="card-body">
 
-          <div :class="[{ 'hidden': !steps.step_email }]">
-            <h1 class="card-title">¿Olvidaste tu contraseña?</h1>
-            <p class="mb-2 text-xs">Por favor, ingrese el correo electrónico que utilizó para registrarse.</p>
-            <FormularioEmailRecuperacionPassword @callback="sendEmail" />
-          </div>
-
-          <div :class="[{ 'hidden': !steps.step_code }]">
-            <h2 class="card-title">Código de Verificación</h2>
-            <p class="mt-2 text-sm mb-6">A su correo debió llegar un código. Por favor, digite el código.</p>
-            <CardCodigoVerificacion @callback="sendCode" />
-          </div>
-
-          <div :class="[{ 'hidden': !steps.step_password }]">
-            <h2 class="card-title">Cambio Contraseña</h2>
-            <p class="mt-2 text-sm mb-6">Digite su nueva contraseña</p>
-
-            <CardRecuperacionPassword @callback="recoveryPassword"></CardRecuperacionPassword>
-          </div>
-
+        <div :class="['card-body', { 'hidden': !steps.step_email }]">
+          <h1 class="card-title">¿Olvidaste tu contraseña?</h1>
+          <p class="mb-2 text-xs">Por favor, ingrese el correo electrónico que utilizó para registrarse.</p>
+          <FormularioEmailRecuperacionPassword @callback="sendEmail" />
         </div>
+
+        <div :class="['card-body', { 'hidden': !steps.step_code }]">
+          <h2 class="card-title">Código de Verificación</h2>
+          <p class="mt-2 text-sm mb-6">A su correo debió llegar un código. Por favor, digite el código.</p>
+          <CardCodigoVerificacion @callback="sendCode" />
+        </div>
+
+        <div :class="['card-body', { 'hidden': !steps.step_password }]">
+          <h2 class="card-title">Cambio Contraseña</h2>
+          <p class="mt-2 text-sm mb-6">Digite su nueva contraseña</p>
+
+          <CardRecuperacionPassword @callback="recoveryPassword"></CardRecuperacionPassword>
+        </div>
+
       </div>
 
     </div>

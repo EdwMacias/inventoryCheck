@@ -33,17 +33,22 @@ const { $swal } = useNuxtApp()
 
 
 const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCreateDTO) => {
+  const spinnerStore = SpinnerStore();
+  spinnerStore.status = true;
   let selectItem = localStorage.getItem('item-select');
-  
+
   if (selectItem) {
 
     const item: { itemId: string, identificador: number } = JSON.parse(selectItem);
     if (route.params.id !== item.itemId) {
-      $swal.fire({
-        title: "Error de información",
-        text: "Ha ocurrido un error inesperado. Por favor vuelva a intentarlo lamentamos el inconveniente",
+      spinnerStore.status = false;
+
+      await $swal.fire({
+        icon: 'error',
+        title: "Error Inesperado",
+        text: "Ha ocurrido un error inesperado. Por favor vuelva a intentarlo, lamentamos el inconveniente.",
         showCancelButton: false,
-      });
+      })
 
       return router.push('/inventario/items');
 
@@ -52,10 +57,21 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
     equipoObservacionCreateDTO.equipoId = item.identificador;
     try {
       const response = await EquipoObservacionRepository.create(equipoObservacionCreateDTO.toFormData());
+      spinnerStore.status = false;
+
+      await $swal.fire({
+        icon: 'success',
+        title: "Observación Creada Correctamente",
+        text: "La observación ha sido guardada exitosamente.",
+        showCancelButton: false,
+      });
+
       return router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
-      
+
+
+
     } catch (error) {
-      
+
     }
 
   }

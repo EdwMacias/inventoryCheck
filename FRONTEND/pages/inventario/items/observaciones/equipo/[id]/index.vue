@@ -13,13 +13,23 @@
         </li>
       </ul>
     </div>
-    <!-- <div class="mx-5"> -->
-    <!-- </div> -->
-    <h3 class="font-semibold text-lg  mx-5">Historial del Equipo</h3>
+
+    <h3 class="font-semibold text-lg mx-5">Historial del Equipo</h3>
     <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
+
+      <div class="flex justify-end">
+        
+        <div class="tooltip  tooltip-left" data-tip="Crear Observacion">
+          <NuxtLink to="crear" class="btn btn-neutral"><i class="bi bi-plus-circle"></i></NuxtLink>
+</div>
+       
+      </div>
+
       <ClientOnly>
+
         <TableObservacionEquipos></TableObservacionEquipos>
       </ClientOnly>
+
     </div>
   </div>
 </template>
@@ -32,4 +42,6 @@ definePageMeta({
 
 </script>
 
-<style></style>
+<style scoped lang='css'>
+@import '@/assets/css/tooltip.css';
+</style>

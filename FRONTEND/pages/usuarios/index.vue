@@ -12,14 +12,13 @@
       </li>
     </ul>
   </div>
-  <ClientOnly>
-    <div class="bg-base-100 container mx-auto p-2 rounded-lg mt-10">
+  <div class="bg-base-100 mx-2 p-2 rounded-md">
+    <ClientOnly>
       <TableUsuario @inactivar="statuUsuario" @role="getDatosRoleUser"></TableUsuario>
-    </div>
-  </ClientOnly>
+    </ClientOnly>
+  </div>
 
   <input type="checkbox" id="modalFormularioRole" ref="modalRole" class="modal-toggle" />
-
   <div class="modal" role="dialog">
     <div class="modal-box">
       <h2 class="text-2xl font-semibold mb-2 ">Asignación de Rol</h2>
@@ -27,6 +26,7 @@
     </div>
     <label class="modal-backdrop" for="modalFormularioRole"></label>
   </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -45,26 +45,21 @@ const getDatosRoleUser = (userDTO: UserDTO) => {
   roleUsuarioSeleccionado.value = userDTO.role;
 }
 
-import type { ConfigColumns } from 'datatables.net-dt';
 import { RoleService } from '~/Domain/Client/Services/Roles/role.service';
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import { RoleRequestAssingRoleDTO } from '~/Domain/DTOs/Request/Roles/RoleRequestAssingRoleDTO';
 import type { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
-import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
 import { DatatableStore } from '~/stores/DatatableStore';
 
-
 async function statuUsuario(userDTO: UserDTO, table: any) {
-
-
   const nombreUsuario = userDTO.name + " " + userDTO.last_name;
-
+  const userName = capitalizeFirstLetter(nombreUsuario);
   let message = userDTO.statu_id == 1 ? {
     title: 'Inactivación de Usuario',
-    text: 'Se inactivará el usuario: ' + capitalizeFirstLetter(nombreUsuario)
+    text: 'Se inactivará el usuario: ' + userName
   } : {
     title: 'Activación de Usuario',
-    text: 'Se activará el usuario: ' + capitalizeFirstLetter(nombreUsuario)
+    text: 'Se activará el usuario: ' + userName
   }
 
   const response = await $swal.fire({
@@ -85,7 +80,14 @@ async function statuUsuario(userDTO: UserDTO, table: any) {
     const spinnerStore = SpinnerStore();
     spinnerStore.activeOrInactiveSpinner(true);
     await UsuarioServices.statuUsuario(userDTO)
-    DatatableStore().reload();
+    await DatatableStore().reload();
+    await $swal.fire({
+      icon: 'info',
+      title: 'Proceso Realizado Con Exito',
+      text: message.title + 'exitosa.',
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+    })
   }
 
 }
@@ -97,38 +99,23 @@ async function asignarRole(user: UserDTO) {
   try {
     spinnerStore.activeOrInactiveSpinner(true);
     const response = await RoleService.assignar(roleRequestDTO)
+    await DatatableStore().reload();
 
     spinnerStore.activeOrInactiveSpinner(false);
-    $swal.fire({
+    await $swal.fire({
       icon: 'success',
       text: response.messages[0],
-    }).then((action) => {
-      if (action.dismiss) {
-        modalRole.value.checked = false;
-        DatatableStore().reload();
-      }
-      if (action.isConfirmed) {
-        modalRole.value.checked = false;
-        DatatableStore().reload();
-      }
     });
+
+    modalRole.value.checked = false;
 
   } catch (error: unknown) {
     spinnerStore.activeOrInactiveSpinner(false);
-    $swal.fire({
+    await $swal.fire({
       icon: 'info',
       text: error as string,
     });
   }
-}
-
-// const capitalizeFirstLetter = (text: string) => {
-//   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-// }
-
-// Función para capitalizar la primera letra de cada palabra en el nombre completo
-const capitalizeFullName = (name: string, lastName: string) => {
-  return `${capitalizeFirstLetter(name)} ${capitalizeFirstLetter(lastName)}`;
 }
 
 const capitalizeFirstLetter = (text: string) => {

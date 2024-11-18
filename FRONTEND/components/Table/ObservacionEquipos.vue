@@ -1,15 +1,9 @@
-<style>
+<style lang="css">
 @import 'datatables.net-dt';
+
 </style>
 <template>
 
-  <div class="flex justify-end">
-    <NuxtLink to="crear" class="btn btn-success me-1"><i class="bi bi-plus-circle"></i> Agregar
-    </NuxtLink>
-    <button class="btn btn-neutral" @click="reloadTable">
-      <i class="bi bi-arrow-clockwise"></i>Recargar Tabla
-    </button>
-  </div>
 
   <DataTable ref="table" class="table table-zebra rounded" :columns="columns" :options="options">
   </DataTable>
