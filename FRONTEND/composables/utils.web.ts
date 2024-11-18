@@ -46,6 +46,9 @@ export function checkWindowSize(size: number) {
   return (window.innerWidth <= size);
 };
 
+export function testConsoleLog() {
+  console.log('test');
+}
 
 export function useImagen() {
   const setImagen = (file: File, imagenRef: Ref<HTMLImageElement | null>): void => {
