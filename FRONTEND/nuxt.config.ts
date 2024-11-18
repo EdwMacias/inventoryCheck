@@ -47,6 +47,6 @@ export default defineNuxtConfig({
   },
 
   plugins: ['@/plugins/passive-event-listeners', '@/plugins/animate-css', '@/plugins/swal', '@/plugins/vue-barcode',],
-  css: ['bootstrap-icons/font/bootstrap-icons.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
+  css: ['bootstrap-icons/font/bootstrap-icons.css', 'vue-multiselect/dist/vue-multiselect.min.css', 'sweetalert2/src/sweetalert2.scss', '~/assets/css/main.css'],
   compatibilityDate: '2024-08-03',
 })

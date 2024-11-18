@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-20">
+  <div class="">
     <div class="breadcrumbs text-lg mx-5">
       <ul>
         <li>

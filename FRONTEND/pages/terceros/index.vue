@@ -1,34 +1,28 @@
 <template>
   <!-- navegacion estatica-->
-  <div class="mt-20">
+  <div class="">
     <div class="breadcrumbs text-lg mx-5">
       <ul>
         <li>
           <NuxtLink to="/">Inicio</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+          <a>Terceros</a>
         </li>
       </ul>
     </div>
-    <!-- contenido de la pagina-->
-    <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
-      <TableTerceros></TableTerceros>
+
+    <div class="container mx-auto mx-5 bg-base-100 rounded-lg p-3">
+      <div class="tooltip tooltip-right transition-transform duration-300 hover:scale-105"
+        data-tip="Registrar Tercero">
+        <NuxtLink class="btn btn-neutral hover:bg-success-content 
+          rounded-full shadow-xl transition-transform duration-300 hover:scale-105 select-none" to="registrar">
+          <i class="bi bi-person-plus-fill"></i>
+        </NuxtLink>
+      </div>
     </div>
-    <div class="container mx-auto bg-base-100 rounded p-2">
-      <button type="button" class="btn btn-outline"  @click="statusModal"> Agregar tercero</button>
-      <dialog class="modal" :open="modalValue">
-        <div class="modal-box">
-          <FormularioTerceros></FormularioTerceros>
-          <form method="dialog" class="modal-backdrop">
-            <button class="btn btn-sm absolute right-2 top-2" @click="statusModal" >x</button>
-          </form>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-          <button @click="statusModal">close</button>
-        </form>
-      </dialog>
-    </div>
+
+
   </div>
 </template>
 
@@ -40,6 +34,4 @@ function statusModal() {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

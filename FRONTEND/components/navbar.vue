@@ -26,7 +26,9 @@
           </ul>
         </div>
       </div>
-      <slot></slot>
+      <div class="mt-20">
+        <slot></slot>
+      </div>
     </div>
     <div class="drawer-side  z-20">
       <label for="navbarDraw" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -107,6 +109,7 @@ const usuarioStore = UsuarioStore();
 const userRole = usuarioStore.userRole;
 const { width } = useWindowSize();
 const router = useRouter();
+
 const screenSm = computed(() => {
   return width.value >= 640;
 });

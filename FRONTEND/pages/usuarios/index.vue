@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs  mx-2 mt-20 text-lg">
+  <div class="breadcrumbs  mx-2 text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
