@@ -1,6 +1,6 @@
-FROM node:20.13.1-alpine3.20 as base
+FROM node:20.13.1-alpine3.20 AS base
 
-FROM base as build-stage
+FROM base AS build-stage
 
 WORKDIR /app/
 COPY package*.json .
@@ -12,5 +12,6 @@ RUN npm run build
 FROM base
 WORKDIR /app/
 COPY --from=build-stage /app/.output/ /app/
+COPY server/data /app/server/data/
 
 CMD [ "node","./server/index.mjs" ]

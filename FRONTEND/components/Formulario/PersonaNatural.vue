@@ -114,17 +114,22 @@
         <div class="label">
           <span class="label-text">Departamento</span>
         </div>
-        <Multiselect :options="articles.data.value" placeholder="Departamento" label="departamento"
-          v-model="formulario.departamento" track-by="departamento">
-        </Multiselect>
+        <ClientOnly>
+          <Multiselect :options="articles.data.value ?? []" placeholder="Departamento" label="departamento"
+            v-model="formulario.departamento" track-by="departamento">
+          </Multiselect>
+        </ClientOnly>
       </div>
       <div class="">
         <div class="label">
           <span class="label-text">Ciudad o Municipio</span>
         </div>
-        <Multiselect :disabled="ciudades.length == 0" :close-on-select="true" :options="ciudades"
-          placeholder="Municipio" v-model="formulario.ciudad">
-        </Multiselect>
+        <ClientOnly>
+          <Multiselect :disabled="ciudades.length == 0" :close-on-select="true" :options="ciudades"
+            placeholder="Municipio" v-model="formulario.ciudad">
+          </Multiselect>
+        </ClientOnly>
+
       </div>
     </div>
     <ButtonOptions @cancel="handleCancel">Registrar</ButtonOptions>

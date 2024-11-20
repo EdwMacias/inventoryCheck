@@ -1,5 +1,5 @@
 <template>
-  <VeeForm v-slot="{ errors }">
+  <VeeForm :validation-schema="formSchema" @submit="handleSubmit" v-slot="{ errors }">
 
     <div class="flex w-full flex-col">
       <div class="divider divider-center select-none">Datos de Identificación</div>
@@ -35,15 +35,19 @@
         <VeeField name="tipoIdentidad" v-slot="{ field }">
           <input type="text" v-bind="field" placeholder="S.A.S" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="tipoIdentidad" class="text-error text-sm" />
+
       </label>
 
       <label class="form-control w-full max-w-xs">
         <div class="label">
-          <span class="label-text">Fecha Registro Camara de Comercio *</span>
+          <span class="label-text">Fecha Registro Camara de Comerciod *</span>
         </div>
         <VeeField name="fechaRegistro" v-slot="{ field }">
           <input type="date" v-bind="field" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="fechaRegistro" class="text-error text-sm" />
+
       </label>
 
       <label class="form-control w-full max-w-xs">
@@ -53,15 +57,20 @@
         <VeeField name="numeroRegistro" v-slot="{ field }">
           <input type="text" placeholder="123456789" v-bind="field" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="numeroRegistro" class="text-error text-sm" />
+
       </label>
 
       <div class="form-control w-full max-w-xs">
         <div class="label">
           <span class="label-text">Pais de Origen *</span>
         </div>
-        <Multiselect :options="countries.data.value.countries" placeholder="Departamento" label="es_name"
-          v-model="formulario.pais" track-by="es_name">
-        </Multiselect>
+        <ClientOnly>
+          <Multiselect :options="countries" placeholder="pais" label="es_name" v-model="formulario.pais"
+            track-by="es_name">
+          </Multiselect>
+          <VeeErrorMessage name="pais" class="text-error text-sm" />
+        </ClientOnly>
       </div>
     </div>
 
@@ -77,6 +86,8 @@
         <VeeField name="RepresentanteLegal" v-slot="{ field }">
           <input type="text" v-bind="field" placeholder="Nombre" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="RepresentanteLegal" class="text-error text-sm" />
+
       </label>
 
       <label class="form-control w-full max-w-xs">
@@ -86,6 +97,8 @@
         <VeeField name="telefonoRepresentanteLegal" v-slot="{ field }">
           <input type="text" v-bind="field" placeholder="320######" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="telefonoRepresentanteLegal" class="text-error text-sm" />
+
       </label>
 
       <label class="form-control w-full max-w-xs">
@@ -95,47 +108,79 @@
         <VeeField name="emailRepresentanteLegal" v-slot="{ field }">
           <input type="email" v-bind="field" placeholder="you@gmail.com" class="input input-bordered w-full max-w-xs" />
         </VeeField>
+        <VeeErrorMessage name="emailRepresentanteLegal" class="text-error text-sm" />
+
       </label>
     </div>
 
-
+    <ButtonOptions @cancel="handleCancel">Registrar</ButtonOptions>
   </VeeForm>
-  <ButtonOptions @cancel="handleCancel">Registrar</ButtonOptions>
 
 </template>
 
 <script lang="ts" setup>
+import Multiselect from 'vue-multiselect';
 const emits = defineEmits<{
   (event: 'cancel', payload: boolean): void;
 }>();
 
-import Multiselect from 'vue-multiselect';
+
+// Fetch de países 
+// const countries = await useFetch('/api/countries');
+
+const countries: Ref<any[]> = ref([]);
+
+// Fetch de países
+const { data, error } = useFetch('/api/countries');
+
+if (data) {
+  // Validamos que `data.value` es un array antes de asignarlo
+  countries.value = data.value;
+} else if (error) {
+  console.error('Error al cargar los países:', error);
+}
+// const countries = await useFetch('/api/countries', {
+//   immediate: true
+// })
+
+// const countries = await useFetch('/api/countries', {
+//   immediate: true,
+// }).then(response => {
+//   if (Array.isArray(response.data)) {
+//     countries.value = response.data;
+//   } else {
+//     console.error('El formato de los datos no es un array:', response.data);
+//   }
+// });
+
+const formSchema = yup.object({
+  razonSocial: yup.string().required('La razón social es obligatoria'),
+  nit: yup.string().required('El NIT es obligatorio'),
+  tipoIdentidad: yup.string().required('El tipo de identidad es obligatorio'),
+  fechaRegistro: yup.date().required('La fecha de registro es obligatoria'),
+  numeroRegistro: yup
+    .string()
+    .matches(/^\d+$/, 'El número de registro debe ser numérico')
+    .required('El número de registro es obligatorio'),
+  pais: yup.object().nullable().required('Debe seleccionar un país'),
+  RepresentanteLegal: yup.string().required('El representante legal es obligatorio'),
+  telefonoRepresentanteLegal: yup
+    .string()
+    .matches(/^\d{10}$/, 'El teléfono debe tener 10 dígitos')
+    .required('El teléfono es obligatorio'),
+  emailRepresentanteLegal: yup
+    .string()
+    .email('El correo debe ser válido')
+    .required('El correo electrónico es obligatorio'),
+});
 
 
-
-const countries = await useFetch('/api/countries')
-// const ciudades: Ref<[]> = ref([]);
 
 const formulario: Ref<any> = ref({
   pais: ''
 });
 
-// watch(
-//   () => formulario.value.departamento,
-//   (newDepartamento: any) => {
-//     if (newDepartamento) {
-//       // Find the department and update the cities
-//       const selectedDepartment = articles.data.value.find(
-//         (item: any) => item.departamento === newDepartamento.departamento
-//       );
-//       ciudades.value = selectedDepartment ? selectedDepartment.ciudades : [];
-//     } else {
-//       // Clear the cities if no department is selected
-//       ciudades.value = [];
-//     }
-//   }
-// );
-
+const handleSubmit = (values: any) => console.log('Formulario enviado:', values);
 
 const handleCancel = () => {
   return emits('cancel', true);
