@@ -21,7 +21,11 @@ class UnidadesSeeder extends Seeder
             ['nombre' => 'Unidades', 'codigo' => 'UNI', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        Unidades::insertOrIgnore($unidades->toArray());
+        Unidades::upsert(
+            $unidades->toArray(), // Data to insert or update
+            ['codigo'], // Unique key to check for duplicates
+            ['nombre','updated_at'] // Fields to update if a duplicate is found
+        );
 
     }
 }

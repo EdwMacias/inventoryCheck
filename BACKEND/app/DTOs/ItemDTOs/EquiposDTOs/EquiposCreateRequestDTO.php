@@ -50,7 +50,7 @@ class EquiposCreateRequestDTO
     /**
      * @var array<ComponenteEquipoDTO>
      */
-    public array $componentes;
+    public array $componentes = [];
 
     public function __construct(
         string $name,
@@ -139,7 +139,7 @@ class EquiposCreateRequestDTO
         $this->cond_seguridad = $cond_seguridad;
         $this->cond_transporte = $cond_transporte;
         $this->cond_otras = $cond_otras;
-        foreach ($componentes as $componente) {
+        foreach ($componentes ?? [] as $componente) {
             $this->componentes[] = new ComponenteEquipoDTO(json_decode($componente));
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Services;
 
+use App\DTOs\Datatable\DatatableDTO;
 use App\DTOs\ItemDTOs\Basico\ItemBasicoDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
@@ -11,6 +12,8 @@ use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ItemViewPaginationDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ComponenteEquipoDTO;
 use App\DTOs\ResourceDTOs\ResourceDTO;
+use App\DTOs\ResponsesDTO\ResponseDTO;
+use App\Models\Inventory\EquipoComponentes;
 use App\Repositories\Interfaces\InterfaceEquipoRespository;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use App\Repositories\Interfaces\InterfaceItemRepository;
@@ -19,7 +22,9 @@ use App\Repositories\Interfaces\InterfacesSerialCodesRepository;
 use App\Services\Interfaces\InterfaceItemServices;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
+use EquipoConfig;
 use Exception;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -188,6 +193,105 @@ class ItemServices implements InterfaceItemServices
             return $responseHandler->handleException($e, 500);
         } catch (QueryException $qe) {
             return $responseHandler->handleException($qe);
+        }
+    }
+
+    public function addComponenteEquipo($id, array $componenteEquipoDTOs)
+    {
+        try {
+            // Verifica que el equipo exista en el repositorio
+            if (!$this->equipoRespository->equipoExistByItemID($id)) {
+                return new ResponseDTO("El equipo no existe", Response::HTTP_NOT_FOUND);
+            }
+
+            $validTypes = EquipoConfig::getValidTypes();
+            $componentes = [];
+
+            // Itera sobre cada componente y verifica su validez
+            foreach ($componenteEquipoDTOs ?? [] as $componenteEquipoDTO) {
+                $componenteEquipoDTO->itemId = $id;
+
+                // Valida el tipo del componente
+                if (!in_array($componenteEquipoDTO->type, $validTypes, true)) {
+                    return new ResponseDTO("Tipo inválido para el componente de equipo.", Response::HTTP_NOT_FOUND);
+                }
+
+                // Convierte el componente a un array y lo almacena
+                $componentes[] = $componenteEquipoDTO->toArray();
+            }
+
+            // Registra los componentes en el repositorio
+            $this->equipoRespository->createComponentesEquipo($componentes);
+
+            // Retorna una respuesta de éxito
+            return new ResponseDTO("Refacción Registrada Correctamente", $componentes, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            // Captura errores y retorna un mensaje con código de error 500
+            return new ResponseDTO($e->getMessage(), null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    public function getRepairsTableEquipo($id)
+    {
+        try {
+            $equipoComponente = new EquipoComponentes();
+            $equipoComponenteQuery = EquipoComponentes::on();
+            $datatableDTO = new DatatableDTO();
+
+            $request = Request::capture();
+
+            // $query = $this->_equipoRepository->getQueryBuild();
+            $columns = $equipoComponenteQuery->getConnection()->getSchemaBuilder()
+                ->getColumnListing($equipoComponente->getTable());
+
+            $datatableDTO->recordsTotal = $equipoComponenteQuery->count();
+            $datatableDTO->draw = intval($request->input('draw', 1));
+
+            $length = $request->input('length', 10);
+            $start = $request->input('start', 0);
+            $search = $request->input('search.value', null);
+            $orders = $request->input('order', null);
+
+            if ($search) {
+                $equipoComponenteQuery->where(function (Builder $q) use ($search, $columns) {
+                    foreach ($columns ?? [] as $column) {
+                        $q->orWhere($column, 'like', "%$search%");
+                    }
+                });
+            }
+
+            $columnFilters = $request->input('columnFilters', []);
+            $columnsFilters = $request->input('columns', []);
+
+            foreach ($columnFilters as $index => $filter) {
+                if (!empty($filter) && isset($columns[$index])) {
+                    $equipoComponenteQuery->where($columnsFilters[$index]["data"], 'like', "%$filter%");
+                }
+            }
+
+            $datatableDTO->recordsFiltered = $equipoComponenteQuery->count();
+
+            if ($orders) {
+                foreach ($orders as $order) {
+                    $columnIndex = $order['column'];
+                    $columnName = $columns[$columnIndex] ?? null;
+                    $direction = $order['dir'];
+                    if ($columnName) {
+                        $equipoComponenteQuery->orderBy($columnName, $direction);
+                    }
+                }
+            }
+            // $equipoComponenteQuery->where('usuario_id', '=', $idUsuario);
+
+            if ($length != -1) {
+                $equipoComponenteQuery->offset($start)->limit($length);
+            }
+
+            $datatableDTO->data = $equipoComponenteQuery->get();
+            return $datatableDTO;
+            // return response()->json($datatableDTO);
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

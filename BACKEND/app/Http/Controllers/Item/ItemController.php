@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Item;
 
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO;
+use App\DTOs\ItemDTOs\ObservacionesDTOs\ComponenteEquipoDTO;
 use App\DTOs\ResponsesDTO\ResponseDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
 use App\Http\Requests\Items\Equipo\EquipoRequest;
+use App\Http\Requests\Items\Equipo\RepuestosEquipoRequest;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceRolesUserRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceItemServices;
+use EquipoConfig;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends Controller
@@ -127,6 +130,42 @@ class ItemController extends Controller
                     'X-XSS-Protection' => '1; mode=block',
                     'Access-Control-Allow-Origin' => '*',
                 ]);
+
+    }
+    /**
+     * Agrega ítems de reparación a un equipo específico.
+     * 
+     * @param mixed $id - ID del equipo al que se agregarán los componentes de reparación.
+     * @param \App\Http\Requests\Items\Equipo\RepuestosEquipoRequest $repuestosEquipoRequest - Solicitud que contiene los datos de los componentes.
+     * @return mixed|\Illuminate\Http\JsonResponse - Respuesta JSON con el resultado de la operación.
+     */
+    public function addRepairItemEquipo($id, RepuestosEquipoRequest $repuestosEquipoRequest)
+    {
+        // Inicializa un array vacío para almacenar los datos de los componentes.
+        $componenteEquipoDTOs = [];
+
+        // Itera sobre cada componente proporcionado en la solicitud, si existen componentes.
+        foreach ($repuestosEquipoRequest->componentes ?? [] as $componente) {
+            // Crea una nueva instancia de ComponenteEquipoDTO con los datos del componente.
+            $componenteEquipoDTO = new ComponenteEquipoDTO($componente);
+
+            // Establece el tipo de componente como "repuesto" usando la configuración de tipo.
+            $componenteEquipoDTO->type = EquipoConfig::TYPE_REPUESTO;
+
+            // Agrega el DTO del componente al array de componentes.
+            $componenteEquipoDTOs[] = $componenteEquipoDTO;
+        }
+
+        // Llama al servicio para agregar los componentes al equipo con el ID especificado.
+        $responseDTO = $this->itemService->addComponenteEquipo($id, $componenteEquipoDTOs);
+
+        // Devuelve una respuesta en formato JSON, utilizando el estado de la respuesta como código de estado HTTP.
+        return response()->json($responseDTO, $responseDTO->status);
+
+    }
+
+    public function getRapirsItemEquipo($id)
+    {
 
     }
 

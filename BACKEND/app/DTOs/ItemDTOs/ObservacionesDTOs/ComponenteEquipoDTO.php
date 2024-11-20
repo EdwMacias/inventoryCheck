@@ -2,6 +2,8 @@
 
 namespace App\DTOs\ItemDTOs\ObservacionesDTOs;
 
+use EquipoConfig;
+
 class ComponenteEquipoDTO
 {
     public $itemId;
@@ -12,6 +14,7 @@ class ComponenteEquipoDTO
     public $modelo = null;
     public $nombre = null;
     public $unidad = null;
+    public $type;
 
     public function __construct($componente)
     {
@@ -23,6 +26,7 @@ class ComponenteEquipoDTO
         $this->modelo = $componente->modelo ?? null;
         $this->nombre = $componente->nombre ?? null;
         $this->unidad = $componente->unidad ?? null;
+        $this->type = $componente->type ?? EquipoConfig::TYPE_ORIGINAL;
     }
 
 
@@ -37,6 +41,7 @@ class ComponenteEquipoDTO
             "modelo" => $this->modelo,
             "nombre" => $this->nombre,
             "unidad" => $this->unidad,
+            "type" => $this->type
         ];
     }
 

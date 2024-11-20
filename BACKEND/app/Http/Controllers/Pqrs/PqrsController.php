@@ -11,8 +11,10 @@ class PqrsController extends Controller
 {
     protected InterfacePqrsServices $_pqrsServices;
 
+    
     public function __construct(InterfacePqrsServices $interfacePqrsServices)
     {
+        $this->middleware('auth:api', ['except' => ['store']]);
         $this->_pqrsServices = $interfacePqrsServices;
     }
 

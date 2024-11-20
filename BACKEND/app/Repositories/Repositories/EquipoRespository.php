@@ -89,9 +89,10 @@ class EquipoRespository implements InterfaceEquipoRespository
             if (is_array($registro)) {
                 $registro['created_at'] = $now;
                 $registro['updated_at'] = $now;
-            }
+            } 
             return $registro;
         }, $datos);
         return EquipoComponentes::insert($datos);
     }
+   
 }
