@@ -1,5 +1,5 @@
 <template>
-  <NuxtImg src="/images/entrycedac.jpg" class="absolute top-0 left-0 w-full min-h-screen lg:min-h-full object-cover"/>
+  <!-- <NuxtImg src="/images/entrycedac.webp" class="absolute top-0 left-0 w-full min-h-screen lg:min-h-full object-cover"/> -->
   <div class="hero bg-base-200 min-h-screen">
     <div class=" hero-content flex flex-col-reverse lg:flex-row items-center justify-center">
       <div class="w-full lg:min-w-[500px]">
