@@ -62,6 +62,9 @@ const selection = ref(0);
 function pushBack() {
   router.push('/terceros/')
 }
+onMounted(() => {
+ 
+})
 
 </script>
 

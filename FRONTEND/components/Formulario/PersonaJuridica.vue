@@ -67,8 +67,7 @@
         </div>
         <ClientOnly>
           <Multiselect :options="countries" placeholder="pais" label="es_name" v-model="formulario.pais"
-            track-by="es_name">
-          </Multiselect>
+            track-by="es_name" />
           <VeeErrorMessage name="pais" class="text-error text-sm" />
         </ClientOnly>
       </div>
@@ -124,34 +123,15 @@ const emits = defineEmits<{
   (event: 'cancel', payload: boolean): void;
 }>();
 
-
-// Fetch de países 
-// const countries = await useFetch('/api/countries');
-
 const countries: Ref<any[]> = ref([]);
-
 // Fetch de países
-const { data, error } = useFetch('/api/countries');
-
+const { data, error } = await useFetch('/api/countries');
 if (data) {
   // Validamos que `data.value` es un array antes de asignarlo
   countries.value = data.value;
 } else if (error) {
   console.error('Error al cargar los países:', error);
 }
-// const countries = await useFetch('/api/countries', {
-//   immediate: true
-// })
-
-// const countries = await useFetch('/api/countries', {
-//   immediate: true,
-// }).then(response => {
-//   if (Array.isArray(response.data)) {
-//     countries.value = response.data;
-//   } else {
-//     console.error('El formato de los datos no es un array:', response.data);
-//   }
-// });
 
 const formSchema = yup.object({
   razonSocial: yup.string().required('La razón social es obligatoria'),
