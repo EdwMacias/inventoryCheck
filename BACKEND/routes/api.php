@@ -72,6 +72,8 @@ Route::group(['middleware' => 'api', "prefix" => "pqrs"], function () {
 
 
 Route::group(['middleware' => 'api', 'prefix' => 'tercero'], function () {
-    Route::post('', [TercerosController::class, 'store']);
-    Route::get('', [TercerosController::class, 'show']);
+    Route::group(['prefix' => 'natural'], function () {
+        Route::post('', [TercerosController::class, 'createTerceroNatural']);
+        // Route::get('', [TercerosController::class, 'show']);
+    });
 });

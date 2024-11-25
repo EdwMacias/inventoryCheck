@@ -2,48 +2,52 @@
 
 namespace App\Http\Controllers\Terceros;
 
+use App\DTOs\Terceros\Tercero\PersonaNatural\PersonaNaturalCreateDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Terceros\PersonaNaturalCreateRequest;
+use App\Services\Interfaces\Terceros\PersonaNatural\IPersonaNaturalServices;
 use Illuminate\Http\Request;
 
 class TercerosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    protected IPersonaNaturalServices $personaNaturalServices;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function __construct(IPersonaNaturalServices $iPersonaNaturalServices)
     {
-        //
+        $this->personaNaturalServices = $iPersonaNaturalServices;
+    }
+    /**
+     * Crea un nuevo Tercero Persona Natural
+     *
+     * Este método se encarga de procesar la solicitud para registrar un nuevo tercero de tipo
+     * persona natural. Convierte los datos de la solicitud en un DTO de creación, delega la
+     * operación de registro al servicio correspondiente y retorna una respuesta JSON con los
+     * resultados de la operación.
+     *
+     * @param PersonaNaturalCreateRequest $personaNaturalCreateRequest
+     *     Solicitud que contiene los datos necesarios para registrar la persona natural.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *     Respuesta JSON que contiene un mensaje, los datos del recurso creado y el código HTTP de estado.
+     */
+    public function createTerceroNatural(PersonaNaturalCreateRequest $personaNaturalCreateRequest)
+    {
+        // Convertir la solicitud en un DTO de creación
+        $personaNaturalCreateDTO = new PersonaNaturalCreateDTO($personaNaturalCreateRequest);
+
+        // Delegar la creación al servicio y obtener la respuesta
+        $responseDTO = $this->personaNaturalServices->create($personaNaturalCreateDTO);
+
+        // Retornar la respuesta en formato JSON con el estado HTTP correspondiente
+        return response()->json($responseDTO, $responseDTO->status);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function createTerceroJuridico(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
