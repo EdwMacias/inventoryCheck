@@ -15,6 +15,7 @@ use App\Repositories\Interfaces\InterfacesSerialCodesRepository;
 use App\Repositories\Interfaces\InterfaceTemporaryCode;
 use App\Repositories\Interfaces\InterfaceTypesObservationRepository;
 use App\Repositories\Interfaces\InterfaceUsuarioRepository;
+use App\Repositories\Interfaces\Terceros\PersonaNatural\IPersonaNaturalRepository;
 use App\Repositories\Repositories\EquipoRespository;
 use App\Repositories\Repositories\GenderRepository;
 use App\Repositories\Repositories\ItemBasicoRepository;
@@ -25,6 +26,7 @@ use App\Repositories\Repositories\ResourceRepository;
 use App\Repositories\Repositories\RolesUserRepository;
 use App\Repositories\Repositories\SerialCodeRepository;
 use App\Repositories\Repositories\TemporaryCodeRepository;
+use App\Repositories\Repositories\Terceros\PersonaNatural\PersonaNaturalRespository;
 use App\Repositories\Repositories\TypeDocumentRepository;
 use App\Repositories\Repositories\TypesObservationRepository;
 use App\Repositories\Repositories\UsuarioRepository;
@@ -34,11 +36,13 @@ use App\Services\Interfaces\InterfacePqrsServices;
 use App\Services\Interfaces\InterfaceRolesServices;
 use App\Services\Interfaces\InterfaceTemporaryCodeServices;
 use App\Services\Interfaces\InterfaceUsuarioServices;
+use App\Services\Interfaces\Terceros\PersonaNatural\IPersonaNaturalServices;
 use App\Services\Services\ItemObservationServices;
 use App\Services\Services\ItemServices;
 use App\Services\Services\PqrsServices;
 use App\Services\Services\RolesServices;
 use App\Services\Services\TemporaryCodeServices;
+use App\Services\Services\Terceros\PersonaNatural\PersonaNaturalService;
 use App\Services\Services\UsuarioServices;
 use Illuminate\Support\ServiceProvider;
 
@@ -63,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceItemBasicoRepository::class, ItemBasicoRepository::class);
         $this->app->bind(InterfacePqrsRepository::class, PqrsRepository::class);
         $this->app->bind(InterfacesSerialCodesRepository::class, SerialCodeRepository::class);
-
+        $this->app->bind(IPersonaNaturalRepository::class, PersonaNaturalRespository::class);
         // Services
         $this->app->bind(InterfaceUsuarioServices::class, UsuarioServices::class);
         $this->app->bind(InterfaceTemporaryCodeServices::class, TemporaryCodeServices::class);
@@ -71,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceItemObservationServices::class, ItemObservationServices::class);
         $this->app->bind(InterfaceRolesServices::class, RolesServices::class);
         $this->app->bind(InterfacePqrsServices::class, PqrsServices::class);
+        $this->app->bind(IPersonaNaturalServices::class, PersonaNaturalService::class);
     }
 
     /**
