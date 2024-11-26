@@ -80,7 +80,6 @@ class TercerosController extends Controller
 
         // Devuelve la respuesta como JSON
         return response()->json($responseDTO, $responseDTO->status);
-
     }
 
 }
