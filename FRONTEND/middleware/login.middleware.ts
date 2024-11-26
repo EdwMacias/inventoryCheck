@@ -3,12 +3,6 @@ import { UsuarioRepository } from "~/Infrastructure/Repositories/Usuario/usuario
 export default defineNuxtRouteMiddleware(() => {
     const conectado = UsuarioRepository.getEstadoOfConexion();
 
-    if (import.meta.browser) {
-        if (conectado && tokenValid() == false && tokenExpired() == false) {
-            return navigateTo("/")
-        }
-    }
-
     if (conectado && tokenValid() == false && tokenExpired() == false) {
         return navigateTo("/")
     }
