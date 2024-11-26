@@ -43,5 +43,18 @@ interface IPersonaNaturalRepository
      */
     public function getAll();
     // public function updateById();
+    /**
+     * Verifica la existencia de una persona natural por su número de identificación.
+     *
+     * Este método realiza una consulta en la base de datos para verificar si existe
+     * una persona natural con el número de identificación proporcionado.
+     *
+     * @param string $numberIdentification Número de identificación de la persona natural a buscar.
+     * 
+     * @return bool Retorna `true` si existe una persona natural con el número de identificación, `false` en caso contrario.
+     * 
+     * @throws \Exception Si ocurre un error durante la consulta, lanza una excepción con un mensaje de error detallado y el código HTTP 500.
+     */
+    public function existByNumberIdentification(string $numberIdentification);
 
 }

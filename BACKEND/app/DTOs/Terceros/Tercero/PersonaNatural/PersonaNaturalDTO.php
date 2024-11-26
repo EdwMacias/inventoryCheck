@@ -9,7 +9,7 @@ class PersonaNaturalDTO
     public string $segundoNombre;
     public string $primerApellido;
     public string $segundoApellido;
-    public string $tipoIdenticacionId;
+    public string $tipoIdenticacion;
     public string $numeroIdentificacion;
     public string $telefono;
     public string $correo;
@@ -27,7 +27,7 @@ class PersonaNaturalDTO
         $this->segundoNombre = $personaNatural->segundo_nombre;
         $this->primerApellido = $personaNatural->primer_apellido;
         $this->segundoApellido = $personaNatural->segundo_apellido;
-        $this->tipoIdenticacionId = $personaNatural->tipoIdentificacion;
+        $this->tipoIdenticacion = $personaNatural->document_type_id;
         $this->numeroIdentificacion = $personaNatural->numero_identificacion;
         $this->telefono = $personaNatural->telefono;
         $this->direccion = $personaNatural->direccion;

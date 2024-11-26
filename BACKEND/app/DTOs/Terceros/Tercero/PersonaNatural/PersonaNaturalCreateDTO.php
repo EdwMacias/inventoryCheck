@@ -42,7 +42,7 @@ class PersonaNaturalCreateDTO
             'segundo_nombre' => $this->segundoNombre,
             'primer_apellido' => $this->primerApellido,
             'segundo_apellido' => $this->segundoApellido,
-            'tipo_identificacion_id' => $this->tipoIdenticacionId,
+            'document_type_id' => $this->tipoIdenticacionId,
             'numero_identificacion' => $this->numeroIdentificacion,
             'telefono' => $this->telefono,
             'direccion' => $this->direccion,

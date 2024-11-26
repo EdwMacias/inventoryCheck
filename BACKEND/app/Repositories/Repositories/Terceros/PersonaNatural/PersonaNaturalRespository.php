@@ -46,4 +46,20 @@ class PersonaNaturalRespository implements IPersonaNaturalRepository
             throw new Exception('Error al traer la persona natural por id: ' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    /**
+     * @inheritDoc
+     */
+    public function existByNumberIdentification(string $numberIdentification)
+    {
+        try {
+            // Consulta la existencia del número de identificación en la tabla `PersonaNatural`.
+            return PersonaNatural::where('numero_identificacion', $numberIdentification)->exists();
+        } catch (\Throwable $th) {
+            // Lanza una excepción con un mensaje descriptivo en caso de error.
+            throw new Exception(
+                'Error al buscar la persona natural por número de identificación: ' . $th->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

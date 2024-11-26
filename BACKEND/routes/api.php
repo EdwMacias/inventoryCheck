@@ -76,4 +76,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'tercero'], function () {
         Route::post('', [TercerosController::class, 'createTerceroNatural']);
         // Route::get('', [TercerosController::class, 'show']);
     });
+    
+    Route::group(['prefix' => 'juridica'], function () {
+        Route::post('', [TercerosController::class, 'createTerceroJuridico']);
+        // Route::get('', [TercerosController::class, 'show']);
+    });
+
 });

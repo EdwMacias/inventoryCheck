@@ -30,14 +30,19 @@ class PersonaNaturalService implements IPersonaNaturalServices
     {
         $this->personaNaturalRepository = $iPersonaNaturalRepository;
     }
-   
+
     public function create(PersonaNaturalCreateDTO $personaNaturalCreateDTO)
     {
+        if ($this->personaNaturalRepository->existByNumberIdentification($personaNaturalCreateDTO->numeroIdentificacion)) {
+            return new ResponseDTO('El número de identificacion ya fue registrado', $personaNaturalCreateDTO, Response::HTTP_CONFLICT);
+        }
+
         $personaNatural = $this->personaNaturalRepository->create($personaNaturalCreateDTO->toArray());
         $personaNaturalDTO = new PersonaNaturalDTO($personaNatural);
+
         return new ResponseDTO('Persona Natural Registrada Con Satisfactoriamente', $personaNaturalDTO, Response::HTTP_CREATED);
     }
-   
+
     public function showById(string $personaNaturalId)
     {
         $personaNatural = $this->personaNaturalRepository->getById($personaNaturalId);
