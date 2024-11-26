@@ -1,9 +1,11 @@
-export class PersonaNaturalCreateDTO {
+import type { PersonaNatural } from "./PersonaNatural";
+
+export class PersonaNaturalCreateDTO implements Partial<PersonaNatural> {
     primerNombre: string;
     segundoNombre?: string | null;
     primerApellido: string;
     segundoApellido?: string | null;
-    tipoIdenticacionId: string;
+    tipoIdenticacion: string;
     numeroIdentificacion: string;
     telefono: string;
     correo?: string | null;
@@ -17,7 +19,7 @@ export class PersonaNaturalCreateDTO {
         this.segundoNombre = this.sanitizeString(personaNatural.segundoNombre) ?? null;
         this.primerApellido = this.sanitizeString(personaNatural.primerApellido) ?? "";
         this.segundoApellido = this.sanitizeString(personaNatural.segundoApellido) ?? null;
-        this.tipoIdenticacionId = this.sanitizeString(personaNatural.tipoIdenticacionId) ?? "";
+        this.tipoIdenticacion = this.sanitizeString(personaNatural.tipoIdenticacion) ?? "";
         this.numeroIdentificacion = this.sanitizeNumber(personaNatural.numeroIdentificacion) ?? "";
         this.telefono = this.sanitizeNumber(personaNatural.telefono) ?? "";
         this.correo = this.sanitizeEmail(personaNatural.correo) ?? null;
@@ -29,12 +31,12 @@ export class PersonaNaturalCreateDTO {
 
     toArray(): Record<string, any> {
         return {
-            primer_nombre: this.primerNombre,
-            segundo_nombre: this.segundoNombre,
-            primer_apellido: this.primerApellido,
-            segundo_apellido: this.segundoApellido,
-            document_type_id: this.tipoIdenticacionId,
-            numero_identificacion: this.numeroIdentificacion,
+            primerNombre: this.primerNombre,
+            segundoNombre: this.segundoNombre,
+            primerApellido: this.primerApellido,
+            segundoApellido: this.segundoApellido,
+            tipoIdenticacion: this.tipoIdenticacion,
+            numeroIdentificacion: this.numeroIdentificacion,
             telefono: this.telefono,
             direccion: this.direccion,
             departamento: this.departamento,

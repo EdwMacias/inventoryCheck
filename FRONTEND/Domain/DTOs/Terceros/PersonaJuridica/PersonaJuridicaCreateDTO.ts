@@ -1,9 +1,11 @@
-export class PersonaJuridicaCreateDTO {
+import type { PersonaJuridica } from "./PersonaJuridica";
+
+export class PersonaJuridicaCreateDTO implements Partial<PersonaJuridica> {
     razonSocial: string;
     nit: string;
     tipoEntidad?: string | null;
     fechaRegistroCamara?: string | null; // Assuming ISO format for the date
-    numeroRegistro?: number | null;
+    numeroRegistro?: string | null;
     pais?: string | null;
     representanteLegal?: string | null;
     telefono: string;
@@ -23,13 +25,13 @@ export class PersonaJuridicaCreateDTO {
 
     toArray(): Record<string, any> {
         return {
-            razon_social: this.razonSocial,
+            razonSocial: this.razonSocial,
             nit: this.nit,
-            tipo_entidad: this.tipoEntidad,
-            registro_camara_comercio: this.fechaRegistroCamara,
-            numero_registro_camara_comercio: this.numeroRegistro,
+            tipoEntidad: this.tipoEntidad,
+            fechaRegistroCamara: this.fechaRegistroCamara,
+            numeroRegistro: this.numeroRegistro,
             pais: this.pais,
-            representante_legal: this.representanteLegal,
+            representanteLegal: this.representanteLegal,
             telefono: this.telefono,
             email: this.email,
         };

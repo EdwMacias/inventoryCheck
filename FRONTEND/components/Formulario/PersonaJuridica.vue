@@ -74,9 +74,8 @@
             v-model="formulario.pais" placeholder="pais"
              />
           </VeeField>
-          <VeeErrorMessage name="pais" class="text-error text-sm" />
-
         </ClientOnly>
+        <VeeErrorMessage name="pais" class="text-error text-sm" />
       </div>
     </div>
 

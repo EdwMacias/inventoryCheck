@@ -59,7 +59,7 @@
           <!-- Persona Natural -->
           <div class="form-control">
             <label class="label cursor-pointer">
-              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacionId"
+              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
                 value="CC" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Cedula Ciudadania</span>
@@ -69,7 +69,7 @@
           <!-- Persona Jurídica -->
           <div class="form-control">
             <label class="label cursor-pointer">
-              <VeeField type="radio" v-model="formulario.tipoIdenticacionId" name="tipoIdentificacion" class="radio peer appearance-none rounded-full 
+              <VeeField type="radio" v-model="formulario.tipoIdenticacion" name="tipoIdentificacion" class="radio peer appearance-none rounded-full 
                   border border-gray-300 checked:border-blue-500 focus:outline-none transition" value="CE" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Cedula de Extranjería</span>
             </label>
@@ -77,7 +77,7 @@
 
           <div class="form-control">
             <label class="label cursor-pointer">
-              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacionId"
+              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
                 value="PASAPORTE" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Pasaporte</span>
@@ -86,7 +86,7 @@
 
           <div class="form-control">
             <label class="label cursor-pointer">
-              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacionId"
+              <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
                 value="NIT" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">NIT</span>
@@ -164,9 +164,8 @@
             <Multiselect :options="colombia ?? []" v-bind="field" placeholder="Departamento" label="departamento"
               v-model="departamentoSeleccionado" track-by="departamento" />
           </VeeField>
-          <VeeErrorMessage name="departamento" class="text-error text-sm" />
-
         </ClientOnly>
+        <VeeErrorMessage name="departamento" class="text-error text-sm" />
       </div>
       <div class="">
         <div class="label">
@@ -178,9 +177,8 @@
               placeholder="Municipio" v-model="formulario.ciudad">
             </Multiselect>
           </VeeField>
-          <VeeErrorMessage name="ciudad" class="text-error text-sm" />
         </ClientOnly>
-
+        <VeeErrorMessage name="ciudad" class="text-error text-sm" />
       </div>
     </div>
     <ButtonOptions @cancel="handleCancel">Registrar</ButtonOptions>

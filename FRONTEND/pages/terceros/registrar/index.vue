@@ -44,11 +44,11 @@
     </div>
 
     <div v-show="selection == 1">
-      <FormularioPersonaNatural @cancel="pushBack"></FormularioPersonaNatural>
+      <FormularioPersonaNatural @callback="createPersonaNatural" @cancel="pushBack"></FormularioPersonaNatural>
     </div>
 
     <div v-show="selection == 2">
-      <FormularioPersonaJuridica @cancel="pushBack"></FormularioPersonaJuridica>
+      <FormularioPersonaJuridica @callback="createPersonaJuridica" @cancel="pushBack"></FormularioPersonaJuridica>
     </div>
 
   </div>
@@ -56,15 +56,87 @@
 </template>
 
 <script lang="ts" setup>
+import { personaJuridicaService } from '~/Domain/Client/Services/Terceros/PersonaJuridica/juridica.service';
+import type { PersonaJuridicaCreateDTO } from '~/Domain/DTOs/Terceros/PersonaJuridica/PersonaJuridicaCreateDTO';
+import type { PersonaNaturalCreateDTO } from '~/Domain/DTOs/Terceros/PersonaNatural/PersonaNaturalCreateDTO';
+import { personaNaturalRepository } from '~/Infrastructure/Repositories/Terceros/PersonaNatural/natural.repository';
+
+const { $swal } = useNuxtApp()
+const spinnerStore = SpinnerStore();
 const router = useRouter();
 const selection = ref(0);
 
 function pushBack() {
   router.push('/terceros/')
 }
-onMounted(() => {
- 
-})
+
+async function createPersonaNatural(personaNaturalCreateDTO: PersonaNaturalCreateDTO) {
+  // await personaNaturalRepository.create(personaNaturalCreateDTO.toArray());
+  spinnerStore.activeOrInactiveSpinner(true);
+  try {
+    const response = await personaNaturalRepository.create(personaNaturalCreateDTO);
+    spinnerStore.activeOrInactiveSpinner(false);
+
+    if (!Array.isArray(response.messages)) {
+
+      await $swal.fire({
+        title: "Creacion Exitosa",
+        text: response.messages,
+        icon: "success"
+      });
+
+    } else {
+
+      await $swal.fire({
+        title: "Creacion Exitosa",
+        text: "El tercero se ha creado con exito",
+        icon: "success"
+      });
+
+    }
+
+    router.push("/terceros/");
+
+  } catch (error) {
+    spinnerStore.activeOrInactiveSpinner(false);
+    
+    console.error(error);
+    
+  }
+
+}
+
+async function createPersonaJuridica(personaJuridicaCreateDTO: PersonaJuridicaCreateDTO) {
+  spinnerStore.activeOrInactiveSpinner(true);
+  try {
+    const response = await personaJuridicaService.create(personaJuridicaCreateDTO);
+    spinnerStore.activeOrInactiveSpinner(false);
+
+    if (!Array.isArray(response.messages)) {
+
+      await $swal.fire({
+        title: "Creacion Exitosa",
+        text: response.messages,
+        icon: "success"
+      });
+
+    } else {
+
+      await $swal.fire({
+        title: "Creacion Exitosa",
+        text: "El tercero se ha creado con exito",
+        icon: "success"
+      });
+
+    }
+
+    router.push("/terceros/");
+
+  } catch (error) {
+    spinnerStore.activeOrInactiveSpinner(false);
+    console.log(error);
+  }
+}
 
 </script>
 
