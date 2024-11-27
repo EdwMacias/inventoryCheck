@@ -66,7 +66,8 @@
           <div class="form-control">
             <label class="label cursor-pointer">
               <VeeField type="radio" v-model="formulario.tipoIdentificacion" name="tipoIdentificacion" class="radio peer appearance-none rounded-full 
-                  border border-gray-300 checked:border-blue-500 focus:outline-none transition" value="2" />
+                  border border-gray-300 checked:border-blue-500 focus:outline-none transition" 
+                  value="2" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Cedula de Extranjería</span>
             </label>
           </div>
@@ -75,7 +76,7 @@
             <label class="label cursor-pointer">
               <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdentificacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
-                value="3" />
+                value="4" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Pasaporte</span>
             </label>
           </div>
@@ -84,7 +85,7 @@
             <label class="label cursor-pointer">
               <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdentificacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
-                value="4" />
+                value="3" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">NIT</span>
             </label>
           </div>
@@ -111,7 +112,7 @@
           </div>
           <VeeField name="dv" v-slot="{ field }" v-model="formulario.dv">
             <input type="text" placeholder="1" v-bind="field" class="input input-bordered w-full "
-              :disabled="formulario.tipoIdentificacion != '4'" />
+              :disabled="formulario.tipoIdentificacion != '3'" />
           </VeeField>
           <VeeErrorMessage name="dv" class="text-error text-sm" />
 
@@ -163,8 +164,8 @@
         </div>
         <ClientOnly>
           <VeeField name="departamento" v-slot="{ field }">
-            <Multiselect v-bind="field" :options="colombia ?? []" v-model="departamentoSeleccionado" placeholder="Departamento" label="departamento"
-              track-by="departamento" />
+            <Multiselect v-bind="field" :options="colombia ?? []" v-model="departamentoSeleccionado"
+              placeholder="Departamento" label="departamento" track-by="departamento" />
           </VeeField>
         </ClientOnly>
         <VeeErrorMessage name="departamento" class="text-error text-sm" />
@@ -197,9 +198,7 @@ const emits = defineEmits<{
 }>();
 
 
-const formulario: Ref<Partial<PersonaNaturalCreateDTO>> = ref(new PersonaNaturalCreateDTO(
-  { "primerNombre": "Alguien", "segundoNombre": "Tomas", "primerApellido": "Conocido", "segundoApellido": null, "tipoIdentificacion": "1", "numeroIdentificacion": "1093292428", "telefono": "3213159582", "correo": null, "direccion": "Manzana A lote 4 valles del mirador", "departamento": "Norte de Santander", "ciudad": "Cúcuta", "dv": null }
-));
+const formulario: Ref<Partial<PersonaNaturalCreateDTO>> = ref(new PersonaNaturalCreateDTO());
 const departamentoSeleccionado = ref();
 
 // const articles = await useFetch('/api/colombia')
@@ -235,7 +234,7 @@ watch(
 watch(
   () => formulario.value.tipoIdentificacion,
   (newSelectIdentificacion: any) => {
-    if (newSelectIdentificacion != '4') formulario.value.dv = null;
+    if (newSelectIdentificacion != '3') formulario.value.dv = null;
   }
 );
 
@@ -258,7 +257,7 @@ const formSchema = yup.object({
     .nullable()
     .typeError('El dígito de verificación debe ser un número')
     .when('tipoIdentificacion', (tipoIdentificacion, schema) => {
-      if (tipoIdentificacion[0] === '4') {
+      if (tipoIdentificacion[0] === '3') {
         return schema
           .matches(/^\d+$/, 'El dígito de verificación debe ser un número')
           .required('El dígito de verificación es obligatorio para este caso');
