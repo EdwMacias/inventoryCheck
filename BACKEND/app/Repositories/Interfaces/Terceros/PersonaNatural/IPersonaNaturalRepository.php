@@ -56,5 +56,19 @@ interface IPersonaNaturalRepository
      * @throws \Exception Si ocurre un error durante la consulta, lanza una excepción con un mensaje de error detallado y el código HTTP 500.
      */
     public function existByNumberIdentification(string $numberIdentification);
+    /**
+     * Verifica la existencia de un registro por correo electrónico.
+     *
+     * Este método consulta si existe un registro en la tabla `PersonaNatural`
+     * que coincida con el correo electrónico proporcionado.
+     *
+     * @param string $email El correo electrónico que se desea verificar.
+     *
+     * @return bool Devuelve `true` si existe un registro con el correo proporcionado, `false` de lo contrario.
+     *
+     * @throws \Exception Lanza una excepción en caso de error al realizar la consulta,
+     * con un mensaje descriptivo y un código de estado HTTP 500.
+     */
+    public function existByEmail(string $email);
 
 }

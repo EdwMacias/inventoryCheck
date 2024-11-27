@@ -79,7 +79,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'tercero'], function () {
     
     Route::group(['prefix' => 'juridica'], function () {
         Route::post('', [TercerosController::class, 'createTerceroJuridico']);
-        // Route::get('', [TercerosController::class, 'show']);
     });
 
 });

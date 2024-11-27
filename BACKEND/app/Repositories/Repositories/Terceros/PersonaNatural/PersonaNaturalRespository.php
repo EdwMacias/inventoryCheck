@@ -62,4 +62,19 @@ class PersonaNaturalRespository implements IPersonaNaturalRepository
             );
         }
     }
+    /**
+     * @inheritDoc
+     */
+    public function existByEmail(string $email) {
+        try {
+            // Consulta la existencia del correo en la tabla `PersonaNatural`.
+            return PersonaNatural::where('correo', $email)->exists();
+        } catch (\Throwable $th) {
+            // Lanza una excepción con un mensaje descriptivo en caso de error.
+            throw new Exception(
+                'Error al buscar la persona natural por el email: ' . $th->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

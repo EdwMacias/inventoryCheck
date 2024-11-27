@@ -6,13 +6,13 @@ class PersonaNaturalDTO
 {
     public ?int $id = null;
     public string $primerNombre;
-    public string $segundoNombre;
+    public ?string $segundoNombre = null;
     public string $primerApellido;
-    public string $segundoApellido;
-    public string $tipoIdenticacion;
+    public ?string $segundoApellido = null;
+    public string $tipoIdentificacion;
     public string $numeroIdentificacion;
     public string $telefono;
-    public string $correo;
+    public ?string $correo = null;
     public string $direccion;
     public string $departamento;
     public string $ciudad;
@@ -27,7 +27,7 @@ class PersonaNaturalDTO
         $this->segundoNombre = $personaNatural->segundo_nombre;
         $this->primerApellido = $personaNatural->primer_apellido;
         $this->segundoApellido = $personaNatural->segundo_apellido;
-        $this->tipoIdenticacion = $personaNatural->document_type_id;
+        $this->tipoIdentificacion = $personaNatural->document_type_id;
         $this->numeroIdentificacion = $personaNatural->numero_identificacion;
         $this->telefono = $personaNatural->telefono;
         $this->direccion = $personaNatural->direccion;
