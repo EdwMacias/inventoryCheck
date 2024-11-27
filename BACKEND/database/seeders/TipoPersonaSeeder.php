@@ -18,12 +18,11 @@ class TipoPersonaSeeder extends Seeder
             ['codigo' => 'JURD', 'nombre' => 'JURIDICA']
         ];
 
-        foreach ($tipoPersonas as $tipoPersona) {
-            TipoPersona::firstOrCreate(
-                ['codigo' => $tipoPersona['codigo']],
-                ['nombre' => $tipoPersona['nombre']]
-            );
-        }
+        TipoPersona::upsert(
+            $tipoPersonas,
+            ['codigo', 'nombre'],
+            ['codigo', 'nombre']
+        );
 
     }
 }

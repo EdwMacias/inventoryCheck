@@ -37,7 +37,7 @@ class PersonaNaturalService implements IPersonaNaturalServices
             return new ResponseDTO('El número de identificacion ya fue registrado', $personaNaturalCreateDTO, Response::HTTP_CONFLICT);
         }
 
-        if ($this->personaNaturalRepository->existByEmail($personaNaturalCreateDTO->correo)) {
+        if ($personaNaturalCreateDTO->correo && $this->personaNaturalRepository->existByEmail($personaNaturalCreateDTO->correo)) {
             return new ResponseDTO('El correo ya fue registrado', $personaNaturalCreateDTO, Response::HTTP_CONFLICT);
         }
 
