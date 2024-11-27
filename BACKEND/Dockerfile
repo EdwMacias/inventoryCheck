@@ -27,8 +27,7 @@ RUN apk add --no-cache bash && \
 COPY --from=builder /app /app
 
 # Ajustar permisos y propietario
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache && \
-    chmod -R 775 /app/storage /app/bootstrap/cache
+RUN chmod -R 775 /app/storage /app/bootstrap/cache
 
 # Crear el enlace simbólico para almacenamiento público
 RUN php artisan storage:link
