@@ -49,7 +49,7 @@
       </label>
 
     </div>
-    <div class="grid grid-cols-2 gap-2 mt-2">
+    <div class="grid lg:grid-cols-1 md:gap-2 mt-2 grid-cols-1 gap-1 xl:grid-cols-2">
 
       <div class="">
         <div class="label">
@@ -61,7 +61,7 @@
             <label class="label cursor-pointer">
               <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
-                value="CC" />
+                value="1" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Cedula Ciudadania</span>
             </label>
           </div>
@@ -70,7 +70,7 @@
           <div class="form-control">
             <label class="label cursor-pointer">
               <VeeField type="radio" v-model="formulario.tipoIdenticacion" name="tipoIdentificacion" class="radio peer appearance-none rounded-full 
-                  border border-gray-300 checked:border-blue-500 focus:outline-none transition" value="CE" />
+                  border border-gray-300 checked:border-blue-500 focus:outline-none transition" value="2" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Cedula de Extranjería</span>
             </label>
           </div>
@@ -79,7 +79,7 @@
             <label class="label cursor-pointer">
               <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
-                value="PASAPORTE" />
+                value="3" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">Pasaporte</span>
             </label>
           </div>
@@ -88,7 +88,7 @@
             <label class="label cursor-pointer">
               <VeeField type="radio" name="tipoIdentificacion" v-model="formulario.tipoIdenticacion"
                 class="radio peer appearance-none rounded-full border border-gray-300 checked:border-blue-500 focus:outline-none transition"
-                value="NIT" />
+                value="4" />
               <span class="label-text mx-2 text-gray-600 peer-checked:font-medium">NIT</span>
             </label>
           </div>
@@ -97,7 +97,7 @@
         <VeeErrorMessage name="tipoIdentificacion" class="text-error text-sm" />
 
       </div>
-      <div>
+      <div class="grid lg:grid-cols-2 gap-1 md:grid-cols-2">
         <label class="form-control w-full max-w-xs">
           <div class="label">
             <span class="label-text">Número de Identificacion *</span>
@@ -109,10 +109,20 @@
           <VeeErrorMessage name="numeroIdentificacion" class="text-error text-sm" />
 
         </label>
+
+        <label class="form-control w-full max-w-xs">
+          <div class="label">
+            <span class="label-text">DV *</span>
+          </div>
+          <VeeField name="dv" v-slot="{ field }" v-model="formulario.dv">
+            <input type="text" placeholder="1" v-bind="field" class="input input-bordered w-full "
+              :disabled="formulario.tipoIdenticacion != '4'" />
+          </VeeField>
+          <VeeErrorMessage name="dv" class="text-error text-sm" />
+
+        </label>
       </div>
-
     </div>
-
     <div class="flex w-full flex-col">
       <div class="divider divider-center select-none">Datos de Contacto</div>
     </div>
@@ -231,6 +241,15 @@ watch(
   }
 );
 
+watch(
+  () => formulario.value.tipoIdenticacion,
+  (newSelectIdentificacion: any) => {
+    if (newSelectIdentificacion != '4') formulario.value.dv = null;
+  }
+);
+
+
+
 const formSchema = yup.object({
   primerNombre: yup.string().required('El primer nombre es obligatorio'),
   segundoNombre: yup.string(),
@@ -243,6 +262,18 @@ const formSchema = yup.object({
   direccion: yup.string().required('La dirección es obligatoria'),
   departamento: yup.object().nullable().required('Debe seleccionar un departamento'),
   ciudad: yup.string().required('Debe seleccionar una ciudad o municipio'),
+  dv: yup
+  .string()
+  .nullable()
+  .typeError('El dígito de verificación debe ser un número')
+  .when('tipoIdentificacion', (tipoIdentificacion , schema) => {
+    if (tipoIdentificacion[0] === '4') {
+      return schema
+        .matches(/^\d+$/, 'El dígito de verificación debe ser un número')
+        .required('El dígito de verificación es obligatorio para este caso');
+    }
+    return schema;
+  }),
 });
 
 
