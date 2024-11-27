@@ -5,7 +5,7 @@ export class PersonaNaturalCreateDTO implements Partial<PersonaNatural> {
     segundoNombre?: string | null;
     primerApellido: string;
     segundoApellido?: string | null;
-    tipoIdenticacion: string;
+    tipoIdentificacion: string;
     numeroIdentificacion: string;
     telefono: string;
     correo?: string | null;
@@ -19,7 +19,7 @@ export class PersonaNaturalCreateDTO implements Partial<PersonaNatural> {
         this.segundoNombre = this.sanitizeString(personaNatural.segundoNombre) ?? null;
         this.primerApellido = this.sanitizeString(personaNatural.primerApellido) ?? "";
         this.segundoApellido = this.sanitizeString(personaNatural.segundoApellido) ?? null;
-        this.tipoIdenticacion = this.sanitizeString(personaNatural.tipoIdenticacion) ?? "";
+        this.tipoIdentificacion = this.sanitizeString(personaNatural.tipoIdentificacion) ?? "";
         this.numeroIdentificacion = this.sanitizeNumber(personaNatural.numeroIdentificacion) ?? "";
         this.telefono = this.sanitizeNumber(personaNatural.telefono) ?? "";
         this.correo = this.sanitizeEmail(personaNatural.correo) ?? null;
@@ -35,13 +35,14 @@ export class PersonaNaturalCreateDTO implements Partial<PersonaNatural> {
             segundoNombre: this.segundoNombre,
             primerApellido: this.primerApellido,
             segundoApellido: this.segundoApellido,
-            tipoIdenticacion: this.tipoIdenticacion,
+            tipoIdentificacion: this.tipoIdentificacion,
             numeroIdentificacion: this.numeroIdentificacion,
             telefono: this.telefono,
             direccion: this.direccion,
             departamento: this.departamento,
             ciudad: this.ciudad,
             dv: this.dv,
+            correo : this.correo
         };
     }
 

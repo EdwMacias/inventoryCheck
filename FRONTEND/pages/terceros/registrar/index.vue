@@ -56,10 +56,11 @@
 </template>
 
 <script lang="ts" setup>
+
 import { personaJuridicaService } from '~/Domain/Client/Services/Terceros/PersonaJuridica/juridica.service';
+import { personaNaturalService } from '~/Domain/Client/Services/Terceros/PersonaNatural/natural.service';
 import type { PersonaJuridicaCreateDTO } from '~/Domain/DTOs/Terceros/PersonaJuridica/PersonaJuridicaCreateDTO';
 import type { PersonaNaturalCreateDTO } from '~/Domain/DTOs/Terceros/PersonaNatural/PersonaNaturalCreateDTO';
-import { personaNaturalRepository } from '~/Infrastructure/Repositories/Terceros/PersonaNatural/natural.repository';
 
 const { $swal } = useNuxtApp()
 const spinnerStore = SpinnerStore();
@@ -74,7 +75,7 @@ async function createPersonaNatural(personaNaturalCreateDTO: PersonaNaturalCreat
   // await personaNaturalRepository.create(personaNaturalCreateDTO.toArray());
   spinnerStore.activeOrInactiveSpinner(true);
   try {
-    const response = await personaNaturalRepository.create(personaNaturalCreateDTO);
+    const response = await personaNaturalService.create(personaNaturalCreateDTO);
     spinnerStore.activeOrInactiveSpinner(false);
 
     if (!Array.isArray(response.messages)) {

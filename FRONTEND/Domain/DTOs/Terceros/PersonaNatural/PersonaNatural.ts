@@ -4,7 +4,7 @@ export interface PersonaNatural {
     segundoNombre: string | null;
     primerApellido: string;
     segundoApellido: string | null;
-    tipoIdenticacion: string;
+    tipoIdentificacion: string;
     numeroIdentificacion: string;
     telefono: string;
     correo: string | null;

@@ -25,9 +25,10 @@ export default defineNuxtConfig({
     '/login': { appMiddleware: ['login-middleware'] },
     '/usuarios/**': { appMiddleware: ['auth-middleware'] },
     '/forgot-password': { appMiddleware: ['login-middleware'] },
-    '/inventario/**': { appMiddleware: ['auth-middleware'] }
+    '/inventario/**': { appMiddleware: ['auth-middleware'] },
+    '/terceros/**': { appMiddleware: ['auth-middleware'] },
   },
-  
+
 
   piniaPersistedstate: {
   },
