@@ -9,7 +9,7 @@ class PersonaNaturalCreateDTO
     public ?string $segundoNombre = null;
     public string $primerApellido;
     public ?string $segundoApellido = null;
-    public string $tipoIdenticacionId;
+    public string $tipoIdenticacion;
     public string $numeroIdentificacion;
     public string $telefono;
     public ?string $correo = null;
@@ -24,7 +24,7 @@ class PersonaNaturalCreateDTO
         $this->segundoNombre = $this->sanitizeString($personaNatural->segundoNombre ?? null);
         $this->primerApellido = $this->sanitizeString($personaNatural->primerApellido ?? null);
         $this->segundoApellido = $this->sanitizeString($personaNatural->segundoApellido ?? null);
-        $this->tipoIdenticacionId = $this->sanitizeString($personaNatural->tipoIdentificacion ?? null);
+        $this->tipoIdenticacion = $this->sanitizeString($personaNatural->tipoIdentificacion ?? null);
         $this->numeroIdentificacion = $this->sanitizeNumber($personaNatural->numeroIdentificacion ?? null);
         $this->telefono = $this->sanitizeNumber($personaNatural->telefono ?? null);
         $this->correo = $this->sanitizeEmail($personaNatural->correo ?? null);
@@ -42,7 +42,7 @@ class PersonaNaturalCreateDTO
             'segundo_nombre' => $this->segundoNombre,
             'primer_apellido' => $this->primerApellido,
             'segundo_apellido' => $this->segundoApellido,
-            'document_type_id' => $this->tipoIdenticacionId,
+            'document_type_id' => $this->tipoIdenticacion,
             'numero_identificacion' => $this->numeroIdentificacion,
             'telefono' => $this->telefono,
             'direccion' => $this->direccion,
