@@ -502,7 +502,8 @@
 
 <script lang="ts" setup>
 import { EquipoEntityClass, type EquipoEntity } from '~/Domain/Models/Entities/equipo';
-const handleCancel = () => router.push('/inventario');
+import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
+const handleCancel = () => router.push(INDEX_PAGE_INVENTARIO);
 const isTabActive: Ref<string> = ref('1');
 const { $swal } = useNuxtApp()
 const router = useRouter();

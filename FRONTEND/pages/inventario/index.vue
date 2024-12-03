@@ -6,13 +6,13 @@
           <NuxtLink to="/">Inicio</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario/">Inventario</NuxtLink>
+          <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
         </li>
       </ul>
     </div>
     <div class="lg:flex sm:grid sm:grid-cols-1">
       <div class="lg:flex lg:flex-grow">
-        <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" to="/inventario/registrar">
+        <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" :to="INDEX_PAGE_INVENTARIO_REGISTRAR">
           <span class="hidden lg:inline"> + Registrar Item</span>
           <span class="inline sm:inline">+</span>
         </NuxtLink>
@@ -67,9 +67,9 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5 mb-5">
       <ClientOnly>
-        <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource"
-          :item-name="item.name" :serial="item.serial" :item-id="item.item_id" :category="item.category_id"
-          :identifier="item.id" :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
+        <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource" :item-name="item.name"
+          :serial="item.serial" :item-id="item.item_id" :category="item.category_id" :identifier="item.id"
+          :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem"
           @click-observaciones="pushRoute" @click-add-repair="pushRepair" />
 
@@ -111,6 +111,7 @@
 <script lang="ts" setup>
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
+import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA, INDEX_PAGE_INVENTARIO_REGISTRAR } from "~/Infrastructure/Paths/Paths";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 const usuarioStore = UsuarioStore();
 const searchBefore: Ref<boolean> = ref(false);
@@ -286,7 +287,6 @@ async function deleteItem(itemId: string) {
 }
 
 const pushRoute = (datos: { itemId: string, identifier: number, category: string }) => {
-  let path = "/inventario/observaciones";
   const { itemId, identifier, category } = datos;
   const router = useRouter();
 
@@ -295,7 +295,7 @@ const pushRoute = (datos: { itemId: string, identifier: number, category: string
     identificador: identifier,
   }))
 
-  path += category == '1' ? `/equipo/${itemId}/` : `/oficina/${itemId}/`;
+  const path = category == '1' ? `${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${itemId}/` : `${INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA}${itemId}/`;
 
   return router.push(path)
 }

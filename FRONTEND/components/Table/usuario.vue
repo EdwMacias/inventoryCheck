@@ -4,7 +4,7 @@
 
 <template>
   <div class="flex justify-end">
-    <NuxtLink class="btn btn-success me-2" to="/usuarios/registrar"><i class="bi bi-plus-circle "></i> Agregar
+    <NuxtLink class="btn btn-success me-2" :to="INDEX_USUARIOS_REGISTRAR"><i class="bi bi-plus-circle "></i> Agregar
     </NuxtLink>
     <button class="btn btn-ghost rounded-full" @click="reloadTable">
       <i class="bi bi-arrow-clockwise text-lg"></i>
@@ -76,6 +76,7 @@ import language from '@/lang/datatable.language.spanish.json';
 import { UsuarioRepository } from '@/Infrastructure/Repositories/Usuario/usuario.repository';
 import { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
 import { GET_USUARIOS_ALL } from '~/Infrastructure/Connections/endpoints.connection';
+import { INDEX_USUARIOS_EDITAR, INDEX_USUARIOS_REGISTRAR } from '~/Infrastructure/Paths/Paths';
 const emits = defineEmits(["inactivar", 'role'])
 
 const columns: ConfigColumns[] = [
@@ -149,7 +150,7 @@ const table = ref(); // This variable is used in the `ref` attribute for the com
 const router = useRouter();
 
 const editClick = (id: any) => {
-  return router.push('editar?id=' + id.email);
+  return router.push(INDEX_USUARIOS_EDITAR + id.email);
 }
 
 

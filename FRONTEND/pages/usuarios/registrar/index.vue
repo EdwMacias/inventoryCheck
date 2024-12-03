@@ -5,7 +5,7 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/usuarios">Usuarios</NuxtLink>
+        <NuxtLink :to="INDEX_USUARIOS">Usuarios</NuxtLink>
       </li>
       <li>
         Registrar
@@ -20,6 +20,7 @@
 <script lang="ts" setup>
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import type { UsuarioCreateDTO } from '~/Domain/DTOs/UsuarioCreateDTO';
+import { INDEX_USUARIOS } from '~/Infrastructure/Paths/Paths';
 const { $swal } = useNuxtApp()
 
 const router = useRouter();
@@ -39,7 +40,7 @@ const createUser = async (usuarioCreateDTO: UsuarioCreateDTO) => {
       icon: 'success'
     })
 
-    return router.push('/usuarios')
+    return router.push(INDEX_USUARIOS)
 
   } catch (error) {
     console.error(error)

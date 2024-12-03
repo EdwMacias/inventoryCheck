@@ -15,7 +15,7 @@
             <img :src="imagenValida[index] ? item.resource : imagenFallback" alt="Item Image" class="w-16 h-16 object-cover" @error="setDefaultImage(index)">
           </td>
           <td>{{ item.name }}</td>
-          <td>{{ item.serie_lote }}</td>
+          <td>{{ item.serial }}</td>
           <td>
             <button @click="clickButtonDelete(item.item_id)" class="btn btn-error">Borrar</button>
           </td>
@@ -59,19 +59,7 @@ function setDefaultImage(index: number) {
 //   imagenValida.value = false;
 // }
 
-const pushRoute = (itemId: string, id: number, category: string) => {
-  const router = useRouter();
 
-  localStorage.setItem('item-select', JSON.stringify({
-    itemId: itemId,
-    identificador: id,
-  }))
-  if (category == '1') {
-    return router.push(`/inventario/observaciones/equipo/${itemId}/`)
-  } else {
-    return router.push(`/inventario/observaciones/oficina/${itemId}/`)
-  }
-}
 
 function clickButtonDelete(itemId: string) {
   return emits("clickDeleteButton", itemId);

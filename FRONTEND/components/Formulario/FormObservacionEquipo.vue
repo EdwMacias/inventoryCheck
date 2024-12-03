@@ -83,6 +83,7 @@
 import { EquipoObservacionCreateDTO } from '~/Domain/DTOs/Observaciones/Equipos/EquipoObservacionCreateDTO';
 const { $swal } = useNuxtApp()
 import SignaturePad, { type PointGroup } from 'signature_pad';
+import { INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO } from '~/Infrastructure/Paths/Paths';
 const signature: Ref<SignaturePad | undefined> = ref();
 
 const emit = defineEmits<{
@@ -122,7 +123,7 @@ const handleFilesSelected = (files: File[]) => {
 const navigate = () => {
   const route = useRoute();
   const router = useRouter();
-  router.push(`/inventario/observaciones/equipo/${route.params.id}`);
+  router.push(`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`);
 }
 
 function dataURLToBlob(dataURL: string) {

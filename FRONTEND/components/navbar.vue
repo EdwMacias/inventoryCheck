@@ -21,7 +21,7 @@
 
       </div>
       <div class="mt-20">
-        <slot></slot>
+          <slot></slot>
       </div>
     </div>
     <div class="drawer-side  z-20">
@@ -46,7 +46,7 @@
           </NuxtLink>
         </li>
         <li v-if="userRole === 'SUPERADMINISTRADOR'">
-          <NuxtLink to="/usuarios/" @click="closeDrawer">
+          <NuxtLink :to="INDEX_USUARIOS" @click="closeDrawer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path
                 d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
@@ -55,7 +55,7 @@
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario" @click="closeDrawer">
+          <NuxtLink :to="INDEX_PAGE_INVENTARIO" @click="closeDrawer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path fill-rule="evenodd"
                 d="M1.5 9.832v1.793c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875V9.832a3 3 0 0 0-.722-1.952l-3.285-3.832A3 3 0 0 0 16.215 3h-8.43a3 3 0 0 0-2.278 1.048L2.222 7.88A3 3 0 0 0 1.5 9.832ZM7.785 4.5a1.5 1.5 0 0 0-1.139.524L3.881 8.25h3.165a3 3 0 0 1 2.496 1.336l.164.246a1.5 1.5 0 0 0 1.248.668h2.092a1.5 1.5 0 0 0 1.248-.668l.164-.246a3 3 0 0 1 2.496-1.336h3.165l-2.765-3.226a1.5 1.5 0 0 0-1.139-.524h-8.43Z"
@@ -84,6 +84,7 @@
 
 <script setup lang="ts">
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import { INDEX_PAGE_INVENTARIO, INDEX_USUARIOS } from '~/Infrastructure/Paths/Paths';
 import { UsuarioStore } from '~/stores/UsuarioStore';
 const usuarioStore = UsuarioStore();
 const userRole = usuarioStore.userRole;

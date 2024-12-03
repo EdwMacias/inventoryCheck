@@ -92,6 +92,7 @@ import swal from 'sweetalert2';
 import { ref, computed } from 'vue';
 import * as yup from 'yup';
 import { FormularioCreateItemBasicoDTO, type FormularioItemBasicoDTO } from '~/Domain/DTOs/Request/Items/FormularioCreateItemBasicoDTO';
+import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const spinnerStore = SpinnerStore();
 spinnerStore.activeOrInactiveSpinner(false);
 
@@ -104,7 +105,7 @@ const router = useRouter();
 const props = defineProps({
   link: {
     type: String,
-    default: '/inventario',
+    default: INDEX_PAGE_INVENTARIO,
   },
 });
 

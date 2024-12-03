@@ -20,6 +20,7 @@
 <script lang="ts" setup>
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import { UsuarioCreateDTO } from '~/Domain/DTOs/UsuarioCreateDTO';
+import { INDEX_USUARIOS } from '~/Infrastructure/Paths/Paths';
 import { UsuarioRepository } from '~/Infrastructure/Repositories/Usuario/usuario.repository';
 const { $swal } = useNuxtApp()
 const router = useRouter();
@@ -48,7 +49,7 @@ const editarUser = async (usuarioCreateDTO: UsuarioCreateDTO) => {
       icon: 'success'
     })
 
-    return router.push('/usuarios')
+    return router.push(INDEX_USUARIOS)
 
   } catch (error) {
     console.error(error)

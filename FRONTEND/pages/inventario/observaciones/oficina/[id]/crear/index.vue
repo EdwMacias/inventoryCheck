@@ -5,10 +5,14 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/inventario/">Inventario</NuxtLink>
+        <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="`/inventario/observaciones/oficina/${route.params.id}`"> Observación Item Oficina
+        <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA}${route.params.id}`"> Observaciones
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA}${route.params.id}`"> Oficina
         </NuxtLink>
       </li>
       <li>
@@ -25,15 +29,16 @@
 
 <script lang="ts" setup>
 import type { ItemOficinaObservacionDTO } from '~/Domain/DTOs/Observaciones/Oficina/ItemOficinaObservacionDTO';
+import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA } from '~/Infrastructure/Paths/Paths';
 import { OficinaObservacionRepository } from '~/Infrastructure/Repositories/Observation/Oficina/OficinaObservacion.repository';
 
 const route = useRoute();
-const router = useRouter(); 
+const router = useRouter();
 const { $swal } = useNuxtApp()
 const spinnerStore = SpinnerStore();
 
 const navigate = () => {
-  router.push(`/inventario/observaciones/oficina/${route.params.id}`);
+  router.push(`${INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA}${route.params.id}`);
 }
 
 const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacionDTO) => {
@@ -52,7 +57,7 @@ const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacio
       text: "Ha ocurrido un error inesperado. Por favor vuelva a intentarlo. Lamentamos el inconveniente.",
       showCancelButton: false,
     });
-    return router.push('/inventario/');
+    return router.push(INDEX_PAGE_INVENTARIO);
   }
 
   // Asignamos el itemId al DTO
@@ -74,7 +79,7 @@ const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacio
     });
 
     // Redireccionamos al usuario a la página de observaciones
-    router.push(`/inventario/observaciones/oficina/${route.params.id}`);
+    router.push(`${INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA}${route.params.id}`);
 
   } catch (error) {
     console.error('Error al crear observación:', error);

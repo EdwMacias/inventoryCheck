@@ -79,7 +79,6 @@ const onSubmit = (values: any): void => {
   console.log('Datos del formulario:', values);
 
   // Redirigir o procesar los datos del formulario
-  // router.push({ path: '/inventario' });
 };
 
 

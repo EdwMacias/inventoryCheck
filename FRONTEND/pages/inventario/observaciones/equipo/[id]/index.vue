@@ -6,7 +6,7 @@
           <NuxtLink to="/">Inicio</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario/">Inventario</NuxtLink>
+          <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
         </li>
         <li>
           Observación Equipo
@@ -35,6 +35,8 @@
 </template>
 
 <script lang="ts" setup>
+import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
+
 
 definePageMeta({
   middleware: ['redirect-trailing-slash']

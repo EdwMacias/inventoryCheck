@@ -5,7 +5,7 @@
                 <NuxtLink to="/">Inicio</NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/inventario/">Inventario</NuxtLink>
+                <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
             </li>
             <li>Registrar</li>
         </ul>
@@ -38,13 +38,10 @@ import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
 import { itemService } from '~/Domain/Client/Services/Items/item.service';
 import type { FormularioCreateItemBasicoDTO } from '~/Domain/DTOs/Request/Items/FormularioCreateItemBasicoDTO';
 import type { EquipoEntity } from '~/Domain/Models/Entities/equipo';
+import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const spinnerStore = SpinnerStore();
 const router = useRouter();
 const { $swal } = useNuxtApp()
-
-definePageMeta({
-    // middleware: ['actions-middleware']
-})
 
 const crearEquipo = async (equipoEntity: EquipoEntity) => {
     spinnerStore.status = true;
@@ -57,20 +54,8 @@ const crearEquipo = async (equipoEntity: EquipoEntity) => {
                 title: 'Equipo Creado',
                 text: 'El Equipo Fue Creado Con Exito',
                 icon: 'success'
-            }).then(value => {
-                if (value.dismiss) {
-                    return router.push('/inventario');
-                }
-                if (value.isConfirmed) {
-                    return router.push('/inventario');
-                }
             })
-            // await emitNotificaciones({
-            //     tipo: 'success',
-            //     cabecera: 'Éxito',
-            //     mensaje: 'Equipo Creado Con Exito',
-            // });
-            // return router.push('/inventario');
+            return router.push(INDEX_PAGE_INVENTARIO);
         }
     } catch (error) {
         // return;
@@ -88,18 +73,15 @@ const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateIt
         spinnerStore.status = false;
 
         if (response) {
+            
             await $swal.fire({
                 title: 'Item Oficina Creado',
                 text: 'El Item Oficina Fue Creado Con Exito',
                 icon: 'success'
-            }).then(value => {
-                if (value.dismiss) {
-                    return router.push('/inventario/');
-                }
-                if (value.isConfirmed) {
-                    return router.push('/inventario/');
-                }
-            })
+            });
+
+            return router.push(INDEX_PAGE_INVENTARIO);
+
         }
     } catch (error) {
         spinnerStore.status = false;

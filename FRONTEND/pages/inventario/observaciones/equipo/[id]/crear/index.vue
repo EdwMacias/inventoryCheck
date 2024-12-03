@@ -5,10 +5,10 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/inventario/">Inventario</NuxtLink>
+        <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="`/inventario/observaciones/equipo/${route.params.id}`"> Observación Equipo
+        <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`"> Observación Equipo
         </NuxtLink>
       </li>
       <li>
@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import type { EquipoObservacionCreateDTO } from '~/Domain/DTOs/Observaciones/Equipos/EquipoObservacionCreateDTO';
+import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO } from '~/Infrastructure/Paths/Paths';
 import { EquipoObservacionRepository } from '~/Infrastructure/Repositories/Observation/Equipo/EquipoObservacion.repository';
 
 const route = useRoute();
@@ -50,7 +51,7 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
         showCancelButton: false,
       })
 
-      return router.push('/inventario/');
+      return router.push(INDEX_PAGE_INVENTARIO);
 
     }
 
@@ -66,7 +67,7 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
         showCancelButton: false,
       });
 
-      return router.push(`/inventario/observaciones/equipo/${route.params.id}`);
+      return router.push(`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`);
 
 
 

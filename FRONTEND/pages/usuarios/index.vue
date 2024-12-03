@@ -5,7 +5,7 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="">Usuarios</NuxtLink>
+        <NuxtLink :to="INDEX_USUARIOS">Usuarios</NuxtLink>
       </li>
     </ul>
   </div>
@@ -46,6 +46,7 @@ import { RoleService } from '~/Domain/Client/Services/Roles/role.service';
 import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
 import { RoleRequestAssingRoleDTO } from '~/Domain/DTOs/Request/Roles/RoleRequestAssingRoleDTO';
 import type { UserDTO } from '~/Domain/DTOs/UsuarioDTO';
+import { INDEX_USUARIOS } from '~/Infrastructure/Paths/Paths';
 import { DatatableStore } from '~/stores/DatatableStore';
 
 async function statuUsuario(userDTO: UserDTO, table: any) {

@@ -8,7 +8,7 @@
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-10">
 
-        <div @click="pushPath('/inventario/')"
+        <div @click="pushPath(INDEX_PAGE_INVENTARIO)"
             class="card bg-base-100 image-full w-full shadow-xl cursor-pointer transition-transform duration-300 hover:scale-105 select-none">
             <figure>
                 <img src="/images/inventarioWorkSpace.webp" alt="inventario" />
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div v-if="userRole === 'SUPERADMINISTRADOR'" @click="pushPath('/usuarios/')"
+        <div v-if="userRole === 'SUPERADMINISTRADOR'" @click="pushPath(INDEX_USUARIOS)"
             class="card bg-base-100 image-full w-full shadow-xl cursor-pointer transition-transform duration-300 hover:scale-105 select-none">
             <figure>
                 <img src="/images/UsuarioWorkSpace.webp" alt="inventario" />
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div @click="pushPath('/terceros/')"
+        <div @click="pushPath(INDEX_PAGE_TERCERO)"
             class="card bg-base-100 image-full w-full shadow-xl cursor-pointer transition-transform duration-300 hover:scale-105 select-none">
             <figure>
                 <img src="/images/tercerosWorkSpace.webp" alt="inventario" />
@@ -45,6 +45,7 @@
 <style scoped></style>
 
 <script setup lang="ts">
+import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_TERCERO, INDEX_USUARIOS } from '~/Infrastructure/Paths/Paths';
 import { UsuarioStore } from '~/stores/UsuarioStore';
 const usuarioStore = UsuarioStore();
 const userRole = usuarioStore.userRole;

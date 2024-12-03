@@ -6,7 +6,7 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/terceros/">Terceros</NuxtLink>
+        <NuxtLink :to="INDEX_PAGE_TERCERO">Terceros</NuxtLink>
       </li>
       <li>
         <a>Registrar</a>
@@ -61,6 +61,7 @@ import { personaJuridicaService } from '~/Domain/Client/Services/Terceros/Person
 import { personaNaturalService } from '~/Domain/Client/Services/Terceros/PersonaNatural/natural.service';
 import type { PersonaJuridicaCreateDTO } from '~/Domain/DTOs/Terceros/PersonaJuridica/PersonaJuridicaCreateDTO';
 import type { PersonaNaturalCreateDTO } from '~/Domain/DTOs/Terceros/PersonaNatural/PersonaNaturalCreateDTO';
+import { INDEX_PAGE_TERCERO } from '~/Infrastructure/Paths/Paths';
 
 const { $swal } = useNuxtApp()
 const spinnerStore = SpinnerStore();
@@ -68,7 +69,7 @@ const router = useRouter();
 const selection = ref(0);
 
 function pushBack() {
-  router.push('/terceros/')
+  router.push(INDEX_PAGE_TERCERO)
 }
 
 async function createPersonaNatural(personaNaturalCreateDTO: PersonaNaturalCreateDTO) {
@@ -96,13 +97,13 @@ async function createPersonaNatural(personaNaturalCreateDTO: PersonaNaturalCreat
 
     }
 
-    router.push("/terceros/");
+    return pushBack();
 
   } catch (error) {
     spinnerStore.activeOrInactiveSpinner(false);
-    
+
     console.error(error);
-    
+
   }
 
 }
@@ -131,7 +132,7 @@ async function createPersonaJuridica(personaJuridicaCreateDTO: PersonaJuridicaCr
 
     }
 
-    router.push("/terceros/");
+    return pushBack();
 
   } catch (error) {
     spinnerStore.activeOrInactiveSpinner(false);
