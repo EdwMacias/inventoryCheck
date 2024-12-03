@@ -5,14 +5,14 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/usuarios">Usuarios</NuxtLink>
+        <NuxtLink :to="INDEX_USUARIOS">Usuarios</NuxtLink>
       </li>
       <li>
         Editar
       </li>
     </ul>
   </div>
-  <div class="bg-base-100 rounded-md p-5  text-lg">
+  <div class="bg-base-100 rounded-md p-5 text-lg">
     <FormularioRegistro :user-to-edit="usuario" @update="editarUser"></FormularioRegistro>
   </div>
 </template>
@@ -25,22 +25,26 @@ import { UsuarioRepository } from '~/Infrastructure/Repositories/Usuario/usuario
 const { $swal } = useNuxtApp()
 const router = useRouter();
 const route = useRoute();
-
 const usuario = ref();
+const identificador = ref();
 
-if (!route.query.id) router.push('/usuarios');
+if (!route.params.id) router.push(INDEX_USUARIOS);
 
-const response = await UsuarioRepository.getUsuarioByEmail(route.query.id as string);
-const identificador = response.user_id;
+try {
+  const response = await UsuarioRepository.getUsuarioByEmail(route.params.id as string);
+  usuario.value = new UsuarioCreateDTO(response);
+  identificador.value = usuario.value;
+} catch (error) {
+  router.push(INDEX_USUARIOS);
+}
 
-usuario.value = new UsuarioCreateDTO(response);
 
 const editarUser = async (usuarioCreateDTO: UsuarioCreateDTO) => {
   const spinnerStore = SpinnerStore();
   spinnerStore.activeOrInactiveSpinner(true);
 
   try {
-    await UsuarioServices.updateUser(identificador as number, usuarioCreateDTO)
+    await UsuarioServices.updateUser(identificador.value as number, usuarioCreateDTO)
     spinnerStore.activeOrInactiveSpinner(false);
 
     await $swal.fire({
