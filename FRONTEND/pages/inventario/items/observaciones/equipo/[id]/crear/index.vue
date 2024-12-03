@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-lg mx-5">
+  <div class="breadcrumbs text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -17,7 +17,7 @@
     </ul>
   </div>
   <div class="mt-2">
-    <div class="container  mx-auto bg-base-100 p-5 rounded-lg">
+    <div class="container mx-auto bg-base-100 p-5 rounded-lg">
       <FormularioFormObservacionEquipo @callback="crearObservacion"></FormularioFormObservacionEquipo>
     </div>
   </div>

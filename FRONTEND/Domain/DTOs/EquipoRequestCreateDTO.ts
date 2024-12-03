@@ -108,7 +108,7 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
                                 component[prop] = null;
                             }
                         });
-                        formData.append(`${key}[${espacio}]`, JSON.stringify(component));
+                        formData.append(`componentes[${espacio}]`, JSON.stringify(component));
                         espacio++;
                     }
                 });

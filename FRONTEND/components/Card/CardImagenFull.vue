@@ -1,24 +1,19 @@
 <template>
   <input type="checkbox" :checked="isModalOpen" :id="idModal" class="modal-toggle" />
-  <div class="modal bg-base-200" :id="identificador" >
-    <div class="modal-box w-11/12 max-w-7xl bg-base-200" role="dialog">
-      <!-- Close Button -->
-      <button class="btn btn-neutral btn-circle absolute right-0 top-0 mx-5 mt-5" @click="closeModal" style="z-index: 200;" aria-label="Cerrar modal">
+  <div class="modal" :id="identificador">
+    <div class="modal-box w-11/12 max-w-7xl p-0 h-full">
+      <figure class="h-full w-full">
+        <NuxtImg :src="imagen" class="w-full h-full object-cover rounded-lg" alt="Imagen del artículo" />
+      </figure>
+      <button class="btn btn-neutral btn-circle absolute right-0 top-0 mx-5 mt-5 transition-transform duration-300 hover:scale-105 select-none" @click="closeModal"
+        style="z-index: 200;" aria-label="Cerrar modal">
         ✕
       </button>
-
-      <!-- Modal Content -->
-      <div class="card">
-        <h3 class="card-title">{{ title || 'Imagen' }}</h3>
-        <figure>
-          <NuxtImg :src="imagen" class="rounded-lg" alt="Imagen del artículo" />
-        </figure>
-        <!-- <div class="card-body"> -->
-        <!-- </div> -->
-      </div>
     </div>
     <!-- Backdrop -->
-    <label class="modal-backdrop cursor-pointer" @click="closeModal">Cerrar</label>
+    <label class="modal-backdrop cursor-pointer " @click="closeModal">
+      Cerrar
+    </label>
   </div>
 </template>
 

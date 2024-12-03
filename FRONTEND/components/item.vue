@@ -1,56 +1,54 @@
 <template>
-  <div class="card bg-base-100 w-50 shadow-lg m-0 p-0">
+  <div class="card bg-base-100 shadow-lg rounded-lg  transition-transform duration-300 hover:scale-105 select-none ">
+    <figure v-if="imagenValida" @click="openModal(true)" class="cursor-pointer ">
+      <NuxtImg :src="image ?? '/images/defaultimage.webp'" style="width: 100%; height: 200px;object-fit: cover"
+        @error="setDefaultImage" />
+    </figure>
+    <figure v-else>
+      <NuxtImg src="/images/defaultimage.webp" ref="imagen" style="width: 100%; height: 200px; object-fit: cover" />
+    </figure>
     <div class="absolute top-0 right-0 cursor-pointer">
-      <button v-if="showDeleteButton" class="btn btn-error me-2 text-lg rounded-full mt-1"
+      <button v-if="showDeleteButton"
+        class="btn btn-warning me-2 text-lg rounded-full mt-1 cursor-pointer transition-transform duration-300 hover:scale-105 select-none"
         @click.prevent="clickButtonDelete(itemId)">
         <i class="bi bi-trash3"></i>
       </button>
       <details class="dropdown dropdown-end ">
-        <summary class="btn btn-neutral me-2 rounded-full mt-1">
+        <summary
+          class="btn btn-neutral me-2 rounded-full mt-1 cursor-pointer transition-transform duration-300 hover:scale-105 select-none">
           <i class="bi bi-three-dots-vertical text-lg"></i>
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
-          <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
+          <!-- <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
+          </li> -->
+          <li v-if="category == '1'"><a>Observaciones</a></li>
+          <li v-if="category == '2'"><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
           </li>
-          <li v-if="category == '1'"><a>Crear Observacion Equipo</a></li>
-          <li v-if="category == '2'"><a @click="pushRoute(itemId, identifier, category)">Historial Item Oficina</a></li>
-          <li><a @click="openCV(true)" >Hoja de vida</a></li>
+          <li><a @click="openCV(true)">Hoja de vida</a></li>
         </ul>
       </details>
     </div>
-
-    <div class="card-body p-0">
-      <div @click="openModal(true)" class="cursor-pointer">
-        <NuxtImg v-if="imagenValida" :src="image ?? '/images/defaultimage.webp'"
-          style="width: 100%; height: 200px;object-fit: cover" @error="setDefaultImage" />
-        <NuxtImg v-else src="/images/defaultimage.webp" ref="imagen"
-          style="width: 100%; height: 200px; object-fit: cover" />
-      </div>
-      <div v-if="isCvOpen" class="cursor-pointer">
-        <CvItem :isCvOpen="isCvOpen" :idCv="itemId"  />
+    <div class="card-body">
+      <h2 class="card-title">{{ itemName }}</h2>
+      <div class="card-actions justify-end">
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+          {{ category == '1' ? 'Equipo' : 'Oficina' }}
+        </span>
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+          {{ serial }}
+        </span>
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{
+            quantity }} {{ unit }}</span>
       </div>
     </div>
-    <div class="divider m-0"></div>
-    <p class="text-lg mx-2">{{ itemName }}</p>
-    <div class="card-actions p-2">
-      <span
-        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        {{ category == '1' ? 'Equipo' : 'Oficina' }}
-      </span>
-      <span
-        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        {{ serial }}
-      </span>
-      <span
-        class="bg-blue-100 text-blue-800 text-xs font-medium  px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ quantity }} {{ unit }}</span>
-    </div>
-
-    <CardImagenFull v-if="imagenValida" :title="serial" :idModal="itemId" :imagen="image" :isModalOpen="isModalOpen"
-      @close="openModal" />
-    <CardImagenFull v-else :title="itemName" :idModal="itemId" imagen="/images/defaultimage.webp"
-      :isModalOpen="isModalOpen" @close="openModal" />
   </div>
-
+  <CardImagenFull v-if="imagenValida" :title="itemName + ' - ' + serial" :idModal="itemId" :imagen="image"
+    :isModalOpen="isModalOpen" @close="openModal" />
+  <CardImagenFull v-else :title="itemName + ' - ' + serial" :idModal="itemId" imagen="/images/defaultimage.webp"
+    :isModalOpen="isModalOpen" @close="openModal" />
 </template>
 
 <script setup lang="ts">

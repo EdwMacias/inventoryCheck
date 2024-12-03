@@ -156,20 +156,14 @@
       <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Fotografias*"
         :checked="isTabActive == '2'" @click="isTabActive = '2'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-200 rounded-box  p-5">
-        <input type="file" ref="inputFile" class="file-input file-input-bordered mb-2 w-full" name="resource"
-          @change="handleFileChange" />
+        <input type="file" accept="image/*" ref="inputFile" class="file-input file-input-bordered mb-2 w-full"
+          name="resource" @change="handleFileChange" />
         <div class="w-full">
-
-          <div class="card border-dashed border-2 border-indigo-600 max-w-lg p-2">
+          <div  class="card  border-dashed border-2  border-indigo-600 max-w-lg p-2">
             <figure>
-              <img ref="itemPhoto" @click="openModal(true)" class="w-full max-w-xs"
-                src="https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-600nw-2079504220.jpg"
-                alt="Imagen del articulo " />
+              <img class="" :src="itemPhoto ?? '/images/defaultimage.webp'" alt="Imagen del articulo " />
             </figure>
           </div>
-
-          <CardImagenFull idModal="modal-imagen" :isModalOpen="isModalOpen" :imagen="itemPhoto?.src" @close="openModal">
-          </CardImagenFull>
         </div>
       </div>
 
@@ -353,7 +347,7 @@
         </div>
       </div>
 
-      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Componentes*"
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Componentes"
         :checked="isTabActive == '6'" @click="isTabActive = '6'" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
         <div class="overflow-x-auto">
@@ -512,6 +506,7 @@ const handleCancel = () => router.push('/inventario/items');
 const isTabActive: Ref<string> = ref('1');
 const { $swal } = useNuxtApp()
 const router = useRouter();
+const imageModal = ref();
 
 const emits = defineEmits<{
   (event: 'callback', payload: EquipoEntity): void
@@ -520,7 +515,7 @@ const emits = defineEmits<{
 const addComponent = () => {
   formulario.value.componentes.push({
     serial: '',
-    cantidad: '0',
+    cantidad: '',
     cuidados: '',
     marca: '',
     modelo: '',
@@ -536,7 +531,7 @@ const deleteComponent = (index: number) => {
 
 const inputFile = ref();
 const { setImagen } = useImagen();
-const itemPhoto = ref<HTMLImageElement | null>(null);
+const itemPhoto = ref();
 const isModalOpen = ref(false);
 
 function openModal(valor: boolean) {
@@ -609,25 +604,43 @@ const formularioEquipoSchema = yup.object({
   componentes: yup.array().of(
     yup.object({
       serial: yup.string().nullable(),
-      nombre: yup.string().required('El nombre es requerido*'),
+      nombre: yup.string()
+        .nullable()
+        .when('$anyFieldFilled', {
+          is: true,
+          then: schema => schema.required('El nombre es requerido*'),
+        }),
       marca: yup.string().nullable(),
       modelo: yup.string().nullable(),
       cantidad: yup.string()
+        .nullable()
         .matches(/^\d+$/, 'La cantidad solo puede contener números*')
-        .required('La Cantidad es requerida*')
-        .test('no-cero', 'La Cantidad no puede ser 0*', value => value !== '0'),
+        .test('no-cero', 'La Cantidad no puede ser 0*', value => !value || value !== '0')
+        .when('$anyFieldFilled', {
+          is: true,
+          then: schema => schema.required('La Cantidad es requerida*'),
+        }),
       unidad: yup.string().nullable(),
       cuidados: yup.string().nullable(),
     })
-  ),
+  ).test('at-least-one-field', 'Debe haber al menos un campo con datos si alguno está lleno', function (array) {
+    return array?.every(obj =>
+      Object.values(obj).every(value => value === null || value === undefined || value === '') ||
+      (obj.nombre && obj.cantidad)
+    );
+  })
 
 });
 
 const handleFileChange = (event: Event) => {
+  const reader = new FileReader();
   const file = (event.target as HTMLInputElement).files?.[0];
+
   if (file) {
+    itemPhoto.value = URL.createObjectURL(file);
+    // setImagen(file, itemPhoto);
+    // setImagen(file, imageModal);
     formulario.value.resource = file;
-    setImagen(file, itemPhoto);
   }
 };
 

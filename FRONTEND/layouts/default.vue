@@ -7,7 +7,9 @@
     <main class="min-h-screen bg-base-200">
       <slot v-if="!usuarioStore.conectado"></slot>
       <Navbar v-else>
-        <slot></slot>
+        <div class="container mx-auto">
+          <slot></slot>
+        </div>
       </Navbar>
     </main>
   </div>
@@ -18,6 +20,4 @@ const spinnerStore = SpinnerStore();
 const usuarioStore = UsuarioStore();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

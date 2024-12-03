@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="breadcrumbs text-lg mx-5">
+    <div class="breadcrumbs text-lg">
       <ul>
         <li>
           <NuxtLink to="/">Inicio</NuxtLink>
@@ -10,8 +10,8 @@
         </li>
       </ul>
     </div>
-    <div class="flex">
-      <div class="flex flex-grow mx-4 ">
+    <div class="lg:flex sm:grid sm:grid-cols-1">
+      <div class="lg:flex lg:flex-grow">
         <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" to="/inventario/items/registrar/crear">
           <span class="hidden lg:inline"> + Registrar Item</span>
           <span class="inline sm:inline">+</span>
@@ -32,7 +32,7 @@
         </form>
       </div>
 
-      <div class="justify-end mx-5 ">
+      <div class="justify-end sm:mt-2 ">
         <div class="join space-x-2">
           <button class="join-item btn btn-outline btn-md" @click="changePage(pagination.prev_page_url)"
             :disabled="!pagination.prev_page_url">
@@ -58,28 +58,28 @@
     </div>
 
     <!--Espacio de items-->
-    <div
-      :class="statusView ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 p-5' : 'gap-4 mt-2 p-5'">
-      <div v-if="loading" class="col-span-full flex flex-col items-center justify-center h-64">
-        <p class="mb-4">Cargando...</p>
-        <LoadingsLoader />
-      </div>
+    <div v-if="loading" class="col-span-full flex flex-col items-center justify-center h-64">
+      <p class="mb-4">Cargando...</p>
+      <LoadingsLoader />
+    </div>
 
-      <p v-if="!loading && pagination.data.length == 0">No Se Han Encontrado Registros</p>
+    <p v-if="!loading && pagination.data.length == 0">No Se Han Encontrado Registros</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5 mb-5">
       <ClientOnly>
-        <Item v-if="!loading && statusView" v-for="item in pagination.data" :image="item.resource"
+        <Item v-if="!loading" v-for="item in pagination.data" :image="item.resource"
           :item-name="item.name" :serial="item.serial" :item-id="item.item_id" :category="item.category_id"
           :identifier="item.id" :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem"
           @click-observaciones="pushRoute" @click-add-repair="pushRepair" />
 
-        <ListItem v-if="!loading && !statusView" :data="pagination.data"
+        <!-- <ListItem v-if="!loading && !statusView" :data="pagination.data"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem">
-        </ListItem>
+        </ListItem> -->
 
       </ClientOnly>
       <!--Boton flotante para cambiar estilo de vista-->
-      <div class="fixed-button">
+      <!-- <div class="fixed-button">
         <label class="btn btn-outline btn-circle swap swap-rotate ">
           <input type="checkbox" @change="statusView = !statusView">
           <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -92,7 +92,7 @@
             <path fill="currentColor" d="M5 13h14v-2H5m-2 6h14v-2H3m4-8v2h14V7" />
           </svg>
         </label>
-      </div>
+      </div> -->
 
     </div>
   </div>

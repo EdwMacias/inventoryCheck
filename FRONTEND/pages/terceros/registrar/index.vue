@@ -1,6 +1,6 @@
 <template>
 
-  <div class="breadcrumbs text-lg mx-5">
+  <div class="breadcrumbs text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -14,7 +14,7 @@
     </ul>
   </div>
 
-  <div class="bg-base-100 container mx-auto rounded-lg p-3">
+  <div class="bg-base-100 rounded-md p-5 mb-5">
     <div class="flex flex-col items-center gap-4 h-aut p-5">
       <!-- Encabezado principal -->
       <h1 class="text-xl font-semibold text-gray-700">Seleccione *</h1>

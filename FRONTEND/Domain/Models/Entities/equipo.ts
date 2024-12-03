@@ -5,7 +5,7 @@ export interface componentes {
   nombre: string
   marca: string
   modelo: string
-  cantidad: string
+  cantidad?: string
   unidad: string
   cuidados: string
 }
@@ -145,7 +145,7 @@ export class EquipoEntityClass implements EquipoEntity {
     this.cond_transporte = equipo?.cond_transporte !== undefined ? equipo?.cond_transporte : false;
     this.cond_otras = equipo?.cond_otras !== undefined ? equipo?.cond_otras : false;
     this.componentes = equipo?.componentes || [{
-      cantidad: '0',
+      cantidad: undefined,
       serial: '',
       cuidados: '',
       marca: '',

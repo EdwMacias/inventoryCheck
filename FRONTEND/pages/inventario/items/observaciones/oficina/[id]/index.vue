@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-lg mx-5">
+  <div class="breadcrumbs text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -14,11 +14,10 @@
   </div>
   <!-- <div class="mx-5"> -->
   <!-- </div> -->
-  <h3 class="font-semibold text-lg  mx-5">Historial de observacion Item Oficina</h3>
+  <h3 class="font-semibold text-lg ">Historial de observacion Item Oficina</h3>
 
-  <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
+  <div class="bg-base-100 rounded-md p-5">
     <ClientOnly>
-      
       <TableObservacionItemOficina></TableObservacionItemOficina>
     </ClientOnly>
   </div>

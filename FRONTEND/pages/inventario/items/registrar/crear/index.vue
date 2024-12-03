@@ -1,5 +1,5 @@
 <template>
-    <div class="breadcrumbs text-lg mx-2 ">
+    <div class="breadcrumbs text-lg">
         <ul>
             <li>
                 <NuxtLink to="/">Inicio</NuxtLink>
@@ -11,7 +11,7 @@
         </ul>
     </div>
 
-    <div class="mx-5">
+    <div class="">
         <div class="mb-2">
             <label class="label">
                 <span class="block text-sm font-medium ">Seleccione el registro a crear</span>
@@ -23,10 +23,10 @@
             </select>
         </div>
 
-        <div :class="[{ 'hidden': categoriaSeleccionada == '2' }]" class="bg-base-100 p-1 rounded-lg">
+        <div v-show="categoriaSeleccionada == '1'" class="bg-base-100 p-1 rounded-lg">
             <FormularioEquipos @callback="crearEquipo" />
         </div>
-        <div :class="[{ 'hidden': categoriaSeleccionada == '1' }]" class="bg-base-100 p-5 rounded-lg">
+        <div v-show="categoriaSeleccionada == '2'" class="bg-base-100 p-5 rounded-lg">
             <FormularioItem @callback="crearItemBasico" />
         </div>
 
