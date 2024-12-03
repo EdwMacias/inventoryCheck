@@ -5,10 +5,10 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+        <NuxtLink to="/inventario/">Inventario</NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="`/inventario/items/observaciones/equipo/${route.params.id}`"> Observación Equipo
+        <NuxtLink :to="`/inventario/observaciones/equipo/${route.params.id}`"> Observación Equipo
         </NuxtLink>
       </li>
       <li>
@@ -50,7 +50,7 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
         showCancelButton: false,
       })
 
-      return router.push('/inventario/items');
+      return router.push('/inventario/');
 
     }
 
@@ -66,7 +66,7 @@ const crearObservacion = async (equipoObservacionCreateDTO: EquipoObservacionCre
         showCancelButton: false,
       });
 
-      return router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
+      return router.push(`/inventario/observaciones/equipo/${route.params.id}`);
 
 
 

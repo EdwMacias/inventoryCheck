@@ -67,9 +67,9 @@ const pushRoute = (itemId: string, id: number, category: string) => {
     identificador: id,
   }))
   if (category == '1') {
-    return router.push(`/inventario/items/observaciones/equipo/${itemId}/`)
+    return router.push(`/inventario/observaciones/equipo/${itemId}/`)
   } else {
-    return router.push(`/inventario/items/observaciones/oficina/${itemId}/`)
+    return router.push(`/inventario/observaciones/oficina/${itemId}/`)
   }
 }
 

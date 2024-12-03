@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to, from) => {
     if (to.params.id === '/') {
         setTimeout(() => {
-            navigateTo('/inventario/items/')
+            navigateTo('/inventario/')
           }, 3000)
     }
   })

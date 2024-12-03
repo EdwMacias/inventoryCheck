@@ -1,6 +1,7 @@
 import { http } from "~/Infrastructure/http/http";
 import type { UsuarioEntity } from "../../../Domain/Models/Entities/usuario";
 import { GET_USUARIO_BY_EMAIL, POST_CREATE_USUARIO, POST_UPDATE_USUARIO, PUT_USUARIO_ACTIVAR, PUT_USUARIO_INACTIVAR } from "~/Infrastructure/Connections/endpoints.connection";
+import type { UsuarioCreateDTO } from "~/Domain/DTOs/UsuarioCreateDTO";
 
 export const UsuarioRepository = {
 
@@ -63,12 +64,12 @@ export const UsuarioRepository = {
         }
         return 0;
     },
-    createUsuario: async (usuario: UsuarioEntity) => {
+    createUsuario: async (usuario: object) => {
         const response = await http.post<UsuarioEntity>(POST_CREATE_USUARIO, usuario);
         return response;
     },
 
-    updateUsuario: async (id: number, usuario: UsuarioEntity) => {
+    updateUsuario: async (id: number, usuario: object) => {
         const response = await http.post<UsuarioEntity>(buildURLWithId(POST_UPDATE_USUARIO, id), usuario);
         return response;
     },

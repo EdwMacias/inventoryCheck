@@ -1,8 +1,14 @@
 <template>
-    <div
-        class="container mx-auto mt-2 px-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-10">
+    <div class="breadcrumbs text-lg">
+        <ul>
+            <li>
+                <a >Inicio</a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-10">
 
-        <div @click="pushPath('/inventario/items/')"
+        <div @click="pushPath('/inventario/')"
             class="card bg-base-100 image-full w-full shadow-xl cursor-pointer transition-transform duration-300 hover:scale-105 select-none">
             <figure>
                 <img src="/images/inventarioWorkSpace.webp" alt="inventario" />

@@ -502,7 +502,7 @@
 
 <script lang="ts" setup>
 import { EquipoEntityClass, type EquipoEntity } from '~/Domain/Models/Entities/equipo';
-const handleCancel = () => router.push('/inventario/items');
+const handleCancel = () => router.push('/inventario');
 const isTabActive: Ref<string> = ref('1');
 const { $swal } = useNuxtApp()
 const router = useRouter();

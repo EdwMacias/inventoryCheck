@@ -4,7 +4,7 @@
 
 <template>
   <div class="flex justify-end">
-    <NuxtLink class="btn btn-success me-2" to="crear"><i class="bi bi-plus-circle "></i> Agregar
+    <NuxtLink class="btn btn-success me-2" to="/usuarios/registrar"><i class="bi bi-plus-circle "></i> Agregar
     </NuxtLink>
     <button class="btn btn-ghost rounded-full" @click="reloadTable">
       <i class="bi bi-arrow-clockwise text-lg"></i>
@@ -146,8 +146,10 @@ const options: Config = {
 
 const table = ref(); // This variable is used in the `ref` attribute for the component
 
+const router = useRouter();
+
 const editClick = (id: any) => {
-  return navigateTo("editar?id=" + id.email)
+  return router.push('editar?id=' + id.email);
 }
 
 

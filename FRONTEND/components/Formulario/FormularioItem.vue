@@ -104,7 +104,7 @@ const router = useRouter();
 const props = defineProps({
   link: {
     type: String,
-    default: '/inventario/items',
+    default: '/inventario',
   },
 });
 

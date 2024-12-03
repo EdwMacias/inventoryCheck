@@ -6,13 +6,13 @@
           <NuxtLink to="/">Inicio</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+          <NuxtLink to="/inventario/">Inventario</NuxtLink>
         </li>
       </ul>
     </div>
     <div class="lg:flex sm:grid sm:grid-cols-1">
       <div class="lg:flex lg:flex-grow">
-        <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" to="/inventario/items/registrar/crear">
+        <NuxtLink class="btn btn-active btn-md btn-neutral sm:inline-flex" to="/inventario/registrar">
           <span class="hidden lg:inline"> + Registrar Item</span>
           <span class="inline sm:inline">+</span>
         </NuxtLink>
@@ -286,7 +286,7 @@ async function deleteItem(itemId: string) {
 }
 
 const pushRoute = (datos: { itemId: string, identifier: number, category: string }) => {
-  let path = "/inventario/items/observaciones";
+  let path = "/inventario/observaciones";
   const { itemId, identifier, category } = datos;
   const router = useRouter();
 
@@ -301,7 +301,7 @@ const pushRoute = (datos: { itemId: string, identifier: number, category: string
 }
 
 const pushRepair = (itemId: string) => {
-  let path = "/inventario/items/registrar/equipo/refaccion/" + itemId;
+  let path = "/inventario/registrar/equipo/refaccion/" + itemId;
   const router = useRouter();
   return router.push(path)
 }

@@ -5,10 +5,10 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+        <NuxtLink to="/inventario/">Inventario</NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="`/inventario/items/observaciones/oficina/${route.params.id}`"> Observación Item Oficina
+        <NuxtLink :to="`/inventario/observaciones/oficina/${route.params.id}`"> Observación Item Oficina
         </NuxtLink>
       </li>
       <li>
@@ -28,12 +28,12 @@ import type { ItemOficinaObservacionDTO } from '~/Domain/DTOs/Observaciones/Ofic
 import { OficinaObservacionRepository } from '~/Infrastructure/Repositories/Observation/Oficina/OficinaObservacion.repository';
 
 const route = useRoute();
-const router = useRouter();
+const router = useRouter(); 
 const { $swal } = useNuxtApp()
 const spinnerStore = SpinnerStore();
 
 const navigate = () => {
-  router.push(`/inventario/items/observaciones/oficina/${route.params.id}`);
+  router.push(`/inventario/observaciones/oficina/${route.params.id}`);
 }
 
 const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacionDTO) => {
@@ -52,7 +52,7 @@ const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacio
       text: "Ha ocurrido un error inesperado. Por favor vuelva a intentarlo. Lamentamos el inconveniente.",
       showCancelButton: false,
     });
-    return router.push('/inventario/items');
+    return router.push('/inventario/');
   }
 
   // Asignamos el itemId al DTO
@@ -74,7 +74,7 @@ const crearObservacion = async (itemOficinaObservacionDTO: ItemOficinaObservacio
     });
 
     // Redireccionamos al usuario a la página de observaciones
-    router.push(`/inventario/items/observaciones/oficina/${route.params.id}`);
+    router.push(`/inventario/observaciones/oficina/${route.params.id}`);
 
   } catch (error) {
     console.error('Error al crear observación:', error);

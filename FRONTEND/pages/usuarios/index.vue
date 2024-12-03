@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs  mx-2 text-lg">
+  <div class="breadcrumbs text-lg">
     <ul>
       <li>
         <NuxtLink to="/">Inicio</NuxtLink>
@@ -7,12 +7,9 @@
       <li>
         <NuxtLink to="">Usuarios</NuxtLink>
       </li>
-      <li>
-        <NuxtLink to="">Gestion Usuarios</NuxtLink>
-      </li>
     </ul>
   </div>
-  <div class="bg-base-100 mx-2 p-2 rounded-md">
+  <div class="bg-base-100 p-2 rounded-md">
     <ClientOnly>
       <TableUsuario @inactivar="statuUsuario" @role="getDatosRoleUser"></TableUsuario>
     </ClientOnly>

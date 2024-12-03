@@ -5,10 +5,13 @@
         <NuxtLink to="/">Inicio</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+        <NuxtLink to="/inventario/">Inventario</NuxtLink>
       </li>
       <li>
-        Observaciones Item Oficina
+        Observaciones
+      </li>
+      <li>
+        Oficina
       </li>
     </ul>
   </div>

@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import type { UsuarioCreateDTO } from "~/Domain/DTOs/UsuarioCreateDTO";
 import type { UserDTO } from "~/Domain/DTOs/UsuarioDTO";
 import type { LoginRequest } from "~/Domain/Models/Api/Request/login.request.model";
 import type { UsuarioEntity } from "~/Domain/Models/Entities/usuario";
@@ -35,13 +36,13 @@ export const UsuarioServices = {
         return;
     },
 
-    createUser: async (usuario: UsuarioEntity): Promise<boolean> => {
-        await UsuarioRepository.createUsuario(usuario);
+    createUser: async (usuario: UsuarioCreateDTO): Promise<boolean> => {
+        await UsuarioRepository.createUsuario(usuario.toObject());
         return true;
     },
 
-    updateUser: async (id: number, usuario: UsuarioEntity): Promise<Boolean> => {
-        await UsuarioRepository.updateUsuario(id, usuario);
+    updateUser: async (id: number, usuario: UsuarioCreateDTO): Promise<Boolean> => {
+        await UsuarioRepository.updateUsuario(id, usuario.toObject());
         return true;
     },
 

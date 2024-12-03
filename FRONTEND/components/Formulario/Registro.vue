@@ -112,22 +112,28 @@
 </template>
 
 <script lang="ts" setup>
-import { UsuarioServices } from '~/Domain/Client/Services/usuario.service';
+import { UsuarioCreateDTO } from '~/Domain/DTOs/UsuarioCreateDTO';
 import type { UsuarioEntity } from '~/Domain/Models/Entities/usuario';
-import { UsuarioRepository } from '~/Infrastructure/Repositories/Usuario/usuario.repository';
-const { $swal }: any = useNuxtApp()
 
-const route = useRoute();
+const emits = defineEmits<{
+  (event: 'create', payload: UsuarioCreateDTO): void
+  (event: 'update', payload: UsuarioCreateDTO): void
+}>();
+
+const props = defineProps<{
+  userToEdit?: UsuarioCreateDTO | null;
+}>();
+
+  const formulario: Ref<UsuarioCreateDTO> = ref(props.userToEdit ? props.userToEdit : new UsuarioCreateDTO(null));
+const isEditing = computed(() => !!props.userToEdit);
 
 yup.setLocale({
-
   number: {
     moreThan: "Elija un opción valida"
   },
   mixed: {
     notType: 'Digito datos no validos por favor compruebe la información registrada'
   }
-
 })
 
 
@@ -142,54 +148,16 @@ const formularioSchema = yup.object({
   document_type_id: yup.number().required().moreThan(0),
 })
 
-const formulario: Ref<UsuarioEntity> = ref({
-  gender_id: 0,
-  document_type_id: 0
-});
+
 
 const onSubmit = async (values: UsuarioEntity, { resetForm }: any) => {
-  const spinnerStore = SpinnerStore();
-  const alertaStore = AlertaStore();
-  spinnerStore.activeOrInactiveSpinner(true);
-  let mensaje = '';
-  try {
-    const param = route.params.id;
-    if (typeof param == 'string') {
-      switch (param) {
-        case 'crear':
-          await UsuarioServices.createUser(values)
-          mensaje = 'Usuario Creado';
-          break;
-        case 'editar':
-          const { user_id } = formulario.value;
-          if (user_id) {
-            await UsuarioServices.updateUser(user_id, values);
-          }
-          mensaje = 'Usuario Actualizado';
-          break;
-      }
-    }
-  } catch (error) {
-    console.error(error)
-    spinnerStore.activeOrInactiveSpinner(false);
-    return;
-  }
-  alertaStore.emitNotificacion({ cabecera: 'Notificación', mensaje: mensaje, tipo: 'success' });
-  spinnerStore.activeOrInactiveSpinner(false);
-  navigateTo('/usuarios')
+
+  const usuarioCreateDTO = new UsuarioCreateDTO(formulario.value);
+
+  if (isEditing.value) return emits('update', usuarioCreateDTO);
+
+  return emits('create', usuarioCreateDTO)
 }
-
-onMounted(async () => {
-  const spinnerStore = SpinnerStore();
-  if (typeof route.query.id == 'string') {
-    spinnerStore.activeOrInactiveSpinner(true);
-    const email: string = route.query.id;
-    const response = await UsuarioRepository.getUsuarioByEmail(email);
-    formulario.value = response;
-    spinnerStore.activeOrInactiveSpinner(false);
-  }
-})
-
 
 </script>
 

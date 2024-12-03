@@ -122,7 +122,7 @@ const handleFilesSelected = (files: File[]) => {
 const navigate = () => {
   const route = useRoute();
   const router = useRouter();
-  router.push(`/inventario/items/observaciones/equipo/${route.params.id}`);
+  router.push(`/inventario/observaciones/equipo/${route.params.id}`);
 }
 
 function dataURLToBlob(dataURL: string) {

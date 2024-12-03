@@ -5,9 +5,9 @@
                 <NuxtLink to="/">Inicio</NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+                <NuxtLink to="/inventario/">Inventario</NuxtLink>
             </li>
-            <li>Crear</li>
+            <li>Registrar</li>
         </ul>
     </div>
 
@@ -59,10 +59,10 @@ const crearEquipo = async (equipoEntity: EquipoEntity) => {
                 icon: 'success'
             }).then(value => {
                 if (value.dismiss) {
-                    return router.push('/inventario/items');
+                    return router.push('/inventario');
                 }
                 if (value.isConfirmed) {
-                    return router.push('/inventario/items');
+                    return router.push('/inventario');
                 }
             })
             // await emitNotificaciones({
@@ -70,7 +70,7 @@ const crearEquipo = async (equipoEntity: EquipoEntity) => {
             //     cabecera: 'Éxito',
             //     mensaje: 'Equipo Creado Con Exito',
             // });
-            // return router.push('/inventario/items');
+            // return router.push('/inventario');
         }
     } catch (error) {
         // return;
@@ -94,10 +94,10 @@ const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateIt
                 icon: 'success'
             }).then(value => {
                 if (value.dismiss) {
-                    return router.push('/inventario/items');
+                    return router.push('/inventario/');
                 }
                 if (value.isConfirmed) {
-                    return router.push('/inventario/items');
+                    return router.push('/inventario/');
                 }
             })
         }

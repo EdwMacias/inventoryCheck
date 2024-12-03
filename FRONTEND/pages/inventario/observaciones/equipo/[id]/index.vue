@@ -6,7 +6,7 @@
           <NuxtLink to="/">Inicio</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/inventario/items/">Inventario</NuxtLink>
+          <NuxtLink to="/inventario/">Inventario</NuxtLink>
         </li>
         <li>
           Observación Equipo
@@ -18,11 +18,11 @@
     <div class="container mt-10 mx-auto bg-base-100 rounded p-2">
 
       <div class="flex justify-end">
-        
+
         <div class="tooltip  tooltip-left" data-tip="Crear Observacion">
           <NuxtLink to="crear" class="btn btn-neutral"><i class="bi bi-plus-circle"></i></NuxtLink>
-</div>
-       
+        </div>
+
       </div>
 
       <ClientOnly>
