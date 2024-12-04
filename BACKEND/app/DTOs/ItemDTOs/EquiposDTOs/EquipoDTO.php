@@ -47,6 +47,8 @@ class EquipoDTO
     public $cond_seguridad;
     public $cond_transporte;
     public $cond_otras;
+    public $imagen;
+    public $componentes = [];
     public $created_at;
     public $updated_at;
 
@@ -95,7 +97,12 @@ class EquipoDTO
         $this->cond_seguridad = $equipo->cond_seguridad;
         $this->cond_transporte = $equipo->cond_transporte;
         $this->cond_otras = $equipo->cond_otras;
+        $this->imagen = (!empty($equipo->resource) && isset($equipo->resource[0])) ? url($equipo->resource[0]->resource) : null;
+        $this->componentes = $equipo->componentes->transform(function ($componente) {
+            return new EquipoComponenteDTO($componente);
+        });
         $this->created_at = $equipo->created_at;
         $this->updated_at = $equipo->updated_at;
     }
 }
+

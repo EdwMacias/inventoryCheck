@@ -8,6 +8,7 @@ use App\DTOs\ItemDTOs\ItemBasicoCreateDTO;
 use App\DTOs\ItemDTOs\ItemBasicoCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemCreateDTO;
 use App\DTOs\ItemDTOs\ObservacionesDTOs\ComponenteEquipoDTO;
+use App\DTOs\ResponsesDTO\ResponseDTO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 
@@ -22,7 +23,7 @@ interface InterfaceItemServices
     /**
      * Lista los items en paginación
      */
-    public function listItemPagination(): JsonResponse;
+    public function listItemPagination($perPage, $page, $search, $category = null): ResponseDTO;
 
     public function createEquipo(EquiposCreateRequestDTO $equiposCreateRequestDTO, array|UploadedFile|null $resource);
     /**
@@ -47,7 +48,48 @@ interface InterfaceItemServices
      *      - `HTTP_INTERNAL_SERVER_ERROR` (500) si ocurre algún error inesperado.
      */
     public function addComponenteEquipo($id, array $componenteEquipoDTOs);
-
     public function getRepairsTableEquipo($id);
 
+    /**
+     * Proporciona los detalles de un equipo
+     *
+     * Este método obtiene la información detallada de un equipo utilizando su `itemId`.
+     * Convierte la información en un DTO (`EquipoDTO`) para una representación estructurada
+     * y devuelve un `ResponseDTO` con el resultado.
+     *
+     * @param string $itemId
+     *      El identificador único del equipo a consultar.
+     *
+     * @return ResponseDTO
+     *      - Si el equipo se encuentra correctamente:
+     *          - `message`: "Item encontrado exitosamente".
+     *          - `data`: Instancia de `EquipoDTO` con la información del equipo.
+     *      - En caso de error:
+     *          - `message`: Mensaje de error detallado.
+     *          - `status`: Código de estado HTTP 500 (Error Interno del Servidor).
+     *
+     * @throws \Exception
+     *      Este método captura cualquier error interno y lo maneja devolviendo un mensaje
+     *      detallado en la respuesta.
+     */
+    public function detailEquipo($itemId);
+    /**
+     * Obtiene el detalle de un Item de Oficina
+     *
+     * Este método proporciona el detalle de un item de oficina, transformándolo en un DTO para su
+     * representación estandarizada. Si ocurre un error, devuelve una respuesta con un mensaje y código
+     * de estado HTTP 500.
+     *
+     * @param string $itemId
+     *      El identificador único del item a consultar.
+     *
+     * @return ResponseDTO
+     *      - Si el item se encuentra correctamente, devuelve un objeto `ResponseDTO` con:
+     *          - Mensaje de éxito.
+     *          - Instancia de `ItemBasicoDTO` representando el item.
+     *      - En caso de error, devuelve un objeto `ResponseDTO` con:
+     *          - Mensaje de error detallado.
+     *          - Código de estado HTTP 500.
+     */
+    public function detailOficina($itemId);
 }

@@ -2,8 +2,13 @@
 
 namespace App\Services\Services;
 
+use App\Config\Global\env;
+use App\Config\Global\EnvConfig;
+use App\Config\Items\Equipo\EquipoConfig;
+use App\Config\Items\Oficina\OficinaConfig;
 use App\DTOs\Datatable\DatatableDTO;
 use App\DTOs\ItemDTOs\Basico\ItemBasicoDTO;
+use App\DTOs\ItemDTOs\EquiposDTOs\EquipoDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateDTO;
 use App\DTOs\ItemDTOs\EquiposDTOs\EquiposCreateRequestDTO;
 use App\DTOs\ItemDTOs\ItemBasicoCreateDTO;
@@ -22,7 +27,6 @@ use App\Repositories\Interfaces\InterfacesSerialCodesRepository;
 use App\Services\Interfaces\InterfaceItemServices;
 use App\Utils\ResponseHandler;
 use App\Utils\Utilidades;
-use EquipoConfig;
 use Exception;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\QueryException;
@@ -79,9 +83,11 @@ class ItemServices implements InterfaceItemServices
 
             $pathResource = [];
             $nombre = Utilidades::sanitizeString($itemBasicoCreateDTO->name);
+            $uuid = uniqid($nombre);
+            $pathImage = OficinaConfig::getPathFile();
             foreach ($itemBasicoCreateRequestDTO->resource ?? [] as $resource) {
-                $ruta = $resource->store("imagenes/item/basico/$nombre", 'public');
-                $resourcesDTO = new ResourceDTO(asset("storage/$ruta"), $itemCreateDTO->item_id, null);
+                $ruta = $resource->store("$pathImage$uuid", 'public');
+                $resourcesDTO = new ResourceDTO(asset(EnvConfig::getDefaulSaveFiles() . "/$ruta"), $itemCreateDTO->item_id, null);
                 $pathResource[] = $resourcesDTO->toArray();
             }
 
@@ -109,33 +115,27 @@ class ItemServices implements InterfaceItemServices
 
     /**
      * Lista los items por paginación
-     * @return JsonResponse
+     * @return ResponseDTO
      */
-    public function listItemPagination(): JsonResponse
+    public function listItemPagination($perPage, $page, $search, $category = null): ResponseDTO
     {
-        $responseHandler = new ResponseHandler();
-
         try {
-            $request = Request::capture();
 
-            $perPage = $request->input('perPage', 10);
-            $page = $request->input('page', 1);
-            $search = $request->input('search', '');
-
-            $items = $this->itemRepository->paginationItems($perPage, $page, $search);
+            $items = $this->itemRepository->paginationItems(
+                $perPage,
+                $page,
+                $search,
+                $category
+            );
 
             $items->getCollection()->transform(function ($item) {
                 return ItemViewPaginationDTO::fromModel($item);
             });
 
-            return $responseHandler->setData($items)
-                ->setMessages("Datos Traídos Correctamente")
-                ->responses();
+            return new ResponseDTO('Datos Traidos Exitosamente', $items, Response::HTTP_OK);
 
         } catch (\Throwable $th) {
-            return $responseHandler->handleException($th);
-        } catch (QueryException $qe) {
-            return $responseHandler->handleException($qe);
+            return new ResponseDTO("Error al listar los items : {$th->getMessage()}", $th, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -150,12 +150,7 @@ class ItemServices implements InterfaceItemServices
 
             $url = '';
             $itemCreateDTO = ItemCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
-
-            if ($resource) {
-                $ruta = $resource->store('imagenes', 'public');
-                $url = 'storage/' . asset($ruta);
-            }
-
+            $nombreEquipo = Utilidades::sanitizeString($equiposCreateRequestDTO->name);
 
             $equipoCreateDTO = EquiposCreateDTO::fromArray($equiposCreateRequestDTO->toArray());
             $equipoCreateDTO->item_id = $itemCreateDTO->item_id;
@@ -168,6 +163,13 @@ class ItemServices implements InterfaceItemServices
                     ->setStatus(Response::HTTP_CONFLICT)->responses();
             }
 
+            $pathImage = EquipoConfig::getPathFile() . '/' . uniqid($nombreEquipo);
+
+            if ($resource) {
+                $ruta = $resource->store($pathImage, 'public');
+                $url = EnvConfig::getDefaulSaveFiles() . '/' . asset($ruta);
+            }
+
             if ($resource) {
                 $resourceDTO = new ResourceDTO($url, $itemCreateDTO->item_id, null);
             }
@@ -176,7 +178,6 @@ class ItemServices implements InterfaceItemServices
                 $componenteEquipoDTO->itemId = $itemCreateDTO->item_id;
                 return $componenteEquipoDTO->toArray();
             }, $equiposCreateRequestDTO->componentes);
-
 
 
             $this->itemRepository->create($itemCreateDTO->toArray());
@@ -293,5 +294,48 @@ class ItemServices implements InterfaceItemServices
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function detailEquipo($itemId)
+    {
+        try {
+            // Obtener el equipo utilizando el repositorio
+            $equipo = $this->equipoRespository->getEquipoByItemID($itemId);
+            // Transformar el equipo en un DTO
+            $equipoDTO = new EquipoDTO($equipo);
+            // Devolver una respuesta exitosa
+            return new ResponseDTO('Item econtrado exitosamente', $equipoDTO);
+        } catch (\Throwable $th) {
+            // Manejo de errores y devolución de respuesta con mensaje detallado
+            return new ResponseDTO(
+                "Error al crear detalle del equipo {$th->getMessage()}",
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function detailOficina($itemId)
+    {
+        try {
+            // Obtener el item básico utilizando el repositorio
+            $itemBasico = $this->itemBasicoRepository->getItemBasicoByItemId($itemId);
+
+            // Transformar el item básico en un DTO
+            $itemOficinaDTO = new ItemBasicoDTO($itemBasico);
+
+            // Devolver una respuesta exitosa
+            return new ResponseDTO(
+                'Item Encontrado Exitosamente',
+                $itemOficinaDTO
+            );
+
+        } catch (\Throwable $th) {
+            // Manejo de errores y devolución de respuesta con mensaje detallado
+            return new ResponseDTO(
+                'Error en el servicio de detalle de item oficina: ' . $th->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
     }
 }

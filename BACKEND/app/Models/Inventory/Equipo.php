@@ -70,6 +70,11 @@ class Equipo extends Model
         return $this->hasMany(ResourceModel::class, 'item_id', "item_id");
     }
 
+    public function componentes()
+    {
+        return $this->hasMany(EquipoComponentes::class, 'item_id', 'item_id');
+    }
+
     public function observaciones()
     {
         return $this->belongsTo(ItemObservation::class, 'item_id', 'item_id')->with("resources");

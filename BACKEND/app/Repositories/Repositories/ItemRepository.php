@@ -98,32 +98,34 @@ class ItemRepository implements InterfaceItemRepository
         return Item::where('item_id', $itemId)->exists();
     }
 
-    public function paginationItems(string $perPage, string $page, string $searchTerm = ''): LengthAwarePaginator
+    public function paginationItems(string $perPage, string $page, string $searchTerm = '', $category = null): LengthAwarePaginator
     {
-        // Iniciar la consulta base
+        // Validar valores de paginación
+        $perPage = is_numeric($perPage) && (int) $perPage > 0 ? (int) $perPage : 10;
+        $page = is_numeric($page) && (int) $page > 0 ? (int) $page : 1;
+
+        // Construir la consulta base
         $query = Item::orderBy('created_at', 'asc')
             ->with(['equipo', 'itemBasico']);
-
-        $query->orWhereHas('equipo')
-            ->orWhereHas('itemBasico');
+        if ($category) {
+            $query->where('category_id', $category);
+        }
 
         // Si el término de búsqueda no está vacío
         if (!empty($searchTerm)) {
             $query->where(function (Builder $q) use ($searchTerm) {
-                // Buscar en el modelo Item
                 $q->orWhereHas('equipo', function (Builder $q) use ($searchTerm) {
-                    // Buscar en la relación equipo
-                    $q->where('serie_lote', 'like', "%$searchTerm%")
-                        ->orWhere('name', 'like', "%$searchTerm%");
-                })
-                    ->orWhereHas('itemBasico', function (Builder $q) use ($searchTerm) {
-                        // Buscar en la relación itemBasico
-                        $q->where('serie_lote', 'like', "%$searchTerm%")
-                            ->orWhere('name', 'like', "%$searchTerm%");
-                    });
+                    $q->where('serie_lote', 'like', "{$searchTerm}%")
+                        ->orWhere('name', 'like', "{$searchTerm}%");
+                })->orWhereHas('itemBasico', function (Builder $q) use ($searchTerm) {
+                    $q->where('serie_lote', 'like', "{$searchTerm}%")
+                        ->orWhere('name', 'like', "{$searchTerm}%");
+                });
             });
         }
 
+        // Devolver los resultados paginados
         return $query->paginate($perPage, ['*'], 'page', $page);
     }
+
 }

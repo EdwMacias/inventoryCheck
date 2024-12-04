@@ -25,7 +25,6 @@ interface InterfaceItemRepository
      * @param string $page 
      * pagina a cargar
      */
-    public function paginationItems(string $perPage, string $page,string $searchTerm = ''): LengthAwarePaginator;
-    
+    public function paginationItems(string $perPage, string $page, string $searchTerm = '', $category = null): LengthAwarePaginator;
 
 }

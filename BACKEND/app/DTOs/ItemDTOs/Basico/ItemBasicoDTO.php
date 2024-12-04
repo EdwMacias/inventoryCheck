@@ -13,6 +13,7 @@ class ItemBasicoDTO
     public $valor;
     public $unidad;
     public $cantidad;
+    public $imagen;
     public $createdAt;
     public $updatedAt;
 
@@ -25,6 +26,7 @@ class ItemBasicoDTO
         $this->valor = $itemBasico->valor_adquisicion ?? null;
         $this->cantidad = $itemBasico->cantidad ?? null;
         $this->unidad = $itemBasico->unidades ? new UnidadDTO($itemBasico->unidades ?? null) : null;
+        $this->imagen = (!empty($itemBasico->resource) && isset($itemBasico->resource[0])) ? url($itemBasico->resource[0]->resource) : null;
         $this->createdAt = $itemBasico->created_at ?? null;
         $this->updatedAt = $itemBasico->updated_at ?? null;
     }

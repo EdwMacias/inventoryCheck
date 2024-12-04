@@ -38,11 +38,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
 
     Route::group(['prefix' => 'equipo'], function () {
         Route::post('', [ItemController::class, 'createEquipo']);
+        Route::get('/detail/{id}',[ItemController::class,'detailEquipo']);
         Route::post('/add/repair/{id}', [ItemController::class, 'addRepairItemEquipo']);
     });
 
     Route::group(['prefix' => 'basico'], function () {
         Route::post('', [ItemController::class, 'store']);
+        Route::get('/detail/{id}',[ItemController::class,'detailOficina']);
     });
 
     Route::group(['prefix' => 'observacion'], function () {

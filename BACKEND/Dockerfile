@@ -27,16 +27,13 @@ RUN apk add --no-cache bash && \
 COPY --from=builder /app /app
 
 # Ajustar permisos y propietario
-RUN chmod -R 775 /app/storage /app/bootstrap/cache
+RUN chmod -R 777 /app/storage /app/bootstrap/cache
 
 # Crear el enlace simbólico para almacenamiento público
 RUN php artisan storage:link
 
 # Exponer el puerto para el servidor de desarrollo
 EXPOSE 8000
-
-# Cambiar al usuario www-data para evitar ejecutar como root
-USER www-data
 
 # Comando por defecto
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

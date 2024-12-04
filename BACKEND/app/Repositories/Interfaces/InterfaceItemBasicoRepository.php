@@ -10,19 +10,23 @@ interface InterfaceItemBasicoRepository
    */
   public function create(array $itemBasico, $prefix = null);
   /**
-   * Resumen de getItemBasicoByItemId
+   * Obtiene un registro de Item Básico por su Item ID
    *
-   * Este método busca y recupera un registro de la tabla `ItemBasico` que coincida con el valor proporcionado de `itemId`.
+   * Este método busca un registro en la tabla `ItemBasico` utilizando el `item_id` proporcionado.
+   * Si no encuentra el registro, lanza una excepción con un código de estado HTTP 404.
+   * En caso de errores durante la operación, lanza una excepción con un código de estado HTTP 500.
    *
-   * @param string $itemId El identificador único del item que se desea buscar.
-   * 
-   * @return \App\Models\Inventory\ItemBasico|\Illuminate\Database\Eloquent\Model|object|null 
-   * Devuelve una instancia de `ItemBasico` si se encuentra un registro con el `item_id` especificado.
-   * En caso contrario, devuelve `null`. El tipo de retorno puede ser:
-   * - `\App\Models\Inventory\ItemBasico`: El modelo `ItemBasico` si se encuentra un registro.
-   * - `\Illuminate\Database\Eloquent\Model`: Cualquier otro modelo que sea retornado por la consulta.
-   * - `object`: En algunos casos, podría retornar un objeto genérico.
-   * - `null`: Si no se encuentra ningún registro que coincida con el `item_id`.
+   * @param string $itemId
+   *      El identificador único del item a buscar.
+   *
+   * @return \App\Models\Inventory\ItemBasico
+   *      El registro de `ItemBasico` correspondiente al `item_id` proporcionado.
+   *
+   * @throws \Exception
+   *      - Si no se encuentra un registro con el `item_id`, se lanza una excepción con un mensaje
+   *        y el código HTTP 404.
+   *      - Si ocurre un error durante la búsqueda, se lanza una excepción con un mensaje de error
+   *        detallado y el código HTTP 500.
    */
   public function getItemBasicoByItemId(string $itemId);
   /**

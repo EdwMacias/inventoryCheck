@@ -12,9 +12,8 @@ use App\Http\Requests\Items\Equipo\EquipoRequest;
 use App\Http\Requests\Items\Equipo\RepuestosEquipoRequest;
 use App\Repositories\Interfaces\InterfaceItemRepository;
 use App\Repositories\Interfaces\InterfaceRolesUserRepository;
-use App\Repositories\Interfaces\InterfaceUsuarioRepository;
 use App\Services\Interfaces\InterfaceItemServices;
-use EquipoConfig;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends Controller
@@ -54,13 +53,40 @@ class ItemController extends Controller
 
     /**
      * Pagina los items
-     * perpage determina los items a mostrar
-     * page la pagina que va a renderizar
+     *
+     * Este método permite paginar los elementos de una lista. Los parámetros de entrada determinan la página
+     * que se renderizará, el criterio de búsqueda y la categoría por la que se filtra.
+     *
+     * @param Request $request
+     *      - `page` (int): Número de página a renderizar (opcional, predeterminado: 1).
+     *      - `search` (string): Término de búsqueda para filtrar elementos (opcional, predeterminado: '').
+     *      - `categoria` (int|null): ID de la categoría para filtrar elementos (opcional, predeterminado: null).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *      Una respuesta JSON con la lista paginada de elementos.
+     *      - Contiene los datos de los elementos paginados y un estado HTTP.
+     *      - La estructura de `responseDTO` depende de la implementación del servicio `itemService`.
      */
-    public function pagination()
+    public function pagination(Request $request)
     {
-        // return []
-        return $this->itemService->listItemPagination();
+        $page = $request->input('page', 1); // Página solicitada, por defecto la primera
+        $search = $request->input('search', ''); // Criterio de búsqueda, por defecto vacío
+        $category = $request->input('categoria', null); // Categoría, por defecto null
+        $perPage = $request->input('size', 10); // Limite de datos a mostrar, por defecto 10
+
+        $perPage = is_numeric($perPage) ? intval($perPage) : 10;
+        $perPage = ($perPage > 50) ? 50 : $perPage;
+
+        // Llama al servicio para obtener los elementos paginados
+        $responseDTO = $this->itemService->listItemPagination(
+            $perPage,
+            $page,
+            $search,
+            $category
+        );
+
+        // Devuelve la respuesta en formato JSON con el estado HTTP correspondiente
+        return response()->json($responseDTO, $responseDTO->status);
     }
 
     public function createEquipo(EquipoRequest $equipoRequest)
@@ -150,7 +176,7 @@ class ItemController extends Controller
             $componenteEquipoDTO = new ComponenteEquipoDTO($componente);
 
             // Establece el tipo de componente como "repuesto" usando la configuración de tipo.
-            $componenteEquipoDTO->type = EquipoConfig::TYPE_REPUESTO;
+            $componenteEquipoDTO->type = \App\Config\Items\Equipo\EquipoConfig::getTypeRepuesto();
 
             // Agrega el DTO del componente al array de componentes.
             $componenteEquipoDTOs[] = $componenteEquipoDTO;
@@ -163,9 +189,52 @@ class ItemController extends Controller
         return response()->json($responseDTO, $responseDTO->status);
 
     }
-
-    public function getRapirsItemEquipo($id)
+    /**
+     * Proporciona los detalles de un item de oficina
+     *
+     * Este método actúa como un punto de entrada para obtener los detalles de un item de oficina.
+     * Llama al servicio correspondiente para recuperar la información y devuelve una respuesta JSON
+     * estructurada en un objeto `ResponseDTO`.
+     *
+     * @param string $id
+     *      El identificador único del item de oficina.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *      Una respuesta JSON que incluye:
+     *          - `data`: Detalles del item en formato estructurado.
+     *          - `message`: Mensaje que indica el estado de la operación.
+     *          - `status`: Código de estado HTTP asociado.
+     */
+    public function detailOficina($id)
     {
+        // Llamar al servicio para obtener los detalles del item
+        $responseDTO = $this->itemService->detailOficina($id);
+
+        // Devolver la respuesta en formato JSON con el estado HTTP correspondiente
+        return response()->json($responseDTO, $responseDTO->status);
+    }
+    /**
+     * Obtiene los detalles de un equipo
+     *
+     * Este método sirve como un punto de entrada para obtener los detalles de un equipo asociado a un ID específico.
+     * Llama al servicio correspondiente para procesar la lógica de negocio y devuelve una respuesta JSON estructurada.
+     *
+     * @param int|string $id
+     *      El identificador único del equipo a consultar.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *      Una respuesta JSON con:
+     *          - `data`: Detalles del equipo en un formato estructurado.
+     *          - `message`: Mensaje que indica el estado de la operación.
+     *          - `status`: Código de estado HTTP asociado.
+     */
+    public function detailEquipo($id)
+    {
+        // Llamar al servicio para obtener los detalles del equipo
+        $responseDTO = $this->itemService->detailEquipo($id);
+
+        // Devolver la respuesta en formato JSON con el estado HTTP correspondiente
+        return response()->json($responseDTO, $responseDTO->status);
 
     }
 

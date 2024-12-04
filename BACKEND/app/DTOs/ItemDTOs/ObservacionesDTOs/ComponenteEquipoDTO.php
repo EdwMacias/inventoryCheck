@@ -26,7 +26,7 @@ class ComponenteEquipoDTO
         $this->modelo = $componente->modelo ?? null;
         $this->nombre = $componente->nombre ?? null;
         $this->unidad = $componente->unidad ?? null;
-        $this->type = $componente->type ?? EquipoConfig::TYPE_ORIGINAL;
+        $this->type = $componente->type ?? \App\Config\Items\Equipo\EquipoConfig::getTypeOriginal();
     }
 
 

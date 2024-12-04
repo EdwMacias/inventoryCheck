@@ -7,7 +7,7 @@ use App\Models\Inventory\Observaciones\ItemBasicoObservacion;
 use App\Repositories\Interfaces\InterfaceItemBasicoRepository;
 use DB;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemBasicoRepository implements InterfaceItemBasicoRepository
 {
@@ -23,10 +23,25 @@ class ItemBasicoRepository implements InterfaceItemBasicoRepository
         $itemBasico->serie_lote = $this->generateAutoIncrementCode($prefix, $itemBasicoDTO->itemBasicoId);
         return $itemBasico;
     }
-
     public function getItemBasicoByItemId(string $itemId)
     {
-        return ItemBasico::where('item_id', $itemId)->first();
+        try {
+            // Buscar el registro en la tabla ItemBasico usando item_id
+            $itemBasico = ItemBasico::where('item_id', $itemId)->first();
+
+            // Verificar si no se encontró el registro
+            if (!$itemBasico) {
+                throw new Exception("No se encontró el item de oficina por itemId", Response::HTTP_NOT_FOUND);
+            }
+
+            return $itemBasico; // Retornar el registro encontrado
+        } catch (\Throwable $th) {
+            // Manejo de errores y lanzar excepción con mensaje detallado
+            throw new Exception(
+                "Error al buscar item oficina por itemId: {$th->getMessage()}",
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
     /**
      * Resumen de createObservacion
