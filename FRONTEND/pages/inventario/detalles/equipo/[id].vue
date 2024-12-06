@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="pdf-content">
     <div class="breadcrumbs text-lg  ">
       <ul>
         <li>
@@ -17,17 +17,14 @@
       </ul>
     </div>
     <div class="bg-base-100 rounded-md px-5 p-1 ">
-
       <div class="card-actions justify-end">
           <div class="tooltip" data-tip="Descargar PDF">
-            <button class="btn btn-neutral btn-md rounded-full">
+            <button  @click="generarPDF" class="btn btn-neutral btn-md rounded-full">
               <i class="bi bi-filetype-pdf"></i>
             </button>
           </div>
       </div>
-
       <h2 class="card-title select-none">{{ data.name }}</h2>
-
       <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-2">
         <section class="card-body">
           <figure class="">
@@ -320,11 +317,77 @@
 </template>
 
 <script lang="ts" setup>
+import { jsPDF } from "jspdf";
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
 import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const route = useRoute();
 const data = await EquipoService.details(route.params.id as string);
+console.log(data);
 
+const convertirImagenBase64 = async (url) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous"; // Permitir imágenes externas
+    img.src = url;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
+      resolve(dataURL);
+    };
+    img.onerror = (error) => reject(error);
+  });
+};
+
+const generarPDF = async () => {
+  const pdf = new jsPDF();
+  // Convertir imagen a Base64
+  try {
+    const imgData = await convertirImagenBase64(data.imagen);
+
+    // Agregar imagen al PDF
+    pdf.addImage(imgData, "PNG", 10, 20, 50, 50);
+  } catch (error) {
+    console.error("Error al convertir la imagen:", error);
+  }
+  // Título
+  pdf.setFontSize(16);
+  pdf.text("Detalles del Equipo", 70, 30);
+
+  // Información General
+  pdf.setFontSize(12);
+  pdf.text(`Fabricante: ${data.fabricante}`, 70, 40);
+  pdf.text(`Modelo: ${data.modelo}`, 70, 50);
+  pdf.text(`Marca: ${data.marca}`, 70, 60);
+  pdf.text(`Serial: ${data.serie_lote}`, 70, 70);
+  pdf.text(`Activo Fijo: ${data.activo_fijo}`, 70, 80);
+  pdf.text(`Ubicación: ${data.ubicacion}`, 70, 90);
+
+  // Especificaciones Técnicas
+  pdf.text("Especificaciones Técnicas:", 10, 110);
+  pdf.text(`Clase de Exactitud: ${data.clase_exactitud}`, 10, 120);
+  pdf.text(`Resolución: ${data.resolucion}`, 10, 130);
+  pdf.text(`Rango de Medición: ${data.rango_medicion}`, 10, 140);
+  pdf.text(`Intervalo de Medición: ${data.intervalo_medicion}`, 10, 150);
+  pdf.text(`Error Máximo Permitido: ${data.error_maximo_permitido}`, 10, 160);
+
+  // Condiciones
+  pdf.text("Condiciones:", 10, 180);
+  pdf.text(`Condición Eléctrica: ${data.cond_electrica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 190);
+  pdf.text(`Condición Mecánica: ${data.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 200);
+
+  // Proveedores
+  pdf.text("Proveedores:", 10, 220);
+  pdf.text(`Proveedor del Equipo: ${data.proveedor}`, 10, 230);
+  pdf.text(`Contacto: ${data.contacto_proveedor}`, 10, 240);
+  pdf.text(`Teléfono: ${data.telefono_proveedor}`, 10, 250);
+
+  // Guardar PDF
+  pdf.save("detalles-equipo.pdf");
+};
 
 </script>
 

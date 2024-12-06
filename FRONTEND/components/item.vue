@@ -48,8 +48,8 @@
   </div>
   <CardImagenFull v-if="imagenValida" :title="itemName + ' - ' + serial" :idModal="itemId" :imagen="image"
     :isModalOpen="isModalOpen" @close="openModal" />
-  <CardImagenFull v-else :title="itemName + ' - ' + serial" :idModal="itemId" imagen="/images/defaultimage.webp"
-    :isModalOpen="isModalOpen" @close="openModal" />
+  <CardImagenFull v-else :title="itemName + ' - ' + serial" :idModal="itemId" imagen="/images/defaultimage.webp" :isModalOpen="isModalOpen" @close="openModal" />
+    <cv-item :is-cv-open="isCvOpen" :id-cv="itemId" :item-name="itemName" :category="category" :image="image" :serial="serial" :identifier="identifier" :unit="unit" :quantity="quantity" @close="openCV(false)"/>
 </template>
 
 <script setup lang="ts">
@@ -74,7 +74,7 @@ function openCV(valor: boolean) {
 
 
 
-defineProps<{
+const props = defineProps<{
   itemName: string,            // nombreItem
   image: any,
   // imageList: Array<{resource: string}>,  // images (si se usa)
@@ -87,6 +87,9 @@ defineProps<{
   showDeleteButton?: boolean,   // btnDelete
   showAddRepair?: boolean
 }>();
+
+console.log("Datos recibidos como props:", props);
+
 
 // currentImage.value = props.image;
 
