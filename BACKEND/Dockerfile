@@ -7,11 +7,11 @@ WORKDIR /app
 # Copiar solo archivos relevantes para Composer (optimiza el cache)
 COPY composer.json composer.lock ./
 
-# Instalar dependencias de producción
-RUN composer install --no-interaction --no-dev --prefer-dist --no-autoloader
-
 # Copiar la aplicación
 COPY . .
+
+# Instalar dependencias de producción
+RUN composer install --optimize-autoloader --no-dev
 
 # Etapa 2: Producción
 FROM php:8.2.20-fpm-alpine
@@ -28,12 +28,9 @@ COPY --from=builder /app /app
 
 # Ajustar permisos y propietario
 RUN chmod -R 777 /app/storage /app/bootstrap/cache
-
 # Crear el enlace simbólico para almacenamiento público
 RUN php artisan storage:link
-
 # Exponer el puerto para el servidor de desarrollo
-EXPOSE 8000
-
+EXPOSE 9000
 # Comando por defecto
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php-fpm"]
