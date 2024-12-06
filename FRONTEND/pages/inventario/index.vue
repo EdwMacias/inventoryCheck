@@ -71,7 +71,7 @@
           :serial="item.serial" :item-id="item.item_id" :category="item.category_id" :identifier="item.id"
           :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem"
-          @click-observaciones="pushRoute" @click-add-repair="pushRepair" />
+          @click-observaciones="pushRoute" @click-add-repair="pushRepair" @click-details="pushDetailRoute" />
 
         <!-- <ListItem v-if="!loading && !statusView" :data="pagination.data"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem">
@@ -111,7 +111,7 @@
 <script lang="ts" setup>
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
-import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA, INDEX_PAGE_INVENTARIO_REGISTRAR } from "~/Infrastructure/Paths/Paths";
+import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_DETAILS_EQUIPO, INDEX_PAGE_INVENTARIO_DETAILS_OFICINA, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA, INDEX_PAGE_INVENTARIO_REGISTRAR } from "~/Infrastructure/Paths/Paths";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 const usuarioStore = UsuarioStore();
 const searchBefore: Ref<boolean> = ref(false);
@@ -299,6 +299,17 @@ const pushRoute = (datos: { itemId: string, identifier: number, category: string
 
   return router.push(path)
 }
+
+const pushDetailRoute = (datos: { itemId: string, category: string }) => {
+  const { itemId, category } = datos;
+  const router = useRouter();
+  let path = category == '1' ? INDEX_PAGE_INVENTARIO_DETAILS_EQUIPO : INDEX_PAGE_INVENTARIO_DETAILS_OFICINA
+  path += itemId;
+
+  return router.push(path)
+
+}
+
 
 const pushRepair = (itemId: string) => {
   let path = "/inventario/registrar/equipo/refaccion/" + itemId;

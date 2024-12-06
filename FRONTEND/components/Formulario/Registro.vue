@@ -124,7 +124,7 @@ const props = defineProps<{
   userToEdit?: UsuarioCreateDTO | null;
 }>();
 
-  const formulario: Ref<UsuarioCreateDTO> = ref(props.userToEdit ? props.userToEdit : new UsuarioCreateDTO(null));
+const formulario: Ref<UsuarioCreateDTO> = ref(props.userToEdit ? props.userToEdit : new UsuarioCreateDTO(null));
 const isEditing = computed(() => !!props.userToEdit);
 
 yup.setLocale({

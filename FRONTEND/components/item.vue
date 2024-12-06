@@ -24,6 +24,7 @@
           <li v-if="category == '1'"><a>Observaciones</a></li>
           <li v-if="category == '2'"><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
           </li>
+          <li><a @click="clickDetails({ itemId, category })">Detalles</a></li>
           <li><a @click="openCV(true)">Hoja de vida</a></li>
         </ul>
       </details>
@@ -60,6 +61,7 @@ const emits = defineEmits<{
   (event: "clickDeleteButton", payload: string): void,
   (event: "clickObservaciones", payload: { itemId: string, identifier: number, category: string }): void
   (event: "clickAddRepair", payload: string): void
+  (event: "clickDetails", payload: { itemId: string, category: string }): void
 }>();
 
 function openModal(valor: boolean) {
@@ -106,6 +108,10 @@ function clickButtonDelete(itemId: string) {
 
 function clickAddRepair(itemId: string) {
   return emits("clickAddRepair", itemId);
+}
+
+function clickDetails(datos: { itemId: string, category: string }) {
+  return emits('clickDetails', datos);
 }
 
 

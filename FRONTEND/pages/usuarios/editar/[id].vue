@@ -33,7 +33,7 @@ if (!route.params.id) router.push(INDEX_USUARIOS);
 try {
   const response = await UsuarioRepository.getUsuarioByEmail(route.params.id as string);
   usuario.value = new UsuarioCreateDTO(response);
-  identificador.value = usuario.value;
+  identificador.value = response.user_id;
 } catch (error) {
   router.push(INDEX_USUARIOS);
 }
