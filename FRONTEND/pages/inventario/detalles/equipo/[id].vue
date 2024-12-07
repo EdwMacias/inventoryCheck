@@ -18,85 +18,72 @@
     </div>
     <div class="bg-base-100 rounded-md px-5 p-1 ">
       <div class="card-actions justify-end">
-          <div class="tooltip" data-tip="Descargar PDF">
-            <button  @click="generarPDF" class="btn btn-neutral btn-md rounded-full">
-              <i class="bi bi-filetype-pdf"></i>
-            </button>
-          </div>
+        <div class="tooltip" data-tip="Descargar PDF">
+          <button @click="generarPDF" class="btn btn-neutral btn-md rounded-full">
+            <i class="bi bi-filetype-pdf"></i>
+          </button>
+        </div>
       </div>
-      <h2 class="card-title select-none">{{ data.name }}</h2>
-      <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-2">
-        <section class="card-body">
-          <figure class="">
-            <img :src="data.imagen" :alt="data.name" class=" " />
-          </figure>
-
-        </section>
-        <section>
-          <!-- <div class="card-body"> -->
-          <ul class="list-disc">
-            <li><label class="input input-bordered flex items-center gap-2 ">
-                Fabricante
-                <input disabled type="text" class="grow w-full" v-model="data.fabricante" placeholder="Daisy" />
-              </label>
-            </li>
-            <li><label class="input input-bordered flex items-center gap-2 mt-2">
-                Modelo
-                <input disabled type="text" class="grow " v-model="data.modelo" placeholder="Daisy" />
-              </label>
-            </li>
-            <li><label class="input input-bordered flex items-center gap-2 mt-2">
-                Marca
-                <input disabled type="text" class="grow " v-model="data.marca" placeholder="Daisy" />
-              </label>
-            </li>
-            <li><label class="input input-bordered flex items-center gap-2 mt-2">
-                Serial
-                <input disabled type="text" class="grow " v-model="data.serie_lote" placeholder="Daisy" />
-              </label>
-            </li>
-            <li><label class="input input-bordered flex items-center gap-2 mt-2">
-                Activo Fijo
-                <input disabled type="text" class="grow " v-model="data.activo_fijo" placeholder="Daisy" />
-              </label>
-            </li>
-            <li><label class="input input-bordered flex items-center gap-2 mt-2">
-                Ubicacion
-                <input disabled type="text" class="grow " v-model="data.ubicacion" placeholder="Daisy" />
-              </label>
-            </li>
-          </ul>
-          <!-- </div> -->
-        </section>
+      <div class="card lg:card-side bg-base-100">
+        <figure class="">
+          <img :src="data.imagen" :alt="data.name" class="w-96" />
+        </figure>
+        <div class="card-body select-none">
+          <h2 class="card-title select-none">{{ data.name }}</h2>
+          <label class="input input-bordered flex items-center gap-2 ">
+            Fabricante
+            <p class="grow">{{ data.fabricante }}</p>
+          </label>
+          <label class="input input-bordered flex items-center gap-2 mt-2">
+            Modelo
+            <p class="grow">{{ data.modelo }}</p>
+          </label>
+          <label class="input input-bordered flex items-center gap-2 mt-2">
+            Marca
+            <p class="grow">{{ data.marca }}</p>
+          </label>
+          <label class="input input-bordered flex items-center gap-2 mt-2">
+            Serial
+            <p class="grow">{{ data.serie_lote }}</p>
+          </label>
+          <label class="input input-bordered flex items-center gap-2 mt-2 select-none">
+            Activo Fijo
+            <p class="grow">{{ data.activo_fijo }}</p>
+          </label>
+          <label class="input input-bordered flex items-center gap-2 mt-2 select-none">
+            Ubicacion
+            <p class="grow"> {{ data.ubicacion }}</p>
+          </label>
+        </div>
       </div>
 
-      <section class="mt-5">
-        <h2 class="select-none">Especificaciones técnicas</h2>
+      <h2 class="select-none">Especificaciones técnicas</h2>
+      <section class="mt-5 select-none">
         <label class="input input-bordered flex items-center gap-2">
           Clase de exactitud
-          <input type="text" class="grow" v-model="data.clase_exactitud" placeholder="Daisy" disabled />
+          <p class="grow">{{ data.clase_exactitud }}</p>
         </label>
         <label class="input input-bordered flex items-center gap-2 mt-2">
           Resolucion
-          <input type="text" class="grow" v-model="data.resolucion" placeholder="Daisy" disabled />
+          <p class="grow">{{ data.resolucion }}</p>
         </label>
 
         <label class="input input-bordered flex items-center gap-2 mt-2 ">
           Rango de medición
-          <input type="text" class="grow" v-model="data.rango_medicion" placeholder="Daisy" disabled />
+          <p class="grow">{{ data.rango_medicion }}</p>
         </label>
 
         <label class="input input-bordered flex items-center gap-2 mt-2">
           Intervalo de medición
-          <input type="text" class="grow" v-model="data.intervalo_medicion" placeholder="Daisy" disabled />
+          <p class="grow">{{ data.intervalo_medicion }}</p>
         </label>
         <label class="input input-bordered flex items-center gap-2 mt-2">
           Error maximo permitido
-          <input type="text" class="grow" v-model="data.error_maximo_permitido" placeholder="Daisy" disabled />
+          <p class="grow">{{ data.error_maximo_permitido }}</p>
         </label>
       </section>
-      <section class="mt-5">
-        <h2 class="select-none">Condiciones</h2>
+      <h2 class="select-none mt-4">Condiciones</h2>
+      <section class="mt-5 select-none">
 
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-4 lg:gap-4 ">
           <div>
@@ -128,8 +115,8 @@
               <span class="block text-sm">Condición de Seguridad </span>
             </label>
             <div class="flex items-center">
-              <input type="checkbox" id="cond_seguridad" disabled :checked="data.cond_seguridad == 1"
-                class="checkbox checkbox-sm" />
+              <input type="checkbox" id="cond_seguridad" :checked="data.cond_seguridad == 1"
+                class="checkbox checkbox-sm" disabled />
               <label for="cond_seguridad" class="ml-2"> {{ data.cond_seguridad == 1 ? 'Aplicado' :
                 'No Aplicado' }}</label>
             </div>
@@ -139,8 +126,8 @@
               <span class="block text-sm">Condiciones Ambientales </span>
             </label>
             <div class="flex items-center">
-              <input type="checkbox" id="cond_ambientales" disabled :checked="data.cond_ambientales == 1"
-                class="checkbox checkbox-sm" />
+              <input type="checkbox" id="cond_ambientales" :checked="data.cond_ambientales == 1"
+                class="checkbox checkbox-sm" disabled />
               <label for="cond_ambientales" class="ml-2"> {{ data.cond_ambientales == 1 ? 'Aplicado' :
                 'No Aplicado' }}</label>
             </div>
@@ -150,8 +137,8 @@
               <span class="block text-sm">Condiciones de Transporte </span>
             </label>
             <div class="flex items-center">
-              <input type="checkbox" id="cond_transporte" disabled :checked="data.cond_transporte == 1"
-                class="checkbox checkbox-sm" />
+              <input type="checkbox" id="cond_transporte" :checked="data.cond_transporte == 1"
+                class="checkbox checkbox-sm" disabled />
               <label for="cond_transporte" class="ml-2"> {{ data.cond_transporte == 1 ? 'Aplicado' :
                 'No Aplicado' }}</label>
             </div>
@@ -170,74 +157,54 @@
         </div>
       </section>
 
-      <section class="mt-5">
-        <h2 class="select-none">Proovedores</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-2 mt-2">
+      <h2 class="select-none mt-5">Proovedores</h2>
+      <section class="mt-5 select-none">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2">
           <div>
             <h3 class="">Proovedor del equipo</h3>
-            <ul class="list-disc mx-5">
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Nombre
-                  <input disabled v-model="data.proveedor" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Contacto
-                  <input disabled v-model="data.contacto_proveedor" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Telefono
-                  <input disabled v-model="data.telefono_proveedor" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Correo
-                  <input disabled v-model="data.email_proveedor" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-            </ul>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Nombre
+              <p class="grow">{{ data.proveedor }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2  mt-2">
+              Contacto
+              <p class="grow">{{ data.contacto_proveedor }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2  mt-2">
+              Telefono
+              <p class="grow">{{ data.telefono_proveedor }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Correo
+              <p class="grow">{{ data.email_proveedor }}</p>
+            </label>
+
           </div>
 
           <div>
             <h3 class="">Proovedor de Calibración</h3>
-            <ul class="list-disc mx-5">
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Nombre
-                  <input disabled v-model="data.proveedor_calibracion" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Contacto
-                  <input disabled v-model="data.contacto_calibracion" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Telefono
-                  <input disabled v-model="data.telefono_calibracion" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-              <li class="mt-2">
-                <label class="input input-bordered flex items-center gap-2">
-                  Correo
-                  <input disabled v-model="data.email_calibracion" type="text" class="grow" placeholder="Daisy" />
-                </label>
-              </li>
-            </ul>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Nombre
+              <p class="grow">{{ data.proveedor_calibracion }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Contacto
+              <p class="grow">{{ data.contacto_calibracion }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Telefono
+              <p class="grow">{{ data.telefono_calibracion }}</p>
+            </label>
+            <label class="input input-bordered flex items-center gap-2 mt-2">
+              Correo
+              <p class="grow">{{ data.email_calibracion }}</p>
+            </label>
           </div>
         </div>
       </section>
 
-      <section class="mt-2">
-        <h2>Componentes</h2>
-
+      <h2 class="mt-5">Componentes</h2>
+      <section class="mt-5 select-none">
         <div class="overflow-x-auto">
           <table class="table table-zebra">
             <!-- head -->
@@ -274,39 +241,38 @@
 
       </section>
 
-      <section class="mt-2">
-        <h2>Calibración y Verificación</h2>
+      <h2 class="select-none mt-5">Calibración y Verificación</h2>
+      <section class="mt-5 select-none">
         <ul>
           <li>
             <label class="input input-bordered flex items-center gap-2 mt-2">
               Periocidad de Calibracion
-              <input disabled v-model="data.periodicidad_calibracion" type="text" class="grow" placeholder="Daisy" />
+              <p class="grow">{{ data.periodicidad_calibracion }}</p>
             </label>
           </li>
           <li>
 
             <label class="input input-bordered flex items-center gap-2 mt-2">
               Periodicidad de Verificación
-              <input disabled v-model="data.periodicidad_verificacion" type="text" class="grow" placeholder="Daisy" />
+              <p class="grow">{{ data.periodicidad_verificacion }}</p>
             </label>
           </li>
           <li>
             <label class="input input-bordered flex items-center gap-2 mt-2">
               Periodicidad de Verificación
-              <input disabled v-model="data.fecha_calibracion_actual" type="text" class="grow" placeholder="Daisy" />
+              <p class="grow">{{ data.fecha_calibracion_actual }}</p>
             </label>
           </li>
           <li>
             <label class="input input-bordered flex items-center gap-2 mt-2">
               Próxima Calibración
-              <input disabled v-model="data.fecha_proxima_calibracion" type="text" class="grow" placeholder="Daisy" />
+              <p class="grow">{{ data.fecha_proxima_calibracion }}</p>
             </label>
           </li>
           <li>
             <label class="input input-bordered flex items-center gap-2 mt-2">
               Máxima Incertidumbre de Calibración
-              <input disabled v-model="data.maxima_incertidumbre_calibracion" type="text" class="grow"
-                placeholder="Daisy" />
+              <p class="grow">{{ data.maxima_incertidumbre_calibracion }}</p>
             </label>
           </li>
         </ul>
@@ -324,7 +290,7 @@ const route = useRoute();
 const data = await EquipoService.details(route.params.id as string);
 console.log(data);
 
-const convertirImagenBase64 = async (url) => {
+const convertirImagenBase64 = async (url: string) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = "Anonymous"; // Permitir imágenes externas
@@ -334,7 +300,7 @@ const convertirImagenBase64 = async (url) => {
       canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+      ctx?.drawImage(img, 0, 0);
       const dataURL = canvas.toDataURL("image/png");
       resolve(dataURL);
     };
