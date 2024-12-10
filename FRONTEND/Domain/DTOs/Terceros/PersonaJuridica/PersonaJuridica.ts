@@ -1,5 +1,5 @@
 export interface PersonaJuridica {
-    id: number;
+    personaJuridicaId: number;
     razonSocial: string;
     nit: string;
     tipoEntidad?: string | null;
@@ -8,7 +8,7 @@ export interface PersonaJuridica {
     pais?: string | null;
     representanteLegal?: string | null;
     telefono: string;
-    email: string;
+    correo: string;
     createdAt?: string | null; // Puede ser Date si el dato se maneja como tal
     updatedAt?: string | null;
 }

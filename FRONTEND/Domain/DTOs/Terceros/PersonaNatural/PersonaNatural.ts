@@ -1,5 +1,7 @@
+import type { documentEntity } from "~/Domain/Models/Entities/document";
+
 export interface PersonaNatural {
-    id?: number | null;
+    personaNaturalId?: number | null;
     primerNombre: string;
     segundoNombre: string | null;
     primerApellido: string;
@@ -14,4 +16,5 @@ export interface PersonaNatural {
     dv?: string | null;
     createdAt?: string | null; // Puede ser Date si el dato se maneja como tal
     updatedAt?: string | null;
+    documento: Pick<documentEntity, 'name'>
 }

@@ -1,7 +1,7 @@
 import type { PersonaJuridica } from "./PersonaJuridica";
 
 export class PersonaJuridicaDTO implements Partial<PersonaJuridica> {
-    id: number;
+    personaJuridicaId: number;
     razonSocial: string;
     nit: string;
     tipoEntidad?: string | null;
@@ -10,12 +10,12 @@ export class PersonaJuridicaDTO implements Partial<PersonaJuridica> {
     pais?: string | null;
     representanteLegal?: string | null;
     telefono: string;
-    email: string;
+    correo: string;
     createdAt?: string | null; // Puede ser Date si el dato se maneja como tal
     updatedAt?: string | null;
 
     constructor(personaJuridica: Partial<PersonaJuridicaDTO>) {
-        this.id = personaJuridica?.id ?? 0;
+        this.personaJuridicaId = personaJuridica?.personaJuridicaId ?? 0;
         this.razonSocial = personaJuridica?.razonSocial ?? '';
         this.nit = personaJuridica?.nit ?? '';
         this.tipoEntidad = personaJuridica?.tipoEntidad ?? null;
@@ -24,7 +24,7 @@ export class PersonaJuridicaDTO implements Partial<PersonaJuridica> {
         this.pais = personaJuridica?.pais ?? null;
         this.representanteLegal = personaJuridica?.representanteLegal ?? null;
         this.telefono = personaJuridica?.telefono ?? '';
-        this.email = personaJuridica?.email ?? '';
+        this.correo = personaJuridica?.correo ?? '';
         this.createdAt = personaJuridica?.createdAt ?? null;
         this.updatedAt = personaJuridica?.updatedAt ?? null;
     }

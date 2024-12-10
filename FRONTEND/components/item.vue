@@ -8,6 +8,7 @@
       <NuxtImg src="/images/defaultimage.webp" ref="imagen" style="width: 100%; height: 200px; object-fit: cover" />
     </figure>
     <div class="absolute top-0 right-0 cursor-pointer">
+      
       <button v-if="showDeleteButton"
         class="btn btn-warning me-2 text-lg rounded-full mt-1 cursor-pointer transition-transform duration-300 hover:scale-105 select-none"
         @click.prevent="clickButtonDelete(itemId)">
@@ -88,7 +89,7 @@ const props = defineProps<{
   showAddRepair?: boolean
 }>();
 
-console.log("Datos recibidos como props:", props);
+// console.log("Datos recibidos como props:", props);
 
 
 // currentImage.value = props.image;

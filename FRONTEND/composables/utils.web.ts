@@ -96,3 +96,18 @@ export function toFormData(object: any) {
 export const dtoToObject = <T>(dto: any) => {
   return { ...dto } as T;
 }
+
+export function numeroACadena(numero: number): string {
+  // Convertir el número a base 36 (usando caracteres 0-9 y a-z)
+  const cadena = numero.toString(36);
+  // Si necesitas un prefijo, añádelo manualmente
+  return `tercero-natural-detalles-${cadena}`; // Prefijo manual
+}
+
+// Función para convertir una cadena de texto larga de vuelta a un número
+export function cadenaANumero(cadena: string): number {
+  // Eliminar el prefijo 'tercero-natural-detalles-' si lo añadiste
+  const limpia = cadena.replace(/^tercero-natural-detalles-/, '');
+  // Convertir de base 36 a número
+  return parseInt(limpia, 36);
+}
