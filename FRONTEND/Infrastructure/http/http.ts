@@ -109,15 +109,18 @@ async function throwError(error: any) {
                 title: 'Informacion',
                 text: response.data.messages
             })
-            // spinnerStore.status = false;
+
             return response.data.messages;
         }
 
-        // console.log("aquiafuersa");
-
-
-
         return error;
     }
+
+    Swal.fire({
+        icon: 'warning',
+        title: 'Informacion',
+        text: 'Error Desconocido'
+    })
+    
     return "Error Desconocido"
 }

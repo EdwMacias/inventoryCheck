@@ -13,9 +13,13 @@ export const itemService = {
     },
 
     details: async (itemId: string) => {
-        const response = await ItemRepository.details(itemId);
-        const oficinaDTO = new OficinaDTO(response.data);
-        return oficinaDTO;
+        try {
+            const response = await ItemRepository.details(itemId);
+            const oficinaDTO = new OficinaDTO(response.data);
+            return oficinaDTO;
+        } catch (error) {
+            return;
+        }
     }
 
 }

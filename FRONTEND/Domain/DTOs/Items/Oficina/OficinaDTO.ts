@@ -13,16 +13,16 @@ export class OficinaDTO implements Oficina {
     updatedAt: string;
 
     constructor(oficina: Oficina) {
-        this.itemBasicoId = oficina.itemBasicoId;
-        this.itemId = oficina.itemId;
-        this.nombre = oficina.nombre;
-        this.serial = oficina.serial;
-        this.valor = oficina.valor;
-        this.unidad = oficina.unidad;
-        this.cantidad = oficina.cantidad;
-        this.imagen = oficina.imagen;
-        this.createdAt = oficina.createdAt;
-        this.updatedAt = oficina.updatedAt;
+        this.itemBasicoId = oficina.itemBasicoId ?? null;
+        this.itemId = oficina.itemId ?? null;
+        this.nombre = oficina.nombre ?? null;
+        this.serial = oficina.serial ?? null;
+        this.valor = oficina.valor ?? null;
+        this.unidad = oficina.unidad ?? { codigo: null, nombre: null, unidadId: null };
+        this.cantidad = oficina.cantidad ?? null;
+        this.imagen = oficina.imagen ?? null;
+        this.createdAt = oficina.createdAt ?? null;
+        this.updatedAt = oficina.updatedAt ?? null;
     }
 
 }

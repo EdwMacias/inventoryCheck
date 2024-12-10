@@ -8,7 +8,7 @@
       <NuxtImg src="/images/defaultimage.webp" ref="imagen" style="width: 100%; height: 200px; object-fit: cover" />
     </figure>
     <div class="absolute top-0 right-0 cursor-pointer">
-      
+
       <button v-if="showDeleteButton"
         class="btn btn-warning me-2 text-lg rounded-full mt-1 cursor-pointer transition-transform duration-300 hover:scale-105 select-none"
         @click.prevent="clickButtonDelete(itemId)">
@@ -20,13 +20,9 @@
           <i class="bi bi-three-dots-vertical text-lg"></i>
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
-          <!-- <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
-          </li> -->
-          <li v-if="category == '1'"><a>Observaciones</a></li>
-          <li v-if="category == '2'"><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
+          <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
           </li>
           <li><a @click="clickDetails({ itemId, category })">Detalles</a></li>
-          <li><a @click="openCV(true)">Hoja de vida</a></li>
         </ul>
       </details>
     </div>
@@ -49,8 +45,8 @@
   </div>
   <CardImagenFull v-if="imagenValida" :title="itemName + ' - ' + serial" :idModal="itemId" :imagen="image"
     :isModalOpen="isModalOpen" @close="openModal" />
-  <CardImagenFull v-else :title="itemName + ' - ' + serial" :idModal="itemId" imagen="/images/defaultimage.webp" :isModalOpen="isModalOpen" @close="openModal" />
-    <cv-item :is-cv-open="isCvOpen" :id-cv="itemId" :item-name="itemName" :category="category" :image="image" :serial="serial" :identifier="identifier" :unit="unit" :quantity="quantity" @close="openCV(false)"/>
+  <CardImagenFull v-else :title="itemName + ' - ' + serial" :idModal="itemId" imagen="/images/defaultimage.webp"
+    :isModalOpen="isModalOpen" @close="openModal" />
 </template>
 
 <script setup lang="ts">
@@ -69,12 +65,6 @@ function openModal(valor: boolean) {
   isModalOpen.value = valor;
 }
 
-function openCV(valor: boolean) {
-  isCvOpen.value = valor;
-}
-
-
-
 const props = defineProps<{
   itemName: string,            // nombreItem
   image: any,
@@ -88,11 +78,6 @@ const props = defineProps<{
   showDeleteButton?: boolean,   // btnDelete
   showAddRepair?: boolean
 }>();
-
-// console.log("Datos recibidos como props:", props);
-
-
-// currentImage.value = props.image;
 
 function setDefaultImage(event: Event | string) {
   if (typeof event == "string") {

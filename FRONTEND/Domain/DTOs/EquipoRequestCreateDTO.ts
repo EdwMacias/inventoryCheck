@@ -99,23 +99,14 @@ export class EquipoRequestCreateDTO implements EquipoEntity {
         const formData = new FormData();
 
         Object.entries(this).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-                value.forEach((component: componentes, index: number) => {
-                    let espacio = 0;
-                    if (component.nombre != '' && component.unidad != '') {
-                        Object.keys(component).forEach((prop) => {
-                            if (component[prop] == '') {
-                                component[prop] = null;
-                            }
-                        });
-                        formData.append(`componentes[${espacio}]`, JSON.stringify(component));
-                        espacio++;
-                    }
-                });
-            } else if (value !== '' && value !== null && value !== undefined) {
+            if (value && !Array.isArray(value)) {
                 formData.append(key, value);
             }
         });
+
+        this.componentes.forEach((values, index) => {
+            formData.append(`componentes[${index}]`, JSON.stringify(values));
+        })
 
         return formData;
     }

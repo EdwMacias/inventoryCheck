@@ -536,13 +536,15 @@
 <script lang="ts" setup>
 import { jsPDF } from "jspdf";
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
+import type { EquipoDTO } from "~/Domain/DTOs/Items/Equipo/EquipoDTO";
 import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const route = useRoute();
-
-const { data, error } = await useAsyncData(() =>
-  EquipoService.details(route.params.id as string), {
-  server: false
-});
+const router = useRouter();
+const data: Ref<EquipoDTO | undefined> = ref();
+// const { data, error } = await useAsyncData(() =>
+//   EquipoService.details(route.params.id as string), {
+//   server: false
+// });
 
 const convertirImagenBase64 = async (url: string) => {
   return new Promise((resolve, reject) => {
@@ -610,6 +612,21 @@ const generarPDF = async () => {
   // Guardar PDF
   pdf.save("detalles-equipo.pdf");
 };
+
+onMounted(async () => {
+  try {
+    const result = await EquipoService.details(route.params.id as string);
+
+    if (!result) {
+      throw new Error("Datos no disponibles");
+    }
+
+    data.value = result;
+
+  } catch (error) {
+    return router.push(INDEX_PAGE_INVENTARIO); // Redirigir en caso de error
+  }
+});
 
 </script>
 
