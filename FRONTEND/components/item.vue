@@ -22,6 +22,8 @@
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
           <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
           </li>
+          <li v-if="category == '1'"><a @click="clickInComponentes({ itemId })">Componentes</a>
+          </li>
           <li><a @click="clickDetails({ itemId, category })">Detalles</a></li>
         </ul>
       </details>
@@ -57,7 +59,7 @@ const imagen: Ref<HTMLImageElement | null> = ref(null);
 const emits = defineEmits<{
   (event: "clickDeleteButton", payload: string): void,
   (event: "clickObservaciones", payload: { itemId: string, identifier: number, category: string }): void
-  (event: "clickAddRepair", payload: string): void
+  (event: "clickComponentes", payload: { itemId: string }): void
   (event: "clickDetails", payload: { itemId: string, category: string }): void
 }>();
 
@@ -91,12 +93,11 @@ const pushRoute = (datos: { itemId: string, identifier: number, category: string
   return emits("clickObservaciones", datos)
 }
 
+const clickInComponentes = (datos: { itemId: string }) => {
+  return emits("clickComponentes", datos)
+}
 function clickButtonDelete(itemId: string) {
   return emits("clickDeleteButton", itemId);
-}
-
-function clickAddRepair(itemId: string) {
-  return emits("clickAddRepair", itemId);
 }
 
 function clickDetails(datos: { itemId: string, category: string }) {

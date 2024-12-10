@@ -8,11 +8,12 @@
         <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
       </li>
       <li>
-        Observaciones
-      </li>
-      <li>
         Oficina
       </li>
+      <li>
+        Observaciones
+      </li>
+    
     </ul>
   </div>
 

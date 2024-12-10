@@ -8,6 +8,7 @@ export interface componentes {
   cantidad?: string
   unidad: string
   cuidados: string
+  tipo? : string,
 }
 
 export interface EquipoEntity {

@@ -79,7 +79,7 @@
           :serial="item.serial" :item-id="item.item_id" :category="item.category_id" :identifier="item.id"
           :quantity="item.cantidad" :unit="item.unidad" :show-add-repair="item.category_id == '1'"
           :show-delete-button="usuarioStore.userRole === 'SUPERADMINISTRADOR'" @click-delete-button="deleteItem"
-          @click-observaciones="pushRoute" @click-add-repair="pushRepair" @click-details="pushDetailRoute" />
+          @click-observaciones="pushRoute" @click-componentes="clickInComponentes" @click-details="pushDetailRoute" />
       </ClientOnly>
     </div>
   </div>
@@ -98,7 +98,7 @@
 <script lang="ts" setup>
 import type { ItemResponse } from "~/Domain/Models/Api/Response/item.response";
 import type { PaginationResponse } from "~/Domain/Models/Api/Response/pagination.response";
-import { INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_DETAILS_EQUIPO, INDEX_PAGE_INVENTARIO_DETAILS_OFICINA, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA, INDEX_PAGE_INVENTARIO_REGISTRAR } from "~/Infrastructure/Paths/Paths";
+import { INDEX_PAGE_COMPONENTES_EQUIPO, INDEX_PAGE_INVENTARIO, INDEX_PAGE_INVENTARIO_DETAILS_EQUIPO, INDEX_PAGE_INVENTARIO_DETAILS_OFICINA, INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO, INDEX_PAGE_INVENTARIO_OBSERVACION_OFICINA, INDEX_PAGE_INVENTARIO_REGISTRAR } from "~/Infrastructure/Paths/Paths";
 import { ItemRepository } from "~/Infrastructure/Repositories/Item/item.respository";
 const usuarioStore = UsuarioStore();
 const searchBefore: Ref<boolean> = ref(false);
@@ -375,6 +375,14 @@ const pushDetailRoute = (datos: { itemId: string, category: string }) => {
 
 }
 
+const clickInComponentes = (datos: { itemId: string }) => {
+  const router = useRouter();
+
+  const path = INDEX_PAGE_COMPONENTES_EQUIPO + datos.itemId;
+
+  return router.push(path)
+
+}
 
 const pushRepair = (itemId: string) => {
   let path = "/inventario/registrar/equipo/refaccion/" + itemId;

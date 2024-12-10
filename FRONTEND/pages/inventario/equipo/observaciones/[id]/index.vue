@@ -9,11 +9,12 @@
           <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
         </li>
         <li>
-          Observación
-        </li>
-        <li>
           Equipo
         </li>
+        <li>
+          Observación
+        </li>
+        
       </ul>
     </div>
 

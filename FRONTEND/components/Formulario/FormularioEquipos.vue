@@ -524,6 +524,7 @@ const addComponent = () => {
     unidad: ''
   })
 }
+
 const deleteComponent = (index: number) => {
   if (formulario.value.componentes.length > 1) {
     formulario.value.componentes.splice(index, 1);

@@ -11,3 +11,5 @@ export const GET_OBSERVACIONES_EQUIPO_BY_ITEM_ID = baseURL + "item/observacion/e
 export const GET_OBSERVACIONES_OFICINA_BY_ITEM_ID = baseURL + "item/observacion/oficina/{id}";
 export const GET_EQUIPO_DETAILS_BY_ITEM_ID = baseURL + "item/equipo/detail/";
 export const GET_BASICO_DETAILS_BY_ITEM_ID = baseURL + "item/basico/detail/";
+export const POST_CREATE_COMPONENTE_EQUIPO_BY_ITEM_ID = baseURL + 'item/equipo/add/componentes/'
+export const GET_TABLE_COMPONENTE_EQUIPO_BY_ITEM_ID = baseURL + 'item/equipo/get/componentes/'

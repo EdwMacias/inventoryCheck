@@ -8,13 +8,14 @@
         <NuxtLink :to="INDEX_PAGE_INVENTARIO">Inventario</NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`"> Observación
-        </NuxtLink>
-      </li>
-      <li>
         <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`"> Equipo
         </NuxtLink>
       </li>
+      <li>
+        <NuxtLink :to="`${INDEX_PAGE_INVENTARIO_OBSERVACION_EQUIPO}${route.params.id}`"> Observación
+        </NuxtLink>
+      </li>
+      
       <li>
         Crear
       </li>
