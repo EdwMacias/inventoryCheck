@@ -2,6 +2,7 @@
 
 namespace App\Models\Terceros\PersonaNatural;
 
+use App\Models\Users\TypeDocument;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,4 +25,8 @@ class PersonaNatural extends Model
         'departamento',
         'ciudad',
     ];
+
+    public function documento(){
+        return $this->belongsTo(TypeDocument::class, 'document_type_id','document_type_id');
+    }
 }

@@ -2,11 +2,16 @@
 
 namespace App\Services\Services\Terceros\PersonaJuridica;
 
+use App\DTOs\Datatable\DatatableDTO;
+use App\DTOs\Datatable\RequestDatatableDTO;
 use App\DTOs\ResponsesDTO\ResponseDTO;
 use App\DTOs\Terceros\Tercero\PersonaJuridica\PersonaJuridicaCreateDTO;
 use App\DTOs\Terceros\Tercero\PersonaJuridica\PersonaJuridicaDTO;
+use App\DTOs\Terceros\Tercero\PersonaJuridica\PersonaJuridicaTableDTO;
+use App\Models\Terceros\PersonaJuridica\PersonaJuridica;
 use App\Repositories\Interfaces\Terceros\PersonaJuridica\IPersonaJuridicaRepository;
 use App\Services\Interfaces\Terceros\PersonaJuridica\IPersonaJuridicaService;
+use Illuminate\Contracts\Database\Query\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
 class PersonaJuridicaService implements IPersonaJuridicaService
@@ -54,5 +59,80 @@ class PersonaJuridicaService implements IPersonaJuridicaService
             $personaJuridicaDTO,
             Response::HTTP_CREATED
         );
+    }
+
+    public function getTercerosTable(RequestDatatableDTO $requestDatatableDTO): DatatableDTO
+    {
+        try {
+            $datatableDTO = new DatatableDTO();
+
+            // $personaNatural = new PersonaNatural();
+
+            $personaNaturalQuery = PersonaJuridica::on();
+
+            $datatableDTO->recordsTotal = $personaNaturalQuery->count();
+            $datatableDTO->draw = $requestDatatableDTO->draw;
+            $columns = [
+                'id',
+                'razon_social',
+                'nit',
+                'telefono',
+                'email',
+                'created_at',
+                'updated_at'
+            ];
+
+            if ($requestDatatableDTO->searchValue) {
+                $personaNaturalQuery->where(function (Builder $query) use ($requestDatatableDTO, $columns) {
+                    $searchValue = "%{$requestDatatableDTO->searchValue}%";
+
+                    // Buscar en las columnas principales
+                    foreach ($columns as $column) {
+                        $query->orWhere($column, 'like', $searchValue);
+                    }
+                });
+            }
+
+            $datatableDTO->recordsFiltered = $personaNaturalQuery->count();
+
+            if ($requestDatatableDTO->order) {
+                # code...
+                foreach ($requestDatatableDTO->order as $order) {
+                    $columnIndex = $order['column'];
+                    $columnName = $columns[$columnIndex] ?? null;
+                    $direction = $order['dir'];
+
+                    if ($columnName) {
+                        $personaNaturalQuery->orderBy($columnName, $direction);
+                    }
+                }
+            }
+
+            if ($requestDatatableDTO->length != -1) {
+                $personaNaturalQuery->offset(value: $requestDatatableDTO->start)->limit($requestDatatableDTO->length);
+            }
+
+            $datatableDTO->data = $personaNaturalQuery->get($columns)
+                ->transform(function ($personaNaturales) {
+                    return new PersonaJuridicaTableDTO($personaNaturales);
+                });
+
+            return $datatableDTO;
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+            throw new \Exception("Error en la creacion de la tabla de tecero juridico : {$th->getMessage()}", 500);
+
+        }
+
+    }
+
+    public function getDetailsTercero($email)
+    {
+        $personaJuridica = $this->personaJuridicaRepository->getTerceroByEmail($email);
+
+        $personaJuridicaDTO = new PersonaJuridicaDTO($personaJuridica);
+
+        return new ResponseDTO('Detalles de la persona Juridica', $personaJuridicaDTO);
     }
 }

@@ -44,4 +44,21 @@ class PersonaJuridicaRepository implements IPersonaJuridicaRepository
             throw new Exception("Error al buscar por nit a la persona juridica: " . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getTerceroByEmail($email)
+    {
+        try {
+            $personaJuridica = PersonaJuridica::where('email', $email)->first();
+            
+            if (!$personaJuridica) {
+                throw new Exception("Persona juridica no encontrada", 404);
+            }
+
+            return $personaJuridica;
+
+        } catch (\Throwable $th) {
+            throw new Exception("Error al traer datos por email del tercero juridico : {$th->getMessage()}", 500);
+            ;
+        }
+    }
 }

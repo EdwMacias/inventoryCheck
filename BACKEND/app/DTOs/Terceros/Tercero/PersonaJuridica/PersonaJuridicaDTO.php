@@ -4,7 +4,7 @@ namespace App\DTOs\Terceros\Tercero\PersonaJuridica;
 
 class PersonaJuridicaDTO
 {
-    public $id;
+    public $personaJuridicaId;
     public $razonSocial;
     public $nit;
     public $tipoEntidad = null;
@@ -13,13 +13,13 @@ class PersonaJuridicaDTO
     public $pais = null;
     public $representanteLegal = null;
     public $telefono;
-    public $email;
+    public $correo;
     public $createdAt = null;
     public $updatedAt = null;
 
     public function __construct($personaJuridica = null)
     {
-        $this->id = $personaJuridica->id;
+        $this->personaJuridicaId = $personaJuridica->id;
         $this->razonSocial = $personaJuridica->razon_social;
         $this->nit = $personaJuridica->nit;
         $this->tipoEntidad = $personaJuridica->tipo_entidad;
@@ -28,7 +28,7 @@ class PersonaJuridicaDTO
         $this->pais = $personaJuridica->pais;
         $this->representanteLegal = $personaJuridica->representante_legal;
         $this->telefono = $personaJuridica->telefono;
-        $this->email = $personaJuridica->email;
+        $this->correo = $personaJuridica->email;
         $this->createdAt = $personaJuridica->created_at;
         $this->updatedAt = $personaJuridica->updated_at;
     }

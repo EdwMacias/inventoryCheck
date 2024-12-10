@@ -2,6 +2,8 @@
 
 namespace App\Services\Interfaces\Terceros\PersonaNatural;
 
+use App\DTOs\Datatable\DatatableDTO;
+use App\DTOs\Datatable\RequestDatatableDTO;
 use App\DTOs\Terceros\Tercero\PersonaNatural\PersonaNaturalCreateDTO;
 
 interface IPersonaNaturalServices
@@ -27,5 +29,24 @@ interface IPersonaNaturalServices
      * @return \App\DTOs\ResponsesDTO\ResponseDTO Objeto de respuesta con el mensaje y los datos de la persona natural consultada
      */
     public function showById(string $personaNaturalId);
+    /**
+     * Maneja la obtención de datos para una interfaz de DataTable.
+     *
+     * @param RequestDatatableDTO $requestDatatableDTO Objeto que contiene parámetros enviados desde el cliente para paginación, búsqueda y ordenamiento.
+     * @return \App\DTOs\Datatable\DatatableDTO Una respuesta estructurada para DataTable que contiene registros y metadatos.
+     */
+    public function getTercerosTable(RequestDatatableDTO $requestDatatableDTO): DatatableDTO;
+    /**
+     * Obtiene los detalles de un tercero natural a partir de su correo electrónico.
+     *
+     * @param string $email
+     *     El correo electrónico del tercero natural cuyos detalles se desean obtener.
+     *
+     * @return \App\DTOs\ResponsesDTO\ResponseDTO
+     *     Un objeto de transferencia de datos (`ResponseDTO`) que contiene el mensaje y
+     *     los detalles del tercero natural encapsulados en un `PersonaNaturalDTO`.
+     */
+    public function getDetailsTercero($email);
+
 
 }

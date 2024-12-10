@@ -65,7 +65,8 @@ class PersonaNaturalRespository implements IPersonaNaturalRepository
     /**
      * @inheritDoc
      */
-    public function existByEmail(string $email) {
+    public function existByEmail(string $email)
+    {
         try {
             // Consulta la existencia del correo en la tabla `PersonaNatural`.
             return PersonaNatural::where('correo', $email)->exists();
@@ -75,6 +76,39 @@ class PersonaNaturalRespository implements IPersonaNaturalRepository
                 'Error al buscar la persona natural por el email: ' . $th->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
+        }
+    }
+  
+    public function getTerceroByEmail($email)
+    {
+        try {
+            $personaNatural = PersonaNatural::where('correo', $email)->first();
+
+            if (!$personaNatural) {
+                throw new Exception("Persona Natural no encontrada", 404);
+            }
+
+            return $personaNatural;
+
+        } catch (\Throwable $th) {
+            throw new Exception("Error al traer datos por email del tercero natural : {$th->getMessage()}", 500);
+            ;
+        }
+    }
+    public function getTerceroById($id)
+    {
+        try {
+            $personaNatural = PersonaNatural::where('id', $id)->first();
+
+            if (!$personaNatural) {
+                throw new Exception("Persona Natural no encontrada", 404);
+            }
+
+            return $personaNatural;
+
+        } catch (\Throwable $th) {
+            throw new Exception("Error al traer datos por id del tercero natural : {$th->getMessage()}", 500);
+            ;
         }
     }
 }

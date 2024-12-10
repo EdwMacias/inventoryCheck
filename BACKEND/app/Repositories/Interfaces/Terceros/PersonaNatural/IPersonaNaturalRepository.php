@@ -70,5 +70,37 @@ interface IPersonaNaturalRepository
      * con un mensaje descriptivo y un código de estado HTTP 500.
      */
     public function existByEmail(string $email);
+    /**
+     * Obtiene los datos de un tercero natural basado en su correo electrónico.
+     *
+     * @param string $email
+     *     El correo electrónico del tercero natural que se busca.
+     *
+     * @return \App\Models\Terceros\PersonaNatural\PersonaNatural
+     *     Instancia del modelo `PersonaNatural` correspondiente al correo electrónico proporcionado.
+     *
+     * @throws \Exception
+     *     - Si no se encuentra un tercero natural con el correo electrónico especificado, se lanza una excepción
+     *       con un mensaje y un código de estado HTTP 404.
+     *     - Si ocurre algún otro error durante la ejecución, se lanza una excepción con un mensaje detallado
+     *       y un código de estado HTTP 500.
+     */
+    public function getTerceroByEmail($email);
+ /**
+     * Obtiene los datos de un tercero natural basado en su id.
+     *
+     * @param string $id
+     *     El id del tercero natural que se busca.
+     *
+     * @return \App\Models\Terceros\PersonaNatural\PersonaNatural
+     *     Instancia del modelo `PersonaNatural` correspondiente al id proporcionado.
+     *
+     * @throws \Exception
+     *     - Si no se encuentra un tercero natural con el id especificado, se lanza una excepción
+     *       con un mensaje y un código de estado HTTP 404.
+     *     - Si ocurre algún otro error durante la ejecución, se lanza una excepción con un mensaje detallado
+     *       y un código de estado HTTP 500.
+     */
+    public function getTerceroById($id);
 
 }

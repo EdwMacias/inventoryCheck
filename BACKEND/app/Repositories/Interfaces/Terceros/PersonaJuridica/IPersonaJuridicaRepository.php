@@ -51,4 +51,22 @@ interface IPersonaJuridicaRepository
      *   Lanza una excepción si ocurre un error durante la consulta.
      */
     public function existByNit(string $nit);
+
+    /**
+     * Obtiene los datos de un tercero jurídico basado en su correo electrónico.
+     *
+     * @param string $email
+     *     El correo electrónico del tercero jurídico que se busca.
+     *
+     * @return \App\Models\Terceros\PersonaJuridica\PersonaJuridica
+     *     Instancia del modelo `PersonaJuridica` correspondiente al correo electrónico proporcionado.
+     *
+     * @throws \Exception
+     *     - Si no se encuentra un tercero jurídico con el correo electrónico especificado, se lanza una excepción
+     *       con un mensaje y un código de estado HTTP 404.
+     *     - Si ocurre algún otro error durante la ejecución, se lanza una excepción con un mensaje detallado
+     *       y un código de estado HTTP 500.
+     */
+    public function getTerceroByEmail($email);
+
 }

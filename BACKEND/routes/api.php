@@ -38,13 +38,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'item'], function () {
 
     Route::group(['prefix' => 'equipo'], function () {
         Route::post('', [ItemController::class, 'createEquipo']);
-        Route::get('/detail/{id}',[ItemController::class,'detailEquipo']);
+        Route::get('/detail/{id}', [ItemController::class, 'detailEquipo']);
         Route::post('/add/repair/{id}', [ItemController::class, 'addRepairItemEquipo']);
     });
 
     Route::group(['prefix' => 'basico'], function () {
         Route::post('', [ItemController::class, 'store']);
-        Route::get('/detail/{id}',[ItemController::class,'detailOficina']);
+        Route::get('/detail/{id}', [ItemController::class, 'detailOficina']);
     });
 
     Route::group(['prefix' => 'observacion'], function () {
@@ -76,11 +76,13 @@ Route::group(['middleware' => 'api', "prefix" => "pqrs"], function () {
 Route::group(['middleware' => 'api', 'prefix' => 'tercero'], function () {
     Route::group(['prefix' => 'natural'], function () {
         Route::post('', [TercerosController::class, 'createTerceroNatural']);
-        // Route::get('', [TercerosController::class, 'show']);
-    });
-    
-    Route::group(['prefix' => 'juridica'], function () {
-        Route::post('', [TercerosController::class, 'createTerceroJuridico']);
+        Route::get('', [TercerosController::class, 'tableTerceroNatural']);
+        Route::get('detail/{id}', [TercerosController::class, 'getDatallesTerceroNatural']);
     });
 
+    Route::group(['prefix' => 'juridica'], function () {
+        Route::post('', [TercerosController::class, 'createTerceroJuridico']);
+        Route::get('', [TercerosController::class, 'tableTerceroJuridico']);
+        Route::get('detail/{id}', [TercerosController::class, 'getDatallesTerceroJuridico']);
+    });
 });

@@ -25,6 +25,19 @@ class Utilidades
     }
 
     /**
+     * Concatenar y limpiar una lista de strings, manejando valores nulos.
+     *
+     * @param array<string> $componentes Lista de datos en string.
+     * @return string retorna el string concatenado y limpio.
+     */
+    public static function concatenarYLimpiar(array $componentes): string
+    {
+        return trim(implode(' ', array_filter($componentes, function ($valor) {
+            return !is_null($valor) && $valor !== '';
+        })));
+    }
+
+    /**
      * Convierte la fecha a formato Y-m-d probando múltiples formatos
      * @param string|null $fecha
      * @return string|null

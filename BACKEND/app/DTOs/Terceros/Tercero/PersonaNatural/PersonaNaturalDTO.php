@@ -4,7 +4,7 @@ namespace App\DTOs\Terceros\Tercero\PersonaNatural;
 
 class PersonaNaturalDTO
 {
-    public ?int $id = null;
+    public ?int $personaNaturalId = null;
     public string $primerNombre;
     public ?string $segundoNombre = null;
     public string $primerApellido;
@@ -17,12 +17,13 @@ class PersonaNaturalDTO
     public string $departamento;
     public string $ciudad;
     public ?string $dv = null;
+    public $documento = null;
     public ?string $createdAt = null;
     public ?string $updatedAt = null;
 
     public function __construct($personaNatural)
     {
-        $this->id = $personaNatural->id;
+        $this->personaNaturalId = $personaNatural->id;
         $this->primerNombre = $personaNatural->primer_nombre;
         $this->segundoNombre = $personaNatural->segundo_nombre;
         $this->primerApellido = $personaNatural->primer_apellido;
@@ -33,7 +34,9 @@ class PersonaNaturalDTO
         $this->direccion = $personaNatural->direccion;
         $this->departamento = $personaNatural->departamento;
         $this->ciudad = $personaNatural->ciudad;
+        $this->correo = $personaNatural->correo;
         $this->dv = $personaNatural->dv;
+        $this->documento = $personaNatural->documento ?? null;
         $this->createdAt = $personaNatural->created_at;
         $this->updatedAt = $personaNatural->updated_at;
     }

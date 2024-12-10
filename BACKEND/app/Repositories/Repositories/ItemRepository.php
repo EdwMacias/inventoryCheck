@@ -107,6 +107,7 @@ class ItemRepository implements InterfaceItemRepository
         // Construir la consulta base
         $query = Item::orderBy('created_at', 'asc')
             ->with(['equipo', 'itemBasico']);
+            
         if ($category) {
             $query->where('category_id', $category);
         }
