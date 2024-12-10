@@ -309,6 +309,7 @@ class ItemServices implements InterfaceItemServices
             // Manejo de errores y devolución de respuesta con mensaje detallado
             return new ResponseDTO(
                 "Error al crear detalle del equipo {$th->getMessage()}",
+                null,
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
@@ -333,6 +334,7 @@ class ItemServices implements InterfaceItemServices
             // Manejo de errores y devolución de respuesta con mensaje detallado
             return new ResponseDTO(
                 'Error en el servicio de detalle de item oficina: ' . $th->getMessage(),
+                null,
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }

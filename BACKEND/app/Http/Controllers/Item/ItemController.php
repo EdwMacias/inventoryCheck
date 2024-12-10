@@ -170,13 +170,18 @@ class ItemController extends Controller
         // Inicializa un array vacío para almacenar los datos de los componentes.
         $componenteEquipoDTOs = [];
 
+
         // Itera sobre cada componente proporcionado en la solicitud, si existen componentes.
         foreach ($repuestosEquipoRequest->componentes ?? [] as $componente) {
+            $componente = json_decode($componente);
             // Crea una nueva instancia de ComponenteEquipoDTO con los datos del componente.
             $componenteEquipoDTO = new ComponenteEquipoDTO($componente);
 
+            $componenteEquipoDTO->itemId = $id;
+            // throw new \Exception(json_encode($componente), 1);
+
             // Establece el tipo de componente como "repuesto" usando la configuración de tipo.
-            $componenteEquipoDTO->type = \App\Config\Items\Equipo\EquipoConfig::getTypeRepuesto();
+            $componenteEquipoDTO->type = (strval($componente->tipo) == '1') ? \App\Config\Items\Equipo\EquipoConfig::getTypeOriginal() : \App\Config\Items\Equipo\EquipoConfig::getTypeRepuesto();
 
             // Agrega el DTO del componente al array de componentes.
             $componenteEquipoDTOs[] = $componenteEquipoDTO;
@@ -236,6 +241,12 @@ class ItemController extends Controller
         // Devolver la respuesta en formato JSON con el estado HTTP correspondiente
         return response()->json($responseDTO, $responseDTO->status);
 
+    }
+
+    public function getComponentesTableEquipo($id)
+    {
+        $datatableDTO = $this->itemService->getRepairsTableEquipo($id);
+        return response()->json($datatableDTO);
     }
 
 }

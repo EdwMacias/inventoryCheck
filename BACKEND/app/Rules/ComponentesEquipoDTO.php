@@ -23,7 +23,7 @@ class ComponentesEquipoDTO implements ValidationRule
         }
 
         // Define los atributos que deben estar presentes
-        $keys = ['serial', 'nombre', 'marca', 'modelo', 'cantidad', 'unidad', 'cuidados'];
+        $keys = ['serial', 'nombre', 'marca', 'modelo', 'cantidad', 'unidad', 'cuidados','tipo'];
         $requiredKeys = ['serial', 'cantidad'];
         // Verifica que todos los atributos requeridos estén presentes
         foreach ($requiredKeys as $key) {
@@ -34,7 +34,7 @@ class ComponentesEquipoDTO implements ValidationRule
         }
 
         // Verifica que 'cantidad' sea un número entero
-        if (!is_int($value['cantidad'])) {
+        if (!is_int(intval($value['cantidad']))) {
             $fail("El campo 'cantidad' en :attribute debe ser un número entero.");
             return;
         }
