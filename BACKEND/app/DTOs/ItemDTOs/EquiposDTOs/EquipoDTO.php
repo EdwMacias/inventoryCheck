@@ -2,6 +2,8 @@
 
 namespace App\DTOs\ItemDTOs\EquiposDTOs;
 
+use Illuminate\Support\Facades\Storage;
+
 class EquipoDTO
 {
     public $equipo_id;
@@ -48,6 +50,7 @@ class EquipoDTO
     public $cond_transporte;
     public $cond_otras;
     public $imagen;
+    public $imagenBase64;
     public $componentes = [];
     public $created_at;
     public $updated_at;
@@ -98,11 +101,32 @@ class EquipoDTO
         $this->cond_transporte = $equipo->cond_transporte;
         $this->cond_otras = $equipo->cond_otras;
         $this->imagen = (!empty($equipo->resource) && isset($equipo->resource[0])) ? url($equipo->resource[0]->resource) : null;
+        // $this->imagenBase64 = (!empty($equipo->resource) && isset($equipo->resource[0])) ? base64_encode(file_get_contents(url($equipo->resource[0]->resource))) : null;
+        $this->imagenBase64 = (!empty($equipo->resource) && isset($equipo->resource[0]))
+        ? $this->obtenerImagenBase64($equipo->resource[0]->resource)
+        : null;
         $this->componentes = $equipo->componentes->transform(function ($componente) {
             return new EquipoComponenteDTO($componente);
         });
         $this->created_at = $equipo->created_at;
         $this->updated_at = $equipo->updated_at;
+    }
+
+    private function obtenerImagenBase64($resource)
+    {
+        if (empty($resource)) {
+            return null;
+        }
+
+        $filePath = str_replace('storage/', 'public/', $resource);
+
+        if (Storage::exists($filePath)) {
+            $mimeType = Storage::mimeType($filePath);
+            $base64Data = base64_encode(Storage::get($filePath));
+            return "data:{$mimeType};base64,{$base64Data}";
+        }
+
+        return null;
     }
 }
 
