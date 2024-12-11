@@ -61,7 +61,7 @@
 
       <div class="card lg:card-side" v-else>
         <figure class="">
-          <img :src="data?.imagen" :alt="data?.name" class="w-96" />
+          <img :src="data?.imagen" :alt="data?.name" class="w-96" id="imagenParaPDF" />
         </figure>
         <div class="card-body select-none">
           <h2 class="card-title select-none">{{ data?.name }}</h2>
@@ -535,98 +535,194 @@
 
 <script lang="ts" setup>
 import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
 import type { EquipoDTO } from "~/Domain/DTOs/Items/Equipo/EquipoDTO";
 import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const route = useRoute();
-const router = useRouter();
-const data: Ref<EquipoDTO | undefined> = ref();
-// const { data, error } = await useAsyncData(() =>
-//   EquipoService.details(route.params.id as string), {
-//   server: false
-// });
+const { data, error } = await useAsyncData(() =>
+EquipoService.details(route.params.id as string), {
+  server: false,
+});
+console.log(data.value);
 
-const convertirImagenBase64 = async (url: string) => {
+const generarPDF = async () => {
+  const pdf = new jsPDF("p", "mm", "letter"); // Formato A4, orientación vertical
+  const datos = data.value;
+  const tablas = {
+  general: [
+    ["Fabricante", datos?.fabricante || "-"],
+    ["Modelo", datos?.modelo || "-"],
+    ["Marca", datos?.marca || "-"],
+    ["Serial", datos?.serie_lote || "-"],
+    ["Activo Fijo", datos?.activo_fijo || "-"],
+    ["Ubicación", datos?.ubicacion || "-"],
+    ["Periodicidad Calibración", datos?.periodicidad_calibracion || "-"],
+    ["Periodicidad de Verificación", datos?.periodicidad_verificacion || "-"],
+    ["Instrucciones de Operación", datos?.instruc_operacion || "-"],
+    ["Ficha Técnica", datos?.ficha_tecnica || "-"],
+    ["Manual", datos?.manual || "-"],
+    ["Proveedor del Equipo", datos?.proveedor || "-"],
+    ["Contacto Proveedor", datos?.contacto_proveedor || "-"],
+    ["Teléfono Proveedor", datos?.telefono_proveedor || "-"],
+    ["Correo Proveedor", datos?.email_proveedor || "-"],
+    ["Garantía", datos?.garantia || "-"],
+
+  ],
+  metrologia: [
+    ["Clase de Exactitud", datos?.clase_exactitud || "-"],
+    ["Resolución", datos?.resolucion || "-"],
+    ["Rango de Medición", datos?.rango_medicion || "-"],
+    ["Intervalo de Medición", datos?.intervalo_medicion || "-"],
+    ["Error Máximo Permitido", datos?.error_maximo_permitido || "-"],
+  ],
+  condiciones: [
+    ["Condición Eléctrica", datos?.cond_electrica === 1 ? "Aplicado" : "No Aplicado"],
+    ["Condición Mecánica", datos?.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"],
+    ["Condición de Seguridad", datos?.cond_seguridad === 1 ? "Aplicado" : "No Aplicado"],
+    ["Condiciones Ambientales", datos?.cond_ambientales === 1 ? "Aplicado" : "No Aplicado"],
+    ["Condiciones de Transporte", datos?.cond_transporte === 1 ? "Aplicado" : "No Aplicado"],
+    ["Otras Condiciones", datos?.cond_otras === 1 ? "Aplicado" : "No Aplicado"],
+  ],
+  proveedores: [
+
+  ],
+  calibracion: [
+    ["Proveedor de Calibración", datos?.proveedor_calibracion || "-"],
+    ["Contacto Calibración", datos?.contacto_calibracion || "-"],
+    ["Correo Calibración", datos?.email_calibracion || "-"],
+    ["Fecha de Calibración Actual", datos?.fecha_calibracion_actual || "-"],
+    ["Fecha Próxima Calibración", datos?.fecha_proxima_calibracion || "-"],
+    ["Máxima Incertidumbre de Calibración", datos?.maxima_incertidumbre_calibracion || "-"],
+    ["Frecuencia de Verificación", datos?.frecuencia_verificacion || "-"],
+  ],
+  adquisicion: [
+    ["Fecha de Adquisición", datos?.fecha_adquisicion || "-"],
+    ["Número de Factura", datos?.numero_factura || "-"],
+    ["Valor de Adquisición", datos?.valor_adquisicion || "-"],
+  ],
+  documentacion: [
+    ["Procedimiento de Verificación", datos?.procedimiento_verificacion || "-"],
+  ],
+};
+  if (!datos) return;
+
+  try {
+    // Descargar la imagen y agregarla en la parte superior derecha
+    const imgData = await descargarImagenBase64(datos.imagen); // Descargar y convertir a Base64
+    pdf.addImage(imgData, "PNG", 150, 10, 40, 40); // Posición (150,10), tamaño reducido (40x40)
+  } catch (error) {
+    console.error("Error al agregar la imagen:", error);
+  }
+
+  // Título del PDF
+  pdf.setFontSize(14);
+  pdf.text("Hoja de vida Equipos ",10,10); // Título cerca del margen superior
+
+  // Información General (Tabla)
+  autoTable(pdf, {
+    startY: 15,
+    head: [["Datos del equipo y fabricante", ""]],
+    body: tablas.general,
+    theme: "striped",
+    styles: { fontSize: 10 },
+    columnStyles: {
+      0: { cellWidth: 40 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 40 },
+    },
+  });
+  
+  // Características metrológicas del equipo
+  autoTable(pdf, {
+    startY: pdf.lastAutoTable.finalY + 5,
+    head: [["Características metrológicas del equipo", ""]],
+    body: tablas.metrologia,
+    theme: "striped",
+    styles: { fontSize: 10 },
+    columnStyles: {
+      0: { cellWidth: 40 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 40 },
+    },
+  });
+  // Condiciones (Tabla)
+  autoTable(pdf, {
+    startY: pdf.lastAutoTable.finalY + 10,
+    head: [["Condición", "Estado"]],
+    body: [
+      ["Condición Eléctrica", datos.cond_electrica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición Mecánica", datos.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición de Seguridad", datos.cond_seguridad === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones Ambientales", datos.cond_ambientales === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones de Transporte", datos.cond_transporte === 1 ? "Aplicado" : "No Aplicado"],
+      ["Otras Condiciones", datos.cond_otras === 1 ? "Aplicado" : "No Aplicado"],
+    ],
+    theme: "striped",
+    styles: { fontSize: 10 },
+  });
+
+  // Proveedores (Tabla)
+  autoTable(pdf, {
+    startY: pdf.lastAutoTable.finalY + 10,
+    head: [["Campo", "Valor"]],
+    body: [
+      ["Proveedor del Equipo", datos.proveedor || "-"],
+      ["Contacto", datos.contacto_proveedor || "-"],
+      ["Teléfono", datos.telefono_proveedor || "-"],
+      ["Correo", datos.email_proveedor || "-"],
+    ],
+    theme: "striped",
+    styles: { fontSize: 10 },
+  });
+
+  // Componentes (Tabla)
+  if (datos.componentes && datos.componentes.length > 0) {
+    autoTable(pdf, {
+      startY: pdf.lastAutoTable.finalY + 10,
+      head: [["#", "Nombre", "Cantidad", "Serial", "Cuidados", "Modelo", "Marca", "Unidad", "Tipo"]],
+      body: datos.componentes.map((comp: any, index: number) => [
+        index + 1,
+        comp.nombre || "-",
+        comp.cantidad || "-",
+        comp.serial || "-",
+        comp.cuidados || "-",
+        comp.modelo || "-",
+        comp.marca || "-",
+        comp.unidad || "-",
+        comp.tipo || "-",
+      ]),
+      theme: "striped",
+      styles: { fontSize: 8 },
+    });
+  }
+
+  // Guardar el PDF
+  pdf.save("detalles-equipo.pdf");
+};
+
+// Función auxiliar para convertir una imagen a base64
+const descargarImagenBase64 = (url: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = "Anonymous"; // Permitir imágenes externas
+    img.crossOrigin = "anonymous"; // Evita problemas de CORS
     img.src = url;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext("2d");
-      ctx?.drawImage(img, 0, 0);
-      const dataURL = canvas.toDataURL("image/png");
-      resolve(dataURL);
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL("image/png"));
+      } else {
+        reject(new Error("Error al procesar la imagen."));
+      }
     };
-    img.onerror = (error) => reject(error);
+    img.onerror = () => reject(new Error("No se pudo cargar la imagen."));
   });
 };
 
-const generarPDF = async () => {
-  const pdf = new jsPDF();
-  // Convertir imagen a Base64
-  let datos = data.value;
-  if (!datos) return;
-  try {
-    const imgData = await convertirImagenBase64(datos.imagen);
 
-    // Agregar imagen al PDF
-    // pdf.addImage(imgData, "PNG", 10, 20, 50, 50);
-  } catch (error) {
-    console.error("Error al convertir la imagen:", error);
-  }
-  // Título
-  pdf.setFontSize(16);
-  pdf.text("Detalles del Equipo", 70, 30);
 
-  // Información General
-  pdf.setFontSize(12);
-  pdf.text(`Fabricante: ${datos.fabricante}`, 70, 40);
-  pdf.text(`Modelo: ${datos.modelo}`, 70, 50);
-  pdf.text(`Marca: ${datos.marca}`, 70, 60);
-  pdf.text(`Serial: ${datos.serie_lote}`, 70, 70);
-  pdf.text(`Activo Fijo: ${datos.activo_fijo}`, 70, 80);
-  pdf.text(`Ubicación: ${datos.ubicacion}`, 70, 90);
-
-  // Especificaciones Técnicas
-  pdf.text("Especificaciones Técnicas:", 10, 110);
-  pdf.text(`Clase de Exactitud: ${datos.clase_exactitud}`, 10, 120);
-  pdf.text(`Resolución: ${datos.resolucion}`, 10, 130);
-  pdf.text(`Rango de Medición: ${datos.rango_medicion}`, 10, 140);
-  pdf.text(`Intervalo de Medición: ${datos.intervalo_medicion}`, 10, 150);
-  pdf.text(`Error Máximo Permitido: ${datos.error_maximo_permitido}`, 10, 160);
-
-  // Condiciones
-  pdf.text("Condiciones:", 10, 180);
-  pdf.text(`Condición Eléctrica: ${datos.cond_electrica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 190);
-  pdf.text(`Condición Mecánica: ${datos.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 200);
-
-  // Proveedores
-  pdf.text("Proveedores:", 10, 220);
-  pdf.text(`Proveedor del Equipo: ${datos.proveedor}`, 10, 230);
-  pdf.text(`Contacto: ${datos.contacto_proveedor}`, 10, 240);
-  pdf.text(`Teléfono: ${datos.telefono_proveedor}`, 10, 250);
-
-  // Guardar PDF
-  pdf.save("detalles-equipo.pdf");
-};
-
-onMounted(async () => {
-  try {
-    const result = await EquipoService.details(route.params.id as string);
-
-    if (!result) {
-      throw new Error("Datos no disponibles");
-    }
-
-    data.value = result;
-
-  } catch (error) {
-    return router.push(INDEX_PAGE_INVENTARIO); // Redirigir en caso de error
-  }
-});
 
 </script>
 
