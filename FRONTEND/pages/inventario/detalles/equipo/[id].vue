@@ -547,7 +547,8 @@ EquipoService.details(route.params.id as string), {
 console.log(data.value);
 
 const generarPDF = async () => {
-  const pdf = new jsPDF("p", "mm", "letter"); // Formato A4, orientación vertical
+  console.log("generando pdf");
+  const pdf = new jsPDF("p", "mm", "letter"); // Formato carta, orientación vertical
   const datos = data.value;
   const tablas = {
   general: [
@@ -632,6 +633,7 @@ const generarPDF = async () => {
     },
   });
   
+
   // Características metrológicas del equipo
   autoTable(pdf, {
     startY: pdf.lastAutoTable.finalY + 5,

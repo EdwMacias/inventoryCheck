@@ -536,17 +536,13 @@
 
 <script lang="ts" setup>
 import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
 import type { EquipoDTO } from "~/Domain/DTOs/Items/Equipo/EquipoDTO";
 import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const route = useRoute();
 const router = useRouter();
 const data: Ref<EquipoDTO | undefined> = ref();
-// const { data, error } = await useAsyncData(() =>
-//   EquipoService.details(route.params.id as string), {
-//   server: false
-// });
-
 const convertirImagenBase64 = async (url: string) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -566,69 +562,194 @@ const convertirImagenBase64 = async (url: string) => {
 };
 
 const generarPDF = async () => {
-  const pdf = new jsPDF();
-  // Convertir imagen a Base64
+  const pdf = new jsPDF("p", "mm", "letter"); // Formato carta, orientación vertical
   let datos = data.value;
   if (!datos) return;
   try {
     const imgData = await convertirImagenBase64(datos.imagen);
-
-    // Agregar imagen al PDF
-    // pdf.addImage(imgData, "PNG", 10, 20, 50, 50);
+    console.log(imgData);
   } catch (error) {
     console.error("Error al convertir la imagen:", error);
   }
+  const styleTable = {
+    font: "helvetica", // Cambia la fuente a Helvetica
+    fontSize: 10,
+    lineColor: [0, 0, 0], // Color de línea negro
+    lineWidth: 0.1, 
+    };
+  
+  const tablas = {
+    general: [
+      ["Fabricante", datos?.fabricante || "-"],
+      ["Modelo", datos?.modelo || "-"],
+      ["Marca", datos?.marca || "-"],
+      ["Serial", datos?.serie_lote || "-"],
+      ["Activo Fijo", datos?.activo_fijo || "-"],
+      ["Ubicación", datos?.ubicacion || "-"],
+      ["Periodicidad Calibración", datos?.periodicidad_calibracion || "-"],
+      ["Periodicidad de Verificación", datos?.periodicidad_verificacion || "-"],
+      ["Instrucciones de Operación", datos?.instruc_operacion || "-"],
+      ["Ficha Técnica", datos?.ficha_tecnica || "-"],
+      ["Manual", datos?.manual || "-"],
+      ["Proveedor del Equipo", datos?.proveedor || "-"],
+      ["Contacto Proveedor", datos?.contacto_proveedor || "-"],
+      ["Teléfono Proveedor", datos?.telefono_proveedor || "-"],
+      ["Correo Proveedor", datos?.email_proveedor || "-"],
+      ["Garantía", datos?.garantia || "-"],
+
+    ],
+    metrologia: [
+      ["Clase de Exactitud", datos?.clase_exactitud || "-"],
+      ["Resolución", datos?.resolucion || "-"],
+      ["Rango de Medición", datos?.rango_medicion || "-"],
+      ["Intervalo de Medición", datos?.intervalo_medicion || "-"],
+      ["Error Máximo Permitido", datos?.error_maximo_permitido || "-"],
+    ],
+    condiciones: [
+      ["Condición Eléctrica", datos?.cond_electrica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición Mecánica", datos?.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición de Seguridad", datos?.cond_seguridad === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones Ambientales", datos?.cond_ambientales === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones de Transporte", datos?.cond_transporte === 1 ? "Aplicado" : "No Aplicado"],
+      ["Otras Condiciones", datos?.cond_otras === 1 ? "Aplicado" : "No Aplicado"],
+    ],
+    proveedores: [
+
+    ],
+    calibracion: [
+      ["Proveedor de Calibración", datos?.proveedor_calibracion || "-"],
+      ["Contacto Calibración", datos?.contacto_calibracion || "-"],
+      ["Correo Calibración", datos?.email_calibracion || "-"],
+      ["Fecha de Calibración Actual", datos?.fecha_calibracion_actual || "-"],
+      ["Fecha Próxima Calibración", datos?.fecha_proxima_calibracion || "-"],
+      ["Máxima Incertidumbre de Calibración", datos?.maxima_incertidumbre_calibracion || "-"],
+      ["Frecuencia de Verificación", datos?.frecuencia_verificacion || "-"],
+    ],
+    adquisicion: [
+      ["Fecha de Adquisición", datos?.fecha_adquisicion || "-"],
+      ["Número de Factura", datos?.numero_factura || "-"],
+      ["Valor de Adquisición", datos?.valor_adquisicion || "-"],
+    ],
+    documentacion: [
+      ["Procedimiento de Verificación", datos?.procedimiento_verificacion || "-"],
+    ],
+  };
   // Título
-  pdf.setFontSize(16);
-  pdf.text("Detalles del Equipo", 70, 30);
+  
+  pdf.setFontSize(25);
+  pdf.text(datos?.name, 10, 12);
 
-  // Información General
-  pdf.setFontSize(12);
-  pdf.text(`Fabricante: ${datos.fabricante}`, 70, 40);
-  pdf.text(`Modelo: ${datos.modelo}`, 70, 50);
-  pdf.text(`Marca: ${datos.marca}`, 70, 60);
-  pdf.text(`Serial: ${datos.serie_lote}`, 70, 70);
-  pdf.text(`Activo Fijo: ${datos.activo_fijo}`, 70, 80);
-  pdf.text(`Ubicación: ${datos.ubicacion}`, 70, 90);
+  // Información General (Tabla)
+  // autoTable(pdf, {
+  //   startY: 15,
+  //   head: [["Foto", ""]],
+  //   body: ["Condición Eléctrica", datos.cond_electrica === 1 ? "Aplicado" : "No Aplicado"],,
+  //   theme: "striped",
+  //   styles: { fontSize: 10 },
+  //   columnStyles: {
+  //     0: { cellWidth: 40 }, // Ajusta el ancho de la columna para los campos
+  //     1: { cellWidth: 40 },
+  //   },
+  // });
+  autoTable(pdf, {
+    startY: 15,
+    margin: { left: 8 },
+    head: [["Datos del equipo y fabricante", ""]],
+    body: tablas.general,
+    styles: styleTable,
+    columnStyles: {
+      0: { cellWidth: 50 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 50 },
+    },
+  });
+  
 
-  // Especificaciones Técnicas
-  pdf.text("Especificaciones Técnicas:", 10, 110);
-  pdf.text(`Clase de Exactitud: ${datos.clase_exactitud}`, 10, 120);
-  pdf.text(`Resolución: ${datos.resolucion}`, 10, 130);
-  pdf.text(`Rango de Medición: ${datos.rango_medicion}`, 10, 140);
-  pdf.text(`Intervalo de Medición: ${datos.intervalo_medicion}`, 10, 150);
-  pdf.text(`Error Máximo Permitido: ${datos.error_maximo_permitido}`, 10, 160);
+  // Características metrológicas del equipo
+  autoTable(pdf, {
+    startY: 102,
+    head: [["Características metrológicas del equipo", ""]],
+    body: tablas.metrologia,
+    theme: "striped",
+    styles: styleTable,
+    columnStyles: {
+      0: { cellWidth: 45 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 40 },
+    },
+    margin: { left: 115 },
+  });
+  // Condiciones (Tabla)
+  autoTable(pdf, {
+    startY: 160,
+    head: [["Condición", "Estado"]],
+    body: [
+      ["Condición Eléctrica", datos.cond_electrica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición Mecánica", datos.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condición de Seguridad", datos.cond_seguridad === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones Ambientales", datos.cond_ambientales === 1 ? "Aplicado" : "No Aplicado"],
+      ["Condiciones de Transporte", datos.cond_transporte === 1 ? "Aplicado" : "No Aplicado"],
+      ["Otras Condiciones", datos.cond_otras === 1 ? "Aplicado" : "No Aplicado"],
+    ],
+    theme: "striped",
+    columnStyles: {
+      0: { cellWidth: 50 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 50 },
+    },
+    margin: { left: 8 },
+    styles: styleTable,
+  });
 
-  // Condiciones
-  pdf.text("Condiciones:", 10, 180);
-  pdf.text(`Condición Eléctrica: ${datos.cond_electrica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 190);
-  pdf.text(`Condición Mecánica: ${datos.cond_mecanica === 1 ? "Aplicado" : "No Aplicado"}`, 10, 200);
+  // Proveedores (Tabla)
+  autoTable(pdf, {
+    startY: pdf.lastAutoTable.finalY -53,
+    head: [["Campo", "Valor"]],
+    body: [
+      ["Proveedor del Equipo", datos.proveedor || "-"],
+      ["Contacto", datos.contacto_proveedor || "-"],
+      ["Teléfono", datos.telefono_proveedor || "-"],
+      ["Correo", datos.email_proveedor || "-"],
+    ],
+    theme: "striped",
+    styles: styleTable,
+    margin: { left: 8 },
+    columnStyles: {
+      0: { cellWidth: 45 }, // Ajusta el ancho de la columna para los campos
+      1: { cellWidth: 40 },
+    },
+    margin: { left: 115 },
+  });
 
-  // Proveedores
-  pdf.text("Proveedores:", 10, 220);
-  pdf.text(`Proveedor del Equipo: ${datos.proveedor}`, 10, 230);
-  pdf.text(`Contacto: ${datos.contacto_proveedor}`, 10, 240);
-  pdf.text(`Teléfono: ${datos.telefono_proveedor}`, 10, 250);
-
-  // Guardar PDF
+  // Componentes (Tabla)
+  if (datos.componentes && datos.componentes.length > 0) {
+    autoTable(pdf, {
+      startY: pdf.lastAutoTable.finalY + 10,
+      head: [["#", "Nombre", "Cantidad", "Serial", "Cuidados", "Modelo", "Marca", "Unidad", "Tipo"]],
+      body: datos.componentes.map((comp: any, index: number) => [
+        index + 1,
+        comp.nombre || "-",
+        comp.cantidad || "-",
+        comp.serial || "-",
+        comp.cuidados || "-",
+        comp.modelo || "-",
+        comp.marca || "-",
+        comp.unidad || "-",
+        comp.tipo || "-",
+      ]),
+      theme: "striped",
+      styles: styleTable,
+    });
+  };
   pdf.save("detalles-equipo.pdf");
-};
 
+};
 onMounted(async () => {
   try {
     const result = await EquipoService.details(route.params.id as string);
-
     if (!result) {
       throw new Error("Datos no disponibles");
     }
-
     data.value = result;
-
   } catch (error) {
     return router.push(INDEX_PAGE_INVENTARIO); // Redirigir en caso de error
   }
 });
-
 </script>
-
-<style></style>
