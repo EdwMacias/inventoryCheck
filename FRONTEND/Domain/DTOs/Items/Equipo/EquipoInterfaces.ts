@@ -58,6 +58,7 @@ export interface EquipoInterface {
     cond_transporte: number;
     cond_otras: number;
     imagen: string;
+    imagenBase64?: string;
     componentes: ComponenteEquipoInterface[];
     created_at: string;
     updated_at: string;

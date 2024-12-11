@@ -13,6 +13,7 @@ export interface Oficina {
     unidad: Unidad;
     cantidad: string;
     imagen: string;
+    imagenBase64: string;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
 }

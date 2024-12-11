@@ -29,7 +29,7 @@
     <div class="card lg:card-side bg-base-100">
       <figure>
         <div class="w-96 skeleton h-56  rounded-md" v-if="!data"></div>
-        <img v-else class="w-96 rounded-md" :src="data?.imagen" alt="Movie" />
+        <img v-else class="w-96 rounded-md" :src="data?.imagenBase64" alt="Movie" />
       </figure>
       <div class="card-body">
         <h2 class="card-title skeleton  h-6 rounded w-1/2" v-if="!data"></h2>

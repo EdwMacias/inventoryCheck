@@ -9,6 +9,7 @@ export class OficinaDTO implements Oficina {
     unidad: Unidad;
     cantidad: string;
     imagen: string;
+    imagenBase64: string;
     createdAt: string;
     updatedAt: string;
 
@@ -21,6 +22,8 @@ export class OficinaDTO implements Oficina {
         this.unidad = oficina.unidad ?? { codigo: null, nombre: null, unidadId: null };
         this.cantidad = oficina.cantidad ?? null;
         this.imagen = oficina.imagen ?? null;
+        this.imagenBase64 = oficina.imagenBase64 ?? null;
+
         this.createdAt = oficina.createdAt ?? null;
         this.updatedAt = oficina.updatedAt ?? null;
     }

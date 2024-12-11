@@ -46,6 +46,7 @@ export class EquipoDTO implements EquipoInterface {
     email_calibracion: string;
     telefono_calibracion: string;
     imagen: string;
+    imagenBase64?: string;
     created_at: string;
     updated_at: string;
 
@@ -96,6 +97,7 @@ export class EquipoDTO implements EquipoInterface {
         this.email_calibracion = equipo.email_calibracion;
         this.telefono_calibracion = equipo.telefono_calibracion;
         this.imagen = equipo.imagen;
+        this.imagenBase64 = equipo.imagenBase64 ?? undefined;
         this.created_at = equipo.created_at;
         this.updated_at = equipo.updated_at;
     }
