@@ -132,6 +132,8 @@ const fetchItems = async (url: string | null = null) => {
 
 
     const response = await ItemRepository.Pagination(url);
+    console.log("Response data:", response); // Log de los datos recibidos
+
     let { links, prev_page_url, next_page_url } = response;
 
     pagination.value = response;
@@ -169,7 +171,6 @@ const fetchItems = async (url: string | null = null) => {
     // Desactivamos el spinner
   }
 };
-
 const changePage = async (url: string | null) => {
   loading.value = true;
   await fetchItems(url);

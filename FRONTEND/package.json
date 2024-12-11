@@ -32,6 +32,7 @@
     "i18n": "^0.15.1",
     "jsbarcode": "^3.11.6",
     "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.13.1",
     "pinia": "^2.2.2",
