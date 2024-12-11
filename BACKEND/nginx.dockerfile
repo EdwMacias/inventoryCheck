@@ -1,7 +1,7 @@
 # Usar Nginx oficial
 FROM nginx:stable-alpine
 
-WORKDIR /app
+WORKDIR /app/public
 
 # Copiar configuración personalizada
 COPY nginx.conf /etc/nginx/conf.d/default.conf
