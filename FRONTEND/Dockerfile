@@ -1,4 +1,4 @@
-FROM node:20.13.1-alpine3.20 AS base
+FROM node:current-alpine3.21 AS base
 
 FROM base AS build-stage
 
