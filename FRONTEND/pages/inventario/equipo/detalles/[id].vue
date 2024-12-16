@@ -535,6 +535,7 @@
 </template>
 
 <script lang="ts" setup>
+import { LazyClientOnly } from "#build/components";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { EquipoService } from '~/Domain/Client/Services/Items/equipo.service';
@@ -543,33 +544,70 @@ import { INDEX_PAGE_INVENTARIO } from '~/Infrastructure/Paths/Paths';
 const route = useRoute();
 const router = useRouter();
 const data: Ref<EquipoDTO | undefined> = ref();
-const convertirImagenBase64 = async (url: string) => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous"; // Permitir imágenes externas
-    img.src = url;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-      ctx?.drawImage(img, 0, 0);
-      const dataURL = canvas.toDataURL("image/png");
-      resolve(dataURL);
-    };
-    img.onerror = (error) => reject(error);
-  });
-};
 
+console.log(data)
 const generarPDF = async () => {
   const pdf = new jsPDF("p", "mm", "letter"); // Formato carta, orientación vertical
   let datos = data.value;
   if (!datos) return;
   try {
-    const imgData = await convertirImagenBase64(datos.imagen);
-    console.log(imgData);
+    // const imgData = await (datos.imagenBase64);
+    // const maxAncho = 85; // Máximo ancho en mm
+    // const relacionAspecto = 4 / 3;
+    // let ancho = maxAncho;
+    // let alto = ancho / relacionAspecto;
+    // pdf.addImage(imgData, "JPG", 115, 15, 85, 60);
+    const imgData = await datos.imagenBase64;
+
+// Dimensiones máximas permitidas
+const maxDimension = 85; // Máximo ancho y alto permitido
+
+// Obtener dimensiones reales de la imagen (necesitas extraer ancho/alto original)
+const image = new Image();
+image.src = imgData;
+
+image.onload = () => {
+  const imgAnchoOriginal = image.width; // Ancho original de la imagen
+  const imgAltoOriginal = image.height; // Alto original de la imagen
+
+  // Calcular relación de aspecto
+  const relacionAspecto = imgAnchoOriginal / imgAltoOriginal;
+
+  // Ajustar las dimensiones para respetar el límite máximo
+  let ancho, alto;
+
+  if (relacionAspecto > 1) {
+    // Imagen apaisada (ancho mayor que alto)
+    ancho = maxDimension;
+    alto = ancho / relacionAspecto;
+  } else {
+    // Imagen vertical (alto mayor que ancho)
+    alto = maxDimension;
+    ancho = alto * relacionAspecto;
+  }
+
+  // Asegurar que las dimensiones no excedan el máximo permitido
+  if (ancho > maxDimension) {
+    ancho = maxDimension;
+    alto = ancho / relacionAspecto;
+  }
+  if (alto > maxDimension) {
+    alto = maxDimension;
+    ancho = alto * relacionAspecto;
+  }
+
+  // Posición fija
+  const posX = 115;
+  const posY = 15;
+
+  // Agregar imagen al PDF
+  pdf.addImage(imgData, "JPG", posX, posY, ancho, alto);
+
+  // Descargar el PDF
+  pdf.save("documento.pdf");
+};
   } catch (error) {
-    console.error("Error al convertir la imagen:", error);
+    console.error("Error al importar la imagen:", error);
   }
   const styleTable = {
     font: "helvetica", // Cambia la fuente a Helvetica
@@ -721,7 +759,7 @@ const generarPDF = async () => {
   // Componentes (Tabla)
   if (datos.componentes && datos.componentes.length > 0) {
     autoTable(pdf, {
-      startY: pdf.lastAutoTable.finalY + 10,
+      startY: pdf.lastAutoTable.finalY + 20,
       head: [["#", "Nombre", "Cantidad", "Serial", "Cuidados", "Modelo", "Marca", "Unidad", "Tipo"]],
       body: datos.componentes.map((comp: any, index: number) => [
         index + 1,
@@ -736,6 +774,7 @@ const generarPDF = async () => {
       ]),
       theme: "striped",
       styles: styleTable,
+      margin: { left: 8 },
     });
   };
   pdf.save("detalles-equipo.pdf");
