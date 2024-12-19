@@ -12,7 +12,7 @@
           Equipo
         </li>
         <li>
-          Observación
+          Historial
         </li>
         
       </ul>

@@ -20,7 +20,7 @@
           <i class="bi bi-three-dots-vertical text-lg"></i>
         </summary>
         <ul class="menu dropdown-content bg-base-200  rounded-box me-2 z-[1] w-52 p-2 shadow">
-          <li><a @click="pushRoute({ itemId, identifier, category })">Observaciones</a>
+          <li><a @click="pushRoute({ itemId, identifier, category })">Historial</a>
           </li>
           <li v-if="category == '1'"><a @click="clickInComponentes({ itemId })">Componentes</a>
           </li>
