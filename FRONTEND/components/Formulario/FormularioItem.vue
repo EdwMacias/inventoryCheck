@@ -116,7 +116,7 @@ const formularioItemBasicoSchema = yup.object({
   // serie_lote: yup.string().required('Campo requerido *'),
   categoriaItem: yup
     .mixed()
-    .oneOf(['1', '2', '3', '4', '5', '6', '7', '8', '9'], 'Debe seleccionar una opción valida')
+    .oneOf(['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '13'], 'Debe seleccionar una opción valida')
     .required('Este campo es obligatorio *'),
   unidad: yup
     .mixed()
