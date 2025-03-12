@@ -65,28 +65,27 @@ const crearEquipo = async (equipoEntity: EquipoEntity) => {
 
 }
 
-
 const crearItemBasico = async (formularioCreateItemBasicoDTO: FormularioCreateItemBasicoDTO) => {
     spinnerStore.status = true;
     try {
         const response = await itemService.create(formularioCreateItemBasicoDTO);
         spinnerStore.status = false;
-
-        if (response) {
-            
+        if (response) { 
             await $swal.fire({
                 title: 'Item Oficina Creado',
                 text: 'El Item Oficina Fue Creado Con Exito',
                 icon: 'success'
             });
-
             return router.push(INDEX_PAGE_INVENTARIO);
-
         }
     } catch (error) {
         spinnerStore.status = false;
+        await $swal.fire({
+            title: 'Error',
+            text: error.message || 'No se pudo registrar el ítem',
+            icon: 'error'
+        });
     }
-
 }
 
 const categoriaSeleccionada: Ref<string> = ref('1');
