@@ -27,7 +27,9 @@
           <option value="7">CONTRATISTA</option>
           <option value="8">CAFETERIA</option>
           <option value="9">CONTABILIDAD</option>
-        </VeeField>
+          <option value="11">BODEGA</option>
+          <option value="13">SERVICIO AL CLIENTE</option>
+         </VeeField>
         <VeeErrorMessage name="categoriaItem" class="text-error text-sm animate__animated  animate__fadeIn">
         </VeeErrorMessage>
       </div>
